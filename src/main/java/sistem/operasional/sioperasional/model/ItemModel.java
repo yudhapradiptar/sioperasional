@@ -52,10 +52,6 @@ public class ItemModel implements Serializable {
     @Column(name = "tanggalKeluar", nullable = true)
     private Date tanggalKeluar;
 
-    @NotNull
-    @Column(name = "isRefund", nullable = false)
-    private boolean isRefund;
-
     @DateTimeFormat(pattern = "dd-MM-yyyy")
     @Column(name = "tanggalRefund", nullable = true)
     private Date tanggalRefund;
@@ -64,10 +60,11 @@ public class ItemModel implements Serializable {
     @Column(name = "isRusak", nullable = false)
     private boolean isRusak;
 
-    @NotNull
-    @Size(max = 200)
-    @Column(name = "statusItem", nullable = false)
-    private String statusItem;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "idStatusItem", referencedColumnName = "idStatusItem", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    private StatusItemModel statusItem;
 
     public Long getIdItem() {
         return idItem;
@@ -125,13 +122,6 @@ public class ItemModel implements Serializable {
         this.tanggalKeluar = tanggalKeluar;
     }
 
-    public boolean isRefund() {
-        return isRefund;
-    }
-
-    public void setRefund(boolean refund) {
-        isRefund = refund;
-    }
 
     public Date getTanggalRefund() {
         return tanggalRefund;
@@ -149,12 +139,11 @@ public class ItemModel implements Serializable {
         isRusak = rusak;
     }
 
-    public String getStatusItem() {
+    public StatusItemModel getStatusItem() {
         return statusItem;
     }
 
-    public void setStatusItem(String statusItem) {
+    public void setStatusItem(StatusItemModel statusItem) {
         this.statusItem = statusItem;
     }
-
 }
