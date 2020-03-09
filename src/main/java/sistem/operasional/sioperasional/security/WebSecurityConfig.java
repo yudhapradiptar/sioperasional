@@ -63,5 +63,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .passwordEncoder(encoder())
                 .withUser("product").password(encoder().encode("product123"))
                 .roles("Product Operation Specialist");
+        auth.inMemoryAuthentication()
+                .passwordEncoder(encoder())
+                .withUser("customerservice").password(encoder().encode("customerservice123"))
+                .roles("Customer Service");
     }
 }
