@@ -25,8 +25,7 @@ Pgadmin (Opsional)
 ### Setelah setiap ngerjain
 
 1. git add .
-2. git commit -m "feat: usecase [nomor usecase]" (kalo nambahin usecase baru)
-3. git commit -m "fix: [nama file]" (kalo ngebenerin suatu file)
+2. git commit -m "nama commitan" (refer ke sini: http://karma-runner.github.io/0.10/dev/git-commit-msg.html) 
 4. git push origin [nama branch]
 
 
