@@ -43,9 +43,8 @@ public class PurchaseOrderModel implements Serializable {
     @JsonIgnore
     private List<ItemPOModel> ListitemPO;
 
-    @NotNull
     @DateTimeFormat(pattern = "dd-MM-yyyy")
-    @Column(name = "tanggalBayar", nullable = false)
+    @Column(name = "tanggalBayar", nullable = true)
     private Date tanggalBayar;
 
     @NotNull
@@ -53,9 +52,8 @@ public class PurchaseOrderModel implements Serializable {
     @Column(name = "tanggalOpen", nullable = false)
     private Date tanggalOpen;
 
-    @NotNull
     @DateTimeFormat(pattern = "dd-MM-yyyy")
-    @Column(name = "tanggalClose", nullable = false)
+    @Column(name = "tanggalClose", nullable = true)
     private Date tanggalClose;
 
     @NotNull
