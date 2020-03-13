@@ -10,6 +10,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "delivery_order")
@@ -55,6 +56,9 @@ public class DeliveryOrderModel implements Serializable {
     @Column(name = "tanggalSubscribeEnd", nullable = true)
     private Date tanggalSubscribeEnd;
 
+    @OneToMany(mappedBy = "deliveryOrder", fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<ItemModel> listItem;
 
     public String getNomorDeliveryOrder() {
         return nomorDeliveryOrder;
@@ -96,14 +100,6 @@ public class DeliveryOrderModel implements Serializable {
         this.statusDO = statusDO;
     }
 
-    public boolean isSubscribed() {
-        return isSubscribed;
-    }
-
-    public void setSubscribed(boolean subscribed) {
-        isSubscribed = subscribed;
-    }
-
     public Date getTanggalSubscribeStart() {
         return tanggalSubscribeStart;
     }
@@ -118,5 +114,34 @@ public class DeliveryOrderModel implements Serializable {
 
     public void setTanggalSubscribeEnd(Date tanggalSubscribeEnd) {
         this.tanggalSubscribeEnd = tanggalSubscribeEnd;
+    }
+
+	public List<ItemModel> getlistItem() {
+		return listItem;
+    }
+    
+    /**
+     * @param listItem the listItem to set
+     */
+    public void setListItem(List<ItemModel> listItem) {
+        this.listItem = listItem;
+    }
+
+    /**
+     * @param isSubscribed the isSubscribed to set
+     */
+    public void setSubscribed(boolean isSubscribed) {
+        this.isSubscribed = isSubscribed;
+    }
+
+    /**
+     * @return the listItem
+     */
+    public List<ItemModel> getListItem() {
+        return listItem;
+    }
+
+    public Boolean getSubscribed() {
+        return isSubscribed;
     }
 }
