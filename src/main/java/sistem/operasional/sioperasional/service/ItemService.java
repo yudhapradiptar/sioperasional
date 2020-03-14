@@ -8,5 +8,5 @@ import java.util.List;
 public interface ItemService {
     List<ItemModel> getItemByPurchaseOrder (PurchaseOrderModel purchaseOrder);
 
-    void addItem(ItemModel itemModel);
+    void createItem(ItemModel itemModel);
 }

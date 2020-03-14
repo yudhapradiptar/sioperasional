@@ -27,7 +27,7 @@ public class ItemServiceImpl implements ItemService{
     }
 
     @Override
-    public void addItem(ItemModel itemModel) {
+    public void createItem(ItemModel itemModel) {
         itemDB.save(itemModel);
     }
 

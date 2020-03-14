@@ -20,7 +20,7 @@ import java.util.Date;
 import java.util.List;
 
 @Controller
-public class ItemPOController {
+public class ItemController {
     @Autowired
     ItemPOService itemPOService;
 
@@ -33,25 +33,42 @@ public class ItemPOController {
     @Autowired
     StatusItemService statusItemService;
 
-    @RequestMapping(path = "/view/{nomorPurchaseOrder}/close", method = RequestMethod.GET)
+    @RequestMapping(path = "/view/{nomorPurchaseOrder}/close", method = RequestMethod.POST)
     public String addItemFromPO(@PathVariable String nomorPurchaseOrder, @ModelAttribute ItemModel item, @ModelAttribute ItemPOModel itemPO, Model model){
         List<ItemPOModel> listOfItemPOByPurchaseOrder = itemPOService.getItemPObyPurchaseOrder(purchaseOrderService.getPurchaseOrderByNomorPurchaseOrder(nomorPurchaseOrder));
-        List<ItemPOModel> listOfItemPO = itemPOService.getAllItemPO();
-        for(int i=0; i<listOfItemPO.size();i++){
-            for(int j=0; j<listOfItemPOByPurchaseOrder.size();j++){
-                ItemPOModel itemPOCreated = listOfItemPOByPurchaseOrder.get(j);
-                for(int k=0; k<itemPOCreated.getJumlahItem(); k++){
-                    ItemModel itemModel = new ItemModel();
-                    itemModel.setRusak(false);
-                    itemModel.setTanggalDatang(new Date());
-                    itemModel.setKategoriItem(itemPOCreated.getKategoriItem());
-                    itemModel.setMerekItem(itemPOCreated.getMerekItem());
-                    itemModel.setPurchaseOrder(itemPOCreated.getPurchaseOrder());
-                    itemModel.setStatusItem(statusItemService.getStatusItemByIdStatusItem(Long.valueOf(1)));
-
-                }
+        for(int i=0; i<listOfItemPOByPurchaseOrder.size();i++){
+            ItemPOModel itemPOCreated = listOfItemPOByPurchaseOrder.get(i);
+            for(int j=0; j<itemPOCreated.getJumlahItem(); j++){
+                ItemModel itemModel = new ItemModel();
+                itemModel.setRusak(false);
+                itemModel.setTanggalDatang(new Date());
+                itemModel.setKategoriItem(itemPOCreated.getKategoriItem());
+                itemModel.setMerekItem(itemPOCreated.getMerekItem());
+                itemModel.setPurchaseOrder(itemPOCreated.getPurchaseOrder());
+                itemModel.setStatusItem(statusItemService.getStatusItemByIdStatusItem(Long.valueOf(1)));
+                itemService.createItem(itemModel);
             }
         }
         return "viewAllItem";
     }
+
+    @RequestMapping(value = "/hardware-fulfillment/item/create", method = RequestMethod.GET)
+    public String createItemFormPage(Model model) {
+        ItemModel newItem = new ItemModel();
+        model.addAttribute("item", newItem);
+
+        return "form-create-item";
+    }
+
+    @RequestMapping(value = "/hardware-fulfillment/item", method = RequestMethod.POST)
+    public String createItemSubmit(@ModelAttribute ItemModel item, Model model) {
+        try {
+            itemService.createItem(item);
+            return "viewAllItem";
+        } catch (NullPointerException e) {
+            return "formCreateItem";
+        }
+    }
+
+
 }
