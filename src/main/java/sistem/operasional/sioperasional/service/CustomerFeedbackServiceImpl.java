@@ -35,5 +35,10 @@ public class CustomerFeedbackServiceImpl implements CustomerFeedbackService{
         return customerFeedbackDB.findByTraining(idTraining);
     }
 
+    @Override
+    public void addCustomerFeedback(CustomerFeedbackModel customerFeedback){
+        customerFeedbackDB.save(customerFeedback);
+    }
+
 
 }

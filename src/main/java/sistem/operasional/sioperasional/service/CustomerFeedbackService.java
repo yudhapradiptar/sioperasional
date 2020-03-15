@@ -10,4 +10,6 @@ public interface CustomerFeedbackService {
     CustomerFeedbackModel getCustomerFeedbackById(Long idCustomerFeedback);
 
     List<CustomerFeedbackModel> getCustomerFeedbackByIdTraining(Long idTraining);
+
+    void addCustomerFeedback(CustomerFeedbackModel customerFeedback);
 }

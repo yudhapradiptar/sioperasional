@@ -3,8 +3,11 @@ package sistem.operasional.sioperasional.controller;
 import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -24,7 +27,7 @@ public class CustomerFeedbackController {
     @Autowired
     TrainingService trainingService;
 
-    @RequestMapping(value = "/form-customer-feedback/{idTraining}", method = RequestMethod.GET)
+    @RequestMapping(value = "/customer-feedback/{idTraining}", method = RequestMethod.GET)
     public String customerFeedbackFormPage(@PathVariable Long idTraining, Model model) {
         List<TrainingModel> listOfTraining = trainingService.getAllTraining();
         for(int i=0; i<listOfTraining.size();i++){
@@ -37,5 +40,16 @@ public class CustomerFeedbackController {
         }
 
         return "error-customer-feedback";
+    }
+
+    @RequestMapping(value = "/customer-feedback", method = RequestMethod.POST)
+    public String customerFeedbackSubmit(@ModelAttribute CustomerFeedbackModel customerFeedback, Long idTraining, Model model) {
+        try {
+            customerFeedbackService.addCustomerFeedback(customerFeedback);
+            model.addAttribute(customerFeedback);
+            return "submit-customer-feedback";
+        } catch (NullPointerException e) {
+            return "form-customer-feedback";
+        }
     }
 }
