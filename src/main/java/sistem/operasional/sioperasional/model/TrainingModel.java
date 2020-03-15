@@ -38,7 +38,6 @@ public class TrainingModel implements Serializable {
     @JsonIgnore
     private UserModel trainer;
 
-
     @NotNull
     @Size(max = 200)
     @Column(name = "keterangan", nullable = false)
