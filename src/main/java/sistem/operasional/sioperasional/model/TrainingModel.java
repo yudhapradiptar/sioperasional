@@ -38,6 +38,10 @@ public class TrainingModel implements Serializable {
     @JsonIgnore
     private UserModel trainer;
 
+    @OneToMany(mappedBy = "training", fetch = FetchType.LAZY)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    private List<CustomerFeedbackModel> listCustomerFeedback;
 
     @NotNull
     @Size(max = 200)

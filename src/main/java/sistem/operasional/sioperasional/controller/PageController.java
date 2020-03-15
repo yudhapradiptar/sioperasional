@@ -11,7 +11,7 @@ import sistem.operasional.sioperasional.service.RoleService;
 public class PageController {
 
     @RequestMapping("/")
-    public String home (Model model, Authentication auth) {
+    public String home (Model model) {
         return "home";
     }
 
