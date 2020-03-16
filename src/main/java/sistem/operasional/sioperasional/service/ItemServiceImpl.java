@@ -31,6 +31,11 @@ public class ItemServiceImpl implements ItemService{
         itemDB.save(itemModel);
     }
 
+    @Override
+    public List<ItemModel> getAllItem(){
+        return itemDB.findAll();
+    }
+
 
 
 }

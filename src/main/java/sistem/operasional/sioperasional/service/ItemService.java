@@ -9,4 +9,6 @@ public interface ItemService {
     List<ItemModel> getItemByPurchaseOrder (PurchaseOrderModel purchaseOrder);
 
     void createItem(ItemModel itemModel);
+
+    List<ItemModel> getAllItem ();
 }

@@ -3,20 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <title>View All Item</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script type="text/javascript" src="/js/sort.js"></script>
+    <link href="/css/sort.css"  rel="stylesheet" type="text/css"/>
 </head>
 <body>
-<table class="table">
-    <thead class="thead-dark">
+<div class="container-fluid">
+<table id="mytable" cellpadding="7" align="center">
     <tr>
-        <th scope="col"></th>
-        <th scope="col">ID</th>
-        <th scope="col">Kategori</th>
-        <th scope="col">Merek</th>
-        <th scope="col">Nomor PO</th>
-        <th scope="col"></th>
+        <th scope="col" onclick="sort_id()">ID</th>
+        <th scope="col" onclick="sort_kategori()">Kategori</th>
+        <th scope="col" onclick="sort_merek()">Merek</th>
+        <th scope="col" onclick="sort_po()">Nomor PO</th>
     </tr>
-    </thead>
-    <tbody>
+    <tbody id="table1">
     <tr th:each="item, iterationStatus : *{listItem}">
         <th scope="row" th:text="${iterationStatus.count}"></th>
         <td th:text="${item.idItem}"></td>
@@ -26,6 +26,10 @@
     </tr>
     </tbody>
 </table>
-
+<input type="hidden" id="id_order" value="asc">
+<input type="hidden" id="kategori_order" value="asc">
+<input type="hidden" id="merek_order" value="asc">
+<input type="hidden" id="po_order" value="asc">
+</div>
 </body>
 </html>
