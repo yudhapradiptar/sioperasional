@@ -1,68 +1,96 @@
 <html>
+<!-- <h5 th:text="${listOutlet}"></h5>
+    <h5 th:text="${listItem}"></h5>
+
+    <tbody th:each="outlet, iterationStatus : ${listOutlet}">
+        <tr>
+            <th scope="row" th:text="${iterationStatus.count}"></th>
+            <td th:text="${outlet.namaOutlet}"></td>
+        </tr>
+    </tbody>
     <body>
-        <h1>create delivery order</h1>
+        <h1>create delivery order</h1> -->
 
-        <form th:action="@{/delivery-order/add}" th:object="${deliveryOrder}" method="POST">
-            <div class="form-group row">
-                <label class="col-sm-2 col-form-label">nomorDeliveryOrder</label>
-                   <div class="col-sm-7">
-                      <input type="text" class="form-control" name="nomorDeliveryOrder" th:field="*{nomorDeliveryOrder}">
-                </div>
-            </div>
-            <div class="form-group row">
-                <label class="col-sm-2 col-form-label">subscribed</label>
-                    <div class="col-sm-7">
-                        <input type="text" class="form-control" name="subscribed" th:field="*{subscribed}">
-                </div>
-            </div>
-            <div class="form-group row">
-                <label class="col-sm-2 col-form-label">nomorInvoice</label>
-                    <div class="col-sm-7">
-                        <input type="date" class="form-control" name="nomorInvoice" th:field="*{nomorInvoice}">
-                </div>
-            </div>
-            <div class="form-group row">
-                <label class="col-sm-2 col-form-label">statusDO</label>
-                    <div class="col-sm-7">
-                        <input type="text" class="form-control" name="statusDO" th:field="*{statusDO}">
-                </div>
-            </div>
-            <div class="form-group row">
-                <label class="col-sm-2 col-form-label">tanggalSubscribeStart</label>
-                    <div class="col-sm-7">
-                        <input type="text" class="form-control" name="tanggalSubscribeStart" th:field="*{tanggalSubscribeStart}">
-                </div>
-            </div>
-            <div class="form-group row">
-                <label class="col-sm-2 col-form-label">tanggalSubscribeEnd</label>
-                    <div class="col-sm-7">
-                        <input type="text" class="form-control" name="tanggalSubscribeEnd" th:field="*{tanggalSubscribeEnd}">
-                </div>
-            </div>
+<form th:action="@{/delivery-order/add}" th:object="${deliveryOrder}" method="POST">
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">nomorDeliveryOrder</label>
+        <div class="col-sm-7">
+            <input type="text" class="form-control" name="nomorDeliveryOrder" th:field="*{nomorDeliveryOrder}">
+        </div>
+    </div>
 
-            <div class="form-group row">
-                <label class="col-sm-2 col-form-label">Item</label>
-                    <div class="col-sm-7">
-                    <tr th:each="item, iterationStatus : *{listItem}">
-                        <select class="form-control" id="sel1" th:field="*{listItem[__${iterationStatus.index}__]}">
-                            <option value="">-- Silahkan Pilih item --</option>
-                            <!-- <option th:each="item : ${listItem}" th:text="${item.merekItem}" th:value="${item.idItem}"></option> -->
-                            
-                            <!-- <option th:each="item : *{listItem[__${iterationStatus.index}__]}" th:text="$*{listItem[__${iterationStatus.index}__].nama}" th:value="${item.id}"></option> -->
-                        </select>
-                        <!-- <button type="submit" name="removeRow" th:value="${iterationStatus.index}" class="btn btn-danger">Hapus</button> -->
+    <!-- <input type="hidden" name="creator" value="3487"> -->
 
-                    </tr>
-                    </div>
-            </div>
-            <input type="submit" value="Add row" name="addRow" class="btn btn-primary">
+    <div class="form-group row">
+        <label>Status Subscribed</label>
+            <select class="form-control" th:field="*{subscribed}">
+                <option value="1">Ya</option>
+                <option value="0">Tidak</option>
+            </select>
+    </div>
 
-            <br>
-            <div class="row">
-                <br>
-                <div class="col-md-8"></div>
-                <button class="btn btn-primary" type="submit"> Submit </button>
-            </div>
-        </form>
-    </body>
+    </div>
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">nomorInvoice</label>
+        <div class="col-sm-7">
+            <input type="text" class="form-control" name="nomorInvoice" th:field="*{nomorInvoice}">
+        </div>
+    </div>
+    
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">statusDO</label>
+        <div class="col-sm-7">
+            <input type="text" class="form-control" name="statusDO" th:field="*{statusDO}">
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">tanggalSubscribeStart</label>
+        <div class="col-sm-7">
+            <input type="date" class="form-control" name="tanggalSubscribeStart" th:field="*{tanggalSubscribeStart}">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">tanggalSubscribeEnd</label>
+        <div class="col-sm-7">
+            <input type="date" class="form-control" name="tanggalSubscribeEnd" th:field="*{tanggalSubscribeEnd}">
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Item</label>
+        <div class="col-sm-7">
+            <tr th:each="item, iterationStatus : *{listItem}">
+                <select class="form-control" id="sel1" th:field="*{listItem[__${iterationStatus.index}__]}">
+                    <option value="">-- Silahkan Pilih item --</option>
+                    <option th:each="item : ${listItem}" th:text="${item.merekItem}" th:value="${item.idItem}"></option>
+
+                </select>
+                <button type="submit" name="removeRow" th:value="${iterationStatus.index}" class="btn btn-danger">Hapus
+                    row</button>
+
+            </tr>
+        </div>
+    </div>
+
+    <input type="submit" value="Add row" name="addRow" class="btn btn-primary">
+
+    <div class="form-group">
+        <label>Nama Outlet</label>
+        <select class="form-control" name="outlet" th:field="*{outlet.idOutlet}" required="true">
+            <option th:value="0">-- Pilih Outlet --</option>
+            <option th:each="outlet : ${listOutlet}" th:value="${{outlet.idOutlet}}" th:text="${outlet.namaOutlet}">
+            </option>
+        </select>
+    </div>
+
+    <br>
+    <div class="row">
+        <br>
+        <div class="col-md-8"></div>
+        <button class="btn btn-primary" type="submit"> Submit </button>
+    </div>
+</form>
+</body>
+
 </html>

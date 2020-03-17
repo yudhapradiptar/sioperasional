@@ -11,4 +11,8 @@ public interface DeliveryOrderService {
 
 	DeliveryOrderModel getDeliveryOrderByNomorDeliveryOrder(String nomor);
 
+	void addDeliveryOrder(DeliveryOrderModel deliveryOrderModel);
+
+	DeliveryOrderModel changeDeliveryOrder(DeliveryOrderModel deliveryOrderModel);
+
 }

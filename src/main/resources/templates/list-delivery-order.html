@@ -1,6 +1,7 @@
 <html>
     <h1>list of delivery order</h1>
-    <!-- <h5 th:text="${listDeliveryOrder[0].nomorDeliveryOrder}"></h5> -->
+    <!-- <h5 th:text="${listItem[0].idItem}"></h5>
+    <h5 th:text="${listItem[0].kategoriItem.namaKategoriItem}"></h5> -->
     <table class="table">
         <thead>
             <tr>
@@ -13,6 +14,7 @@
             <th scope="col">isSubscribed</th>
             <th scope="col">tanggalSubscribeStart</th>
             <th scope="col">tanggalSubscribeEnd</th>
+            <th scope="col"></th>
             <th scope="col"></th>
 
             </tr>
@@ -29,7 +31,12 @@
                 <td th:text="${deliveryOrder.tanggalSubscribeStart}"></td>
                 <td th:text="${deliveryOrder.tanggalSubscribeEnd}"></td>
                 <td>
-                    <form th:action="@{/deliveryOrder/detail/} + ${deliveryOrder.nomorDeliveryOrder}" th:method="GET">       
+                    <form th:action="@{/delivery-order/detail/} + ${deliveryOrder.nomorDeliveryOrder}" th:method="GET">       
+                        <button class="btn btn-danger text-white"value="submit">detail</button>
+                    </form>
+                </td>
+                <td>
+                    <form th:action="@{/delivery-order/update/} + ${deliveryOrder.nomorDeliveryOrder}" th:method="GET">       
                         <button class="btn btn-danger text-white"value="submit">detail</button>
                     </form>
                 </td>

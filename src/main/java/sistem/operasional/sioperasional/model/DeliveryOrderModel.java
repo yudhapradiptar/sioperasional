@@ -21,7 +21,7 @@ public class DeliveryOrderModel implements Serializable {
     private String nomorDeliveryOrder;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "creator", referencedColumnName = "username", nullable = false)
+    @JoinColumn(name = "creator", referencedColumnName = "username", nullable = true)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private UserModel creator;
@@ -46,13 +46,11 @@ public class DeliveryOrderModel implements Serializable {
     @Column(name = "isSubscribed", nullable = false)
     private boolean isSubscribed;
 
-    @NotNull
-    @DateTimeFormat(pattern = "dd-MM-yyyy")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "tanggalSubscribeStart", nullable = true)
     private Date tanggalSubscribeStart;
 
-    @NotNull
-    @DateTimeFormat(pattern = "dd-MM-yyyy")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "tanggalSubscribeEnd", nullable = true)
     private Date tanggalSubscribeEnd;
 

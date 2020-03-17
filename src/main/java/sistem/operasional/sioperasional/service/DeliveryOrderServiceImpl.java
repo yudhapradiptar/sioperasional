@@ -25,4 +25,30 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
         return deliveryOrderDB.findByNomorDeliveryOrder(nomor);
     }
 
+    @Override
+    public void addDeliveryOrder(DeliveryOrderModel deliveryOrderModel) {
+        deliveryOrderDB.save(deliveryOrderModel);
+    }
+
+    @Override
+    public DeliveryOrderModel changeDeliveryOrder(DeliveryOrderModel deliveryOrderModel) {
+        DeliveryOrderModel newDeliveryOrderModel = deliveryOrderDB.findByNomorDeliveryOrder(deliveryOrderModel.getNomorDeliveryOrder());
+
+        try {
+            newDeliveryOrderModel.setCreator(deliveryOrderModel.getCreator());
+            newDeliveryOrderModel.setListItem(deliveryOrderModel.getlistItem());
+            newDeliveryOrderModel.setNomorDeliveryOrder(deliveryOrderModel.getNomorDeliveryOrder());
+            newDeliveryOrderModel.setNomorInvoice(deliveryOrderModel.getNomorInvoice());
+            newDeliveryOrderModel.setOutlet(deliveryOrderModel.getOutlet());
+            newDeliveryOrderModel.setStatusDO(deliveryOrderModel.getStatusDO());
+            newDeliveryOrderModel.setSubscribed(deliveryOrderModel.getSubscribed());
+            newDeliveryOrderModel.setTanggalSubscribeEnd(deliveryOrderModel.getTanggalSubscribeEnd());
+            newDeliveryOrderModel.setTanggalSubscribeStart(deliveryOrderModel.getTanggalSubscribeStart());
+            deliveryOrderDB.save(newDeliveryOrderModel);
+            return newDeliveryOrderModel;
+        } catch (NullPointerException nullException) {
+            return null;
+        }
+    }
+
 }
