@@ -45,7 +45,7 @@ public class ItemModel implements Serializable {
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonBackReference
     private DeliveryOrderModel deliveryOrder;
-
+    
     @NotNull
     @DateTimeFormat(pattern = "dd-MM-yyyy")
     @Column(name = "tanggalDatang", nullable = false)

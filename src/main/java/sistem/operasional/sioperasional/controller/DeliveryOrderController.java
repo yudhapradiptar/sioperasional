@@ -48,7 +48,7 @@ public class DeliveryOrderController {
 
         DeliveryOrderModel deliveryOrderModel = deliveryOrderService.getDeliveryOrderByNomorDeliveryOrder(nomor);
         
-        List<ItemModel> listItem = deliveryOrderModel.getlistItem();
+        List<ItemModel> listItem = deliveryOrderModel.getListItem();
 
         model.addAttribute("deliveryOrder", deliveryOrderModel);
         model.addAttribute("listItem", listItem);
@@ -86,12 +86,10 @@ public class DeliveryOrderController {
             return "delivery-order-already-exist";
         }
 
-        UserModel user = userService.getUserByUsername("prodOpsSpec");
-        deliveryOrderModel.setCreator(user);
-
-        deliveryOrderService.addDeliveryOrder(deliveryOrderModel);
-
         // DeliveryOrderModel deliveryOrderNow  = deliveryOrderService.getDeliveryOrderByNomorDeliveryOrder(deliveryOrderModel.getNomorDeliveryOrder());
+        System.out.println(deliveryOrderModel.getListItem());
+        System.out.println(itemModel);
+
         for(ItemModel itemModel2: deliveryOrderModel.getListItem()) {
             System.out.println("--------------------------------");
             System.out.println(itemModel2.getIdItem());
@@ -99,6 +97,11 @@ public class DeliveryOrderController {
 			itemModel2.setTanggalKeluar(deliveryOrderModel.getTanggalCreate());
 			itemModel2.setDeliveryOrder(deliveryOrderModel);
 		}
+
+        UserModel user = userService.getUserByUsername("prodOpsSpec");
+        deliveryOrderModel.setCreator(user);
+
+        deliveryOrderService.addDeliveryOrder(deliveryOrderModel);
 
         model.addAttribute("deliveryOrder", deliveryOrderModel);
         model.addAttribute("getListItem", deliveryOrderModel.getListItem());
@@ -110,7 +113,7 @@ public class DeliveryOrderController {
     public String addSubscribeDateFormPage(@PathVariable String nomor, Model model) {
         DeliveryOrderModel deliveryOrderModel = deliveryOrderService.getDeliveryOrderByNomorDeliveryOrder(nomor);
         
-        List<ItemModel> listItem = deliveryOrderModel.getlistItem();
+        List<ItemModel> listItem = deliveryOrderModel.getListItem();
 
         model.addAttribute("deliveryOrder", deliveryOrderModel);
         model.addAttribute("listItem", listItem);
@@ -161,10 +164,10 @@ public class DeliveryOrderController {
 
     @RequestMapping(value="/add", method = RequestMethod.POST, params= {"addRow"})
 	public String addRow(@ModelAttribute DeliveryOrderModel deliveryOrderModel, BindingResult bindingResult, Model model) {
-		if (deliveryOrderModel.getlistItem() == null) {
+		if (deliveryOrderModel.getListItem() == null) {
             deliveryOrderModel.setListItem(new ArrayList<ItemModel>());
         }
-        deliveryOrderModel.getlistItem().add(new ItemModel());
+        deliveryOrderModel.getListItem().add(new ItemModel());
         model.addAttribute("deliveryOrder", deliveryOrderModel);
 
         List<ItemModel> itemModels = itemService.getItemList();
@@ -179,7 +182,7 @@ public class DeliveryOrderController {
     @RequestMapping(value="/add", method = RequestMethod.POST, params={"removeRow"})
 	public String removeRow(@ModelAttribute DeliveryOrderModel deliveryOrderModel, final BindingResult bindingResult, final HttpServletRequest req, Model model) {
         final Integer rowId = Integer.valueOf(req.getParameter("removeRow"));
-        deliveryOrderModel.getlistItem().remove(rowId.intValue());
+        deliveryOrderModel.getListItem().remove(rowId.intValue());
         model.addAttribute("deliveryOrderModel", deliveryOrderModel);
 
         List<ItemModel> itemModels = itemService.getItemList();

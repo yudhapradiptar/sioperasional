@@ -58,8 +58,7 @@ public class DeliveryOrderModel implements Serializable {
     @Column(name = "tanggalCreate", nullable = false)
     private Date tanggalCreate;
 
-    @OneToMany(mappedBy = "deliveryOrder", fetch = FetchType.LAZY)
-    @JsonIgnore
+    @OneToMany(mappedBy = "deliveryOrder", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<ItemModel> listItem;
 
     public String getNomorDeliveryOrder() {
@@ -118,29 +117,11 @@ public class DeliveryOrderModel implements Serializable {
         this.tanggalSubscribeEnd = tanggalSubscribeEnd;
     }
 
-	public List<ItemModel> getlistItem() {
-		return listItem;
-    }
-    
-    /**
-     * @param listItem the listItem to set
-     */
-    public void setListItem(List<ItemModel> listItem) {
-        this.listItem = listItem;
-    }
-
     /**
      * @param isSubscribed the isSubscribed to set
      */
     public void setSubscribed(boolean isSubscribed) {
         this.isSubscribed = isSubscribed;
-    }
-
-    /**
-     * @return the listItem
-     */
-    public List<ItemModel> getListItem() {
-        return listItem;
     }
 
     public Boolean getSubscribed() {
@@ -161,5 +142,17 @@ public class DeliveryOrderModel implements Serializable {
         return tanggalCreate;
     }
 
-    
+    /**
+     * @param listItem the listItem to set
+     */
+    public void setListItem(List<ItemModel> listItem) {
+        this.listItem = listItem;
+    }
+
+    /**
+     * @return the listItem
+     */
+    public List<ItemModel> getListItem() {
+        return listItem;
+    }    
 }

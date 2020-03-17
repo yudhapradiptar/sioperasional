@@ -7,6 +7,14 @@
     <p th:text="${deliveryOrder.statusDO}"></p>
     <p th:text="${deliveryOrder.tanggalSubscribeStart}"></p>
     <p th:text="${deliveryOrder.tanggalSubscribeEnd}"></p>
-    <p th:text="${listItem}"></p>
+
+    <tbody th:each="item, iterationStatus : ${listItem}">
+        <tr>
+            <th scope="row" th:text="${iterationStatus.count}"></th>
+            <td th:text="${item.merekItem.namaMerekItem}"></td>
+            <td th:text="${item.kategoriItem.namaKategoriItem}"></td>
+            <td th:text="${item.statusItem.namaStatusItem}"></td>
+        </tr>
+    </tbody>
     
 </html>

@@ -37,7 +37,7 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 
         try {
             newDeliveryOrderModel.setCreator(deliveryOrderModel.getCreator());
-            newDeliveryOrderModel.setListItem(deliveryOrderModel.getlistItem());
+            newDeliveryOrderModel.setListItem(deliveryOrderModel.getListItem());
             newDeliveryOrderModel.setNomorDeliveryOrder(deliveryOrderModel.getNomorDeliveryOrder());
             newDeliveryOrderModel.setNomorInvoice(deliveryOrderModel.getNomorInvoice());
             newDeliveryOrderModel.setOutlet(deliveryOrderModel.getOutlet());
