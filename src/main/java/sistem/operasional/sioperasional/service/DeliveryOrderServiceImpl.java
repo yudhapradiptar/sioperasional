@@ -1,6 +1,7 @@
 package sistem.operasional.sioperasional.service;
 
 import sistem.operasional.sioperasional.model.DeliveryOrderModel;
+import sistem.operasional.sioperasional.model.ItemModel;
 
 import java.util.List;
 
@@ -44,6 +45,7 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
             newDeliveryOrderModel.setSubscribed(deliveryOrderModel.getSubscribed());
             newDeliveryOrderModel.setTanggalSubscribeEnd(deliveryOrderModel.getTanggalSubscribeEnd());
             newDeliveryOrderModel.setTanggalSubscribeStart(deliveryOrderModel.getTanggalSubscribeStart());
+            newDeliveryOrderModel.setTanggalCreate(deliveryOrderModel.getTanggalCreate());
             deliveryOrderDB.save(newDeliveryOrderModel);
             return newDeliveryOrderModel;
         } catch (NullPointerException nullException) {

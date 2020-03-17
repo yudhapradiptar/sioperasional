@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+</head>
+
+<body>
+    <h3>Update Delivery Order</h3>
+
+    <form th:action="@{/delivery-order/update/{nomor}(nomor=${deliveryOrder.nomorDeliveryOrder})}" th:object="${deliveryOrder}" method="POST">
+        <input type="hidden" class="form-control" name="nomorDeliveryOrder" th:field="*{nomorDeliveryOrder}">
+        <input type="hidden" class="form-control" name="creator" th:field="*{creator}">
+    
+        <div class="form-group row">
+            <label>Status Subscribed</label>
+                <select class="form-control" th:field="*{subscribed}">
+                    <option value="1">Ya</option>
+                    <option value="0">Tidak</option>
+                </select>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">statusDO</label>
+                <div class="col-sm-7">
+                    <input type="text" class="form-control" name="statusDO" th:field="*{statusDO}">
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">nomorInvoice</label>
+                <div class="col-sm-7">
+                    <input type="text" class="form-control" name="nomorInvoice" th:field="*{nomorInvoice}">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Nama Outlet</label>
+            <select class="form-control" name="outlet" th:value="*{outlet.idOutlet}" required="true">
+                <option th:text="*{outlet.namaOutlet}" th:value="*{outlet.idOutlet}"></option>
+                
+                <!-- <option th:text="*{outlet}" th:value="*{outlet}"></option> -->
+                <option th:each="outlet : ${listOutlet}" th:value="${outlet.idOutlet}" th:text="${outlet.namaOutlet}">
+                </option>
+            </select>
+        </div>
+        
+        <button type="submit">Submit</button>
+    </form>
+
+</body>
+</html>

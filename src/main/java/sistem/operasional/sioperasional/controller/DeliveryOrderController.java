@@ -40,9 +40,6 @@ public class DeliveryOrderController {
 
         model.addAttribute("listDeliveryOrder", listDeliveryOrder);
 
-        // List<ItemModel> itemModels = itemService.getItemList();
-        // model.addAttribute("listItem", itemModels);
-
         return "list-delivery-order";
     }
 
@@ -79,6 +76,89 @@ public class DeliveryOrderController {
         return "form-add-delivery-order";
     }
 
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    public String addDeliveryOrderSubmit(@ModelAttribute DeliveryOrderModel deliveryOrderModel,
+            @ModelAttribute ItemModel itemModel, Model model) {
+
+        DeliveryOrderModel deliveryOrderModel2 = deliveryOrderService.getDeliveryOrderByNomorDeliveryOrder(deliveryOrderModel.getNomorDeliveryOrder());
+        if (deliveryOrderModel2 != null) {
+            model.addAttribute("deliveryOrder", deliveryOrderModel);
+            return "delivery-order-already-exist";
+        }
+
+        UserModel user = userService.getUserByUsername("prodOpsSpec");
+        deliveryOrderModel.setCreator(user);
+
+        deliveryOrderService.addDeliveryOrder(deliveryOrderModel);
+
+        // DeliveryOrderModel deliveryOrderNow  = deliveryOrderService.getDeliveryOrderByNomorDeliveryOrder(deliveryOrderModel.getNomorDeliveryOrder());
+        for(ItemModel itemModel2: deliveryOrderModel.getListItem()) {
+            System.out.println("--------------------------------");
+            System.out.println(itemModel2.getIdItem());
+            System.out.println(deliveryOrderModel.getTanggalCreate());
+			itemModel2.setTanggalKeluar(deliveryOrderModel.getTanggalCreate());
+			itemModel2.setDeliveryOrder(deliveryOrderModel);
+		}
+
+        model.addAttribute("deliveryOrder", deliveryOrderModel);
+        model.addAttribute("getListItem", deliveryOrderModel.getListItem());
+        model.addAttribute("itemModel", itemModel);
+        return "add-delivery-order";
+    }
+
+    @RequestMapping(value = "/set-tanggal-subscribe/{nomor}", method = RequestMethod.GET)
+    public String addSubscribeDateFormPage(@PathVariable String nomor, Model model) {
+        DeliveryOrderModel deliveryOrderModel = deliveryOrderService.getDeliveryOrderByNomorDeliveryOrder(nomor);
+        
+        List<ItemModel> listItem = deliveryOrderModel.getlistItem();
+
+        model.addAttribute("deliveryOrder", deliveryOrderModel);
+        model.addAttribute("listItem", listItem);
+        
+        return "form-add-tanggal-subscribe";
+    }
+
+    @RequestMapping(value = "/set-tanggal-subscribe/{nomor}", method = RequestMethod.POST)
+    public String addSubscribeDate(@PathVariable String nomor, @ModelAttribute DeliveryOrderModel deliveryOrderModel,
+            Model model) {
+        
+        DeliveryOrderModel newDeliveryOrderModel = deliveryOrderService.changeDeliveryOrder(deliveryOrderModel);
+        model.addAttribute("deliveryOrder", newDeliveryOrderModel);
+
+        return "detail-delivery-order";
+    }
+
+    @RequestMapping(value = "/update/{nomor}", method = RequestMethod.GET)
+    public String updateFormPage(@PathVariable String nomor, Model model) {
+        DeliveryOrderModel deliveryOrderModel = deliveryOrderService.getDeliveryOrderByNomorDeliveryOrder(nomor);
+        
+        List<ItemModel> itemModels = itemService.getItemList();
+
+        ArrayList<ItemModel> listItemModels = new ArrayList<ItemModel>();
+        listItemModels.add(new ItemModel());
+        deliveryOrderModel.setListItem(listItemModels);
+
+        OutletModel outletModel = new OutletModel();
+        deliveryOrderModel.setOutlet(outletModel);
+        List<OutletModel> outletModels = outletService.getOutletList();
+
+        model.addAttribute("listOutlet", outletModels);
+        model.addAttribute("deliveryOrder", deliveryOrderModel);
+        model.addAttribute("listItem", itemModels);
+        
+        return "form-update-delivery-order";
+    }
+
+    @RequestMapping(value = "/update/{nomor}", method = RequestMethod.POST)
+    public String updateSumbit(@PathVariable String nomor, @ModelAttribute DeliveryOrderModel deliveryOrderModel,
+            Model model) {
+        
+        DeliveryOrderModel newDeliveryOrderModel = deliveryOrderService.changeDeliveryOrder(deliveryOrderModel);
+        model.addAttribute("deliveryOrder", newDeliveryOrderModel);
+
+        return "detail-delivery-order";
+    }
+
     @RequestMapping(value="/add", method = RequestMethod.POST, params= {"addRow"})
 	public String addRow(@ModelAttribute DeliveryOrderModel deliveryOrderModel, BindingResult bindingResult, Model model) {
 		if (deliveryOrderModel.getlistItem() == null) {
@@ -110,48 +190,4 @@ public class DeliveryOrderController {
         
 	    return "form-add-delivery-order";
 	}
-
-    @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public String addDeliveryOrderSubmit(@ModelAttribute DeliveryOrderModel deliveryOrderModel,
-            @ModelAttribute ItemModel itemModel, Model model) {
-
-        DeliveryOrderModel deliveryOrderModel2 = deliveryOrderService.getDeliveryOrderByNomorDeliveryOrder(deliveryOrderModel.getNomorDeliveryOrder());
-        if (deliveryOrderModel2 != null) {
-            model.addAttribute("deliveryOrder", deliveryOrderModel);
-            return "delivery-order-already-exist";
-        }
-
-        UserModel user = userService.getUserByUsername("prodOpsSpec");
-        deliveryOrderModel.setCreator(user);
-
-        deliveryOrderService.addDeliveryOrder(deliveryOrderModel);
-
-        String nomorDeliveryOrder = deliveryOrderModel.getNomorDeliveryOrder();
-        model.addAttribute("nomorDeliveryOrder", nomorDeliveryOrder);
-        model.addAttribute("deliveryOrder", deliveryOrderModel);
-        return "add-delivery-order";
-    }
-
-    @RequestMapping(value = "/set-tanggal-subscribe/{nomor}", method = RequestMethod.GET)
-    public String addSubscribeDateFormPage(@PathVariable String nomor, Model model) {
-        DeliveryOrderModel deliveryOrderModel = deliveryOrderService.getDeliveryOrderByNomorDeliveryOrder(nomor);
-        
-        List<ItemModel> listItem = deliveryOrderModel.getlistItem();
-
-        model.addAttribute("deliveryOrder", deliveryOrderModel);
-        model.addAttribute("listItem", listItem);
-        
-        return "form-add-tanggal-subscribe";
-    }
-
-    @RequestMapping(value = "/set-tanggal-subscribe/{nomor}", method = RequestMethod.POST)
-    public String addSubscribeDate(@PathVariable String nomor, @ModelAttribute DeliveryOrderModel deliveryOrderModel,
-            Model model) {
-        
-        DeliveryOrderModel newDeliveryOrderModel = deliveryOrderService.changeDeliveryOrder(deliveryOrderModel);
-        model.addAttribute("deliveryOrder", newDeliveryOrderModel);
-
-        return "detail-delivery-order";
-    }
-
 }

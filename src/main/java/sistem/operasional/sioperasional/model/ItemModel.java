@@ -40,12 +40,10 @@ public class ItemModel implements Serializable {
     @JsonIgnore
     private PurchaseOrderModel purchaseOrder;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name = "nomorDeliveryOrder", referencedColumnName = "nomorDeliveryOrder", nullable = true)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonBackReference
-    @JsonManagedReference
-    @JsonIgnore
     private DeliveryOrderModel deliveryOrder;
 
     @NotNull
@@ -109,12 +107,12 @@ public class ItemModel implements Serializable {
         this.purchaseOrder = purchaseOrder;
     }
 
-    public DeliveryOrderModel getDeliveryOrder() {
-        return deliveryOrder;
-    }
-
     public void setDeliveryOrder(DeliveryOrderModel deliveryOrder) {
         this.deliveryOrder = deliveryOrder;
+    }
+
+    public DeliveryOrderModel getDeliveryOrder() {
+        return deliveryOrder;
     }
 
     public Date getTanggalDatang() {

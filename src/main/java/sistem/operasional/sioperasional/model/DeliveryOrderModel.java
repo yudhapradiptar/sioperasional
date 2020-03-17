@@ -54,6 +54,10 @@ public class DeliveryOrderModel implements Serializable {
     @Column(name = "tanggalSubscribeEnd", nullable = true)
     private Date tanggalSubscribeEnd;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @Column(name = "tanggalCreate", nullable = false)
+    private Date tanggalCreate;
+
     @OneToMany(mappedBy = "deliveryOrder", fetch = FetchType.LAZY)
     @JsonIgnore
     private List<ItemModel> listItem;
@@ -142,4 +146,20 @@ public class DeliveryOrderModel implements Serializable {
     public Boolean getSubscribed() {
         return isSubscribed;
     }
+
+    /**
+     * @param tanggalCreate the tanggalCreate to set
+     */
+    public void setTanggalCreate(Date tanggalCreate) {
+        this.tanggalCreate = tanggalCreate;
+    }
+
+    /**
+     * @return the tanggalCreate
+     */
+    public Date getTanggalCreate() {
+        return tanggalCreate;
+    }
+
+    
 }
