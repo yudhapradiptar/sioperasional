@@ -19,6 +19,7 @@ public class UserModel implements Serializable {
     @Column(name="username")
     private String username;
 
+   
     @NotNull
     @Lob
     @Type(type = "org.hibernate.type.TextType")
@@ -27,11 +28,23 @@ public class UserModel implements Serializable {
     @JsonIgnore
     private String password;
 
+    @NotNull
+    @Size(max = 20)
+    @Column(name = "nama", nullable = false)
+    private String nama;
+
+    @NotNull
+    @Size(max = 20)
+    @Column(name = "kode", nullable = false)
+    private String kode;
+
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "idRole", referencedColumnName = "idRole", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private RoleModel role;
+
 
     @OneToMany(mappedBy = "creator", fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)
@@ -107,5 +120,21 @@ public class UserModel implements Serializable {
 
     public String getUsername() {
         return username;
+
+    public String getNama() {
+        return this.nama;
+    }
+
+    public void setNama(String nama) {
+        this.nama = nama;
+    }
+
+    
+    public String getKode() {
+        return this.kode;
+    }
+
+    public void setKode(String kode) {
+        this.kode = kode;
     }
 }
