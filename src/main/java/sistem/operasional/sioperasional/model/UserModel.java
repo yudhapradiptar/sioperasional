@@ -1,6 +1,8 @@
 package sistem.operasional.sioperasional.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.Type;
@@ -14,6 +16,7 @@ import java.util.List;
 @Entity
 @Table(name="pengguna")
 public class UserModel implements Serializable {
+
     @Id
     @Size(max=15)
     @Column(name="username")
@@ -120,6 +123,7 @@ public class UserModel implements Serializable {
 
     public String getUsername() {
         return username;
+    }
 
     public String getNama() {
         return this.nama;

@@ -69,11 +69,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .roles("Customer Service");
     }
 
-        // @Autowired
-        // private UserDetailsService userDetailsService;
+        @Autowired
+        private UserDetailsService userDetailsService;
 
-        // @Autowired
-        // public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception{
-        // auth.userDetailsService(userDetailsService).passwordEncoder(encoder());
-        // }
+        @Autowired
+        public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception{
+        auth.userDetailsService(userDetailsService).passwordEncoder(encoder());
+        }
 }
