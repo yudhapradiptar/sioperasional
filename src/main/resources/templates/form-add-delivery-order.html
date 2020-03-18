@@ -52,7 +52,7 @@
     <div class="form-group">
         <label>Nama Outlet</label>
         <select class="form-control" name="outlet" th:field="*{outlet.idOutlet}" required="true">
-            <option th:value="0">-- Pilih Outlet --</option>
+            <option th:value=null>-- Pilih Outlet --</option>
             <option th:each="outlet : ${listOutlet}" th:value="${{outlet.idOutlet}}" th:text="${outlet.namaOutlet}">
             </option>
         </select>
@@ -85,12 +85,13 @@
         </div>
     </div> -->
 
+    <label>Pilih Item</label>
     <ul>
-        <li th:each="item : ${listItem}">
+        <ul th:each="item : ${listItem}">
           <input type="checkbox" th:field="*{listItem}" th:value="${item.idItem}" />
           <label th:for="${#ids.prev('listItem')}" 
                  th:text="${item.idItem}"></label>
-        </li>
+        </ul>
     </ul>
 
     <br>
