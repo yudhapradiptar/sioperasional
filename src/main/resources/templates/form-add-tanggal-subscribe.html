@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+</head>
+
+<body>
+    <h3>Add Tanggal Subscribe</h3>
+
+    <form th:action="@{/delivery-order/set-tanggal-subscribe/{nomor}(nomor=${deliveryOrder.nomorDeliveryOrder})}" th:object="${deliveryOrder}" method="POST">
+        <input type="hidden" class="form-control" name="nomorDeliveryOrder" th:field="*{nomorDeliveryOrder}">
+        <input type="hidden" class="form-control" name="statusDO" th:field="*{statusDO}">
+        <input type="hidden" class="form-control" name="nomorInvoice" th:field="*{nomorInvoice}">
+        <input type="hidden" class="form-control" name="outlet" th:field="*{outlet}">
+        <input type="hidden" class="form-control" name="creator" th:field="*{creator}">
+        <input type="hidden" class="form-control" name="tanggalCreate" th:field="*{tanggalCreate}">
+    
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">tanggalSubscribeStart</label>
+            <div class="col-sm-7">
+                <input type="date" class="form-control" name="tanggalSubscribeStart" th:field="*{tanggalSubscribeStart}">
+            </div>
+        </div>
+        
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">tanggalSubscribeEnd</label>
+            <div class="col-sm-7">
+                <input type="date" class="form-control" name="tanggalSubscribeEnd" th:field="*{tanggalSubscribeEnd}">
+            </div>
+        </div>
+        
+        <button type="submit">Submit</button>
+    </form>
+
+</body>
+</html>

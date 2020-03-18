@@ -66,22 +66,60 @@ public class UserModel implements Serializable {
     @JsonIgnore
     private List<TrainingModel> listTrainingTrained;
 
+    public void setListDeliveryOrder(List<DeliveryOrderModel> listDeliveryOrder) {
+        this.listDeliveryOrder = listDeliveryOrder;
+    }
 
-    public String getUsername() {
-        return this.username;
+    public void setListPurchaseOrder(List<PurchaseOrderModel> listPurchaseOrder) {
+        this.listPurchaseOrder = listPurchaseOrder;
+    }
+
+    public void setListTrainingCreated(List<TrainingModel> listTrainingCreated) {
+        this.listTrainingCreated = listTrainingCreated;
+    }
+    
+    public void setListTrainingTrained(List<TrainingModel> listTrainingTrained) {
+        this.listTrainingTrained = listTrainingTrained;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setRole(RoleModel role) {
+        this.role = role;
     }
 
     public void setUsername(String username) {
         this.username = username;
     }
 
-    public String getPassword() {
-        return this.password;
+    public List<DeliveryOrderModel> getListDeliveryOrder() {
+        return listDeliveryOrder;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public List<PurchaseOrderModel> getListPurchaseOrder() {
+        return listPurchaseOrder;
     }
+
+    public List<TrainingModel> getListTrainingCreated() {
+        return listTrainingCreated;
+    }
+
+    public List<TrainingModel> getListTrainingTrained() {
+        return listTrainingTrained;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public RoleModel getRole() {
+        return role;
+    }
+
+    public String getUsername() {
+        return username;
 
     public String getNama() {
         return this.nama;
@@ -98,13 +136,5 @@ public class UserModel implements Serializable {
 
     public void setKode(String kode) {
         this.kode = kode;
-    }
-    
-    public RoleModel getRole() {
-        return this.role;
-    }
-
-    public void setRole(RoleModel role) {
-        this.role = role;
     }
 }

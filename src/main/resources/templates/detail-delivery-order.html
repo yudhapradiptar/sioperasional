@@ -1,0 +1,21 @@
+<html>
+    <h1>detail of delivery order</h1>
+    <p th:text="${deliveryOrder.nomorDeliveryOrder}"></p>
+    <p th:text="${deliveryOrder.creator.username}"></p>
+    <p th:text="${deliveryOrder.outlet.namaOutlet}"></p>
+    <p th:text="${deliveryOrder.nomorInvoice}"></p>
+    <p th:text="${deliveryOrder.statusDO}"></p>
+    <p th:text="${deliveryOrder.tanggalCreate}"></p>
+    <p th:text="${deliveryOrder.tanggalSubscribeStart}"></p>
+    <p th:text="${deliveryOrder.tanggalSubscribeEnd}"></p>
+
+    <tbody th:each="item, iterationStatus : ${listItem}">
+        <tr>
+            <th scope="row" th:text="${iterationStatus.count}"></th>
+            <td th:text="${item.merekItem.namaMerekItem}"></td>
+            <td th:text="${item.kategoriItem.namaKategoriItem}"></td>
+            <td th:text="${item.statusItem.namaStatusItem}"></td>
+        </tr>
+    </tbody>
+    
+</html>
