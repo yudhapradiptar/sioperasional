@@ -19,6 +19,7 @@ public class UserModel implements Serializable {
     @Column(name="username")
     private String username;
 
+   
     @NotNull
     @Lob
     @Type(type = "org.hibernate.type.TextType")
@@ -27,11 +28,23 @@ public class UserModel implements Serializable {
     @JsonIgnore
     private String password;
 
+    @NotNull
+    @Size(max = 20)
+    @Column(name = "nama", nullable = false)
+    private String nama;
+
+    @NotNull
+    @Size(max = 20)
+    @Column(name = "kode", nullable = false)
+    private String kode;
+
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "idRole", referencedColumnName = "idRole", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private RoleModel role;
+
 
     @OneToMany(mappedBy = "creator", fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)
@@ -53,9 +66,75 @@ public class UserModel implements Serializable {
     @JsonIgnore
     private List<TrainingModel> listTrainingTrained;
 
+    public void setListDeliveryOrder(List<DeliveryOrderModel> listDeliveryOrder) {
+        this.listDeliveryOrder = listDeliveryOrder;
+    }
 
+    public void setListPurchaseOrder(List<PurchaseOrderModel> listPurchaseOrder) {
+        this.listPurchaseOrder = listPurchaseOrder;
+    }
 
+    public void setListTrainingCreated(List<TrainingModel> listTrainingCreated) {
+        this.listTrainingCreated = listTrainingCreated;
+    }
+    
+    public void setListTrainingTrained(List<TrainingModel> listTrainingTrained) {
+        this.listTrainingTrained = listTrainingTrained;
+    }
 
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
+    public void setRole(RoleModel role) {
+        this.role = role;
+    }
 
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public List<DeliveryOrderModel> getListDeliveryOrder() {
+        return listDeliveryOrder;
+    }
+
+    public List<PurchaseOrderModel> getListPurchaseOrder() {
+        return listPurchaseOrder;
+    }
+
+    public List<TrainingModel> getListTrainingCreated() {
+        return listTrainingCreated;
+    }
+
+    public List<TrainingModel> getListTrainingTrained() {
+        return listTrainingTrained;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public RoleModel getRole() {
+        return role;
+    }
+
+    public String getUsername() {
+        return username;
+
+    public String getNama() {
+        return this.nama;
+    }
+
+    public void setNama(String nama) {
+        this.nama = nama;
+    }
+
+    
+    public String getKode() {
+        return this.kode;
+    }
+
+    public void setKode(String kode) {
+        this.kode = kode;
+    }
 }

@@ -10,4 +10,6 @@ import java.util.List;
 @Repository
 public interface ItemDB extends JpaRepository<ItemModel, Long> {
     List<ItemModel> findAllByPurchaseOrder (PurchaseOrderModel purchaseOrder);
+    List<ItemModel> findItemByTanggalKeluar(Object object);
+
 }

@@ -1,6 +1,8 @@
 package sistem.operasional.sioperasional.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -16,8 +18,9 @@ import java.util.Date;
 @Table(name="item")
 public class ItemModel implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idItem;
+    @Size(max=200)
+    @Column(name="idItem")
+    private String idItem;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "idKategoriItem", referencedColumnName = "idKategoriItem", nullable = false)
@@ -37,12 +40,12 @@ public class ItemModel implements Serializable {
     @JsonIgnore
     private PurchaseOrderModel purchaseOrder;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name = "nomorDeliveryOrder", referencedColumnName = "nomorDeliveryOrder", nullable = true)
-    @JsonIgnore
     @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonBackReference
     private DeliveryOrderModel deliveryOrder;
-
+    
     @NotNull
     @DateTimeFormat(pattern = "dd-MM-yyyy")
     @Column(name = "tanggalDatang", nullable = false)
@@ -66,12 +69,18 @@ public class ItemModel implements Serializable {
     @JsonIgnore
     private StatusItemModel statusItem;
 
-    public Long getIdItem() {
-        return idItem;
+    /**
+     * @param idItem the idItem to set
+     */
+    public void setIdItem(String idItem) {
+        this.idItem = idItem;
     }
 
-    public void setIdItem(Long idItem) {
-        this.idItem = idItem;
+    /**
+     * @return the idItem
+     */
+    public String getIdItem() {
+        return idItem;
     }
 
     public KategoriItemModel getKategoriItem() {
@@ -98,12 +107,12 @@ public class ItemModel implements Serializable {
         this.purchaseOrder = purchaseOrder;
     }
 
-    public DeliveryOrderModel getDeliveryOrder() {
-        return deliveryOrder;
-    }
-
     public void setDeliveryOrder(DeliveryOrderModel deliveryOrder) {
         this.deliveryOrder = deliveryOrder;
+    }
+
+    public DeliveryOrderModel getDeliveryOrder() {
+        return deliveryOrder;
     }
 
     public Date getTanggalDatang() {

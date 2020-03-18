@@ -1,0 +1,48 @@
+<html>
+    <h1>list of delivery order</h1>
+    <!-- <h5 th:text="${listItem[0].idItem}"></h5>
+    <h5 th:text="${listItem[0].kategoriItem.namaKategoriItem}"></h5> -->
+    <table class="table">
+        <thead>
+            <tr>
+            <th scope="col">No</th>
+            <th scope="col">Nomor Delivery Order</th>
+            <th scope="col">Creator</th>
+            <th scope="col">Outlet</th>
+            <th scope="col">nomorInvoice</th>
+            <th scope="col">statusDO</th>
+            <th scope="col">isSubscribed</th>
+            <th scope="col">tanggalCreate</th>
+            <th scope="col">tanggalSubscribeStart</th>
+            <th scope="col">tanggalSubscribeEnd</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+
+            </tr>
+        </thead>
+        <tbody th:each="deliveryOrder, iterationStatus : ${listDeliveryOrder}">
+            <tr>
+                <th scope="row" th:text="${iterationStatus.count}"></th>
+                <td th:text="${deliveryOrder.nomorDeliveryOrder}"></td>
+                <td th:text="${deliveryOrder.creator.username}"></td>
+                <td th:text="${deliveryOrder.outlet.namaOutlet}"></td>
+                <td th:text="${deliveryOrder.nomorInvoice}"></td>
+                <td th:text="${deliveryOrder.statusDO}"></td>
+                <td th:text="${deliveryOrder.subscribed}"></td>
+                <td th:text="${deliveryOrder.tanggalCreate}"></td>
+                <td th:text="${deliveryOrder.tanggalSubscribeStart}"></td>
+                <td th:text="${deliveryOrder.tanggalSubscribeEnd}"></td>
+                <td>
+                    <form th:action="@{/delivery-order/detail/} + ${deliveryOrder.nomorDeliveryOrder}" th:method="GET">       
+                        <button class="btn btn-danger text-white"value="submit">detail</button>
+                    </form>
+                </td>
+                <td>
+                    <form th:action="@{/delivery-order/update/} + ${deliveryOrder.nomorDeliveryOrder}" th:method="GET">       
+                        <button class="btn btn-danger text-white"value="submit">update</button>
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</html>

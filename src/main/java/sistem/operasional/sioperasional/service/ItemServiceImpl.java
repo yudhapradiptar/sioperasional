@@ -32,8 +32,13 @@ public class ItemServiceImpl implements ItemService{
     }
 
     @Override
-    public List<ItemModel> getAllItem(){
+    public List<ItemModel> getItemList() {
         return itemDB.findAll();
+    }
+
+    @Override
+    public List<ItemModel> geItemListByTanggalKeluarNull() {
+        return itemDB.findItemByTanggalKeluar(null);
     }
 
 

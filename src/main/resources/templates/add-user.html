@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="fragments/fragment :: main-layout (title=~{:: title}, head=~{:: header}, content=~{:: content})">
+<head>
+    <meta charset="UTF-8">
+    <title>Add user</title>
+
+<!--    <object th:include="fragments/fragment :: css" th:remove="tag"></object>-->
+<!--    <object th:include="fragments/fragment :: js" th:remove="tag"></object>-->
+<head>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script rel="stylesheet" th:href="@{/js/bootstrap.min.css}"></script>
+</head>
+<body>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header"> Tambah User Baru</div>
+                <div class="card-body">
+                    <form th:action="@{/account/add}" method="POST">
+                        <label>User Name</label>
+                        <input type="text" name="username" class="form-control">
+                        <label>Nama</label>
+                        <input type="text" name="nama" class="form-control">
+                        <label>Role</label>
+                        <select name="role" class="form-control">
+                            <option selected value="">-- Pilih Role --</option>
+                            <option th:each="roleAvailable : ${listRole} " th:value="${roleAvailable.id}" th:text="${roleAvailable.role}"></option>
+                        </select>
+                        <label>Kode</label>
+                        <input type="text" name="kode" class="form-control">
+                        <label>Password</label>
+                        <input type="password" name="password" class="form-control">
+                        <label>Role</label>
+                        <label>Konfirmasi Password</label>
+                        <input type="password" name="password" class="form-control">
+                        <br>
+                        <button type="submit" class="btn btn-primary">Simpan</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
