@@ -1,4 +1,8 @@
 package sistem.operasional.sioperasional.service;
 
-public interface RoleService {
+import java.util.List;
+
+import sistem.operasional.sioperasional.model.RoleModel;
+public interface RoleService  {
+    List<RoleModel> findAll();
 }
