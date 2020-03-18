@@ -85,13 +85,13 @@
         </div>
     </div> -->
 
-    <label>Pilih Item</label>
-    <ul>
-        <ul th:each="item : ${listItem}">
+    <u>
+        <u th:each="item : ${listItem}">
           <input type="checkbox" th:field="*{listItem}" th:value="${item.idItem}" />
           <label th:for="${#ids.prev('listItem')}" 
                  th:text="${item.idItem}"></label>
-        </ul>
+                 <br>
+        </u>
     </ul>
 
     <br>
