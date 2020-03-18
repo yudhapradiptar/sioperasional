@@ -10,4 +10,6 @@ import sistem.operasional.sioperasional.model.ItemModel;
 @Repository
 public interface ItemDB extends JpaRepository<ItemModel, String> {
 
+	List<ItemModel> findItemByTanggalKeluar(Object object);
+
 }

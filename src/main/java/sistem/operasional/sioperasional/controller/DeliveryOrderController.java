@@ -59,7 +59,7 @@ public class DeliveryOrderController {
     public String addDeliveryOrderFormPage(Model model) {
         DeliveryOrderModel deliveryOrderModel = new DeliveryOrderModel();
 
-        List<ItemModel> itemModels = itemService.getItemList();
+        List<ItemModel> itemModels = itemService.geItemListByTanggalKeluarNull();
 
         ArrayList<ItemModel> listItemModels = new ArrayList<ItemModel>();
         listItemModels.add(new ItemModel());
@@ -135,7 +135,7 @@ public class DeliveryOrderController {
     public String updateFormPage(@PathVariable String nomor, Model model) {
         DeliveryOrderModel deliveryOrderModel = deliveryOrderService.getDeliveryOrderByNomorDeliveryOrder(nomor);
         
-        List<ItemModel> itemModels = itemService.getItemList();
+        List<ItemModel> itemModels = deliveryOrderModel.getListItem();
 
         ArrayList<ItemModel> listItemModels = new ArrayList<ItemModel>();
         listItemModels.add(new ItemModel());
@@ -170,7 +170,7 @@ public class DeliveryOrderController {
         deliveryOrderModel.getListItem().add(new ItemModel());
         model.addAttribute("deliveryOrder", deliveryOrderModel);
 
-        List<ItemModel> itemModels = itemService.getItemList();
+        List<ItemModel> itemModels = itemService.geItemListByTanggalKeluarNull();
         model.addAttribute("listItem", itemModels);
 
         List<OutletModel> outletModels = outletService.getOutletList();
@@ -183,14 +183,14 @@ public class DeliveryOrderController {
 	public String removeRow(@ModelAttribute DeliveryOrderModel deliveryOrderModel, final BindingResult bindingResult, final HttpServletRequest req, Model model) {
         final Integer rowId = Integer.valueOf(req.getParameter("removeRow"));
         deliveryOrderModel.getListItem().remove(rowId.intValue());
-        model.addAttribute("deliveryOrderModel", deliveryOrderModel);
+        model.addAttribute("deliveryOrder", deliveryOrderModel);
 
-        List<ItemModel> itemModels = itemService.getItemList();
+        List<ItemModel> itemModels = itemService.geItemListByTanggalKeluarNull();
         model.addAttribute("listItem", itemModels);
 
         List<OutletModel> outletModels = outletService.getOutletList();
         model.addAttribute("listOutlet", outletModels);
         
 	    return "form-add-delivery-order";
-	}
+    }
 }

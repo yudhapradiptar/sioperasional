@@ -19,8 +19,6 @@
         </div>
     </div>
 
-    <!-- <input type="hidden" name="creator" value="3487"> -->
-
     <div class="form-group row">
         <label>Status Subscribed</label>
             <select class="form-control" th:field="*{subscribed}">
@@ -66,7 +64,7 @@
             <tr th:each="item, iterationStatus : *{listItem}">
                 <select class="form-control" id="sel1" th:field="*{listItem[__${iterationStatus.index}__]}">
                     <option value="">-- Silahkan Pilih item --</option>
-                    <option th:each="item : ${listItem}" th:text="${item.merekItem.namaMerekItem}" th:value="${item.idItem}"></option>
+                    <option th:each="item : ${listItem}" th:text="${item.idItem}" th:value="${item.idItem}"></option>
 
                 </select>
                 <button type="submit" name="removeRow" th:value="${iterationStatus.index}" class="btn btn-danger">Hapus row</button>

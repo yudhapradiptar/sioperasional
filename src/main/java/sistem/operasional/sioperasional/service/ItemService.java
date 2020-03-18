@@ -9,4 +9,6 @@ public interface ItemService {
 
 	List<ItemModel> getItemList();
 
+	List<ItemModel> geItemListByTanggalKeluarNull();
+
 }
