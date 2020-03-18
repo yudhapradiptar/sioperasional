@@ -17,6 +17,7 @@
             <th scope="col">tanggalSubscribeEnd</th>
             <th scope="col"></th>
             <th scope="col"></th>
+            <th scope="col"></th>
 
             </tr>
         </thead>
@@ -40,6 +41,11 @@
                 <td>
                     <form th:action="@{/delivery-order/update/} + ${deliveryOrder.nomorDeliveryOrder}" th:method="GET">       
                         <button class="btn btn-danger text-white"value="submit">update</button>
+                    </form>
+                </td>
+                <td>
+                    <form th:action="@{/delivery-order/set-tanggal-subscribe/} + ${deliveryOrder.nomorDeliveryOrder}" th:method="GET">       
+                        <button class="btn btn-danger text-white"value="submit">set tanggal</button>
                     </form>
                 </td>
             </tr>

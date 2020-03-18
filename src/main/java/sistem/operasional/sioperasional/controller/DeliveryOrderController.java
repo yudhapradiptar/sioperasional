@@ -87,6 +87,7 @@ public class DeliveryOrderController {
         }
 
         // DeliveryOrderModel deliveryOrderNow  = deliveryOrderService.getDeliveryOrderByNomorDeliveryOrder(deliveryOrderModel.getNomorDeliveryOrder());
+        System.out.println("=========================================");
         System.out.println(deliveryOrderModel.getListItem());
         System.out.println(itemModel);
 
@@ -112,7 +113,11 @@ public class DeliveryOrderController {
     @RequestMapping(value = "/set-tanggal-subscribe/{nomor}", method = RequestMethod.GET)
     public String addSubscribeDateFormPage(@PathVariable String nomor, Model model) {
         DeliveryOrderModel deliveryOrderModel = deliveryOrderService.getDeliveryOrderByNomorDeliveryOrder(nomor);
-        
+        if (deliveryOrderModel.getSubscribed() == false) {
+            model.addAttribute("deliveryOrder", deliveryOrderModel);
+            return "cant-add-subscribe-date";
+        }
+
         List<ItemModel> listItem = deliveryOrderModel.getListItem();
 
         model.addAttribute("deliveryOrder", deliveryOrderModel);

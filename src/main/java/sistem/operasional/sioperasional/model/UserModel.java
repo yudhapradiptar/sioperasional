@@ -120,6 +120,7 @@ public class UserModel implements Serializable {
 
     public String getUsername() {
         return username;
+    }
 
     public String getNama() {
         return this.nama;

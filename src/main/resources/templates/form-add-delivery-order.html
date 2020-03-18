@@ -58,7 +58,7 @@
         </select>
     </div>
 
-    <div class="form-group row">
+    <!-- <div class="form-group row">
         <label class="col-sm-2 col-form-label">Item</label>
         <div class="col-sm-7">
             <tr th:each="item, iterationStatus : *{listItem}">
@@ -73,7 +73,7 @@
     </div>
 
     <input type="submit" value="Add row" name="addRow" class="btn btn-primary">
-    <br>
+    <br> -->
 
     <!-- <div>
         <label>Item</label>
@@ -85,13 +85,13 @@
         </div>
     </div> -->
 
-    <!-- <ul>
+    <ul>
         <li th:each="item : ${listItem}">
-          <input type="checkbox" th:field="*{listItem}" th:value="${item}" />
+          <input type="checkbox" th:field="*{listItem}" th:value="${item.idItem}" />
           <label th:for="${#ids.prev('listItem')}" 
-                 th:text="${item.merekItem.namaMerekItem}"></label>
+                 th:text="${item.idItem}"></label>
         </li>
-    </ul> -->
+    </ul>
 
     <br>
     <div class="row">
