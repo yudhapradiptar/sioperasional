@@ -72,12 +72,12 @@ public class ItemController {
 
     @RequestMapping(value = "/hardware-fulfillment/item/all", method = RequestMethod.GET)
     public String viewAllItem(Model model){
-        List<ItemModel> listAllItem = itemService.getAllItem();
+        List<ItemModel> listAllItem = itemService.getItemList();
         model.addAttribute("listAllItem", listAllItem);
         return "viewAllItem";
     }
 
-
+    
 
 
 }
