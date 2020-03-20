@@ -45,19 +45,26 @@
             </select>
         </div>
 
-        <div class="form-group row">
+        <label>Pilih Item</label>
+        <ul>
+            <ul th:each="item : ${listItem}">
+            <input type="checkbox" th:field="*{listItem}" th:value="${item.idItem}" />
+            <label th:for="${#ids.prev('listItem')}" 
+                    th:text="${item.idItem}"></label>
+            </ul>
+        </ul>
+
+        <!-- <div class="form-group row">
             <label class="col-sm-2 col-form-label">Item</label>
             <div class="col-sm-7">
                 <tr th:each="item, iterationStatus : *{listItem}">
                     <select class="form-control" id="sel1" th:field="*{listItem[__${iterationStatus.index}__]}">
                         <option th:text="${item}" th:value="${item.idItem}"></option>
-                        <!-- <option th:each="item : ${listItem}" th:text="${item.merekItem.namaMerekItem}" th:value="${item.idItem}"></!--> -->
-    
                     </select>
                     <button type="submit" name="removeRow" th:value="${iterationStatus.index}" class="btn btn-danger">Hapus row</button>
                 </tr>
             </div>
-        </div>
+        </div> -->
         
         <button type="submit">Submit</button>
     </form>

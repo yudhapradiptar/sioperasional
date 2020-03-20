@@ -47,7 +47,6 @@ public class DeliveryOrderController {
     public String viewDeliveryOrderByNomorDeliveryOrder(@PathVariable String nomor, Model model) {
 
         DeliveryOrderModel deliveryOrderModel = deliveryOrderService.getDeliveryOrderByNomorDeliveryOrder(nomor);
-        
         List<ItemModel> listItem = deliveryOrderModel.getListItem();
 
         model.addAttribute("deliveryOrder", deliveryOrderModel);
@@ -105,8 +104,8 @@ public class DeliveryOrderController {
         deliveryOrderService.addDeliveryOrder(deliveryOrderModel);
 
         model.addAttribute("deliveryOrder", deliveryOrderModel);
-        model.addAttribute("getListItem", deliveryOrderModel.getListItem());
-        model.addAttribute("itemModel", itemModel);
+        model.addAttribute("namaOutlet", deliveryOrderModel.getOutlet().getNamaOutlet());
+        model.addAttribute("listItem", deliveryOrderModel.getListItem());
         return "add-delivery-order";
     }
 
@@ -132,6 +131,9 @@ public class DeliveryOrderController {
         
         DeliveryOrderModel newDeliveryOrderModel = deliveryOrderService.changeDeliveryOrder(deliveryOrderModel);
         model.addAttribute("deliveryOrder", newDeliveryOrderModel);
+
+        List<ItemModel> listItem = deliveryOrderModel.getListItem();
+        model.addAttribute("listItem", listItem);
 
         return "detail-delivery-order";
     }
@@ -163,6 +165,18 @@ public class DeliveryOrderController {
         
         DeliveryOrderModel newDeliveryOrderModel = deliveryOrderService.changeDeliveryOrder(deliveryOrderModel);
         model.addAttribute("deliveryOrder", newDeliveryOrderModel);
+
+        List<ItemModel> listItem = deliveryOrderModel.getListItem();
+        model.addAttribute("listItem", listItem);
+
+        System.out.println("=========================================");
+        System.out.println(deliveryOrderModel.getListItem());
+
+        for(ItemModel itemModel2: deliveryOrderModel.getListItem()) {
+            System.out.println("==============mau set null ====================");
+            System.out.println();    
+			itemModel2.setDeliveryOrder(null);
+		}
 
         return "detail-delivery-order";
     }
