@@ -1,6 +1,8 @@
 package sistem.operasional.sioperasional.service;
 
 import sistem.operasional.sioperasional.model.ItemModel;
+import sistem.operasional.sioperasional.model.KategoriItemModel;
+import sistem.operasional.sioperasional.model.MerekItemModel;
 import sistem.operasional.sioperasional.model.PurchaseOrderModel;
 
 import java.util.List;
@@ -14,4 +16,8 @@ public interface ItemService {
     List<ItemModel> getItemList();
 
     List<ItemModel> geItemListByTanggalKeluarNull();
+
+    List<ItemModel> getItemListByKategoriItem(KategoriItemModel kategoriItemModel);
+
+    List<ItemModel> getItemListByMerekItem(MerekItemModel merekItemModel);
 }
