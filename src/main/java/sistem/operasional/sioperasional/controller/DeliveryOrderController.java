@@ -49,7 +49,20 @@ public class DeliveryOrderController {
         DeliveryOrderModel deliveryOrderModel = deliveryOrderService.getDeliveryOrderByNomorDeliveryOrder(nomor);
         List<ItemModel> listItem = deliveryOrderModel.getListItem();
 
+        String tanggalCreateFormatted = deliveryOrderModel.getTanggalCreate().toString();
+        tanggalCreateFormatted = tanggalCreateFormatted.substring(0, tanggalCreateFormatted.length() - 10);
+
+        if (deliveryOrderModel.getTanggalSubscribeEnd() != null) {
+            String tanggalStartFormatted = deliveryOrderModel.getTanggalSubscribeStart().toString();
+            tanggalStartFormatted = tanggalStartFormatted.substring(0, tanggalStartFormatted.length() - 10);
+            String tanggalEndFormatted = deliveryOrderModel.getTanggalSubscribeEnd().toString();
+            tanggalEndFormatted = tanggalEndFormatted.substring(0, tanggalEndFormatted.length() - 10);
+            model.addAttribute("tanggalStartFormatted", tanggalStartFormatted);
+            model.addAttribute("tanggalEndFormatted", tanggalEndFormatted);
+        }
+
         model.addAttribute("deliveryOrder", deliveryOrderModel);
+        model.addAttribute("tanggalCreate", tanggalCreateFormatted);
         model.addAttribute("listItem", listItem);
         return "detail-delivery-order";
     }
@@ -132,10 +145,14 @@ public class DeliveryOrderController {
         DeliveryOrderModel newDeliveryOrderModel = deliveryOrderService.changeDeliveryOrder(deliveryOrderModel);
         model.addAttribute("deliveryOrder", newDeliveryOrderModel);
 
-        List<ItemModel> listItem = deliveryOrderModel.getListItem();
-        model.addAttribute("listItem", listItem);
+        String tanggalStartFormatted = deliveryOrderModel.getTanggalSubscribeStart().toString();
+        tanggalStartFormatted = tanggalStartFormatted.substring(0, tanggalStartFormatted.length() - 10);
+        String tanggalEndFormatted = deliveryOrderModel.getTanggalSubscribeEnd().toString();
+        tanggalEndFormatted = tanggalEndFormatted.substring(0, tanggalEndFormatted.length() - 10);
+        model.addAttribute("tanggalStartFormatted", tanggalStartFormatted);
+        model.addAttribute("tanggalEndFormatted", tanggalEndFormatted);
 
-        return "detail-delivery-order";
+        return "add-tanggal-subscribe";
     }
 
     @RequestMapping(value = "/update/{nomor}", method = RequestMethod.GET)
@@ -160,7 +177,7 @@ public class DeliveryOrderController {
     }
 
     @RequestMapping(value = "/update/{nomor}", method = RequestMethod.POST)
-    public String updateSumbit(@PathVariable String nomor, @ModelAttribute DeliveryOrderModel deliveryOrderModel,
+    public String updateSubmit(@PathVariable String nomor, @ModelAttribute DeliveryOrderModel deliveryOrderModel,
             Model model) {
         
         DeliveryOrderModel newDeliveryOrderModel = deliveryOrderService.changeDeliveryOrder(deliveryOrderModel);
