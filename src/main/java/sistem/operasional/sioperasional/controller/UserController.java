@@ -34,11 +34,13 @@ public class UserController {
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     private String addUserSubmit(@ModelAttribute UserModel user,
                                  @RequestParam(value = "password") String password) {
+        
         if (!userService.verifUser(user)){
             return "add-user-gagal";
         
         
     }
+    System.out.println(password);
     userService.addUser(user);
     return "home";
 }
