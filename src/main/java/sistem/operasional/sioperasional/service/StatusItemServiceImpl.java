@@ -6,13 +6,23 @@ import sistem.operasional.sioperasional.model.StatusItemModel;
 import sistem.operasional.sioperasional.repository.StatusItemDB;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
 @Transactional
 public class StatusItemServiceImpl implements StatusItemService{
     @Autowired
     StatusItemDB statusItemDB;
+
+    @Override
     public StatusItemModel getStatusItemByIdStatusItem (Long idStatusItem){
         return statusItemDB.findByIdStatusItem(idStatusItem);
     }
+
+    @Override
+    public List<StatusItemModel> getListStatusItem(){
+        return statusItemDB.findAll();
+    }
+
+
 }

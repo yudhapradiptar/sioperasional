@@ -34,12 +34,16 @@ public class MerekItemController {
 
     @RequestMapping(value = "/hardware-fulfillment/merek", method = RequestMethod.POST)
     public String createMerekSubmit(@ModelAttribute MerekItemModel merekItem, Model model) {
-        List<MerekItemModel> listItemMerek = new List<MerekItemModel>();
+        List<MerekItemModel> listMerekItem =  merekItemService.getMerekItemList();
         try {
-            if(listItemMerek.size()!=0){
-                return "fail-delete-kategori";
+            for(MerekItemModel merek : listMerekItem){
+                if(merekItem.getNamaMerekItem().equals(merek.getNamaMerekItem())){
+                    model.addAttribute("merek",merekItem);
+                    return "fail-create-merek";
+                }
             }
             merekItemService.createMerekItem(merekItem);
+            model.addAttribute("kategori",merekItem);
             return "success-create-merek";
         } catch (NullPointerException e) {
             return "form-create-merek";

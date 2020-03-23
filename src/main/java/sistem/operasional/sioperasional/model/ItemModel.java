@@ -61,7 +61,7 @@ public class ItemModel implements Serializable {
 
     @NotNull
     @Column(name = "isRusak", nullable = false)
-    private boolean isRusak;
+    private int isRusak;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "idStatusItem", referencedColumnName = "idStatusItem", nullable = false)
@@ -140,11 +140,11 @@ public class ItemModel implements Serializable {
         this.tanggalRefund = tanggalRefund;
     }
 
-    public boolean isRusak() {
+    public int isRusak() {
         return isRusak;
     }
 
-    public void setRusak(boolean rusak) {
+    public void setRusak(int rusak) {
         isRusak = rusak;
     }
 
