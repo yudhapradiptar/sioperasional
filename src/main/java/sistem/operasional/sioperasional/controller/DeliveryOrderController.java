@@ -47,10 +47,22 @@ public class DeliveryOrderController {
     public String viewDeliveryOrderByNomorDeliveryOrder(@PathVariable String nomor, Model model) {
 
         DeliveryOrderModel deliveryOrderModel = deliveryOrderService.getDeliveryOrderByNomorDeliveryOrder(nomor);
-        
         List<ItemModel> listItem = deliveryOrderModel.getListItem();
 
+        String tanggalCreateFormatted = deliveryOrderModel.getTanggalCreate().toString();
+        tanggalCreateFormatted = tanggalCreateFormatted.substring(0, tanggalCreateFormatted.length() - 10);
+
+        if (deliveryOrderModel.getTanggalSubscribeEnd() != null) {
+            String tanggalStartFormatted = deliveryOrderModel.getTanggalSubscribeStart().toString();
+            tanggalStartFormatted = tanggalStartFormatted.substring(0, tanggalStartFormatted.length() - 10);
+            String tanggalEndFormatted = deliveryOrderModel.getTanggalSubscribeEnd().toString();
+            tanggalEndFormatted = tanggalEndFormatted.substring(0, tanggalEndFormatted.length() - 10);
+            model.addAttribute("tanggalStartFormatted", tanggalStartFormatted);
+            model.addAttribute("tanggalEndFormatted", tanggalEndFormatted);
+        }
+
         model.addAttribute("deliveryOrder", deliveryOrderModel);
+        model.addAttribute("tanggalCreate", tanggalCreateFormatted);
         model.addAttribute("listItem", listItem);
         return "detail-delivery-order";
     }
@@ -87,6 +99,7 @@ public class DeliveryOrderController {
         }
 
         // DeliveryOrderModel deliveryOrderNow  = deliveryOrderService.getDeliveryOrderByNomorDeliveryOrder(deliveryOrderModel.getNomorDeliveryOrder());
+        System.out.println("=========================================");
         System.out.println(deliveryOrderModel.getListItem());
         System.out.println(itemModel);
 
@@ -104,15 +117,19 @@ public class DeliveryOrderController {
         deliveryOrderService.addDeliveryOrder(deliveryOrderModel);
 
         model.addAttribute("deliveryOrder", deliveryOrderModel);
-        model.addAttribute("getListItem", deliveryOrderModel.getListItem());
-        model.addAttribute("itemModel", itemModel);
+        model.addAttribute("namaOutlet", deliveryOrderModel.getOutlet().getNamaOutlet());
+        model.addAttribute("listItem", deliveryOrderModel.getListItem());
         return "add-delivery-order";
     }
 
     @RequestMapping(value = "/set-tanggal-subscribe/{nomor}", method = RequestMethod.GET)
     public String addSubscribeDateFormPage(@PathVariable String nomor, Model model) {
         DeliveryOrderModel deliveryOrderModel = deliveryOrderService.getDeliveryOrderByNomorDeliveryOrder(nomor);
-        
+        if (deliveryOrderModel.getSubscribed() == false) {
+            model.addAttribute("deliveryOrder", deliveryOrderModel);
+            return "cant-add-subscribe-date";
+        }
+
         List<ItemModel> listItem = deliveryOrderModel.getListItem();
 
         model.addAttribute("deliveryOrder", deliveryOrderModel);
@@ -128,7 +145,14 @@ public class DeliveryOrderController {
         DeliveryOrderModel newDeliveryOrderModel = deliveryOrderService.changeDeliveryOrder(deliveryOrderModel);
         model.addAttribute("deliveryOrder", newDeliveryOrderModel);
 
-        return "detail-delivery-order";
+        String tanggalStartFormatted = deliveryOrderModel.getTanggalSubscribeStart().toString();
+        tanggalStartFormatted = tanggalStartFormatted.substring(0, tanggalStartFormatted.length() - 10);
+        String tanggalEndFormatted = deliveryOrderModel.getTanggalSubscribeEnd().toString();
+        tanggalEndFormatted = tanggalEndFormatted.substring(0, tanggalEndFormatted.length() - 10);
+        model.addAttribute("tanggalStartFormatted", tanggalStartFormatted);
+        model.addAttribute("tanggalEndFormatted", tanggalEndFormatted);
+
+        return "add-tanggal-subscribe";
     }
 
     @RequestMapping(value = "/update/{nomor}", method = RequestMethod.GET)
@@ -153,11 +177,23 @@ public class DeliveryOrderController {
     }
 
     @RequestMapping(value = "/update/{nomor}", method = RequestMethod.POST)
-    public String updateSumbit(@PathVariable String nomor, @ModelAttribute DeliveryOrderModel deliveryOrderModel,
+    public String updateSubmit(@PathVariable String nomor, @ModelAttribute DeliveryOrderModel deliveryOrderModel,
             Model model) {
         
         DeliveryOrderModel newDeliveryOrderModel = deliveryOrderService.changeDeliveryOrder(deliveryOrderModel);
         model.addAttribute("deliveryOrder", newDeliveryOrderModel);
+
+        List<ItemModel> listItem = deliveryOrderModel.getListItem();
+        model.addAttribute("listItem", listItem);
+
+        System.out.println("=========================================");
+        System.out.println(deliveryOrderModel.getListItem());
+
+        for(ItemModel itemModel2: deliveryOrderModel.getListItem()) {
+            System.out.println("==============mau set null ====================");
+            System.out.println();    
+			itemModel2.setDeliveryOrder(null);
+		}
 
         return "detail-delivery-order";
     }
