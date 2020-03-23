@@ -40,7 +40,7 @@ public class ItemModel implements Serializable {
     @JsonIgnore
     private PurchaseOrderModel purchaseOrder;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "nomorDeliveryOrder", referencedColumnName = "nomorDeliveryOrder", nullable = true)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonBackReference

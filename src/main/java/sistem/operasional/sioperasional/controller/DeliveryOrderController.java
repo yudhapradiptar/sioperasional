@@ -99,9 +99,9 @@ public class DeliveryOrderController {
         }
 
         // DeliveryOrderModel deliveryOrderNow  = deliveryOrderService.getDeliveryOrderByNomorDeliveryOrder(deliveryOrderModel.getNomorDeliveryOrder());
-        System.out.println("=========================================");
-        System.out.println(deliveryOrderModel.getListItem());
-        System.out.println(itemModel);
+        // System.out.println("=========================================");
+        // System.out.println(deliveryOrderModel.getListItem());
+        // System.out.println(itemModel);
 
         for(ItemModel itemModel2: deliveryOrderModel.getListItem()) {
             System.out.println("--------------------------------");
@@ -169,33 +169,55 @@ public class DeliveryOrderController {
         deliveryOrderModel.setOutlet(outletModel);
         List<OutletModel> outletModels = outletService.getOutletList();
 
+        List<ItemModel> itemModelsNull = itemService.getItemListByNomorDeliveryOrder(deliveryOrderModel.getNomorDeliveryOrder());
+
         model.addAttribute("listOutlet", outletModels);
         model.addAttribute("deliveryOrder", deliveryOrderModel);
-        model.addAttribute("listItem", itemModels);
+        // model.addAttribute("listItem", itemModels);
+        model.addAttribute("listItem", itemModelsNull);
         
         return "form-update-delivery-order";
     }
 
     @RequestMapping(value = "/update/{nomor}", method = RequestMethod.POST)
-    public String updateSubmit(@PathVariable String nomor, @ModelAttribute DeliveryOrderModel deliveryOrderModel,
-            Model model) {
+    public String updateSubmit(@PathVariable String nomor, @ModelAttribute DeliveryOrderModel deliveryOrderModel, Model model) {
+
+        DeliveryOrderModel deliveryOrderNow = deliveryOrderService.getDeliveryOrderByNomorDeliveryOrder(deliveryOrderModel.getNomorDeliveryOrder());
+        // List<ItemModel> listItemSetNull = itemService.getItemListByNomorDeliveryOrder(deliveryOrderNow.getNomorDeliveryOrder());
+
+        // System.out.println("=========================================");
+        // System.out.println("Item lama");
+        // System.out.println(listItemSetNull);
+
+        System.out.println("item DO Now");
+        System.out.println(deliveryOrderNow.getListItem());
+
+        for(ItemModel itemModel3: deliveryOrderNow.getListItem()) {
+            System.out.println("==============mau set NUll ====================");
+			itemModel3.setDeliveryOrder(null);
+			itemModel3.setTanggalKeluar(null);
+        }
+
+        System.out.println("================= ITEM BARU ====================");
+        System.out.println(deliveryOrderModel.getListItem());
+        
+        for(ItemModel itemModel2: deliveryOrderModel.getListItem()) {
+            if (itemModel2 == null) {
+                System.out.println("=============null==================");
+            } else {
+                System.out.println("==============NOT NULL===================");
+			    itemModel2.setDeliveryOrder(deliveryOrderModel);
+			    itemModel2.setTanggalKeluar(deliveryOrderModel.getTanggalCreate());
+            }
+		}
         
         DeliveryOrderModel newDeliveryOrderModel = deliveryOrderService.changeDeliveryOrder(deliveryOrderModel);
-        model.addAttribute("deliveryOrder", newDeliveryOrderModel);
 
         List<ItemModel> listItem = deliveryOrderModel.getListItem();
+
+        model.addAttribute("deliveryOrder", newDeliveryOrderModel);
         model.addAttribute("listItem", listItem);
-
-        System.out.println("=========================================");
-        System.out.println(deliveryOrderModel.getListItem());
-
-        for(ItemModel itemModel2: deliveryOrderModel.getListItem()) {
-            System.out.println("==============mau set null ====================");
-            System.out.println();    
-			itemModel2.setDeliveryOrder(null);
-		}
-
-        return "detail-delivery-order";
+        return "list-delivery-order";
     }
 
     @RequestMapping(value="/add", method = RequestMethod.POST, params= {"addRow"})

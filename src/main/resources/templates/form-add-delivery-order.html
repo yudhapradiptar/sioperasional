@@ -109,7 +109,7 @@
                                         <div class="control-label col-sm-10">
                                             <select class="form-control" name="outlet" th:field="*{outlet.idOutlet}"
                                                 required="true">
-                                                <option th:value="0">-- Pilih outlet --</option>
+                                                <option value="0">-- Pilih outlet --</option>
                                                 <option th:each="outlet : ${listOutlet}" th:value="${{outlet.idOutlet}}"
                                                     th:text="${outlet.namaOutlet}"></option>
                                             </select>
