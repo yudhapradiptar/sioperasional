@@ -43,7 +43,7 @@ public class ItemController {
             ItemPOModel itemPOCreated = listOfItemPOByPurchaseOrder.get(i);
             for(int j=0; j<itemPOCreated.getJumlahItem(); j++){
                 ItemModel itemModel = new ItemModel();
-                itemModel.setRusak(0);
+                itemModel.setRusak(false);
                 itemModel.setTanggalDatang(new Date());
                 itemModel.setKategoriItem(itemPOCreated.getKategoriItem());
                 itemModel.setMerekItem(itemPOCreated.getMerekItem());
@@ -72,6 +72,7 @@ public class ItemController {
     @RequestMapping(value = "/hardware-fulfillment/item", method = RequestMethod.POST)
     public String createItemSubmit(@ModelAttribute ItemModel item, Model model) {
         try {
+            item.setRusak(false);
             itemService.createItem(item);
             return "viewAllItem";
         } catch (NullPointerException e) {
