@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Kategori Item</title>
+    <title>Merek Item</title>
 
     <!-- Custom fonts for this template-->
     <link rel="stylesheet" th:href="@{/vendor/fontawesome-free/css/all.min.css}" type="text/css">
@@ -42,9 +42,17 @@
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
     <script type="text/javascript">
         $(document).ready( function () {
-            $('#datatable').dataTable();
+            $('#datatable').DataTable({
+                "scrollX": true
+            });
         } );
     </script>
+<!--    <style>-->
+<!--        div.dataTables_wrapper {-->
+<!--            width: 800px;-->
+<!--            margin: 0 auto;-->
+<!--        }-->
+<!--    </style>-->
 </head>
 
 <body id="page-top">
@@ -79,7 +87,7 @@
                                         <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                             Formulir</div>
                                         <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                            <a th:href="@{/hardware-fulfillment/merek/create}">Buat Kategori Item</a>
+                                            <a th:href="@{/hardware-fulfillment/item/create}">Buat Item</a>
                                         </div>
                                     </div>
                                     <div class="col-auto">
@@ -98,33 +106,47 @@
             <div class="container-fluid">
 
                 <!-- Page Heading -->
-                <h1 class="h3 mb-2 text-gray-800">Daftar Kategori</h1>
+                <h1 class="h3 mb-2 text-gray-800">Daftar Item</h1>
 
                 <!-- DataTales Example -->
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">Kategori</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">Item</h6>
                     </div>
                     <div class="card-body">
                         <form class="form-group">
                             <table id="datatable" class="table table-hover" style="width:100%;">
                                 <thead>
                                 <tr>
-                                    <th>No</th>
-                                    <th>Nama Kategori</th>
-                                    <th></th>
+                                    <th>NO</th>
+                                    <th>Kategori</th>
+                                    <th>Merek</th>
+                                    <th>Nomor PO</th>
+                                    <th>Nomor DO</th>
+                                    <th>Status</th>
+                                    <th>Flag Rusak</th>
+                                    <th>Tanggal Datang</th>
+                                    <th>Tanggal Keluar</th>
+                                    <th>Tanggal Refund</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr th:each="kategori, iterationStatus : *{listAllKategoriItem}">
+                                <tr th:each="item, iterationStatus : *{listAllItem}">
                                     <th scope="row" th:text="${iterationStatus.count}"></th>
-                                    <td th:text="${kategori.namaKategoriItem}"></td>
+                                    <td th:text="${item.kategoriItem.namaKategoriItem}"></td>
+                                    <td th:text="${item.merekItem.namaMerekItem}"></td>
+                                    <td th:text="${item.purchaseOrder != null} ? ${item.purchaseOrder.nomorPurchaseOrder}"></td>
+                                    <td th:text="${item.deliveryOrder != null} ? ${item.deliveryOrder.nomorDeliveryOrder}"></td>
+                                    <td th:text="${item.statusItem.namaStatusItem}"></td>
                                     <td>
-                                        <a class="btn btn-danger" id="delButton"
-                                           th:href="@{/hardware-fulfillment/kategori/delete(idKategoriItem=${kategori.idKategoriItem})}"
-                                           role="button"><i class="fa fa-trash-o"></i>
-                                        </a>
+                                        <div th:switch="${item.rusak}">
+                                            <p th:case=false>Tidak</p>
+                                            <p th:case=true>Ya</p>
+                                        </div>
                                     </td>
+                                    <td th:text="${item.tanggalDatang}"></td>
+                                    <td th:text="${item.tanggalKeluar != null} ? ${item.tanggalKeluar}"></td>
+                                    <td th:text="${item.tanggalRefund != null} ? ${item.tanggalRefund}"></td>
                                 </tr>
                                 </tbody>
                             </table>

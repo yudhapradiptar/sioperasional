@@ -45,12 +45,12 @@ public class TrainingModel implements Serializable {
     private String keteranganTraining;
 
     @NotNull
-    @DateTimeFormat(pattern = "dd-MM-yyyy")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "tanggalRequest", nullable = false)
     private Date tanggalRequest;
 
     @NotNull
-    @DateTimeFormat(pattern = "dd-MM-yyyy")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "tanggalTraining", nullable = false)
     private Date tanggalTraining;
 

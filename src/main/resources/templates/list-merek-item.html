@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Kategori Item</title>
+    <title>Merek Item</title>
 
     <!-- Custom fonts for this template-->
     <link rel="stylesheet" th:href="@{/vendor/fontawesome-free/css/all.min.css}" type="text/css">
@@ -79,7 +79,7 @@
                                         <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                             Formulir</div>
                                         <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                            <a th:href="@{/hardware-fulfillment/merek/create}">Buat Kategori Item</a>
+                                            <a th:href="@{/hardware-fulfillment/merek/create}">Buat Merek Item</a>
                                         </div>
                                     </div>
                                     <div class="col-auto">
@@ -98,12 +98,12 @@
             <div class="container-fluid">
 
                 <!-- Page Heading -->
-                <h1 class="h3 mb-2 text-gray-800">Daftar Kategori</h1>
+                <h1 class="h3 mb-2 text-gray-800">Daftar Merek</h1>
 
                 <!-- DataTales Example -->
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">Kategori</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">Merek</h6>
                     </div>
                     <div class="card-body">
                         <form class="form-group">
@@ -111,17 +111,17 @@
                                 <thead>
                                 <tr>
                                     <th>No</th>
-                                    <th>Nama Kategori</th>
+                                    <th>Nama Merek</th>
                                     <th></th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr th:each="kategori, iterationStatus : *{listAllKategoriItem}">
+                                <tr th:each="merek, iterationStatus : *{listAllMerekItem}">
                                     <th scope="row" th:text="${iterationStatus.count}"></th>
-                                    <td th:text="${kategori.namaKategoriItem}"></td>
+                                    <td th:text="${merek.namaMerekItem}"></td>
                                     <td>
                                         <a class="btn btn-danger" id="delButton"
-                                           th:href="@{/hardware-fulfillment/kategori/delete(idKategoriItem=${kategori.idKategoriItem})}"
+                                           th:href="@{/hardware-fulfillment/merek/delete(idMerekItem=${merek.idMerekItem})}"
                                            role="button"><i class="fa fa-trash-o"></i>
                                         </a>
                                     </td>

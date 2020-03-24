@@ -65,6 +65,11 @@ public class PurchaseOrderModel implements Serializable {
     @Column(name = "statusPO", nullable = false)
     private String statusPO;
 
+    @OneToMany(mappedBy = "purchaseOrder", fetch = FetchType.LAZY)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    private List<ItemModel> Listitem;
+
     public String getNomorPurchaseOrder() {
         return nomorPurchaseOrder;
     }
@@ -145,5 +150,11 @@ public class PurchaseOrderModel implements Serializable {
         this.statusPO = statusPO;
     }
 
+    public List<ItemModel> getListitem() {
+        return Listitem;
+    }
 
+    public void setListitem(List<ItemModel> listitem) {
+        Listitem = listitem;
+    }
 }

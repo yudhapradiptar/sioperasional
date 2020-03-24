@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Kategori</title>
+    <title>Merek</title>
 
     <!-- Custom fonts for this template-->
     <link rel="stylesheet" th:href="@{/vendor/fontawesome-free/css/all.min.css}" type="text/css">
@@ -55,13 +55,14 @@
                     </div>
                     <br>
                     <div class="card-body">
-                        <p th:text="'Sudah ada Kategori dengan nama ' + ${kategori.namaKategoriItem}"></p>
+                        <p>Merek Item tidak dapat dihapus</p>
+                        <p th:text="'Terdapat Item dengan Merek ' + ${merek.namaMerekItem} + ' di Inventory'"></p>
                     </div>
                 </div>
             </div>
             <div class="container-fluid">
-                <a th:href="@{/hardware-fulfillment/kategori/all}" class="btn btn-info btn-block">Lihat Semua Kategori</a>
-                <a th:href="@{/hardware-fulfillment/kategori/create}" class="btn btn-warning btn-block">Kembali</a>
+                <a th:href="@{/hardware-fulfillment/merek/all}" class="btn btn-info btn-block">Lihat Semua Merek</a>
+                <a th:href="@{/hardware-fulfillment/merek/create}" class="btn btn-warning btn-block">Kembali</a>
             </div>
 
         </div>
