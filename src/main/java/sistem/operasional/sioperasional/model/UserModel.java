@@ -53,9 +53,7 @@ public class UserModel implements Serializable {
     @JsonIgnore
     private List<TrainingModel> listTrainingTrained;
 
-
-
-
-
-
+    public String getUsername() {
+        return username;
+    }
 }
