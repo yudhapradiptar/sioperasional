@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" th:replace="fragments/fragment :: main-layout (title=~{:: title}, head=~{:: header}, content=~{:: content})">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Add user</title>
@@ -27,15 +27,14 @@
                         <label>Role</label>
                         <select name="role" class="form-control">
                             <option selected value="">-- Pilih Role --</option>
-                            <option th:each="roleAvailable : ${listRole} " th:value="${roleAvailable.id}" th:text="${roleAvailable.role}"></option>
+                            <option th:each="roleAvailable : ${listRole} " th:value="${roleAvailable.idRole}" th:text="${roleAvailable.namaRole}"></option>
                         </select>
                         <label>Kode</label>
                         <input type="text" name="kode" class="form-control">
                         <label>Password</label>
                         <input type="password" name="password" class="form-control">
-                        <label>Role</label>
-                        <label>Konfirmasi Password</label>
-                        <input type="password" name="password" class="form-control">
+                        <!-- <label>Konfirmasi Password</label>
+                        <input type="password" name="password" class="form-control"> -->
                         <br>
                         <button type="submit" class="btn btn-primary">Simpan</button>
                     </form>
