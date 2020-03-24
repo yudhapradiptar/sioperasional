@@ -26,4 +26,9 @@ public class ItemServiceImpl implements ItemService {
         return itemDB.findItemByTanggalKeluar(null);
     }
 
+    @Override
+    public List<ItemModel> getItemListByNomorDeliveryOrder(String nomorDeliveryOrder) {
+        return itemDB.findItemByDeliveryOrder(nomorDeliveryOrder, null);
+    }
+
 }
