@@ -38,6 +38,14 @@ public class TrainingModel implements Serializable {
     @JsonIgnore
     private UserModel trainer;
 
+<<<<<<< HEAD
+=======
+    @OneToMany(mappedBy = "training", fetch = FetchType.LAZY)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    private List<CustomerFeedbackModel> listCustomerFeedback;
+
+>>>>>>> 3d66fea852af62793da032a5bb2d96749f1214ab
     @NotNull
     @Size(max = 200)
     @Column(name = "keterangan", nullable = false)
@@ -163,5 +171,11 @@ public class TrainingModel implements Serializable {
         this.statusTraining = statusTraining;
     }
 
+    public List<CustomerFeedbackModel> getListCustomerFeedback() {
+        return listCustomerFeedback;
+    }
 
+    public void setListCustomerFeedback(List<CustomerFeedbackModel> listCustomerFeedback) {
+        this.listCustomerFeedback = listCustomerFeedback;
+    }
 }

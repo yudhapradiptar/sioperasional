@@ -23,7 +23,7 @@ public class PageController {
         model.addAttribute("allCustomerFeedback", listOfAllFeedback);
         List<Integer> listOfAllScore = new ArrayList<>();
         List<String> listOfAllCoach = new ArrayList<>();
-        for(int i=0; i<listOfAllFeedback.size();i++){
+        for (int i = 0; i < listOfAllFeedback.size(); i++) {
             listOfAllScore.add(listOfAllFeedback.get(i).getScore());
             listOfAllCoach.add(listOfAllFeedback.get(i).getPelatih());
         }
