@@ -111,7 +111,7 @@ public class DeliveryOrderController {
 			itemModel2.setDeliveryOrder(deliveryOrderModel);
 		}
 
-        UserModel user = userService.getUserByUsername("prodOpsSpec");
+        UserModel user = userService.getUserCurrentLoggedIn();
         deliveryOrderModel.setCreator(user);
 
         deliveryOrderService.addDeliveryOrder(deliveryOrderModel);
@@ -215,7 +215,7 @@ public class DeliveryOrderController {
 
         model.addAttribute("deliveryOrder", newDeliveryOrderModel);
         model.addAttribute("listItem", listItem);
-        return "list-delivery-order";
+        return "update-delivery-oder";
     }
 
     @RequestMapping(value="/add", method = RequestMethod.POST, params= {"addRow"})
