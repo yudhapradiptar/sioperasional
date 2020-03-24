@@ -6,13 +6,23 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import sistem.operasional.sioperasional.model.DeliveryOrderModel;
+import sistem.operasional.sioperasional.service.DeliveryOrderService;
 import sistem.operasional.sioperasional.service.RoleService;
+
+import java.util.List;
 
 @Controller
 public class PageController {
+    @Autowired
+    DeliveryOrderService deliveryOrderService;
 
     @RequestMapping("/")
     public String home (Model model, Authentication auth) {
+        List<DeliveryOrderModel> listDeliveryOrder = deliveryOrderService.getDeliveryOrderList();
+
+        model.addAttribute("listDeliveryOrder", listDeliveryOrder);
         return "home";
     }
 
@@ -21,5 +31,20 @@ public class PageController {
         return "login";
     }
 
+    @RequestMapping("/blank-page/")
+    public String blankPage (Model model) {
+        List<DeliveryOrderModel> listDeliveryOrder = deliveryOrderService.getDeliveryOrderList();
+
+        model.addAttribute("listDeliveryOrder", listDeliveryOrder);
+        return "blank-page";
+    }
+
+    @RequestMapping("/template/")
+    public String template (Model model) {
+        List<DeliveryOrderModel> listDeliveryOrder = deliveryOrderService.getDeliveryOrderList();
+
+        model.addAttribute("listDeliveryOrder", listDeliveryOrder);
+        return "template";
+    }
 
 }
