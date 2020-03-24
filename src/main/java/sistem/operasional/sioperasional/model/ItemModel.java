@@ -35,12 +35,12 @@ public class ItemModel implements Serializable {
     private MerekItemModel merekItem;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "nomorPurchaseOrder", referencedColumnName = "nomorPurchaseOrder", nullable = false)
+    @JoinColumn(name = "nomorPurchaseOrder", referencedColumnName = "nomorPurchaseOrder", nullable = true)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private PurchaseOrderModel purchaseOrder;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "nomorDeliveryOrder", referencedColumnName = "nomorDeliveryOrder", nullable = true)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonBackReference
@@ -140,7 +140,7 @@ public class ItemModel implements Serializable {
         this.tanggalRefund = tanggalRefund;
     }
 
-    public boolean isRusak() {
+    public boolean getRusak() {
         return isRusak;
     }
 

@@ -1,20 +1,37 @@
 package sistem.operasional.sioperasional.service;
 
-import sistem.operasional.sioperasional.model.DeliveryOrderModel;
-import sistem.operasional.sioperasional.model.ItemModel;
-
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-
+import sistem.operasional.sioperasional.model.ItemModel;
+import sistem.operasional.sioperasional.model.KategoriItemModel;
+import sistem.operasional.sioperasional.model.MerekItemModel;
+import sistem.operasional.sioperasional.model.PurchaseOrderModel;
 import sistem.operasional.sioperasional.repository.ItemDB;
 
+import javax.transaction.Transactional;
+import java.util.List;
+
 @Service
-public class ItemServiceImpl implements ItemService {
+@Transactional
+public class ItemServiceImpl implements ItemService{
 
     @Autowired
-    private ItemDB itemDB;
+    ItemDB itemDB;
+
+    @Qualifier("itemServiceImpl")
+    @Autowired
+    ItemService itemService;
+
+    @Override
+    public List<ItemModel> getItemByPurchaseOrder (PurchaseOrderModel purchaseOrder){
+        return itemDB.findAllByPurchaseOrder(purchaseOrder);
+    }
+
+    @Override
+    public void createItem(ItemModel itemModel) {
+        itemDB.save(itemModel);
+    }
 
     @Override
     public List<ItemModel> getItemList() {
@@ -25,5 +42,17 @@ public class ItemServiceImpl implements ItemService {
     public List<ItemModel> geItemListByTanggalKeluarNull() {
         return itemDB.findItemByTanggalKeluar(null);
     }
+
+    @Override
+    public List<ItemModel> getItemListByKategoriItem(KategoriItemModel kategoriItemModel){
+        return itemDB.findItemModelByKategoriItem(kategoriItemModel);
+    }
+
+    @Override
+    public List<ItemModel> getItemListByMerekItem(MerekItemModel merekItemModel){
+        return itemDB.findItemModelByMerekItem(merekItemModel);
+    }
+
+
 
 }

@@ -69,31 +69,31 @@ public class UserModel implements Serializable {
     @JsonIgnore
     private List<TrainingModel> listTrainingTrained;
 
-    public void setListDeliveryOrder(List<DeliveryOrderModel> listDeliveryOrder) {
+    public void setListDeliveryOrder(final List<DeliveryOrderModel> listDeliveryOrder) {
         this.listDeliveryOrder = listDeliveryOrder;
     }
 
-    public void setListPurchaseOrder(List<PurchaseOrderModel> listPurchaseOrder) {
+    public void setListPurchaseOrder(final List<PurchaseOrderModel> listPurchaseOrder) {
         this.listPurchaseOrder = listPurchaseOrder;
     }
 
-    public void setListTrainingCreated(List<TrainingModel> listTrainingCreated) {
+    public void setListTrainingCreated(final List<TrainingModel> listTrainingCreated) {
         this.listTrainingCreated = listTrainingCreated;
     }
-    
-    public void setListTrainingTrained(List<TrainingModel> listTrainingTrained) {
+
+    public void setListTrainingTrained(final List<TrainingModel> listTrainingTrained) {
         this.listTrainingTrained = listTrainingTrained;
     }
 
-    public void setPassword(String password) {
+    public void setPassword(final String password) {
         this.password = password;
     }
 
-    public void setRole(RoleModel role) {
+    public void setRole(final RoleModel role) {
         this.role = role;
     }
 
-    public void setUsername(String username) {
+    public void setUsername(final String username) {
         this.username = username;
     }
 
@@ -129,16 +129,15 @@ public class UserModel implements Serializable {
         return this.nama;
     }
 
-    public void setNama(String nama) {
+    public void setNama(final String nama) {
         this.nama = nama;
     }
 
-    
     public String getKode() {
         return this.kode;
     }
 
-    public void setKode(String kode) {
+    public void setKode(final String kode) {
         this.kode = kode;
     }
 }
