@@ -51,17 +51,16 @@
             <div class="container-fluid">
                 <div class="card shadow mb-4 text-center">
                     <div class="card-header py-3">
-                        <h3 class="m-0 font-weight-bold">Gagal!</h3>
+                        <h3 class="m-0 font-weight-bold">Berhasil!</h3>
                     </div>
                     <br>
                     <div class="card-body">
-                        <p th:text="'Sudah ada Kategori dengan nama ' + ${kategori.namaKategoriItem}"></p>
+                        <p th:text="'Kategori ' + ${kategori.namaKategoriItem} + ' berhasil dihapus'"></p>
                     </div>
                 </div>
             </div>
             <div class="container-fluid">
                 <a th:href="@{/hardware-fulfillment/kategori/all}" class="btn btn-info btn-block">Lihat Semua Kategori</a>
-                <a th:href="@{/hardware-fulfillment/kategori/create}" class="btn btn-warning btn-block">Kembali</a>
             </div>
 
         </div>

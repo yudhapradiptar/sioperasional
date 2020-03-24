@@ -58,11 +58,13 @@ public class KategoriItemController {
 
     @RequestMapping(value = "/hardware-fulfillment/kategori/delete")
     public String deleteKategoriItem(@RequestParam("idKategoriItem") Long idKategoriItem, Model model){
+        KategoriItemModel deletedKategori = kategoriItemService.getKategoriItemByIdKategoriItem(idKategoriItem);
+        model.addAttribute("kategori", deletedKategori);
         List<ItemModel> listItemKategori = itemService.getItemListByKategoriItem(kategoriItemService.getKategoriItemByIdKategoriItem(idKategoriItem));
         if(listItemKategori.size()!=0){
             return "fail-delete-kategori";
         }
-        kategoriItemService.deleteKategoriItem(kategoriItemService.getKategoriItemByIdKategoriItem(idKategoriItem));
+        kategoriItemService.deleteKategoriItem(deletedKategori);
         return "success-delete-kategori";
     }
 }

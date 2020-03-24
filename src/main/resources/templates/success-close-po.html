@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Kategori</title>
+    <title>Close Purchase Order</title>
 
     <!-- Custom fonts for this template-->
     <link rel="stylesheet" th:href="@{/vendor/fontawesome-free/css/all.min.css}" type="text/css">
@@ -51,17 +51,26 @@
             <div class="container-fluid">
                 <div class="card shadow mb-4 text-center">
                     <div class="card-header py-3">
-                        <h3 class="m-0 font-weight-bold">Gagal!</h3>
+                        <h3 class="m-0 font-weight-bold">Berhasil!</h3>
                     </div>
                     <br>
                     <div class="card-body">
-                        <p th:text="'Sudah ada Kategori dengan nama ' + ${kategori.namaKategoriItem}"></p>
+                        <p th:text="'Purchase Order dengan nomor ' + ${purchaseOrder.nomorPurchaseOrder} + ' berhasil ditutup'"></p>
+                        <p th:text="'Item ditambahkan: '"></p>
+                        <tbody th:each="item, iterationStatus : ${listItem}">
+                        <tr>
+                            <th scope="row" th:text="${iterationStatus.count}"></th>
+                            <td th:text="${item.merekItem.namaMerekItem}"></td>
+                            <td th:text="${item.kategoriItem.namaKategoriItem}"></td>
+                            <td th:text="${item.statusItem.namaStatusItem}"></td>
+                        </tr>
+                        </tbody>
                     </div>
                 </div>
             </div>
             <div class="container-fluid">
-                <a th:href="@{/hardware-fulfillment/kategori/all}" class="btn btn-info btn-block">Lihat Semua Kategori</a>
-                <a th:href="@{/hardware-fulfillment/kategori/create}" class="btn btn-warning btn-block">Kembali</a>
+                <a th:href="@{/delivery-order/detail/} + ${deliveryOrder.nomorDeliveryOrder}" class="btn btn-info btn-block">Lihat Detail</a>
+                <a th:href="@{/delivery-order/}" class="btn btn-warning btn-block">Kembali</a>
             </div>
 
         </div>

@@ -38,7 +38,8 @@ public class ItemController {
 
     @RequestMapping(path = "/view/{nomorPurchaseOrder}/close", method = RequestMethod.POST)
     public String addItemFromPO(@PathVariable String nomorPurchaseOrder, @ModelAttribute ItemModel item, @ModelAttribute ItemPOModel itemPO, Model model){
-        List<ItemPOModel> listOfItemPOByPurchaseOrder = itemPOService.getItemPObyPurchaseOrder(purchaseOrderService.getPurchaseOrderByNomorPurchaseOrder(nomorPurchaseOrder));
+        PurchaseOrderModel purchaseOrder = purchaseOrderService.getPurchaseOrderByNomorPurchaseOrder(nomorPurchaseOrder);
+        List<ItemPOModel> listOfItemPOByPurchaseOrder = itemPOService.getItemPObyPurchaseOrder(purchaseOrder);
         for(int i=0; i<listOfItemPOByPurchaseOrder.size();i++){
             ItemPOModel itemPOCreated = listOfItemPOByPurchaseOrder.get(i);
             for(int j=0; j<itemPOCreated.getJumlahItem(); j++){
@@ -52,7 +53,9 @@ public class ItemController {
                 itemService.createItem(itemModel);
             }
         }
-        return "viewAllItem";
+        model.addAttribute("purchaseOrder", purchaseOrder);
+        model.addAttribute("listItem", purchaseOrder.getListitem());
+        return "success-close-po";
     }
 
     @RequestMapping(value = "/hardware-fulfillment/item/create", method = RequestMethod.GET)
@@ -74,7 +77,11 @@ public class ItemController {
         try {
             item.setRusak(false);
             itemService.createItem(item);
-            return "viewAllItem";
+
+            model.addAttribute("kategoriItem", item.getKategoriItem().getNamaKategoriItem());
+            model.addAttribute("merekItem", item.getMerekItem().getNamaMerekItem());
+            model.addAttribute("idItem", item.getIdItem());
+            return "success-create-item";
         } catch (NullPointerException e) {
             return "form-create-item";
         }
@@ -84,7 +91,7 @@ public class ItemController {
     public String viewAllItem(Model model){
         List<ItemModel> listAllItem = itemService.getItemList();
         model.addAttribute("listAllItem", listAllItem);
-        return "viewAllItem";
+        return "list-item";
     }
 
 

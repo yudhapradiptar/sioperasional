@@ -43,7 +43,7 @@ public class MerekItemController {
                 }
             }
             merekItemService.createMerekItem(merekItem);
-            model.addAttribute("kategori",merekItem);
+            model.addAttribute("merek",merekItem);
             return "success-create-merek";
         } catch (NullPointerException e) {
             return "form-create-merek";
@@ -59,11 +59,13 @@ public class MerekItemController {
 
     @RequestMapping(value = "/hardware-fulfillment/merek/delete")
     public String deleteMerekItem(@RequestParam("idMerekItem") Long idMerekItem, Model model){
+        MerekItemModel deletedMerek = merekItemService.getMerekItemByIdMerekItem(idMerekItem);
+        model.addAttribute("merek", deletedMerek);
         List<ItemModel> listItemKategori = itemService.getItemListByMerekItem(merekItemService.getMerekItemByIdMerekItem(idMerekItem));
         if(listItemKategori.size()!=0){
             return "fail-delete-merek";
         }
-        merekItemService.deleteMerekItem(merekItemService.getMerekItemByIdMerekItem(idMerekItem));
+        merekItemService.deleteMerekItem(deletedMerek);
         return "success-delete-merek";
     }
 
