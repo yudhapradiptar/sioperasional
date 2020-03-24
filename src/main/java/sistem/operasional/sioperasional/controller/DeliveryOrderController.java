@@ -158,8 +158,6 @@ public class DeliveryOrderController {
     @RequestMapping(value = "/update/{nomor}", method = RequestMethod.GET)
     public String updateFormPage(@PathVariable String nomor, Model model) {
         DeliveryOrderModel deliveryOrderModel = deliveryOrderService.getDeliveryOrderByNomorDeliveryOrder(nomor);
-        
-        List<ItemModel> itemModels = deliveryOrderModel.getListItem();
 
         ArrayList<ItemModel> listItemModels = new ArrayList<ItemModel>();
         listItemModels.add(new ItemModel());
