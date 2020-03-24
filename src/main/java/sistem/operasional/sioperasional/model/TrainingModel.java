@@ -168,5 +168,11 @@ public class TrainingModel implements Serializable {
         this.statusTraining = statusTraining;
     }
 
+    public List<CustomerFeedbackModel> getListCustomerFeedback() {
+        return listCustomerFeedback;
+    }
 
+    public void setListCustomerFeedback(List<CustomerFeedbackModel> listCustomerFeedback) {
+        this.listCustomerFeedback = listCustomerFeedback;
+    }
 }
