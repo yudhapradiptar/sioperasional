@@ -63,15 +63,30 @@ function drawLineChart() {
   }
 }
 
-function drawBarChart(listOfAllScore, listOfAllCoach) {
+function drawBarChart(listOfAllScore, listAllTrainer) {
   let data = [];
   let labels = [];
-  console.log(listOfAllScore);
+  console.log(listAllNilaiKerapihan);
   // data.push(score);
   // labels.push(coach);
-  for (var i = 0; i < listOfAllScore.length; i++) {
-    data.push(listOfAllScore.slice(i,i+1));
-    labels.push(listOfAllCoach.slice(i,i+1));
+  for (var i = 0; i < listAllNilaiKerapihan.length; i++) {
+    data.push(listAllNilaiKerapihan.slice(i,i+1));
+    labels.push(listAllTrainer.slice(i,i+1));
+  }
+
+  function random_rgba() {
+    var o = Math.round, r = Math.random, s = 255;
+    return 'rgba(' + o(r()*s) + ',' + o(r()*s) + ',' + o(r()*s) + ',' + r().toFixed(1) + ')';
+  }
+
+  var color = random_rgba();
+
+  let backgroundColor = [];
+  let borderColor = [];
+
+  for(var i = 0; i < listAllTrainer.length; i++){
+    backgroundColor.push(color);
+    borderColor.push(color);
   }
   if ($("#barChart").length) {
     ctxBar = document.getElementById("barChart").getContext("2d");
@@ -85,7 +100,7 @@ function drawBarChart(listOfAllScore, listOfAllCoach) {
             },
             scaleLabel: {
               display: true,
-              labelString: "Feedback Score"
+              labelString: "Nilai Kerapihan"
             }
           }
         ]
@@ -100,28 +115,10 @@ function drawBarChart(listOfAllScore, listOfAllCoach) {
         labels,
         datasets: [
           {
-            label: "# of Hits",
-            // data:[];
-            // for (i = 0; i < 5; i++) {
-            //   data.push(2*i+5);
-            // }
+            label: "Nilai Kerapihan",
             data,
-            backgroundColor: [
-              "rgba(255, 99, 132, 0.2)",
-              "rgba(54, 162, 235, 0.2)",
-              "rgba(255, 206, 86, 0.2)",
-              "rgba(75, 192, 192, 0.2)",
-              "rgba(153, 102, 255, 0.2)",
-              "rgba(255, 159, 64, 0.2)"
-            ],
-            borderColor: [
-              "rgba(255,99,132,1)",
-              "rgba(54, 162, 235, 1)",
-              "rgba(255, 206, 86, 1)",
-              "rgba(75, 192, 192, 1)",
-              "rgba(153, 102, 255, 1)",
-              "rgba(255, 159, 64, 1)"
-            ],
+            backgroundColor,
+            borderColor,
             borderWidth: 1
           }
         ]

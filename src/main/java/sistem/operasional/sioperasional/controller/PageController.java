@@ -34,20 +34,26 @@ public class PageController {
         List<UserModel> listAllUser = userService.getAllUser();
         List<String> listAllTrainer = new ArrayList<>();
         List<Integer> listAllNilaiKerapihan = new ArrayList<>();
-        int rataNilaiKerapihan = 0;
         for(UserModel trainer: listAllUser){
             if(trainer.getListTrainingTrained()!=null){
+                int rataNilaiKerapihan = 0;
+                int countRata = 0;
                 listAllTrainer.add(trainer.getNama());
                 for(TrainingModel training : trainer.getListTrainingTrained()){
                     if(training.getListCustomerFeedback()!=null){
                         for(CustomerFeedbackModel customerFeedback : training.getListCustomerFeedback()){
                             rataNilaiKerapihan+=customerFeedback.getNilaiKerapihan();
+                            countRata++;
                         }
                     }
                 }
+                if(countRata>0){
+                    listAllNilaiKerapihan.add(rataNilaiKerapihan/countRata);
+                }
             }
-
         }
+        model.addAttribute("listAllTrainer", listAllTrainer);
+        model.addAttribute("listAllNilaiKerapihan", listAllNilaiKerapihan);
 //        List<Integer> listOfAllScore = new ArrayList<>();
 //        List<String> listOfAllCoach = new ArrayList<>();
 //        for (int i = 0; i < listOfAllFeedback.size(); i++) {
