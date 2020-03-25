@@ -6,8 +6,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import sistem.operasional.sioperasional.model.CustomerFeedbackModel;
+import sistem.operasional.sioperasional.model.TrainingModel;
+import sistem.operasional.sioperasional.model.UserModel;
 import sistem.operasional.sioperasional.service.CustomerFeedbackService;
 import sistem.operasional.sioperasional.service.RoleService;
+import sistem.operasional.sioperasional.service.TrainingService;
+import sistem.operasional.sioperasional.service.UserService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,18 +21,41 @@ public class PageController {
     @Autowired
     CustomerFeedbackService customerFeedbackService;
 
+    @Autowired
+    TrainingService trainingService;
+
+    @Autowired
+    UserService userService;
+
     @RequestMapping("/")
     public String home (Model model, Authentication auth) {
         List<CustomerFeedbackModel> listOfAllFeedback = customerFeedbackService.getAllCustomerFeedback();
         model.addAttribute("allCustomerFeedback", listOfAllFeedback);
-        List<Integer> listOfAllScore = new ArrayList<>();
-        List<String> listOfAllCoach = new ArrayList<>();
-        for (int i = 0; i < listOfAllFeedback.size(); i++) {
-            listOfAllScore.add(listOfAllFeedback.get(i).getScore());
-            listOfAllCoach.add(listOfAllFeedback.get(i).getPelatih());
+        List<UserModel> listAllUser = userService.getAllUser();
+        List<String> listAllTrainer = new ArrayList<>();
+        List<Integer> listAllNilaiKerapihan = new ArrayList<>();
+        int rataNilaiKerapihan = 0;
+        for(UserModel trainer: listAllUser){
+            if(trainer.getListTrainingTrained()!=null){
+                listAllTrainer.add(trainer.getNama());
+                for(TrainingModel training : trainer.getListTrainingTrained()){
+                    if(training.getListCustomerFeedback()!=null){
+                        for(CustomerFeedbackModel customerFeedback : training.getListCustomerFeedback()){
+                            rataNilaiKerapihan+=customerFeedback.getNilaiKerapihan();
+                        }
+                    }
+                }
+            }
+
         }
-        model.addAttribute("listOfAllScore", listOfAllScore);
-        model.addAttribute("listOfAllCoach", listOfAllCoach);
+//        List<Integer> listOfAllScore = new ArrayList<>();
+//        List<String> listOfAllCoach = new ArrayList<>();
+//        for (int i = 0; i < listOfAllFeedback.size(); i++) {
+//            listOfAllScore.add(listOfAllFeedback.get(i).getScore());
+//            listOfAllCoach.add(listOfAllFeedback.get(i).getPelatih());
+//        }
+//        model.addAttribute("listOfAllScore", listOfAllScore);
+//        model.addAttribute("listOfAllCoach", listOfAllCoach);
         return "index";
     }
 

@@ -1,4 +1,9 @@
 package sistem.operasional.sioperasional.repository;
 
-public interface UserDB {
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+import sistem.operasional.sioperasional.model.UserModel;
+
+@Repository
+public interface UserDB extends JpaRepository<UserModel, String> {
 }
