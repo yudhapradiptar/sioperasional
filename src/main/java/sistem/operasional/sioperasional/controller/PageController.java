@@ -62,7 +62,7 @@ public class PageController {
 //        }
 //        model.addAttribute("listOfAllScore", listOfAllScore);
 //        model.addAttribute("listOfAllCoach", listOfAllCoach);
-        return "index";
+        return "dashboard";
     }
 
     @RequestMapping("/login")
