@@ -20,4 +20,6 @@ public interface ItemService {
     List<ItemModel> getItemListByKategoriItem(KategoriItemModel kategoriItemModel);
 
     List<ItemModel> getItemListByMerekItem(MerekItemModel merekItemModel);
+
+    List<ItemModel> getItemListByNomorDeliveryOrder(String nomorDeliveryOrder);
 }

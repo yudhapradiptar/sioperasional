@@ -1,25 +1,4 @@
 package sistem.operasional.sioperasional.service;
-
-<<<<<<< HEAD
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import sistem.operasional.sioperasional.model.UserModel;
-import sistem.operasional.sioperasional.repository.UserDB;
-
-import javax.transaction.Transactional;
-import java.util.List;
-
-@Service
-@Transactional
-public class UserServiceImpl implements  UserService{
-    @Autowired
-    UserDB userDB;
-
-    @Override
-    public List<UserModel> getAllUser(){
-        return userDB.findAll();
-    }
-=======
 import sistem.operasional.sioperasional.model.UserModel;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,24 +12,33 @@ import sistem.operasional.sioperasional.model.UserModel;
 import java.util.List;
 import java.util.regex.Pattern;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import sistem.operasional.sioperasional.service.UserService;
+
+import javax.transaction.Transactional;
 
 @Service
-public class UserServiceImpl implements UserService{
+@Transactional
+public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserDB userDB;
 
     @Override
     public UserModel getUserCurrentLoggedIn() {
-            Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            String username = "";
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = "";
 
-            if (principal instanceof UserDetails) { 
-                username = ((UserDetails)principal).getUsername();
-            } else {
-                username = principal.toString();
-            }
+        if (principal instanceof UserDetails) {
+            username = ((UserDetails)principal).getUsername();
+        } else {
+            username = principal.toString();
+        }
         return userDB.findByUsername(username);
+    }
+
+    @Override
+    public List<UserModel> getAllUser(){
+        return userDB.findAll();
     }
 
     @Override
@@ -114,7 +102,4 @@ public class UserServiceImpl implements UserService{
         return hasil;
     }
 
-
-
->>>>>>> 67ab91a0ed6ff97ea6de62120c15fb2aee2be801
 }

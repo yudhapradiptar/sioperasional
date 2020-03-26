@@ -53,6 +53,11 @@ public class ItemServiceImpl implements ItemService{
         return itemDB.findItemModelByMerekItem(merekItemModel);
     }
 
+    @Override
+    public List<ItemModel> getItemListByNomorDeliveryOrder(String nomorDeliveryOrder) {
+        return itemDB.findItemByDeliveryOrder(nomorDeliveryOrder, null);
+    }
+
 
 
 }

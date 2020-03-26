@@ -22,11 +22,6 @@ public class UserModel implements Serializable {
     @Column(name="username")
     private String username;
 
-<<<<<<< HEAD
-
-=======
-   
->>>>>>> 67ab91a0ed6ff97ea6de62120c15fb2aee2be801
     @NotNull
     @Lob
     @Type(type = "org.hibernate.type.TextType")
@@ -144,8 +139,5 @@ public class UserModel implements Serializable {
     public void setKode(final String kode) {
         this.kode = kode;
     }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 67ab91a0ed6ff97ea6de62120c15fb2aee2be801
+
