@@ -26,7 +26,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService{
     }
 
     @Override
-    public PurchaseOrderModel save(PurchaseOrderModel purchaseOrderModel) {
+    public PurchaseOrderModel addPurchaseOrder(PurchaseOrderModel purchaseOrderModel) {
         return purchaseOrderDB.save(purchaseOrderModel);
     }
 

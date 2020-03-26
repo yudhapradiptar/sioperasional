@@ -48,7 +48,7 @@ public class PurchaseOrderModel implements Serializable {
     private Date tanggalBayar;
 
     @NotNull
-    @DateTimeFormat(pattern = "dd-MM-yyyy")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "tanggalOpen", nullable = false)
     private Date tanggalOpen;
 
@@ -57,13 +57,14 @@ public class PurchaseOrderModel implements Serializable {
     private Date tanggalClose;
 
     @NotNull
-    @Column(name = "isDisetujui", nullable = false)
+    @Column(name = "isDisetujui", nullable = true)
     private boolean isDisetujui;
 
-    @NotNull
-    @Size(max = 200)
-    @Column(name = "statusPO", nullable = false)
-    private String statusPO;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "statusPO", referencedColumnName = "idStatusItem", nullable = false, columnDefinition = "bigint default 1")
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    private StatusItemModel statusPO;
 
     public String getNomorPurchaseOrder() {
         return nomorPurchaseOrder;
@@ -137,11 +138,11 @@ public class PurchaseOrderModel implements Serializable {
         isDisetujui = disetujui;
     }
 
-    public String getStatusPO() {
+    public StatusItemModel getStatusPO() {
         return statusPO;
     }
 
-    public void setStatusPO(String statusPO) {
+    public void setStatusPO(StatusItemModel statusPO) {
         this.statusPO = statusPO;
     }
 

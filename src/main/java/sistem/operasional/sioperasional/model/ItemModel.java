@@ -64,7 +64,7 @@ public class ItemModel implements Serializable {
     private boolean isRusak;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "idStatusItem", referencedColumnName = "idStatusItem", nullable = false)
+    @JoinColumn(name = "statusItem", referencedColumnName = "idStatusItem", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private StatusItemModel statusItem;

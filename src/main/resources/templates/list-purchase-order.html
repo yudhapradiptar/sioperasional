@@ -95,6 +95,7 @@
                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                 <thead>
                                 <tr>
+                                    <th scope="col">Nomor</th>
                                     <th scope="col">No PO</th>
                                     <th scope="col">No Invoice</th>
                                     <th scope="col">Creator</th>
@@ -113,34 +114,34 @@
                                     <td th:text="${PO.nomorInvoice}"></td>
                                     <td th:text="${PO.creator.username}"></td>
                                     <td th:text="${PO.vendor.namaVendor}"></td>
-                                    <td th:text="${PO.tanggalOpen}"></td>
-                                    <td th:text="${PO.tanggalBayar}"></td>
-                                    <td th:text="${PO.tanggalClose}"></td>
-                                    <td th:text="${PO.statusPO}"></td>
+                                    <td th:text="${#dates.format(PO.tanggalOpen, 'dd MMMM, yyyy')}"></td>
+                                    <td th:text="${#dates.format(PO.tanggalBayar, 'dd MMMM, yyyy')}"></td>
+                                    <td th:text="${#dates.format(PO.tanggalClose, 'dd MMMM, yyyy')}"></td>
+                                    <td th:text="${PO.statusPO.namaStatusItem}"></td>
                                     <td th:text="${PO.disetujui}"></td>
-                                        <form
-                                                th:action="@{/delivery-order/detail/} + ${deliveryOrder.nomorDeliveryOrder}"
-                                                th:method="GET">
-                                            <button class="btn btn-info text-white"
-                                                    value="submit">detail</button>
-                                        </form>
-                                    </td>
-                                    <td>
-                                        <form
-                                                th:action="@{/delivery-order/update/} + ${deliveryOrder.nomorDeliveryOrder}"
-                                                th:method="GET">
-                                            <button class="btn btn-warning text-white"
-                                                    value="submit">update</button>
-                                        </form>
-                                    </td>
-                                    <td>
-                                        <form
-                                                th:action="@{/delivery-order/set-tanggal-subscribe/} + ${deliveryOrder.nomorDeliveryOrder}"
-                                                th:method="GET">
-                                            <button class="btn btn-success text-white" value="submit">set
-                                                tanggal</button>
-                                        </form>
-                                    </td>
+<!--                                        <form-->
+<!--                                                th:action="@{/delivery-order/detail/} + ${deliveryOrder.nomorDeliveryOrder}"-->
+<!--                                                th:method="GET">-->
+<!--                                            <button class="btn btn-info text-white"-->
+<!--                                                    value="submit">detail</button>-->
+<!--                                        </form>-->
+<!--                                    </td>-->
+<!--                                    <td>-->
+<!--                                        <form-->
+<!--                                                th:action="@{/delivery-order/update/} + ${deliveryOrder.nomorDeliveryOrder}"-->
+<!--                                                th:method="GET">-->
+<!--                                            <button class="btn btn-warning text-white"-->
+<!--                                                    value="submit">update</button>-->
+<!--                                        </form>-->
+<!--                                    </td>-->
+<!--                                    <td>-->
+<!--                                        <form-->
+<!--                                                th:action="@{/delivery-order/set-tanggal-subscribe/} + ${deliveryOrder.nomorDeliveryOrder}"-->
+<!--                                                th:method="GET">-->
+<!--                                            <button class="btn btn-success text-white" value="submit">set-->
+<!--                                                tanggal</button>-->
+<!--                                        </form>-->
+<!--                                    </td>-->
                                 </tr>
                                 </tbody>
 

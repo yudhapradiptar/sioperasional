@@ -10,6 +10,6 @@ public interface PurchaseOrderService {
 
     PurchaseOrderModel getPurchaseOrderByNomorPurchaseOrder(String nomorPurchaseOrder);
 
-    PurchaseOrderModel save(PurchaseOrderModel purchaseOrderModel);
+    PurchaseOrderModel addPurchaseOrder(PurchaseOrderModel purchaseOrderModel);
 }
 
