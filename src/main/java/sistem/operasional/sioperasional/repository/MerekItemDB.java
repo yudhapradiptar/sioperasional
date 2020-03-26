@@ -1,4 +1,9 @@
 package sistem.operasional.sioperasional.repository;
 
-public interface MerekItemDB {
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+import sistem.operasional.sioperasional.model.MerekItemModel;
+
+@Repository
+public interface MerekItemDB extends JpaRepository<MerekItemModel, Long> {
 }

@@ -5,10 +5,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+<<<<<<< HEAD
 import sistem.operasional.sioperasional.model.CustomerFeedbackModel;
 import sistem.operasional.sioperasional.model.TrainingModel;
 import sistem.operasional.sioperasional.model.UserModel;
 import sistem.operasional.sioperasional.service.CustomerFeedbackService;
+=======
+
+import sistem.operasional.sioperasional.model.DeliveryOrderModel;
+import sistem.operasional.sioperasional.service.DeliveryOrderService;
+>>>>>>> 67ab91a0ed6ff97ea6de62120c15fb2aee2be801
 import sistem.operasional.sioperasional.service.RoleService;
 import sistem.operasional.sioperasional.service.TrainingService;
 import sistem.operasional.sioperasional.service.UserService;
@@ -16,9 +22,12 @@ import sistem.operasional.sioperasional.service.UserService;
 import java.util.ArrayList;
 import java.util.List;
 
+import java.util.List;
+
 @Controller
 public class PageController {
     @Autowired
+<<<<<<< HEAD
     CustomerFeedbackService customerFeedbackService;
 
     @Autowired
@@ -63,6 +72,16 @@ public class PageController {
 //        model.addAttribute("listOfAllScore", listOfAllScore);
 //        model.addAttribute("listOfAllCoach", listOfAllCoach);
         return "dashboard";
+=======
+    DeliveryOrderService deliveryOrderService;
+
+    @RequestMapping("/")
+    public String home (Model model, Authentication auth) {
+        List<DeliveryOrderModel> listDeliveryOrder = deliveryOrderService.getDeliveryOrderList();
+
+        model.addAttribute("listDeliveryOrder", listDeliveryOrder);
+        return "home";
+>>>>>>> 67ab91a0ed6ff97ea6de62120c15fb2aee2be801
     }
 
     @RequestMapping("/login")
@@ -70,5 +89,20 @@ public class PageController {
         return "login";
     }
 
+    @RequestMapping("/blank-page/")
+    public String blankPage (Model model) {
+        List<DeliveryOrderModel> listDeliveryOrder = deliveryOrderService.getDeliveryOrderList();
+
+        model.addAttribute("listDeliveryOrder", listDeliveryOrder);
+        return "blank-page";
+    }
+
+    @RequestMapping("/template/")
+    public String template (Model model) {
+        List<DeliveryOrderModel> listDeliveryOrder = deliveryOrderService.getDeliveryOrderList();
+
+        model.addAttribute("listDeliveryOrder", listDeliveryOrder);
+        return "template";
+    }
 
 }

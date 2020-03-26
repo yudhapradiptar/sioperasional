@@ -9,12 +9,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import sistem.operasional.sioperasional.model.ItemModel;
-import sistem.operasional.sioperasional.model.ItemPOModel;
-import sistem.operasional.sioperasional.service.ItemPOService;
-import sistem.operasional.sioperasional.service.ItemService;
-import sistem.operasional.sioperasional.service.PurchaseOrderService;
-import sistem.operasional.sioperasional.service.StatusItemService;
+import sistem.operasional.sioperasional.model.*;
+import sistem.operasional.sioperasional.repository.StatusItemDB;
+import sistem.operasional.sioperasional.service.*;
 
 import java.util.Date;
 import java.util.List;
@@ -33,9 +30,16 @@ public class ItemController {
     @Autowired
     StatusItemService statusItemService;
 
+    @Autowired
+    KategoriItemService kategoriItemService;
+
+    @Autowired
+    MerekItemService merekItemService;
+
     @RequestMapping(path = "/view/{nomorPurchaseOrder}/close", method = RequestMethod.POST)
     public String addItemFromPO(@PathVariable String nomorPurchaseOrder, @ModelAttribute ItemModel item, @ModelAttribute ItemPOModel itemPO, Model model){
-        List<ItemPOModel> listOfItemPOByPurchaseOrder = itemPOService.getItemPObyPurchaseOrder(purchaseOrderService.getPurchaseOrderByNomorPurchaseOrder(nomorPurchaseOrder));
+        PurchaseOrderModel purchaseOrder = purchaseOrderService.getPurchaseOrderByNomorPurchaseOrder(nomorPurchaseOrder);
+        List<ItemPOModel> listOfItemPOByPurchaseOrder = itemPOService.getItemPObyPurchaseOrder(purchaseOrder);
         for(int i=0; i<listOfItemPOByPurchaseOrder.size();i++){
             ItemPOModel itemPOCreated = listOfItemPOByPurchaseOrder.get(i);
             for(int j=0; j<itemPOCreated.getJumlahItem(); j++){
@@ -49,13 +53,21 @@ public class ItemController {
                 itemService.createItem(itemModel);
             }
         }
-        return "viewAllItem";
+        model.addAttribute("purchaseOrder", purchaseOrder);
+        model.addAttribute("listItem", purchaseOrder.getListitem());
+        return "success-close-po";
     }
 
     @RequestMapping(value = "/hardware-fulfillment/item/create", method = RequestMethod.GET)
     public String createItemFormPage(Model model) {
         ItemModel newItem = new ItemModel();
+        List<KategoriItemModel> listKategori = kategoriItemService.getKategoriItemList();
+        List<MerekItemModel> listMerek = merekItemService.getMerekItemList();
+        List<StatusItemModel> listStatus = statusItemService.getListStatusItem();
         model.addAttribute("item", newItem);
+        model.addAttribute("listKategori", listKategori);
+        model.addAttribute("listMerek", listMerek);
+        model.addAttribute("listStatus", listStatus);
 
         return "form-create-item";
     }
@@ -63,12 +75,26 @@ public class ItemController {
     @RequestMapping(value = "/hardware-fulfillment/item", method = RequestMethod.POST)
     public String createItemSubmit(@ModelAttribute ItemModel item, Model model) {
         try {
+            item.setRusak(false);
             itemService.createItem(item);
-            return "viewAllItem";
+
+            model.addAttribute("kategoriItem", item.getKategoriItem().getNamaKategoriItem());
+            model.addAttribute("merekItem", item.getMerekItem().getNamaMerekItem());
+            model.addAttribute("idItem", item.getIdItem());
+            return "success-create-item";
         } catch (NullPointerException e) {
-            return "formCreateItem";
+            return "form-create-item";
         }
     }
+
+    @RequestMapping(value = "/hardware-fulfillment/item/all", method = RequestMethod.GET)
+    public String viewAllItem(Model model){
+        List<ItemModel> listAllItem = itemService.getItemList();
+        model.addAttribute("listAllItem", listAllItem);
+        return "list-item";
+    }
+
+
 
 
 }
