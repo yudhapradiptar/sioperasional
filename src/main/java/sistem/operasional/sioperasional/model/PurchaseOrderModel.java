@@ -138,6 +138,7 @@ public class PurchaseOrderModel implements Serializable {
         isDisetujui = disetujui;
     }
 
+
     public StatusItemModel getStatusPO() {
         return statusPO;
     }

@@ -105,6 +105,7 @@
                                     <th scope="col">Tanggal Close</th>
                                     <th scope="col">Status</th>
                                     <th scope="col">Disetujui</th>
+                                    <th scope="col">Action</th>
                                 </tr>
                                 </thead>
                                 <tbody th:each="PO, iterationStatus : ${listPO}">
@@ -119,9 +120,17 @@
                                     <td th:text="${#dates.format(PO.tanggalClose, 'dd MMMM, yyyy')}"></td>
                                     <td th:text="${PO.statusPO.namaStatusItem}"></td>
                                     <td th:text="${PO.disetujui}"></td>
+                                    <td>
+                                        <form th:action="@{/purchase-order/approve/{nomorPurchaseOrder}(nomorPurchaseOrder=${PO.nomorPurchaseOrder})}" th:object="${PO}"
+                                        th:method="POST">
+<!--                                        <form th:action="@{/purchase-order/approve}" th:object="${PO}" th:method="POST">-->
+                                        <button class="btn btn-info text-white"
+                                                value="submit">Setujui</button>
+                                        </form>
+                                    </td>
 <!--                                        <form-->
-<!--                                                th:action="@{/delivery-order/detail/} + ${deliveryOrder.nomorDeliveryOrder}"-->
-<!--                                                th:method="GET">-->
+<!--                                                th:action="@{purchase-order/update/}" th:object="${purchaseOrder}"-->
+<!--                                                th:method="POST">-->
 <!--                                            <button class="btn btn-info text-white"-->
 <!--                                                    value="submit">detail</button>-->
 <!--                                        </form>-->
