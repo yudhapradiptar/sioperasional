@@ -42,15 +42,14 @@
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
     <script th:inline="javascript">
         /*<![CDATA[*/
-        let listBulan = /*[[${listBulan}]]*/ 'TestBulan';
-        let listTahun = /*[[${listTahun}]]*/ 'TestTahun';
+        let listTrainer = /*[[${listTrainer}]]*/ 'TestTrainer';
         let listJumlahTraining = /*[[${listJumlahTraining}]]*/ 'TestJumlahTraining';
         /*]]>*/
     </script>
-    <script th:inline="javascript" src="/js/training-line-chart.js"></script>
+    <script th:inline="javascript" src="/js/trainer-pie-chart.js"></script>
     <script th:inline="javascript">
         window.onload = function () {
-            $("#chartTraining").CanvasJSChart(training);
+            $("#pieChartTrainer").CanvasJSChart(trainer);
         }
     </script>
 </head>
@@ -138,7 +137,7 @@
             </div>
             <!-- /.container-fluid -->
             <div class="container-fluid">
-                <div id="chartTraining" style="height: 370px; width: 100%;"></div>
+                <div id="pieChartTrainer" style="height: 370px; width: 100%;"></div>
                 <script type="text/javascript" src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
                 <script type="text/javascript" src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
             </div>

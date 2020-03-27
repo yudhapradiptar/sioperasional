@@ -45,31 +45,9 @@
         let listTrainer = /*[[${listTrainer}]]*/ 'TestTrainer';
         let listNilai = /*[[${listNilai}]]*/ 'TestNilai';
         /*]]>*/
-        console.log("masuk script var")
     </script>
-    <script src="js/feedback-bar-chart.js" th:inline="javascript"></script>
+    <script th:inline="javascript" src="/js/feedback-bar-chart.js"></script>
     <script th:inline="javascript">
-        let dataPoints= [];
-
-        console.log("masuk script js file");
-        for (var i = 0; i < listNilai.length; i++) {
-            console.log(listNilai[i]);
-            dataPoints.push({label:listTrainer[i], y:listNilai[i]})
-        }
-
-        var nilai = {
-            title: {
-                text: "Nilai Feedback Customer"
-            },
-            data: [
-                {
-                    // Change type to "doughnut", "line", "splineArea", etc.
-                    type: "column",
-                    dataPoints
-                }
-            ]
-        };
-        console.log("masuk script call function di html")
         window.onload = function () {
             $("#chartNilai").CanvasJSChart(nilai);
         };
@@ -91,9 +69,78 @@
             <!-- Topbar -->
             <nav th:replace="fragments/fragment :: navbar"></nav>
             <!-- End of Topbar -->
-            <div id="chartNilai" style="height: 370px; width: 100%;"></div>
-            <script type="text/javascript" src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
-            <script type="text/javascript" src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
+            <!-- Begin Page Content -->
+            <div class="container-fluid">
+
+                <!-- Content Row -->
+                <div class="row">
+
+                    <!-- Earnings (Monthly) Card Example -->
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-primary shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                            Dashboard</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                            <a th:href="@{/dashboard/customer-feedback}">Dashboard Customer Feedback</a>
+                                        </div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-plus fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-primary shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                            Dashboard</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                            <a th:href="@{/dashboard/training}">Dashboard Training</a>
+                                        </div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-plus fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-primary shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                            Dashboard</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                            <a th:href="@{/dashboard/trainer}">Dashboard Trainer</a>
+                                        </div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-plus fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <!-- /.container-fluid -->
+            <div class="container-fluid">
+                <div id="chartNilai" style="height: 370px; width: 100%;"></div>
+                <script type="text/javascript" src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+                <script type="text/javascript" src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
+            </div>
         </div>
         <!-- End of Main Content -->
 

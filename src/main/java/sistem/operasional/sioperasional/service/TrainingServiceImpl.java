@@ -3,6 +3,7 @@ package sistem.operasional.sioperasional.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import sistem.operasional.sioperasional.model.TrainingModel;
+import sistem.operasional.sioperasional.model.UserModel;
 import sistem.operasional.sioperasional.repository.TrainingDB;
 
 import javax.transaction.Transactional;
@@ -17,5 +18,10 @@ public class TrainingServiceImpl implements TrainingService{
     @Override
     public List<TrainingModel> getAllTraining(){
         return trainingDB.findAll();
+    }
+
+    @Override
+    public List<TrainingModel> getListTrainingByTrainer(UserModel trainer){
+        return trainingDB.findByTrainer(trainer);
     }
 }
