@@ -66,6 +66,9 @@ public class PurchaseOrderModel implements Serializable {
     @JsonIgnore
     private StatusItemModel statusPO;
 
+    @OneToMany(mappedBy = "idItemPO", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private List<ItemPOModel> itemPOModels;
+
     public String getNomorPurchaseOrder() {
         return nomorPurchaseOrder;
     }
@@ -147,5 +150,11 @@ public class PurchaseOrderModel implements Serializable {
         this.statusPO = statusPO;
     }
 
+    public List<ItemPOModel> getItemPOModels() {
+        return itemPOModels;
+    }
 
+    public void setItemPOModels(List<ItemPOModel> itemPOModels) {
+        this.itemPOModels = itemPOModels;
+    }
 }

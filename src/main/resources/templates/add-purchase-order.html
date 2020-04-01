@@ -51,16 +51,20 @@
             <div class="container-fluid">
                 <div class="card shadow mb-4 text-center">
                     <div class="card-header py-3">
-                        <h3 class="m-0 font-weight-bold">Berhasil!</h3>
+                        <h3 class="m-0 font-weight-bold" >Berhasil!</h3>
                     </div>
                     <br>
                     <div class="card-body">
-                        <span th:text="'Purchase Order dengan nomor ' "/>
+                        <span th:text="'Purchase order dengan nomor ' "/>
                         <h2><strong th:text="${purchaseOrder.nomorPurchaseOrder}" /></h2>
-                        <p th:text="' berhasil dibuat'"></p>
-                        <span th:text="'Untuk vendor ' "/>
+                        <p th:text="'berhasil dibuat untuk vendor'"></p>
                         <h2><strong th:text="${namaVendor}"/></h2>
-                    </div>
+                        <br>
+                        <span th:text="'Detail item pada purchase order ini' "/>
+                        <h2>Kategori:&nbsp<strong th:text="${kategoriItem}"></strong></h2>
+                        <h2>Merek:&nbsp<strong th:text="${merekItem}"></strong></h2>
+                        <h2>Jumlah:&nbsp<strong th:text="${jumlahItem}"></strong></h2>
+                        </div>
                 </div>
             </div>
             <div class="container-fluid">

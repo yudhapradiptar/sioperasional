@@ -121,12 +121,19 @@
                                     <td th:text="${PO.statusPO.namaStatusItem}"></td>
                                     <td th:text="${PO.disetujui}"></td>
                                     <td>
+                                        <span th:if="${PO.disetujui == false}">
                                         <form th:action="@{/purchase-order/approve/{nomorPurchaseOrder}(nomorPurchaseOrder=${PO.nomorPurchaseOrder})}" th:object="${PO}"
                                         th:method="POST">
-<!--                                        <form th:action="@{/purchase-order/approve}" th:object="${PO}" th:method="POST">-->
                                         <button class="btn btn-info text-white"
                                                 value="submit">Setujui</button>
                                         </form>
+<!--                                        </span>-->
+<!--                                        <span th:unless="${PO.disetujui == true}">-->
+<!--                                            <form th:action="@{/purchase-order/approve/{nomorPurchaseOrder}(nomorPurchaseOrder=${PO.nomorPurchaseOrder})}" th:object="${PO}"-->
+<!--                                                                                           th:method="POST">-->
+<!--                                        <button class="btn btn-info text-white"-->
+<!--                                                value="submit">WUDUW</button>-->
+<!--                                        </form></span>-->
                                     </td>
 <!--                                        <form-->
 <!--                                                th:action="@{purchase-order/update/}" th:object="${purchaseOrder}"-->

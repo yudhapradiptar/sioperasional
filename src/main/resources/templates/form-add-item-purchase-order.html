@@ -52,50 +52,59 @@
             <div class="container-fluid">
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
-                        <h3 class="m-0 font-weight-bold">Add Purchase Order</h3>
+                        <h3 class="m-0 font-weight-bold">Item Purchase Order</h3>
                     </div>
                     <br>
                     <div class="card-body">
                         <table class="table tab-content" align="center">
-                            <form class="form-horizontal" th:action="@{/purchase-order/add}"
-                                  th:object="${purchaseOrder}" method="POST">
-                                <div class="form-group">
-                                    <label class="control-label col-sm-2">Nomor Purchase Order</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" name="nomorPurchaseOrder" th:field="*{nomorPurchaseOrder}"
-                                               class="form-control form-control-user"
-                                               placeholder="Masukkan Nomor Purchase Order" required>
-                                    </div>
-                                </div>
+                            <form class="form-horizontal" th:action="@{/purchase-order/add/item/}"
+                                  th:object="${itemPOModel}" method="POST">
+
+
+                                <button type="submit" name="addMoreForm">Add</button>
+
+<!--                                <tr th:each="kategoriItem : ${itemPOModels}">-->
 
                                 <div class="form-group">
-                                    <label class="control-label col-sm-2">Nomor Invoice</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" name="nomorInvoice" th:field="*{nomorInvoice}"
-                                               class="form-control form-control-user" placeholder="Masukkan Nomor Invoice">
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label class="control-label col-sm-2">Tanggal Pembuatan</label>
-                                    <div class="col-sm-10">
-                                        <input type="date" name="tanggalCreate" th:field="*{tanggalOpen}"
-                                               class="form-control form-control-user" placeholder="Masukkan Tanggal Pembuatan"
-                                               required>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label class="control-label col-sm-2">Nama Vendor</label>
+                                    <label class="control-label col-sm-2">Kategori Item</label>
                                     <div class="control-label col-sm-10">
-                                        <select class="form-control" name="vendor" th:field="*{vendor.idVendor}"
+                                        <select class="form-control" name="kategori" th:field="*{kategoriItem.idKategoriItem}"
                                                 required="true">
-                                            <option value="0">-- Pilih vendor --</option>
-                                            <option th:each="vendor : ${listVendor}" th:value="${{vendor.idVendor}}"
-                                                    th:text="${vendor.namaVendor}"></option>
+                                            <option value="0">-- Pilih Kategori Item --</option>
+                                            <option th:each="kategori : ${listKategoriItem}" th:value="${{kategori.idKategoriItem}}"
+                                                    th:text="${kategori.namaKategoriItem}"></option>
                                         </select>
                                     </div>
                                 </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">Merek Item</label>
+                                    <div class="control-label col-sm-10">
+                                        <select class="form-control" name="merek" th:field="*{merekItem.idMerekItem}"
+                                                required="true">
+                                            <option value="0">-- Pilih Merek Item --</option>
+                                            <option th:each="merek : ${listMerekItem}" th:value="${{merek.idMerekItem}}"
+                                                    th:text="${merek.namaMerekItem}"></option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">Jumlah Item</label>
+                                    <div class="control-label col-sm-10">
+                                        <input type="number" name="jumlah" th:field="*{jumlahItem}"
+                                               class="form-control form-control-user" placeholder="Masukkan Jumlah Item">
+                                    </div>
+                                </div>
+
+                                <div class="form-group" hidden="hidden">
+                                    <label class="control-label col-sm-2">Nomer PO</label>
+                                    <div class="control-label col-sm-10">
+                                        <input type="text" name="nomerPO"
+                                               class="form-control form-control-user" th:value="${nomerPO}">
+                                    </div>
+                                </div>
+<!--                                </tr>-->
 
                                 <div class="row" dir="rtl">
                                     &nbsp
@@ -104,11 +113,12 @@
                                         <span class="icon text-white-50">
                                         <i class="fas fa-check"></i>
                                         </span>
-                                        <span class="text" type="submit" name="submit">Buat</span>
+                                        <span class="text" type="submit">Tambah Item</span>
                                     </button>
+                                    <div class="control-label col-sm-2"></div>
                                     &nbsp
                                     &nbsp
-                                    <button class="btn btn-danger btn-icon-split" onclick="window.location.href='/purchase-order/'">
+                                    <button class="btn btn-danger btn-icon-split" onclick="javascript:history.back()">
                                         <span class="icon text-white-50">
                                         <i class="fas fa-times"></i>
                                         </span>
