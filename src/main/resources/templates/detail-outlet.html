@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Detail DO</title>
+    <title>Detail Outlet</title>
 
     <!-- Custom fonts for this template-->
     <link rel="stylesheet" th:href="@{/vendor/fontawesome-free/css/all.min.css}" type="text/css">
@@ -53,50 +53,43 @@
                 <div class="container-fluid">
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h3 class="m-0 font-weight-bold">Detail of Delivery Order</h3>
+                            <h3 class="m-0 font-weight-bold">Detail dari Outlet</h3>
                         </div>
                         <div class="card-body">
-                            <p th:text="'Nomor Delivery Order : ' + ${deliveryOrder.nomorDeliveryOrder}"></p>
-                            <p th:text="'Pembuat Delivery Order : ' + ${deliveryOrder.creator.nama}"></p>
-                            <p th:text="'Outlet Pembeli : ' + ${deliveryOrder.outlet.namaOutlet}"></p>
-                            <p th:text="'Nomor Invoice : ' + ${deliveryOrder.nomorInvoice}"></p>
-                            <p th:text="'Status Delivery Order : ' + ${deliveryOrder.statusDO}"></p>
-                            <p th:text="'Tanggal Dibuat : ' + ${tanggalCreate}"></p>
-                            <p th:text="'Subscribed : ' + ${deliveryOrder.subscribed}"></p>
-                            <div th:if="${deliveryOrder.subscribed == true}">
-                                <div th:if="${tanggalStartFormatted == null}">
-                                    <p th:text="'Tanggal Subscirbe Mulai : - '"></p>
-                                    <p th:text="'Tanggal Subscirbe Selesai : - '"></p>
-                                </div>
-                                <div th:if="${tanggalStartFormatted != null}">
-                                    <p th:text="'Tanggal Subscirbe Mulai : ' + ${tanggalStartFormatted}"></p>
-                                    <p th:text="'Tanggal Subscirbe Selesai : ' + ${tanggalEndFormatted}"></p>
-                                </div>
-                            </div>
-
+                            <p th:text="'Nama Outlet : ' + ${outlet.namaOutlet}"></p>
+                            <p th:text="'Email Outlet : ' + ${outlet.namaOutlet}"></p>
+                            <p th:text="'No. Telepon Outlet : ' + ${outlet.noTelpOutlet}"></p>
+                            <p th:text="'Jenis Outlet : ' + ${outlet.jenisOutlet.namaJenisOutlet}"></p>
                             <table class="table table-bordered">
                                 <thead>
                                     <tr>
                                         <th scope="col">No</th>
-                                        <th scope="col">ID Item</th>
-                                        <th scope="col">Merek Item</th>
-                                        <th scope="col">Kategori Item</th>
-                                        <th scope="col">Status Item</th>
+                                        <th scope="col">Nomor DO</th>
+                                        <th scope="col">Nomor Invoice</th>
+                                        <th scope="col">Tanggal Dibuat</th>
+                                        <th scope="col"></th>
                                     </tr>
                                 </thead>
-                                <tbody th:each="item, iterationStatus : ${listItem}">
+                                <tbody th:each="deliveryOrder, iterationStatus : ${listDeliveryOrder}">
                                     <tr>
                                         <th scope="row" th:text="${iterationStatus.count}"></th>
-                                        <td th:text="${item.idItem}"></td>
-                                        <td th:text="${item.merekItem.namaMerekItem}"></td>
-                                        <td th:text="${item.kategoriItem.namaKategoriItem}"></td>
-                                        <td th:text="${item.statusItem.namaStatusItem}"></td>
+                                        <td th:text="${deliveryOrder.nomorDeliveryOrder}"></td>
+                                        <td th:text="${deliveryOrder.nomorInvoice}"></td>
+                                        <td th:text="${deliveryOrder.tanggalCreate}"></td>
+                                        <td>
+                                            <form
+                                                th:action="@{/delivery-order/detail/} + ${deliveryOrder.nomorDeliveryOrder}"
+                                                th:method="GET">
+                                                <button class="btn btn-info text-white"
+                                                    value="submit">detail</button>
+                                            </form>
+                                        </td>
                                         <br>
                                     </tr>
                                 </tbody>   
                             </table>
                             <div class="row" dir="rtl">
-                                <a th:href="@{/delivery-order/update/} + ${deliveryOrder.nomorDeliveryOrder}">
+                                <a th:href="@{/outlet/update/} + ${outlet.idOutlet}">
                                 <button class="btn btn-warning text-white">update</button></a>
                             </div>
                         </div>

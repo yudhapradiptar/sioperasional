@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Tambah DO</title>
+    <title>Tambahkan Outlet</title>
 
     <!-- Custom fonts for this template-->
     <link rel="stylesheet" th:href="@{/vendor/fontawesome-free/css/all.min.css}" type="text/css">
@@ -55,23 +55,13 @@
                         </div>
                         <br>
                         <div class="card-body">
-                            <p th:text="'Delivery Order dengan nomor ' + ${deliveryOrder.nomorDeliveryOrder} + ' berhasil dibuat'"></p>
-                            <p th:text="'Dikirim ke ' + ${namaOutlet}"></p>
-                            <p th:text="'Dengan item : '"></p>
-                            <tbody th:each="item, iterationStatus : ${listItem}">
-                                <tr>
-                                    <th scope="row" th:text="${iterationStatus.count}"></th>
-                                    <td th:text="${item.merekItem.namaMerekItem}"></td>
-                                    <td th:text="${item.kategoriItem.namaKategoriItem}"></td>
-                                    <td th:text="${item.statusItem.namaStatusItem}"></td>
-                                </tr>
-                            </tbody>
+                            <p th:text="'Outlet dengan nama ' + ${outlet.namaOutlet} + ' berhasil ditambahkan'"></p>
                         </div>
                     </div>
                 </div>
                 <div class="container-fluid">
-                    <a th:href="@{/delivery-order/detail/} + ${deliveryOrder.nomorDeliveryOrder}" class="btn btn-info btn-block">Lihat Detail</a>
-                    <a th:href="@{/delivery-order/}" class="btn btn-warning btn-block">Kembali</a>
+                    <a th:href="@{/outlet/detail/} + ${outlet.idOutlet}" class="btn btn-info btn-block">Lihat Detail</a>
+                    <a th:href="@{/outlet/}" class="btn btn-warning btn-block">Kembali</a>
                 </div>
 
             </div>

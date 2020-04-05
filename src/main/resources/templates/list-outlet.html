@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>List DO</title>
+    <title>List Outlet</title>
 
     <!-- Custom fonts for this template-->
     <link rel="stylesheet" th:href="@{/vendor/fontawesome-free/css/all.min.css}" type="text/css">
@@ -81,7 +81,7 @@
                                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                                 Formulir</div>
                                             <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                                <a th:href="@{/delivery-order/add}">Buat Delivery Order</a>
+                                                <a th:href="@{/outlet/add}">Tambahkan Outlet</a>
                                             </div>
                                         </div>
                                         <div class="col-auto">
@@ -100,12 +100,12 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">Daftar Delivery Order</h1>
+                    <h1 class="h3 mb-2 text-gray-800">Daftar Outlet</h1>
 
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Delivery Order</h6>
+                            <h6 class="m-0 font-weight-bold text-primary">Outlet</h6>
                         </div>
                         <div class="card-body">
                             <form class="form-group">
@@ -113,25 +113,24 @@
                                     <thead>
                                         <tr>
                                             <th scope="col">No</th>
-                                            <th scope="col">Nomor Delivery Order</th>
-                                            <th scope="col">Outlet</th>
-                                            <th scope="col">nomorInvoice</th>
-                                            <th scope="col"></th>
+                                            <th scope="col">Nama Outlet</th>
+                                            <th scope="col">Email Outlet</th>
+                                            <th scope="col">Nomor Telepon Outlet</th>
                                             <th scope="col"></th>
                                             <th scope="col"></th>
                                             <th scope="col"></th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr th:each="deliveryOrder, iterationStatus : ${listDeliveryOrder}">
+                                        <tr th:each="outlet, iterationStatus : ${listOutlet}">
                                             <th scope="row" th:text="${iterationStatus.count}"></th>
-                                            <td th:text="${deliveryOrder.nomorDeliveryOrder}"></td>
-                                            <td th:text="${deliveryOrder.outlet.namaOutlet}"></td>
-                                            <td th:text="${deliveryOrder.nomorInvoice}"></td>
+                                            <td th:text="${outlet.namaOutlet}"></td>
+                                            <td th:text="${outlet.emailOutlet}"></td>
+                                            <td th:text="${outlet.noTelpOutlet}"></td>
                                             <td><form action=""></form></td>
                                             <td>
                                                 <form
-                                                    th:action="@{/delivery-order/detail/} + ${deliveryOrder.nomorDeliveryOrder}"
+                                                    th:action="@{/outlet/detail/} + ${outlet.idOutlet}"
                                                     th:method="GET">
                                                     <button class="btn btn-info text-white"
                                                         value="submit">detail</button>
@@ -139,18 +138,10 @@
                                             </td>
                                             <td>
                                                 <form
-                                                    th:action="@{/delivery-order/update/} + ${deliveryOrder.nomorDeliveryOrder}"
+                                                    th:action="@{/outlet/update/} + ${outlet.idOutlet}"
                                                     th:method="GET">
                                                     <button class="btn btn-warning text-white"
                                                         value="submit">update</button>
-                                                </form>
-                                            </td>
-                                            <td>
-                                                <form
-                                                    th:action="@{/delivery-order/set-tanggal-subscribe/} + ${deliveryOrder.nomorDeliveryOrder}"
-                                                    th:method="GET">
-                                                    <button class="btn btn-success text-white" value="submit">set
-                                                        tanggal</button>
                                                 </form>
                                             </td>
                                         </tr>
