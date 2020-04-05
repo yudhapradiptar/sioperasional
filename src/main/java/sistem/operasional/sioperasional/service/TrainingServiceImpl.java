@@ -24,4 +24,9 @@ public class TrainingServiceImpl implements TrainingService{
     public List<TrainingModel> getListTrainingByTrainer(UserModel trainer){
         return trainingDB.findByTrainer(trainer);
     }
+
+    @Override
+    public TrainingModel getTrainingByIdTraining(Long idTraining){
+        return trainingDB.findById(idTraining).get();
+    }
 }

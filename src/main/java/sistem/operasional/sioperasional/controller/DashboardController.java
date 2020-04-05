@@ -1,5 +1,6 @@
 package sistem.operasional.sioperasional.controller;
 
+import org.apache.tomcat.jni.Local;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +14,7 @@ import sistem.operasional.sioperasional.service.UserService;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -37,23 +39,30 @@ public class DashboardController {
         List<String> listTrainer = new ArrayList<>();
         List<Integer> listNilai = new ArrayList<>();
         for (UserModel trainer : listAllUser) {
-            if (trainer.getListTrainingTrained() != null) {
+            if (trainer.getRole().getNamaRole().equals("Operation Staff")) {
                 int rataNilai = 0;
                 int countRata = 0;
-                listTrainer.add(trainer.getNama());
-                for (TrainingModel training : trainer.getListTrainingTrained()) {
-                    if (training.getListCustomerFeedback() != null) {
-                        for (CustomerFeedbackModel customerFeedback : training.getListCustomerFeedback()) {
-                            rataNilai += ((customerFeedback.getNilaiKerapihan()+customerFeedback.getNilaiTepatWaktu()+customerFeedback.getNilaiSimpatik()
-                            +customerFeedback.getNilaiKesiapan()+customerFeedback.getNilaiPenanggapan()+customerFeedback.getNilaiKesopanan()
-                            +customerFeedback.getNilaiMengetahuiKebutuhan()+customerFeedback.getNilaiPerhatian())/8);
-                            countRata++;
+                if(trainer.getListTrainingTrained() == null){
+                    listNilai.add(rataNilai);
+                }
+                else if(trainer.getListTrainingTrained() != null){
+                    for (TrainingModel training : trainer.getListTrainingTrained()) {
+                        if (training.getListCustomerFeedback() != null) {
+                            for (CustomerFeedbackModel customerFeedback : training.getListCustomerFeedback()) {
+                                rataNilai += ((customerFeedback.getNilaiKerapihan()+customerFeedback.getNilaiTepatWaktu()+customerFeedback.getNilaiSimpatik()
+                                        +customerFeedback.getNilaiKesiapan()+customerFeedback.getNilaiPenanggapan()+customerFeedback.getNilaiKesopanan()
+                                        +customerFeedback.getNilaiMengetahuiKebutuhan()+customerFeedback.getNilaiPerhatian())/8);
+                                countRata++;
+                            }
                         }
                     }
+                    if (countRata > 0) {
+                        listNilai.add(rataNilai / countRata);
+                    } else{
+                        listNilai.add(rataNilai);
+                    }
                 }
-                if (countRata > 0) {
-                    listNilai.add(rataNilai / countRata);
-                }
+                listTrainer.add(trainer.getNama());
             }
         }
 
@@ -80,17 +89,26 @@ public class DashboardController {
         for(int i=13;i>1;i--){
             listBulan.add(now.minusMonths(i).getMonthValue());
             listTahun.add(now.minusMonths(i).getYear());
-//            listJumlahTraining.add(i);
             int countTrainingBulanIni = 0;
-//            Date today = new Date();
-//            System.out.println(today.getMonth());
+            LocalDate date;
             for(TrainingModel training : trainingService.getAllTraining()){
-                if(training.getTanggalTraining().getMonth()+1==now.minusMonths(i).getMonthValue()){
+                if(training.getTanggalTraining().getMonth()+1==now.minusMonths(i).getMonthValue() && training.getTanggalTraining().toInstant().atZone(ZoneId.systemDefault()).toLocalDate().getYear()==now.minusMonths(i).getYear()){
+                    System.out.println(training.getTanggalTraining().getMonth()+1);
+                    System.out.println(now.minusMonths(i).getMonthValue());
+                    System.out.println(now.minusMonths(i).getYear());
                     countTrainingBulanIni++;
                 }
             }
             listJumlahTraining.add(countTrainingBulanIni);
         }
+        listJumlahTraining.remove(0);
+        int countTrainingBulanKemarin = 0;
+        for(TrainingModel training : trainingService.getAllTraining()){
+            if(training.getTanggalTraining().getMonth()+1==now.minusMonths(1).getMonthValue()){
+                countTrainingBulanKemarin++;
+            }
+        }
+        listJumlahTraining.add(countTrainingBulanKemarin);
 
         model.addAttribute("listBulan", listBulan);
         model.addAttribute("listTahun", listTahun);

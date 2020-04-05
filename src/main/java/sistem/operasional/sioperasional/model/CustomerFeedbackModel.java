@@ -23,7 +23,7 @@ public class CustomerFeedbackModel implements Serializable {
     private TrainingModel training;
 
     @NotNull
-    @Column(name = "nama", nullable = false)
+    @Column(name = "nama", nullable=false)
     private String nama;
 
     @NotNull

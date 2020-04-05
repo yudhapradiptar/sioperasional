@@ -100,7 +100,7 @@
 </head>
 <body>
 <div class="testbox">
-    <form th:action="form-customer-feedback">
+    <form th:action="@{/customer-feedback/{idTraining}(idTraining=${idTraining})}" th:object="${customerFeedback}" method="POST" >
         <h1>Customer Feedback Form</h1>
         <p>Untuk membantu kami meningkatkan kualitas pelayanan kami dalam menjalankan training process,
             kami mohon kesediaan anda untuk mengisi kuesioner yang tersedia berdasarkan pengalaman anda selama
@@ -202,13 +202,13 @@
         <h4>Nama Anda *</h4>
         <input class="namaAnda" type="text" name="nama" required/>
         <h4>Alasan yang membuat anda puas ? (jika anda puas)</h4>
-        <textarea rows="3" name="alasanPuas"></textarea>
+        <textarea rows="3" type="text" name="alasanPuas"></textarea>
         <h4>Alasan yang membuat anda tidak puas ? (jika anda tidak puas)</h4>
-        <textarea rows="3" name="alasanTidakPuas"></textarea>
+        <textarea rows="3" type="text" name="alasanTidakPuas"></textarea>
         <h4>Fitur apa saja yang membantu sesuai jenis usaha anda ?</h4>
-        <textarea rows="3" name="fiturMembantu"></textarea>
+        <textarea rows="3" type="text" name="fiturMembantu"></textarea>
         <h4>Apa saran anda terkait training yang sudah dilakukan ?</h4>
-        <textarea rows="3" name="saran"></textarea>
+        <textarea rows="3" type="text" name="saran"></textarea>
         <div class="btn-block">
             <button type="submit">Submit</button>
         </div>

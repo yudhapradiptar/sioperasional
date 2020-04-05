@@ -11,7 +11,7 @@
         <p class="lead">Terima Kasih telah mengisi kuesioner feedback.</p>
         <hr>
         <p class="lead">
-            <a class="btn btn-primary btn-sm" th:href="@{customer-feedback/(idTraining=${customerFeedback.training.idTraining})}" role="button">Kirim Feedback Lain</a>
+            <a class="btn btn-primary btn-sm" th:href="@{/customer-feedback/{idTraining}(idTraining=${idTraining})}" role="button">Kirim Feedback Lain</a>
         </p>
     </div>
 

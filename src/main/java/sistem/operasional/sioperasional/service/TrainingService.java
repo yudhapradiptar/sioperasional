@@ -9,4 +9,7 @@ public interface TrainingService {
     List<TrainingModel> getAllTraining();
 
     List<TrainingModel> getListTrainingByTrainer(UserModel trainer);
+
+    TrainingModel getTrainingByIdTraining(Long idTraining);
+
 }

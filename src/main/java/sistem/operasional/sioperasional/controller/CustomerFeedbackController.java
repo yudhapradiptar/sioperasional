@@ -30,10 +30,9 @@ public class CustomerFeedbackController {
     @RequestMapping(value = "/customer-feedback/{idTraining}", method = RequestMethod.GET)
     public String customerFeedbackFormPage(@PathVariable Long idTraining, Model model) {
         List<TrainingModel> listOfTraining = trainingService.getAllTraining();
-        for(int i=0; i<listOfTraining.size();i++){
-            if(listOfTraining.get(i).getIdTraining()==idTraining && listOfTraining.get(i).getStatusTraining().equals("Selesai")){
+        for(TrainingModel training: listOfTraining){
+            if(training.getIdTraining()==idTraining && training.getStatusTraining().equals("Selesai")){
                 CustomerFeedbackModel newCustomerFeedback = new CustomerFeedbackModel();
-                newCustomerFeedback.setTraining(listOfTraining.get(i));
                 model.addAttribute("customerFeedback", newCustomerFeedback);
                 return "form-customer-feedback";
             }
@@ -42,11 +41,13 @@ public class CustomerFeedbackController {
         return "error-customer-feedback";
     }
 
-    @RequestMapping(value = "/customer-feedback", method = RequestMethod.POST)
-    public String customerFeedbackSubmit(@ModelAttribute CustomerFeedbackModel customerFeedback, Long idTraining, Model model) {
+    @RequestMapping(value = "/customer-feedback/{idTraining}", method = RequestMethod.POST)
+    public String customerFeedbackSubmit(@PathVariable Long idTraining, @ModelAttribute CustomerFeedbackModel customerFeedback, Model model) {
         try {
+            customerFeedback.setTraining(trainingService.getTrainingByIdTraining(idTraining));
             customerFeedbackService.addCustomerFeedback(customerFeedback);
             model.addAttribute(customerFeedback);
+            model.addAttribute("idTraining", idTraining);
             return "submit-customer-feedback";
         } catch (NullPointerException e) {
             return "form-customer-feedback";
