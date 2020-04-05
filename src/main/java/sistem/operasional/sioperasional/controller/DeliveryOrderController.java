@@ -98,11 +98,6 @@ public class DeliveryOrderController {
             return "delivery-order-already-exist";
         }
 
-        // DeliveryOrderModel deliveryOrderNow  = deliveryOrderService.getDeliveryOrderByNomorDeliveryOrder(deliveryOrderModel.getNomorDeliveryOrder());
-        // System.out.println("=========================================");
-        // System.out.println(deliveryOrderModel.getListItem());
-        // System.out.println(itemModel);
-
         for(ItemModel itemModel2: deliveryOrderModel.getListItem()) {
             System.out.println("--------------------------------");
             System.out.println(itemModel2.getIdItem());
@@ -181,11 +176,6 @@ public class DeliveryOrderController {
     public String updateSubmit(@PathVariable String nomor, @ModelAttribute DeliveryOrderModel deliveryOrderModel, Model model) {
 
         DeliveryOrderModel deliveryOrderNow = deliveryOrderService.getDeliveryOrderByNomorDeliveryOrder(deliveryOrderModel.getNomorDeliveryOrder());
-        // List<ItemModel> listItemSetNull = itemService.getItemListByNomorDeliveryOrder(deliveryOrderNow.getNomorDeliveryOrder());
-
-        // System.out.println("=========================================");
-        // System.out.println("Item lama");
-        // System.out.println(listItemSetNull);
 
         System.out.println("item DO Now");
         System.out.println(deliveryOrderNow.getListItem());
