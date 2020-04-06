@@ -106,6 +106,7 @@
                                     <th scope="col">Status</th>
                                     <th scope="col">Disetujui</th>
                                     <th scope="col">Action</th>
+
                                 </tr>
                                 </thead>
                                 <tbody th:each="PO, iterationStatus : ${listPO}">
@@ -127,13 +128,16 @@
                                         <button class="btn btn-info text-white"
                                                 value="submit">Setujui</button>
                                         </form>
-<!--                                        </span>-->
-<!--                                        <span th:unless="${PO.disetujui == true}">-->
-<!--                                            <form th:action="@{/purchase-order/approve/{nomorPurchaseOrder}(nomorPurchaseOrder=${PO.nomorPurchaseOrder})}" th:object="${PO}"-->
-<!--                                                                                           th:method="POST">-->
-<!--                                        <button class="btn btn-info text-white"-->
-<!--                                                value="submit">WUDUW</button>-->
-<!--                                        </form></span>-->
+                                        <form class="form-horizontal" th:action="@{/hardware-fulfillment/{nomorPO}(nomorPO=${purchaseOrder.nomorPurchaseOrder})/close}"
+                                              th:object="${item}" method="POST">
+                                            <button class="btn btn-danger btn-icon-split">
+                                        <span class="icon text-white-50">
+                                        <i class="fas fa-check"></i>
+                                        </span>
+                                                <span class="text" type="submit">Close PO</span>
+                                            </button>
+
+                                        </form>
                                     </td>
 <!--                                        <form-->
 <!--                                                th:action="@{purchase-order/update/}" th:object="${purchaseOrder}"-->

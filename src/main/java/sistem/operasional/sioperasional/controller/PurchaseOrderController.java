@@ -63,11 +63,12 @@ public class PurchaseOrderController {
         PurchaseOrderModel purchaseOrderModel = new PurchaseOrderModel();
 
         List<VendorModel> listVendor = vendorService.getVendorList();
+        List<ItemPOModel> itemPOModelList = new ArrayList<ItemPOModel>();
+        itemPOModelList.add(new ItemPOModel());
 
         model.addAttribute("listVendor", listVendor);
         model.addAttribute("purchaseOrder", purchaseOrderModel);
-
-//        model.addAttribute("listItem", itemModels);
+        model.addAttribute("listItem", itemPOModelList);
 
         return "form-add-purchase-order";
 
@@ -75,17 +76,14 @@ public class PurchaseOrderController {
 
     }
 
-    @RequestMapping(value="/add/item/", method = RequestMethod.GET)
-    public String addMoreForm(@ModelAttribute PurchaseOrderModel purchaseOrderModel, BindingResult bindingResult, Model model) {
-        System.out.println("workkok-------------------------------------------------------------------");
-        if(purchaseOrderModel.getItemPOModels() == null) {
-            System.out.println("masuk loop");
-            purchaseOrderModel.setItemPOModels(new ArrayList<ItemPOModel>());
-        }
+    @RequestMapping(value="/add/item/{nomorPurchaseOrder}", method = RequestMethod.POST)
+    public String addMoreForm(@PathVariable("nomorPurchaseOrder") String nomorPurchaseOrder, @ModelAttribute PurchaseOrderModel purchaseOrderModel, BindingResult bindingResult, Model model) {
 
-        purchaseOrderModel.getItemPOModels().add(new ItemPOModel());
-        System.out.println("panjang :" + purchaseOrderModel.getItemPOModels().size());
+        List<ItemPOModel> itemPOModelList = purchaseOrderService.getPurchaseOrderByNomorPurchaseOrder(purchaseOrderModel.getNomorPurchaseOrder()).getItemPOModels();
+        itemPOModelList.add(new ItemPOModel());
+        System.out.println("panjang :" + itemPOModelList.size());
         model.addAttribute("purchaseOrder", purchaseOrderModel);
+        model.addAttribute("itemPOModels",itemPOModelList);
         return "form-add-item-purchase-order";
     }
 
@@ -165,11 +163,14 @@ public class PurchaseOrderController {
         List<KategoriItemModel> listKategoriItem = kategoriItemService.getKategoriItemList();
         List<MerekItemModel> listMerek = merekItemService.getMerekItemList();
         String nomorPurchaseOrder = purchaseOrderModel.getNomorPurchaseOrder();
+        List<ItemPOModel> itemPOModelList = purchaseOrderService.getPurchaseOrderByNomorPurchaseOrder(purchaseOrderModel.getNomorPurchaseOrder()).getItemPOModels();
+
 
         model.addAttribute("nomerPO", nomorPurchaseOrder);
         model.addAttribute("listMerekItem", listMerek);
         model.addAttribute("listKategoriItem", listKategoriItem);
         model.addAttribute("itemPOModel",itemPOModel);
+        model.addAttribute("itemPOModels",itemPOModelList);
         model.addAttribute("purchaseOrder", purchaseOrderModel);
         return "form-add-item-purchase-order";
     }
