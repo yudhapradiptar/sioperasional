@@ -31,4 +31,9 @@ public class ItemServiceImpl implements ItemService {
         return itemDB.findItemByDeliveryOrder(nomorDeliveryOrder, null);
     }
 
+    @Override
+    public List<ItemModel> geItemListByTanggalKeluarNullAndNotRusak() {
+        return itemDB.findItemByTanggalKeluarAndNotRusak(0);
+    }
+
 }

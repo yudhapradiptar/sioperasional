@@ -71,7 +71,7 @@ public class DeliveryOrderController {
     public String addDeliveryOrderFormPage(Model model) {
         DeliveryOrderModel deliveryOrderModel = new DeliveryOrderModel();
 
-        List<ItemModel> itemModels = itemService.geItemListByTanggalKeluarNull();
+        List<ItemModel> itemModels = itemService.geItemListByTanggalKeluarNullAndNotRusak();
 
         ArrayList<ItemModel> listItemModels = new ArrayList<ItemModel>();
         listItemModels.add(new ItemModel());
@@ -216,7 +216,7 @@ public class DeliveryOrderController {
         deliveryOrderModel.getListItem().add(new ItemModel());
         model.addAttribute("deliveryOrder", deliveryOrderModel);
 
-        List<ItemModel> itemModels = itemService.geItemListByTanggalKeluarNull();
+        List<ItemModel> itemModels = itemService.geItemListByTanggalKeluarNullAndNotRusak();
         model.addAttribute("listItem", itemModels);
 
         List<OutletModel> outletModels = outletService.getOutletList();
@@ -231,7 +231,7 @@ public class DeliveryOrderController {
         deliveryOrderModel.getListItem().remove(rowId.intValue());
         model.addAttribute("deliveryOrder", deliveryOrderModel);
 
-        List<ItemModel> itemModels = itemService.geItemListByTanggalKeluarNull();
+        List<ItemModel> itemModels = itemService.geItemListByTanggalKeluarNullAndNotRusak();
         model.addAttribute("listItem", itemModels);
 
         List<OutletModel> outletModels = outletService.getOutletList();

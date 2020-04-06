@@ -59,7 +59,14 @@
                             <p th:text="'Nama Outlet : ' + ${outlet.namaOutlet}"></p>
                             <p th:text="'Email Outlet : ' + ${outlet.namaOutlet}"></p>
                             <p th:text="'No. Telepon Outlet : ' + ${outlet.noTelpOutlet}"></p>
+                            <p th:text="'Alamat Outlet : ' + ${outlet.alamatOutlet}"></p>
                             <p th:text="'Jenis Outlet : ' + ${outlet.jenisOutlet.namaJenisOutlet}"></p>
+                            <div th:if="${outlet.aktif == false}">
+                                <p th:text="'Status Aktif : Tidak Aktif'"></p>
+                            </div>
+                            <div th:if="${outlet.aktif == true}">
+                                <p th:text="'Status Aktif : Aktif'"></p>
+                            </div>
                             <table class="table table-bordered">
                                 <thead>
                                     <tr>

@@ -14,4 +14,6 @@ public interface ItemService {
 
 	List<ItemModel> getItemListByNomorDeliveryOrder(String nomorDeliveryOrder);
 
+	List<ItemModel> geItemListByTanggalKeluarNullAndNotRusak();
+
 }

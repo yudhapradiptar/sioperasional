@@ -63,6 +63,7 @@ public class OutletController {
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public String addOutletSubmit(@ModelAttribute OutletModel outletModel, Model model) {
 
+        outletModel.setAktif(true);
         outletService.addOutlet(outletModel);
 
         model.addAttribute("outlet", outletModel);

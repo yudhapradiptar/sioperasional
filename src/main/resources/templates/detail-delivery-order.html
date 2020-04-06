@@ -62,7 +62,12 @@
                             <p th:text="'Nomor Invoice : ' + ${deliveryOrder.nomorInvoice}"></p>
                             <p th:text="'Status Delivery Order : ' + ${deliveryOrder.statusDO}"></p>
                             <p th:text="'Tanggal Dibuat : ' + ${tanggalCreate}"></p>
-                            <p th:text="'Subscribed : ' + ${deliveryOrder.subscribed}"></p>
+                            <div th:if="${deliveryOrder.subscribed == false}">
+                                <p th:text="'Status Bundling : Tidak'"></p>
+                            </div>
+                            <div th:if="${deliveryOrder.subscribed == true}">
+                                <p th:text="'Status Bundling : Iya'"></p>
+                            </div>
                             <div th:if="${deliveryOrder.subscribed == true}">
                                 <div th:if="${tanggalStartFormatted == null}">
                                     <p th:text="'Tanggal Subscirbe Mulai : - '"></p>
