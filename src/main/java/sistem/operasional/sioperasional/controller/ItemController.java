@@ -40,8 +40,7 @@ public class ItemController {
     public String addItemFromPO(@PathVariable String nomorPurchaseOrder, @ModelAttribute ItemModel item, @ModelAttribute ItemPOModel itemPO, Model model){
         PurchaseOrderModel purchaseOrder = purchaseOrderService.getPurchaseOrderByNomorPurchaseOrder(nomorPurchaseOrder);
         List<ItemPOModel> listOfItemPOByPurchaseOrder = itemPOService.getItemPObyPurchaseOrder(purchaseOrder);
-        for(int i=0; i<listOfItemPOByPurchaseOrder.size();i++){
-            ItemPOModel itemPOCreated = listOfItemPOByPurchaseOrder.get(i);
+        for(ItemPOModel itemPOCreated : listOfItemPOByPurchaseOrder){
             for(int j=0; j<itemPOCreated.getJumlahItem(); j++){
                 ItemModel itemModel = new ItemModel();
                 itemModel.setRusak(false);
@@ -53,6 +52,7 @@ public class ItemController {
                 itemService.createItem(itemModel);
             }
         }
+        purchaseOrder.setStatusPO("Closed");
         model.addAttribute("purchaseOrder", purchaseOrder);
         model.addAttribute("listItem", purchaseOrder.getListitem());
         return "success-close-po";
