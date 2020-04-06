@@ -11,36 +11,36 @@ import java.io.Serializable;
 import java.util.List;
 
 @Entity
-@Table(name="merek_item")
-public class MerekItemModel implements Serializable {
+@Table(name="jenis_item")
+public class JenisItemModel implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idMerekItem;
+    private Long idJenisItem;
 
     @NotNull
     @Size(max=200)
-    @Column(name="namaMerekItem", nullable = false)
-    private String namaMerekItem;
+    @Column(name="namaJenisItem", nullable = false)
+    private String namaJenisItem;
 
-    @OneToMany(mappedBy = "merekItem", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "jenisItem", fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private List<ItemModel> listItem;
 
-    public Long getIdMerekItem() {
-        return idMerekItem;
+    public Long getIdJenisItem() {
+        return idJenisItem;
     }
 
-    public void setIdMerekItem(Long idMerekItem) {
-        this.idMerekItem = idMerekItem;
+    public void setIdJenisItem(Long idJenisItem) {
+        this.idJenisItem = idJenisItem;
     }
 
-    public String getNamaMerekItem() {
-        return namaMerekItem;
+    public String getNamaJenisItem() {
+        return namaJenisItem;
     }
 
-    public void setNamaMerekItem(String namaMerekItem) {
-        this.namaMerekItem = namaMerekItem;
+    public void setNamaJenisItem(String namaJenisItem) {
+        this.namaJenisItem = namaJenisItem;
     }
 
     public List<ItemModel> getListItem() {

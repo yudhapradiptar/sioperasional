@@ -16,4 +16,10 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService{
     public PurchaseOrderModel getPurchaseOrderByNomorPurchaseOrder(String nomorPurchaseOrder){
         return purchaseOrderDB.findById(nomorPurchaseOrder).get();
     }
+
+    @Override
+    public PurchaseOrderModel addPurchaseOrder(PurchaseOrderModel purchaseOrderModel) {
+        return purchaseOrderDB.save(purchaseOrderModel);
+    }
+
 }

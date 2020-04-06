@@ -87,7 +87,7 @@
                                         <tr>
                                             <th>NO</th>
                                             <th>Kategori</th>
-                                            <th>Merek</th>
+                                            <th>Jenis</th>
                                             <th>Status</th>
                                         </tr>
                                         </thead>
@@ -95,7 +95,7 @@
                                         <tr th:each="item, iterationStatus : *{listItem}">
                                             <th scope="row" th:text="${iterationStatus.count}"></th>
                                             <td th:text="${item.kategoriItem.namaKategoriItem}"></td>
-                                            <td th:text="${item.merekItem.namaMerekItem}"></td>
+                                            <td th:text="${item.jenisItem.namaJenisItem}"></td>
                                             <td th:text="${item.statusItem.namaStatusItem}"></td>
                                         </tr>
                                         </tbody>

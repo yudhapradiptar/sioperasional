@@ -31,7 +31,7 @@
                 <tr>
                     <th>ID</th>
                     <th>Kategori</th>
-                    <th>Merek</th>
+                    <th>Jenis</th>
                     <th>Nomor PO</th>
                 </tr>
             </thead>
@@ -40,7 +40,7 @@
                 <th scope="row" th:text="${iterationStatus.count}"></th>
                 <td th:text="${item.idItem}"></td>
                 <td th:text="${item.kategoriItem.namaKategoriItem}"></td>
-                <td th:text="${item.merekItem.namaMerekItem}"></td>
+                <td th:text="${item.jenisItem.namaJenisItem}"></td>
                 <td th:text="${item.purchaseOrder.nomorPurchaseOrder}"></td>
             </tr>
             </tbody>
