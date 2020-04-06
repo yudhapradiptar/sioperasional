@@ -28,10 +28,10 @@ public class ItemPOModel implements Serializable {
     private KategoriItemModel kategoriItem;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "idMerekItem", referencedColumnName = "idMerekItem", nullable = false)
+    @JoinColumn(name = "idJenisItem", referencedColumnName = "idJenisItem", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
-    private MerekItemModel merekItem;
+    private JenisItemModel jenisItem;
 
     @NotNull
     @Column(name = "jumlah", nullable = false)
@@ -61,12 +61,12 @@ public class ItemPOModel implements Serializable {
         this.kategoriItem = kategoriItem;
     }
 
-    public MerekItemModel getMerekItem() {
-        return merekItem;
+    public JenisItemModel getJenisItem() {
+        return jenisItem;
     }
 
-    public void setMerekItem(MerekItemModel merekItem) {
-        this.merekItem = merekItem;
+    public void setJenisItem(JenisItemModel jenisItem) {
+        this.jenisItem = jenisItem;
     }
 
     public int getJumlahItem() {
