@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Create DO</title>
+    <title>Tambah DO</title>
 
     <!-- Custom fonts for this template-->
     <link rel="stylesheet" th:href="@{/vendor/fontawesome-free/css/all.min.css}" type="text/css">
@@ -130,20 +130,7 @@
 
                                 <div class="row" dir="rtl">
                                     <div class="control-label col-sm-2"></div>
-                                    <button class="btn btn-success btn-icon-split">
-                                        <span class="icon text-white-50">
-                                        <i class="fas fa-check"></i>
-                                        </span>
-                                        <span class="text" type="submit">Buat</span>
-                                    </button>
-                                    &nbsp
-                                    &nbsp
-                                    <!-- <button class="btn btn-danger btn-icon-split">
-                                        <span class="icon text-white-50">
-                                        <i class="fas fa-times"></i>
-                                        </span>
-                                        <span class="text">Kembali</span>
-                                    </button> -->
+                                    <button class="btn btn-success text-white" type="submit">submit</button>
                                 </div>
                                     
                             
@@ -176,7 +163,7 @@
                                 <div>
                                     <tr th:each="item, iterationStatus : *{listItem}">
                                         <input type="checkbox" th:value="${item.idItem}">
-                                        <label th:text="${item.merekItem}"></label><br>
+                                        <label th:text="${item.jenisItem}"></label><br>
                                     </tr>
                                 </div>
                             </div> -->

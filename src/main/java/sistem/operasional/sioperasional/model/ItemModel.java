@@ -2,8 +2,6 @@ package sistem.operasional.sioperasional.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -18,9 +16,9 @@ import java.util.Date;
 @Table(name="item")
 public class ItemModel implements Serializable {
     @Id
-    @Size(max=200)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="idItem")
-    private String idItem;
+    private Long idItem;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "idKategoriItem", referencedColumnName = "idKategoriItem", nullable = false)
@@ -29,10 +27,10 @@ public class ItemModel implements Serializable {
     private KategoriItemModel kategoriItem;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "idMerekItem", referencedColumnName = "idMerekItem", nullable = false)
+    @JoinColumn(name = "idJenisItem", referencedColumnName = "idJenisItem", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
-    private MerekItemModel merekItem;
+    private JenisItemModel jenisItem;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "nomorPurchaseOrder", referencedColumnName = "nomorPurchaseOrder", nullable = true)
@@ -47,15 +45,15 @@ public class ItemModel implements Serializable {
     private DeliveryOrderModel deliveryOrder;
     
     @NotNull
-    @DateTimeFormat(pattern = "dd-MM-yyyy")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "tanggalDatang", nullable = false)
     private Date tanggalDatang;
 
-    @DateTimeFormat(pattern = "dd-MM-yyyy")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "tanggalKeluar", nullable = true)
     private Date tanggalKeluar;
 
-    @DateTimeFormat(pattern = "dd-MM-yyyy")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "tanggalRefund", nullable = true)
     private Date tanggalRefund;
 
@@ -72,14 +70,14 @@ public class ItemModel implements Serializable {
     /**
      * @param idItem the idItem to set
      */
-    public void setIdItem(String idItem) {
+    public void setIdItem(Long idItem) {
         this.idItem = idItem;
     }
 
     /**
      * @return the idItem
      */
-    public String getIdItem() {
+    public Long getIdItem() {
         return idItem;
     }
 
@@ -91,12 +89,12 @@ public class ItemModel implements Serializable {
         this.kategoriItem = kategoriItem;
     }
 
-    public MerekItemModel getMerekItem() {
-        return merekItem;
+    public JenisItemModel getJenisItem() {
+        return jenisItem;
     }
 
-    public void setMerekItem(MerekItemModel merekItem) {
-        this.merekItem = merekItem;
+    public void setJenisItem(JenisItemModel jenisItem) {
+        this.jenisItem = jenisItem;
     }
 
     public PurchaseOrderModel getPurchaseOrder() {
@@ -140,12 +138,12 @@ public class ItemModel implements Serializable {
         this.tanggalRefund = tanggalRefund;
     }
 
-    public boolean getRusak() {
-        return isRusak;
-    }
-
     public void setRusak(boolean rusak) {
         isRusak = rusak;
+    }
+
+    public boolean isRusak() {
+        return isRusak;
     }
 
     public StatusItemModel getStatusItem() {
@@ -155,4 +153,5 @@ public class ItemModel implements Serializable {
     public void setStatusItem(StatusItemModel statusItem) {
         this.statusItem = statusItem;
     }
+
 }

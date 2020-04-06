@@ -17,6 +17,7 @@ import java.util.Date;
 import java.util.List;
 
 @Controller
+@RequestMapping("/hardware-fulfillment/item")
 public class ItemController {
     @Autowired
     ItemPOService itemPOService;
@@ -34,57 +35,65 @@ public class ItemController {
     KategoriItemService kategoriItemService;
 
     @Autowired
-    MerekItemService merekItemService;
+    JenisItemService jenisItemService;
 
-    @RequestMapping(path = "/view/{nomorPurchaseOrder}/close", method = RequestMethod.POST)
+    @RequestMapping(path = "/{nomorPurchaseOrder}/close", method = RequestMethod.POST)
     public String addItemFromPO(@PathVariable String nomorPurchaseOrder, @ModelAttribute ItemModel item, @ModelAttribute ItemPOModel itemPO, Model model){
-        List<ItemPOModel> listOfItemPOByPurchaseOrder = itemPOService.getItemPObyPurchaseOrder(purchaseOrderService.getPurchaseOrderByNomorPurchaseOrder(nomorPurchaseOrder));
-        for(int i=0; i<listOfItemPOByPurchaseOrder.size();i++){
-            ItemPOModel itemPOCreated = listOfItemPOByPurchaseOrder.get(i);
+        PurchaseOrderModel purchaseOrder = purchaseOrderService.getPurchaseOrderByNomorPurchaseOrder(nomorPurchaseOrder);
+        List<ItemPOModel> listOfItemPOByPurchaseOrder = itemPOService.getItemPObyPurchaseOrder(purchaseOrder);
+        for(ItemPOModel itemPOCreated : listOfItemPOByPurchaseOrder){
             for(int j=0; j<itemPOCreated.getJumlahItem(); j++){
                 ItemModel itemModel = new ItemModel();
                 itemModel.setRusak(false);
                 itemModel.setTanggalDatang(new Date());
                 itemModel.setKategoriItem(itemPOCreated.getKategoriItem());
-                itemModel.setMerekItem(itemPOCreated.getMerekItem());
+                itemModel.setJenisItem(itemPOCreated.getJenisItem());
                 itemModel.setPurchaseOrder(itemPOCreated.getPurchaseOrder());
                 itemModel.setStatusItem(statusItemService.getStatusItemByIdStatusItem(Long.valueOf(1)));
                 itemService.createItem(itemModel);
             }
         }
-        return "viewAllItem";
+        purchaseOrder.setStatusPO("Closed");
+        purchaseOrderService.addPurchaseOrder(purchaseOrder);
+        model.addAttribute("purchaseOrder", purchaseOrder);
+        model.addAttribute("listItem", purchaseOrder.getListitem());
+        return "success-close-po";
     }
 
-    @RequestMapping(value = "/hardware-fulfillment/item/create", method = RequestMethod.GET)
+    @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String createItemFormPage(Model model) {
         ItemModel newItem = new ItemModel();
         List<KategoriItemModel> listKategori = kategoriItemService.getKategoriItemList();
-        List<MerekItemModel> listMerek = merekItemService.getMerekItemList();
+        List<JenisItemModel> listJenis = jenisItemService.getJenisItemList();
         List<StatusItemModel> listStatus = statusItemService.getListStatusItem();
         model.addAttribute("item", newItem);
         model.addAttribute("listKategori", listKategori);
-        model.addAttribute("listMerek", listMerek);
+        model.addAttribute("listJenis", listJenis);
         model.addAttribute("listStatus", listStatus);
 
         return "form-create-item";
     }
 
-    @RequestMapping(value = "/hardware-fulfillment/item", method = RequestMethod.POST)
+    @RequestMapping(value = "/", method = RequestMethod.POST)
     public String createItemSubmit(@ModelAttribute ItemModel item, Model model) {
         try {
             item.setRusak(false);
             itemService.createItem(item);
-            return "viewAllItem";
+
+            model.addAttribute("kategoriItem", item.getKategoriItem().getNamaKategoriItem());
+            model.addAttribute("jenisItem", item.getJenisItem().getNamaJenisItem());
+            model.addAttribute("idItem", item.getIdItem());
+            return "success-create-item";
         } catch (NullPointerException e) {
             return "form-create-item";
         }
     }
 
-    @RequestMapping(value = "/hardware-fulfillment/item/all", method = RequestMethod.GET)
+    @RequestMapping(value = "/all", method = RequestMethod.GET)
     public String viewAllItem(Model model){
         List<ItemModel> listAllItem = itemService.getItemList();
         model.addAttribute("listAllItem", listAllItem);
-        return "viewAllItem";
+        return "list-item";
     }
 
 
