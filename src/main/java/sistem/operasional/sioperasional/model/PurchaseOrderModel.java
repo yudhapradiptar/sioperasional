@@ -41,7 +41,7 @@ public class PurchaseOrderModel implements Serializable {
     @OneToMany(mappedBy = "purchaseOrder", fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
-    private List<ItemPOModel> ListitemPO;
+    private List<ItemPOModel> listItemPO;
 
     @DateTimeFormat(pattern = "dd-MM-yyyy")
     @Column(name = "tanggalBayar", nullable = true)
@@ -66,8 +66,6 @@ public class PurchaseOrderModel implements Serializable {
     @JsonIgnore
     private StatusItemModel statusPO;
 
-    @OneToMany(mappedBy = "idItemPO", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    private List<ItemPOModel> itemPOModels;
 
     public String getNomorPurchaseOrder() {
         return nomorPurchaseOrder;
@@ -101,12 +99,12 @@ public class PurchaseOrderModel implements Serializable {
         this.nomorInvoice = nomorInvoice;
     }
 
-    public List<ItemPOModel> getListitemPO() {
-        return ListitemPO;
+    public List<ItemPOModel> getListItemPO() {
+        return listItemPO;
     }
 
-    public void setListitemPO(List<ItemPOModel> listitemPO) {
-        ListitemPO = listitemPO;
+    public void setListItemPO(List<ItemPOModel> listItemPO) {
+        this.listItemPO = listItemPO;
     }
 
     public Date getTanggalBayar() {
@@ -148,13 +146,5 @@ public class PurchaseOrderModel implements Serializable {
 
     public void setStatusPO(StatusItemModel statusPO) {
         this.statusPO = statusPO;
-    }
-
-    public List<ItemPOModel> getItemPOModels() {
-        return itemPOModels;
-    }
-
-    public void setItemPOModels(List<ItemPOModel> itemPOModels) {
-        this.itemPOModels = itemPOModels;
     }
 }
