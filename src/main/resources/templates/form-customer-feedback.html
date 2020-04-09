@@ -106,6 +106,10 @@
             kami mohon kesediaan anda untuk mengisi kuesioner yang tersedia berdasarkan pengalaman anda selama
             menjalani training ini. Terima kasih.</p>
         <hr />
+        <p th:text="'Trainer: ' + ${training.trainer.nama}"></p>
+        <p th:text="'Tanggal Training: ' + ${training.tanggalTraining}"></p>
+        <p th:text="'Waktu Training: ' + ${training.waktuMulai} + ' - ' + ${training.waktuSelesai}"></p>
+        <hr />
         <h3>Penilaian Tim Ops Selama Onboarding & Training</h3>
         <table>
             <tr>

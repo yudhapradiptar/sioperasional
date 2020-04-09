@@ -34,6 +34,7 @@ public class CustomerFeedbackController {
             if(training.getIdTraining()==idTraining && training.getStatusTraining().equals("Selesai")){
                 CustomerFeedbackModel newCustomerFeedback = new CustomerFeedbackModel();
                 model.addAttribute("customerFeedback", newCustomerFeedback);
+                model.addAttribute("training", training);
                 return "form-customer-feedback";
             }
         }
