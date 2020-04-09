@@ -39,7 +39,6 @@ public class UserModel implements Serializable {
     @Column(name="username", unique = true)
     private String username;
 
-   
     @NotNull
     @Lob
     @Type(type = "org.hibernate.type.TextType")
@@ -174,3 +173,4 @@ public class UserModel implements Serializable {
         this.status = status;
     }
 }
+

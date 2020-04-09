@@ -1,5 +1,4 @@
 package sistem.operasional.sioperasional.service;
-
 import sistem.operasional.sioperasional.model.UserModel;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,37 +12,38 @@ import sistem.operasional.sioperasional.model.UserModel;
 import java.util.List;
 import java.util.regex.Pattern;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import sistem.operasional.sioperasional.service.UserService;
+
+import javax.transaction.Transactional;
 
 @Service
-public class UserServiceImpl implements UserService{
+@Transactional
+public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserDB userDB;
 
     @Override
     public UserModel getUserCurrentLoggedIn() {
-            Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            String username = "";
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = "";
 
-            if (principal instanceof UserDetails) { 
-                username = ((UserDetails)principal).getUsername();
-            } else {
-                username = principal.toString();
-            }
+        if (principal instanceof UserDetails) {
+            username = ((UserDetails)principal).getUsername();
+        } else {
+            username = principal.toString();
+        }
         return userDB.findByUsername(username);
+    }
+
+    @Override
+    public List<UserModel> getAllUser(){
+        return userDB.findAll();
     }
 
     @Override
     public UserModel getUserByUsername(String username) {
         return userDB.findByUsername(username);
-    }
-
-    @Override
-    public List<UserModel> getAllUser() {
-        System.out.println(userDB.findAll()
-        
-        );
-        return userDB.findAll();
     }
 
     @Override
@@ -107,8 +107,6 @@ public class UserServiceImpl implements UserService{
         return hasil;
     }
 
-    
-
     @Override
     public UserModel changeUser(UserModel userModel) {
         UserModel targetUser = userDB.findByUsername(userModel.getUsername());
@@ -124,7 +122,4 @@ public class UserServiceImpl implements UserService{
             return null;
         }
     }
-
-
-
 }

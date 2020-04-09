@@ -4,8 +4,9 @@ import java.util.List;
 
 import sistem.operasional.sioperasional.model.UserModel;
 
-public interface UserService {
+import java.util.List;
 
+public interface UserService {
   UserModel getUserCurrentLoggedIn();
   UserModel getUserById(String id);
   UserModel getUserByUsername(String username);
