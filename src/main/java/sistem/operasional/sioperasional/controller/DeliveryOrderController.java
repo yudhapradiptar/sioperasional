@@ -155,29 +155,29 @@ public class DeliveryOrderController {
         return "add-tanggal-subscribe";
     }
 
-    @RequestMapping(value = "/update/{nomor}", method = RequestMethod.GET)
-    public String updateFormPage(@PathVariable String nomor, Model model) {
-        DeliveryOrderModel deliveryOrderModel = deliveryOrderService.getDeliveryOrderByNomorDeliveryOrder(nomor);
+    // @RequestMapping(value = "/update/{nomor}", method = RequestMethod.GET)
+    // public String updateFormPage(@PathVariable String nomor, Model model) {
+    //     DeliveryOrderModel deliveryOrderModel = deliveryOrderService.getDeliveryOrderByNomorDeliveryOrder(nomor);
         
-        List<ItemModel> itemModels = deliveryOrderModel.getListItem();
+    //     List<ItemModel> itemModels = deliveryOrderModel.getListItem();
 
-        ArrayList<ItemModel> listItemModels = new ArrayList<ItemModel>();
-        listItemModels.add(new ItemModel());
-        deliveryOrderModel.setListItem(listItemModels);
+    //     ArrayList<ItemModel> listItemModels = new ArrayList<ItemModel>();
+    //     listItemModels.add(new ItemModel());
+    //     deliveryOrderModel.setListItem(listItemModels);
 
-        OutletModel outletModel = new OutletModel();
-        deliveryOrderModel.setOutlet(outletModel);
-        List<OutletModel> outletModels = outletService.getOutletList();
+    //     OutletModel outletModel = new OutletModel();
+    //     deliveryOrderModel.setOutlet(outletModel);
+    //     List<OutletModel> outletModels = outletService.getOutletList();
 
-        List<ItemModel> itemModelsNull = itemService.getItemListByNomorDeliveryOrder(deliveryOrderModel.getNomorDeliveryOrder());
+    //     List<ItemModel> itemModelsNull = itemService.getItemListByNomorDeliveryOrder(deliveryOrderModel.getNomorDeliveryOrder());
 
-        model.addAttribute("listOutlet", outletModels);
-        model.addAttribute("deliveryOrder", deliveryOrderModel);
-        // model.addAttribute("listItem", itemModels);
-        model.addAttribute("listItem", itemModelsNull);
+    //     model.addAttribute("listOutlet", outletModels);
+    //     model.addAttribute("deliveryOrder", deliveryOrderModel);
+    //     // model.addAttribute("listItem", itemModels);
+    //     model.addAttribute("listItem", itemModelsNull);
         
-        return "form-update-delivery-order";
-    }
+    //     return "form-update-delivery-order";
+    // }
 
     @RequestMapping(value = "/update/{nomor}", method = RequestMethod.POST)
     public String updateSubmit(@PathVariable String nomor, @ModelAttribute DeliveryOrderModel deliveryOrderModel, Model model) {

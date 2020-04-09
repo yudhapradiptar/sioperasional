@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Template</title>
+    <title>Edit Pengguna</title>
 
     <!-- Custom fonts for this template-->
     <link rel="stylesheet" th:href="@{/vendor/fontawesome-free/css/all.min.css}" type="text/css">
@@ -54,33 +54,31 @@
                 <div class="container-fluid">
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h3 class="m-0 font-weight-bold">Tambah Pengguna</h3>
+                            <h3 class="m-0 font-weight-bold">Edit Pengguna</h3>
                         </div>
                         <div class="col-md-12">
                             <div class="card">
                                 <div class="card-body">
-                                    <form th:action="@{/account/add}" method="POST">
+                                    <form th:action="@{/account/edit/{username}(username=${user.username})}" method="POST">
                                         <label>User Name</label>
-                                        <input type="text" name="username" class="form-control">
+                                        <input  type="text" name="username" class="form-control" disabled th:value="${user.username}">
                                         <label>Nama</label>
-                                        <input type="text" name="nama" class="form-control">
+                                        <input type="text" name="nama" class="form-control" th:value="${user.nama}">
+                                        
+                                        <input type="password" name="password" class="form-control" th:value="${user.nama}" hidden>
                                         <label>Role</label>
-                                        <select name="role" class="form-control">
-                                            <option selected value="" disabled>-- Pilih Role --</option>
+                                        <select name="role" class="form-control" >
+                                            <option selected value="${user.role.namaRole}">-- Pilih Role --</option>
                                             <option th:each="roleAvailable : ${listRole} " th:value="${roleAvailable.idRole}" th:text="${roleAvailable.namaRole}"></option>
                                         </select>
                                         <label>Kode</label>
-                                        <input type="text" name="kode" class="form-control">
+                                        <input type="text" name="kode" class="form-control" th:value="${user.kode}">
                                         <label>Status</label>
-                                        <select name="status" class="form-control">
+                                        <select name="status" th:value="${user.status}" class="form-control">
                                             <option selected value="" disabled>-- Pilih Status --</option>
                                             <option value="aktif" >Aktif</option>
                                             <option value="tidak aktif">tidak aktif</option>
                                         </select>
-                                        <label>Password</label>
-                                        <input type="password" name="password" class="form-control">
-                                        <label>Konfirmasi Password</label>
-                                        <input type="password" name="passwordConfirm" class="form-control">
                                         <br>
                                         <button type="submit" class="btn btn-primary">Simpan</button>
                                     </form>
