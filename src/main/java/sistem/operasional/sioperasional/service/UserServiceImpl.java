@@ -47,6 +47,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<UserModel> getAllUser() {
+        System.out.println(userDB.findAll()
+        
+        );
+        return userDB.findAll();
+    }
+
+    @Override
     public UserModel addUser(UserModel user) {
         String pass = encrypt(user.getPassword());
         System.out.println(user.getPassword() +" "+ pass);
@@ -71,6 +79,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserModel findByUsername(String username){
         return userDB.findByUsername(username);
+    }
+
+    @Override
+    public UserModel getUserById(String id){
+        return userDB.findById(id).get();
     }
 
     @Override
@@ -102,4 +115,27 @@ public class UserServiceImpl implements UserService {
         return hasil;
     }
 
+<<<<<<< HEAD
+=======
+    
+
+    @Override
+    public UserModel changeUser(UserModel userModel) {
+        UserModel targetUser = userDB.findByUsername(userModel.getUsername());
+        try {
+            targetUser.setNama(userModel.getNama());
+            targetUser.setRole(userModel.getRole());
+            targetUser.setKode(userModel.getKode());
+            targetUser.setStatus(userModel.getStatus());
+            targetUser.setUsername(userModel.getUsername());
+            userDB.save(targetUser);
+            return targetUser;
+        } catch (NullPointerException nullException) {
+            return null;
+        }
+    }
+
+
+
+>>>>>>> 949e12b42daf97540d4e99741e7afb0bf1c26496
 }

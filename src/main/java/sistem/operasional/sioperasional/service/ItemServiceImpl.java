@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import sistem.operasional.sioperasional.model.ItemModel;
 import sistem.operasional.sioperasional.model.KategoriItemModel;
-import sistem.operasional.sioperasional.model.MerekItemModel;
+import sistem.operasional.sioperasional.model.JenisItemModel;
 import sistem.operasional.sioperasional.model.PurchaseOrderModel;
 import sistem.operasional.sioperasional.repository.ItemDB;
 
@@ -49,8 +49,8 @@ public class ItemServiceImpl implements ItemService{
     }
 
     @Override
-    public List<ItemModel> getItemListByMerekItem(MerekItemModel merekItemModel){
-        return itemDB.findItemModelByMerekItem(merekItemModel);
+    public List<ItemModel> getItemListByJenisItem(JenisItemModel jenisItemModel){
+        return itemDB.findItemModelByJenisItem(jenisItemModel);
     }
 
     @Override

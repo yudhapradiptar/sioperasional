@@ -28,6 +28,24 @@
     <script th:src="@{/vendor/datatables/dataTables.bootstrap4.min.js}"></script>
     <!-- <script th:src="@{/js/demo/datatables-demo.js}"></script> -->
     <!-- Khusus untuk Table -->
+    <script
+            src="https://code.jquery.com/jquery-3.4.1.js"
+            integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+            crossorigin="anonymous">
+    </script>
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css"  rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready( function () {
+            $('#datatable').DataTable({
+                "scrollX": true
+            });
+        } );
+    </script>
 
 </head>
 
@@ -57,21 +75,51 @@
                     <div class="card-body">
                         <p th:text="'Purchase Order dengan nomor ' + ${purchaseOrder.nomorPurchaseOrder} + ' berhasil ditutup'"></p>
                         <p th:text="'Item ditambahkan: '"></p>
-                        <tbody th:each="item, iterationStatus : ${listItem}">
-                        <tr>
-                            <th scope="row" th:text="${iterationStatus.count}"></th>
-                            <td th:text="${item.merekItem.namaMerekItem}"></td>
-                            <td th:text="${item.kategoriItem.namaKategoriItem}"></td>
-                            <td th:text="${item.statusItem.namaStatusItem}"></td>
-                        </tr>
-                        </tbody>
+                        <!-- DataTales Example -->
+                        <div class="card shadow mb-4">
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary">Item</h6>
+                            </div>
+                            <div class="card-body">
+                                <form class="form-group">
+                                    <table id="datatable" class="table table-hover" style="width:100%;">
+                                        <thead>
+                                        <tr>
+                                            <th>NO</th>
+                                            <th>Kategori</th>
+                                            <th>Jenis</th>
+                                            <th>Status</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr th:each="item, iterationStatus : *{listItem}">
+                                            <th scope="row" th:text="${iterationStatus.count}"></th>
+                                            <td th:text="${item.kategoriItem.namaKategoriItem}"></td>
+                                            <td th:text="${item.jenisItem.namaJenisItem}"></td>
+                                            <td th:text="${item.statusItem.namaStatusItem}"></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </form>
+                                <!--                        <form class="form-horizontal" th:action="@{/view/12345678/close}"-->
+                                <!--                              th:object="${item}" method="POST">-->
+                                <!--                            <button class="btn btn-success btn-icon-split">-->
+                                <!--                                        <span class="icon text-white-50">-->
+                                <!--                                        <i class="fas fa-check"></i>-->
+                                <!--                                        </span>-->
+                                <!--                                <span class="text" type="submit">Close PO</span>-->
+                                <!--                            </button>-->
+
+                                <!--                        </form>-->
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="container-fluid">
-                <a th:href="@{/delivery-order/detail/} + ${deliveryOrder.nomorDeliveryOrder}" class="btn btn-info btn-block">Lihat Detail</a>
-                <a th:href="@{/delivery-order/}" class="btn btn-warning btn-block">Kembali</a>
-            </div>
+<!--            <div class="container-fluid">-->
+<!--                <a th:href="@{/delivery-order/detail/} + ${deliveryOrder.nomorDeliveryOrder}" class="btn btn-info btn-block">Lihat Detail</a>-->
+<!--                <a th:href="@{/delivery-order/}" class="btn btn-warning btn-block">Kembali</a>-->
+<!--            </div>-->
 
         </div>
         <!-- End of Main Content -->

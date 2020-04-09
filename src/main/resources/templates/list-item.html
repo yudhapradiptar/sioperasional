@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Merek Item</title>
+    <title>Item</title>
 
     <!-- Custom fonts for this template-->
     <link rel="stylesheet" th:href="@{/vendor/fontawesome-free/css/all.min.css}" type="text/css">
@@ -120,7 +120,7 @@
                                 <tr>
                                     <th>NO</th>
                                     <th>Kategori</th>
-                                    <th>Merek</th>
+                                    <th>Jenis</th>
                                     <th>Nomor PO</th>
                                     <th>Nomor DO</th>
                                     <th>Status</th>
@@ -134,7 +134,7 @@
                                 <tr th:each="item, iterationStatus : *{listAllItem}">
                                     <th scope="row" th:text="${iterationStatus.count}"></th>
                                     <td th:text="${item.kategoriItem.namaKategoriItem}"></td>
-                                    <td th:text="${item.merekItem.namaMerekItem}"></td>
+                                    <td th:text="${item.jenisItem.namaJenisItem}"></td>
                                     <td th:text="${item.purchaseOrder != null} ? ${item.purchaseOrder.nomorPurchaseOrder}"></td>
                                     <td th:text="${item.deliveryOrder != null} ? ${item.deliveryOrder.nomorDeliveryOrder}"></td>
                                     <td th:text="${item.statusItem.namaStatusItem}"></td>
@@ -150,6 +150,18 @@
                                 </tr>
                                 </tbody>
                             </table>
+                        </form>
+<!--                        <form class="form-horizontal" th:action="@{/hardware-fulfillment/{nomorPO}(nomorPO=${purchaseOrder.nomorPurchaseOrder})/close}"-->
+<!--                              th:object="${item}" method="POST">-->
+                        <form class="form-horizontal" th:action="@{/hardware-fulfillment/item/PO22222/close}"
+                              th:object="${item}" method="POST">
+                            <button class="btn btn-success btn-icon-split">
+                                        <span class="icon text-white-50">
+                                        <i class="fas fa-check"></i>
+                                        </span>
+                                <span class="text" type="submit">Close PO</span>
+                            </button>
+
                         </form>
                     </div>
                 </div>

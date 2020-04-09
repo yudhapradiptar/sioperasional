@@ -30,7 +30,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/css/**").permitAll()
                 .antMatchers("/js/**").permitAll()
                 .antMatchers("/api/v1/**").permitAll()
+<<<<<<< HEAD
                 .antMatchers("/customer-feedback/**").permitAll()
+=======
+                // .antMatchers("/**").permitAll()
+>>>>>>> 949e12b42daf97540d4e99741e7afb0bf1c26496
                 .anyRequest().authenticated()
                 .and()
                 .csrf()
@@ -46,29 +50,29 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication()
-                .passwordEncoder(encoder())
-                .withUser("manager").password(encoder().encode("manager123"))
-                .roles("Operation Manager");
-        auth.inMemoryAuthentication()
-                .passwordEncoder(encoder())
-                .withUser("opslead").password(encoder().encode("opslead123"))
-                .roles("Operation Lead");
-        auth.inMemoryAuthentication()
-                .passwordEncoder(encoder())
-                .withUser("opsstaff").password(encoder().encode("opsstaff123"))
-                .roles("Operation Staff");
-        auth.inMemoryAuthentication()
-                .passwordEncoder(encoder())
-                .withUser("product").password(encoder().encode("product123"))
-                .roles("Product Operation Specialist");
-        auth.inMemoryAuthentication()
-                .passwordEncoder(encoder())
-                .withUser("customerservice").password(encoder().encode("customerservice123"))
-                .roles("Customer Service");
-    }
+//     @Autowired
+//     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+//         auth.inMemoryAuthentication()
+//                 .passwordEncoder(encoder())
+//                 .withUser("manager").password(encoder().encode("manager123"))
+//                 .roles("Operation Manager");
+//         auth.inMemoryAuthentication()
+//                 .passwordEncoder(encoder())
+//                 .withUser("opslead").password(encoder().encode("opslead123"))
+//                 .roles("Operation Lead");
+//         auth.inMemoryAuthentication()
+//                 .passwordEncoder(encoder())
+//                 .withUser("opsstaff").password(encoder().encode("opsstaff123"))
+//                 .roles("Operation Staff");
+//         auth.inMemoryAuthentication()
+//                 .passwordEncoder(encoder())
+//                 .withUser("product").password(encoder().encode("product123"))
+//                 .roles("Product Operation Specialist");
+//         auth.inMemoryAuthentication()
+//                 .passwordEncoder(encoder())
+//                 .withUser("customerservice").password(encoder().encode("customerservice123"))
+//                 .roles("Customer Service");
+//     }
 
         @Autowired
         private UserDetailsService userDetailsService;

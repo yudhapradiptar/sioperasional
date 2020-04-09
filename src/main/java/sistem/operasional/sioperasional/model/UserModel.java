@@ -1,25 +1,42 @@
 package sistem.operasional.sioperasional.model;
 
+import java.io.Serializable;
+import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.Type;
-
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import java.io.Serializable;
-import java.util.List;
+import org.hibernate.validator.constraints.UniqueElements;
 
 @Entity
 @Table(name="pengguna")
 public class UserModel implements Serializable {
 
     @Id
+    @GeneratedValue(generator = "system-uuid")
+    @GenericGenerator(name = "system-uuid", strategy = "uuid")
+    private String id;
+
+    @NotEmpty(message = "The above field must not be blank.")
     @Size(max=15)
-    @Column(name="username")
+    @Column(name="username", unique = true)
     private String username;
 
     @NotNull
@@ -30,11 +47,19 @@ public class UserModel implements Serializable {
     @JsonIgnore
     private String password;
 
+    @NotEmpty(message = "The above field must not be blank.")
     @NotNull
     @Size(max = 20)
     @Column(name = "nama", nullable = false)
     private String nama;
 
+    @NotEmpty(message = "The above field must not be blank.")
+    @NotNull
+    @Size(max = 20)
+    @Column (name = "status", nullable = false)
+    private String status;
+
+    @NotEmpty(message = "The above field must not be blank.")
     @NotNull
     @Size(max = 20)
     @Column(name = "kode", nullable = false)
@@ -138,6 +163,14 @@ public class UserModel implements Serializable {
 
     public void setKode(final String kode) {
         this.kode = kode;
+    }
+
+    public String getStatus() {
+        return this.status;
+    }
+
+    public void setStatus(final String status) {
+        this.status = status;
     }
 }
 
