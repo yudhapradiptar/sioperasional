@@ -1,12 +1,15 @@
 package sistem.operasional.sioperasional.service;
 
+import java.util.List;
+
 import sistem.operasional.sioperasional.model.UserModel;
 
 public interface UserService {
 
-	UserModel getUserCurrentLoggedIn();
-
-	UserModel getUserByUsername(String username);
+  UserModel getUserCurrentLoggedIn();
+  UserModel getUserById(String id);
+  UserModel getUserByUsername(String username);
+  List<UserModel> getAllUser();
   UserModel addUser(UserModel user);
   public String encrypt(String password);
   boolean checkPass(UserModel user, String pass);
@@ -14,5 +17,6 @@ public interface UserService {
   UserModel updateUser (UserModel user);
   boolean verifPass(String pass);
   boolean verifUser(UserModel user);
+  UserModel changeUser(UserModel user);
 
 }

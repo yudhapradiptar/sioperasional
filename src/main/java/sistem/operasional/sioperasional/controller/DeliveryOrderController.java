@@ -154,23 +154,24 @@ public class DeliveryOrderController {
     public String updateFormPage(@PathVariable String nomor, Model model) {
         DeliveryOrderModel deliveryOrderModel = deliveryOrderService.getDeliveryOrderByNomorDeliveryOrder(nomor);
 
-        ArrayList<ItemModel> listItemModels = new ArrayList<ItemModel>();
-        listItemModels.add(new ItemModel());
-        deliveryOrderModel.setListItem(listItemModels);
 
-        OutletModel outletModel = new OutletModel();
-        deliveryOrderModel.setOutlet(outletModel);
-        List<OutletModel> outletModels = outletService.getOutletList();
+    //     ArrayList<ItemModel> listItemModels = new ArrayList<ItemModel>();
+    //     listItemModels.add(new ItemModel());
+    //     deliveryOrderModel.setListItem(listItemModels);
 
-        List<ItemModel> itemModelsNull = itemService.getItemListByNomorDeliveryOrder(deliveryOrderModel.getNomorDeliveryOrder());
+    //     OutletModel outletModel = new OutletModel();
+    //     deliveryOrderModel.setOutlet(outletModel);
+    //     List<OutletModel> outletModels = outletService.getOutletList();
 
-        model.addAttribute("listOutlet", outletModels);
-        model.addAttribute("deliveryOrder", deliveryOrderModel);
-        // model.addAttribute("listItem", itemModels);
-        model.addAttribute("listItem", itemModelsNull);
+    //     List<ItemModel> itemModelsNull = itemService.getItemListByNomorDeliveryOrder(deliveryOrderModel.getNomorDeliveryOrder());
+
+    //     model.addAttribute("listOutlet", outletModels);
+    //     model.addAttribute("deliveryOrder", deliveryOrderModel);
+    //     // model.addAttribute("listItem", itemModels);
+    //     model.addAttribute("listItem", itemModelsNull);
         
-        return "form-update-delivery-order";
-    }
+    //     return "form-update-delivery-order";
+    // }
 
     @RequestMapping(value = "/update/{nomor}", method = RequestMethod.POST)
     public String updateSubmit(@PathVariable String nomor, @ModelAttribute DeliveryOrderModel deliveryOrderModel, Model model) {
