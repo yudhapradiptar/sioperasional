@@ -19,11 +19,7 @@ public interface ItemService {
 
     List<ItemModel> getItemListByKategoriItem(KategoriItemModel kategoriItemModel);
 
-<<<<<<< HEAD
-    List<ItemModel> getItemListByMerekItem(MerekItemModel merekItemModel);
 
     List<ItemModel> getItemListByNomorDeliveryOrder(String nomorDeliveryOrder);
-=======
     List<ItemModel> getItemListByJenisItem(JenisItemModel jenisItemModel);
->>>>>>> 949e12b42daf97540d4e99741e7afb0bf1c26496
 }

@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface CustomerFeedbackDB extends JpaRepository<CustomerFeedbackModel, Long> {
-    List<CustomerFeedbackModel> findByTraining(Long idTraining);
+    List<CustomerFeedbackModel> findByTraining(String idTraining);
 }

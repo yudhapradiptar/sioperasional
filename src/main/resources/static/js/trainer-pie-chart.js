@@ -6,7 +6,7 @@ for (var i = 0; i < listTrainer.length; i++) {
 
 var trainer = {
     title: {
-        text: "Training Operation Staff"
+        text: "Persentase Training yang telah Diselesaikan Operation Staff"
     },
     data: [{
         type: "pie",

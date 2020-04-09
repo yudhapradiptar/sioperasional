@@ -31,7 +31,7 @@ public class CustomerFeedbackServiceImpl implements CustomerFeedbackService{
     }
 
     @Override
-    public List<CustomerFeedbackModel> getCustomerFeedbackByIdTraining(Long idTraining){
+    public List<CustomerFeedbackModel> getCustomerFeedbackByIdTraining(String idTraining){
         return customerFeedbackDB.findByTraining(idTraining);
     }
 

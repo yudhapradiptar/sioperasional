@@ -2,7 +2,6 @@ package sistem.operasional.sioperasional.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-<<<<<<< HEAD
 import sistem.operasional.sioperasional.model.TrainingModel;
 import sistem.operasional.sioperasional.model.UserModel;
 import sistem.operasional.sioperasional.repository.TrainingDB;
@@ -27,18 +26,8 @@ public class TrainingServiceImpl implements TrainingService{
     }
 
     @Override
-    public TrainingModel getTrainingByIdTraining(Long idTraining){
-        return trainingDB.findById(idTraining).get();
+    public TrainingModel getTrainingByIdTraining(String idTraining){
+        return trainingDB.findByIdTraining(idTraining).get();
     }
-=======
 
-import sistem.operasional.sioperasional.repository.TrainingDB;
-
-@Service
-public class TrainingServiceImpl implements TrainingService {
-
-    @Autowired
-    private TrainingDB trainingDB;
-
->>>>>>> 949e12b42daf97540d4e99741e7afb0bf1c26496
 }
