@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Merek</title>
+    <title>Jenis</title>
 
     <!-- Custom fonts for this template-->
     <link rel="stylesheet" th:href="@{/vendor/fontawesome-free/css/all.min.css}" type="text/css">
@@ -55,13 +55,12 @@
                     </div>
                     <br>
                     <div class="card-body">
-                        <p th:text="'Merek ' + ${merek.namaMerekItem} + ' berhasil dibuat'"></p>
+                        <p th:text="'Jenis ' + ${jenis.namaJenisItem} + ' berhasil dihapus'"></p>
                     </div>
                 </div>
             </div>
             <div class="container-fluid">
-                <a th:href="@{/hardware-fulfillment/merek/all}" class="btn btn-info btn-block">Lihat Semua Merek</a>
-                <a th:href="@{/hardware-fulfillment/merek/create}" class="btn btn-warning btn-block">Kembali</a>
+                <a th:href="@{/hardware-fulfillment/jenis/all}" class="btn btn-info btn-block">Lihat Semua Jenis</a>
             </div>
 
         </div>

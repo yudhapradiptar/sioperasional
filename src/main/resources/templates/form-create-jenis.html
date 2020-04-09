@@ -1,6 +1,5 @@
-<!DOCTYPE html>
+<!doctype html>
 <html xmlns:th="http://www.thymeleaf.org">
-
 <head>
 
     <meta charset="utf-8">
@@ -9,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Merek</title>
+    <title>Jenis Item</title>
 
     <!-- Custom fonts for this template-->
     <link rel="stylesheet" th:href="@{/vendor/fontawesome-free/css/all.min.css}" type="text/css">
@@ -18,8 +17,9 @@
     <object th:include="fragments/fragment :: css-dev" th:remove="tag"></object>
     <object th:include="fragments/fragment :: js-dev" th:remove="tag"></object>
 
-    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-          rel="stylesheet">
+    <link
+            href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+            rel="stylesheet">
 
     <!-- Khusus untuk Table -->
     <link rel="stylesheet" th:href="@{/vendor/datatables/dataTables.bootstrap4.min.css}">
@@ -48,21 +48,45 @@
             <nav th:replace="fragments/fragment :: navbar"></nav>
             <!-- End of Topbar -->
 
+
             <div class="container-fluid">
-                <div class="card shadow mb-4 text-center">
+                <div class="card shadow mb-4">
                     <div class="card-header py-3">
-                        <h3 class="m-0 font-weight-bold">Gagal!</h3>
+                        <h3 class="m-0 font-weight-bold">Buat Jenis Item Baru</h3>
                     </div>
                     <br>
                     <div class="card-body">
-                        <p th:text="'Sudah ada Merek dengan nama ' + ${merek.namaMerekItem}"></p>
+                        <table class="table tab-content" align="center">
+                            <form class="form-horizontal" th:action="@{/hardware-fulfillment/jenis}" th:object="${jenis}" method="POST">
+                                <div class="form-group">
+                                    <label class="col-sm-2 col-form-label">Nama Jenis</label>
+                                    <input type="text" class="form-control" id="namaJenis" th:field="*{namaJenisItem}" placeholder="Nama Jenis" required="true">
+                                </div>
+
+                                <div class="row" dir="rtl">
+                                    <div class="control-label col-sm-2"></div>
+                                    <button class="btn btn-success btn-icon-split">
+                                        <span class="icon text-white-50">
+                                        <i class="fas fa-check"></i>
+                                        </span>
+                                        <span class="text" type="submit">Buat Jenis Baru</span>
+                                    </button>
+                                    &nbsp
+                                    &nbsp
+                                </div>
+
+
+                                <br>
+                            </form>
+
+                        </table>
                     </div>
                 </div>
+
+
+
             </div>
-            <div class="container-fluid">
-                <a th:href="@{/hardware-fulfillment/merek/all}" class="btn btn-info btn-block">Lihat Semua Merek</a>
-                <a th:href="@{/hardware-fulfillment/merek/create}" class="btn btn-warning btn-block">Kembali</a>
-            </div>
+            <!-- /.container-fluid -->
 
         </div>
         <!-- End of Main Content -->
@@ -87,5 +111,4 @@
 <link th:href="@{/vendor/jquery-easing/jquery.easing.min.js}">
 <link th:href="@{/js/sb-admin-2.min.js}">
 </body>
-
 </html>

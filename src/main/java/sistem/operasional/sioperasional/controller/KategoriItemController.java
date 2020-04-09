@@ -15,6 +15,7 @@ import sistem.operasional.sioperasional.service.KategoriItemService;
 import java.util.List;
 
 @Controller
+@RequestMapping("/hardware-fulfillment/kategori")
 public class KategoriItemController {
     @Autowired
     KategoriItemService kategoriItemService;
@@ -22,7 +23,7 @@ public class KategoriItemController {
     @Autowired
     ItemService itemService;
 
-    @RequestMapping(value = "/hardware-fulfillment/kategori/create", method = RequestMethod.GET)
+    @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String createKategoriFormPage(Model model) {
         KategoriItemModel newKategori = new KategoriItemModel();
         model.addAttribute("kategori", newKategori);
@@ -30,7 +31,7 @@ public class KategoriItemController {
         return "form-create-kategori";
     }
 
-    @RequestMapping(value = "/hardware-fulfillment/kategori", method = RequestMethod.POST)
+    @RequestMapping(value = "/", method = RequestMethod.POST)
     public String createKategoriSubmit(@ModelAttribute KategoriItemModel kategoriItem, Model model) {
         List<KategoriItemModel> listKategoriItem =  kategoriItemService.getKategoriItemList();
         try {
@@ -48,7 +49,7 @@ public class KategoriItemController {
         }
     }
 
-    @RequestMapping(value = "/hardware-fulfillment/kategori/all", method = RequestMethod.GET)
+    @RequestMapping(value = "/all", method = RequestMethod.GET)
     public String viewAllKategori(Model model){
         List<KategoriItemModel> listAllKategoriItem = kategoriItemService.getKategoriItemList();
         model.addAttribute("listAllKategoriItem", listAllKategoriItem);
@@ -56,7 +57,7 @@ public class KategoriItemController {
         return "list-kategori-item";
     }
 
-    @RequestMapping(value = "/hardware-fulfillment/kategori/delete")
+    @RequestMapping(value = "/delete")
     public String deleteKategoriItem(@RequestParam("idKategoriItem") Long idKategoriItem, Model model){
         KategoriItemModel deletedKategori = kategoriItemService.getKategoriItemByIdKategoriItem(idKategoriItem);
         model.addAttribute("kategori", deletedKategori);

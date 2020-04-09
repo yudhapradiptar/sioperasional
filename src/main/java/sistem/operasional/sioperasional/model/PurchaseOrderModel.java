@@ -33,7 +33,6 @@ public class PurchaseOrderModel implements Serializable {
     @JsonIgnore
     private VendorModel vendor;
 
-    @NotNull
     @Size(max = 200)
     @Column(name = "nomorInvoice", nullable = true)
     private String nomorInvoice;
