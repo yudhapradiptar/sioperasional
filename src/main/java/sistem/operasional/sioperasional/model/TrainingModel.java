@@ -2,6 +2,7 @@ package sistem.operasional.sioperasional.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -17,8 +18,9 @@ import java.util.List;
 @Table(name="training")
 public class TrainingModel implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idTraining;
+    @GeneratedValue(generator = "system-uuid")
+    @GenericGenerator(name = "system-uuid", strategy = "uuid")
+    private String idTraining;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "idOutlet", referencedColumnName = "idOutlet", nullable = false)
@@ -27,17 +29,21 @@ public class TrainingModel implements Serializable {
     private OutletModel outlet;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "creator", referencedColumnName = "username", nullable = false)
+    @JoinColumn(name = "creator", referencedColumnName = "id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private UserModel creator;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "trainer", referencedColumnName = "username", nullable = false)
+    @JoinColumn(name = "trainer", referencedColumnName = "id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private UserModel trainer;
 
+    @OneToMany(mappedBy = "training", fetch = FetchType.LAZY)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    private List<CustomerFeedbackModel> listCustomerFeedback;
 
     @NotNull
     @Size(max = 200)
@@ -45,12 +51,12 @@ public class TrainingModel implements Serializable {
     private String keteranganTraining;
 
     @NotNull
-    @DateTimeFormat(pattern = "dd-MM-yyyy")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "tanggalRequest", nullable = false)
     private Date tanggalRequest;
 
     @NotNull
-    @DateTimeFormat(pattern = "dd-MM-yyyy")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "tanggalTraining", nullable = false)
     private Date tanggalTraining;
 
@@ -76,11 +82,11 @@ public class TrainingModel implements Serializable {
     @Column(name = "statusTraining", nullable = false)
     private String statusTraining;
 
-    public Long getIdTraining() {
+    public String getIdTraining() {
         return idTraining;
     }
 
-    public void setIdTraining(Long idTraining) {
+    public void setIdTraining(String idTraining) {
         this.idTraining = idTraining;
     }
 
@@ -164,5 +170,11 @@ public class TrainingModel implements Serializable {
         this.statusTraining = statusTraining;
     }
 
+    public List<CustomerFeedbackModel> getListCustomerFeedback() {
+        return listCustomerFeedback;
+    }
 
+    public void setListCustomerFeedback(List<CustomerFeedbackModel> listCustomerFeedback) {
+        this.listCustomerFeedback = listCustomerFeedback;
+    }
 }

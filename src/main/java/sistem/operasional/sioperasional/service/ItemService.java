@@ -1,19 +1,29 @@
 package sistem.operasional.sioperasional.service;
 
-import java.util.List;
-import java.util.Optional;
-
-import sistem.operasional.sioperasional.model.DeliveryOrderModel;
 import sistem.operasional.sioperasional.model.ItemModel;
+import sistem.operasional.sioperasional.model.KategoriItemModel;
+import sistem.operasional.sioperasional.model.JenisItemModel;
+import sistem.operasional.sioperasional.model.PurchaseOrderModel;
+
+import java.util.List;
 
 public interface ItemService {
+    List<ItemModel> getItemByPurchaseOrder (PurchaseOrderModel purchaseOrder);
 
-	List<ItemModel> getItemList();
+    void createItem(ItemModel itemModel);
 
-	List<ItemModel> geItemListByTanggalKeluarNull();
+    List<ItemModel> getItemList();
 
-	List<ItemModel> getItemListByNomorDeliveryOrder(String nomorDeliveryOrder);
+    List<ItemModel> geItemListByTanggalKeluarNull();
 
-	List<ItemModel> geItemListByTanggalKeluarNullAndNotRusak();
+    List<ItemModel> getItemListByKategoriItem(KategoriItemModel kategoriItemModel);
+    
+    ItemModel getItemDetailByIdItem(Long idItem);
+    
+    ItemModel updateStatusItem(ItemModel item);
+  
+	  List<ItemModel> geItemListByTanggalKeluarNullAndNotRusak();
 
+    List<ItemModel> getItemListByNomorDeliveryOrder(String nomorDeliveryOrder);
+    List<ItemModel> getItemListByJenisItem(JenisItemModel jenisItemModel);
 }

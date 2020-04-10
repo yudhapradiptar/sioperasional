@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Update Status Item</title>
+
+    <!-- Custom fonts for this template-->
+    <link rel="stylesheet" th:href="@{/vendor/fontawesome-free/css/all.min.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/sb-admin-2.min.css}">
+
+    <object th:include="fragments/fragment :: css-dev" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js-dev" th:remove="tag"></object>
+
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+</head>
+
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        <ul th:replace="fragments/fragment :: sidebar"></ul>
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                <!-- Topbar -->
+                <nav th:replace="fragments/fragment :: navbar"></nav>
+                <!-- End of Topbar -->
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h3 class="m-0 font-weight-bold">Ubah Status Item</h3>
+                        </div>
+                        <br>
+                        <div class="card-body">
+                            <form action="#" th:action="@{'/hardware-fulfillment/item/update/' + ${item.idItem} + '/success'}" th:object="${item}" method="post">
+                                <input type="hidden" class="form-control" name="idItem" th:field="*{idItem}">
+                                <input type="hidden" class="form-control" name="tanggalDatang" th:field="*{tanggalDatang}">
+                                <input type="hidden" class="form-control" name="tanggalRefund" th:field="*{tanggalRefund}">
+                                <input type="hidden" class="form-control" name="tanggalKeluar" th:field="*{tanggalKeluar}">
+                                <input type="hidden" class="form-control" name="deliveryOrder" th:field="*{deliveryOrder}">
+                                <input type="hidden" class="form-control" name="purchaseOrder" th:field="*{purchaseOrder}">
+                                <input type="hidden" class="form-control" name="kategoriItem" th:field="*{kategoriItem}">
+                                <input type="hidden" class="form-control" name="jenisItem" th:field="*{jenisItem}">
+                                <!-- <input type="hidden" class="form-control" name="statusItem" th:field="*{statusItem}"> -->
+                                <div class="row">
+                                    <div class="col-sm">
+                                        Id Item
+                                    </div>
+                                    <div class="col-sm">
+                                        <p th:text="':  ' + ${item.idItem}"></p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm">
+                                        Tanggal Datang
+                                    </div>
+                                    <div class="col-sm">
+                                        <p th:if="${item.tanggalDatang}" th:text="':  ' + ${item.tanggalDatang}"></p>
+                                        <p th:unless="${item.tanggalDatang}" th:text="':  -'"></p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm">
+                                        Tanggal Keluar
+                                    </div>
+                                    <div class="col-sm">
+                                        <p th:if="${item.tanggalKeluar} " th:text=" ':  ' + ${item.tanggalKeluar} "></p>
+                                        <p th:unless="${item.tanggalKeluar} " th:text=" ':  -' "></p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm">
+                                        Tanggal Refund
+                                    </div>
+                                    <div class="col-sm">
+                                        <p th:if="${item.tanggalRefund} " th:text=" ':  ' + ${item.tanggalRefund} "></p>
+                                        <p th:unless="${item.tanggalRefund} " th:text=" ':  -' "></p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm">
+                                        Nama Kategori
+                                    </div>
+                                    <div class="col-sm">
+                                        <p th:if="${item.kategoriItem} " th:text=" ':  ' + ${item.kategoriItem.namaKategoriItem} "></p>
+                                        <p th:unless="${item.kategoriItem} " th:text=" ':  -' "></p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm">
+                                        Jenis
+                                    </div>
+                                    <div class="col-sm">
+                                        <p th:if="${item.jenisItem} " th:text=" ':  ' + ${item.jenisItem.namaJenisItem} "></p>
+                                        <p th:unless="${item.jenisItem} " th:text=" ':  -' "></p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm">
+                                        Nomor Delivery Order
+                                    </div>
+                                    <div class="col-sm">
+                                        <p th:if="${item.deliveryOrder} " th:text=" ':  ' + ${item.deliveryOrder.nomorDeliveryOrder} "></p>
+                                        <p th:unless="${item.deliveryOrder} " th:text=" ':  -' "></p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm">
+                                        Nomor Purchase Order
+                                    </div>
+                                    <div class="col-sm">
+                                        <p th:if="${item.purchaseOrder} " th:text=" ':  ' + ${item.purchaseOrder.nomorPurchaseOrder} "></p>
+                                        <p th:unless="${item.purchaseOrder} " th:text=" ':  -' "></p>
+                                    </div>
+                                </div>
+                                <div class="form-group col">
+                                    <label class="col-sm-2 col-form-label ">Is Rusak</label>
+                                    <div class="col-sm-7">
+                                        <select class="form-control" th:field="*{rusak}">
+                                            <option th:value="1" th:text="Ya"></option>
+                                            <option th:value="0" th:text="Tidak"></option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group col">
+                                    <label class="col-sm-2 col-form-label ">Status Item</label>
+                                    <div class="col-sm-7">
+                                        <select class="form-control" name="statusItem" th:value="*{statusItem.idStatusItem}" required="true">
+                                            <option th:each="i : ${allStatusItem}" th:value="${i.idStatusItem}" th:text="${i.namaStatusItem}"></option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.container-fluid -->
+            </div>
+            <!-- End of Main Content -->
+            <!-- Footer -->
+            <footer th:replace="fragments/fragment :: footer-dev-1 "></footer>
+            <!-- End of Footer -->
+        </div>
+        <!-- End of Content Wrapper -->
+    </div>
+    <!-- End of Page Wrapper -->
+    <a th:replace="fragments/fragment :: scroll-to-top "></a>
+    <div th:replace="fragments/fragment :: logout-modal "></div>
+    <!-- Bootstrap core JavaScript-->
+    <link th:href="@{/vendor/jquery/jquery.min.js} ">
+    <link th:href="@{/vendor/bootstrap/js/bootstrap.bundle.min.js} ">
+    <link th:href="@{/vendor/jquery-easing/jquery.easing.min.js} ">
+    <link th:href="@{/js/sb-admin-2.min.js} ">
+</body>
+
+</html>

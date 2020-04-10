@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
 
@@ -56,7 +56,7 @@
                         </div>
                         <br>
                         <div class="card-body">
-                            <table class="table tab-content" align="center">
+                            <table class="table tab-content" text-align="center">
                                 <form class="form-horizontal" th:action="@{/delivery-order/add}"
                                     th:object="${deliveryOrder}" method="POST">
                                     <div class="form-group">
@@ -163,7 +163,7 @@
                                 <div>
                                     <tr th:each="item, iterationStatus : *{listItem}">
                                         <input type="checkbox" th:value="${item.idItem}">
-                                        <label th:text="${item.merekItem}"></label><br>
+                                        <label th:text="${item.jenisItem}"></label><br>
                                     </tr>
                                 </div>
                             </div> -->
