@@ -18,7 +18,7 @@ public interface ItemService {
 
     List<ItemModel> getItemListByKategoriItem(KategoriItemModel kategoriItemModel);
     
-    List<ItemModel> getItemDetailByIdItem(Long idItem);
+    ItemModel getItemDetailByIdItem(Long idItem);
     
     ItemModel updateStatusItem(ItemModel item);
 
