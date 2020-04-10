@@ -41,6 +41,7 @@ public class OutletServiceImpl implements OutletService {
             newOutletModel.setJenisOutlet(outletModel.getJenisOutlet());
             newOutletModel.setNoTelpOutlet(outletModel.getNoTelpOutlet());
             newOutletModel.setNamaOutlet(outletModel.getNamaOutlet());
+            newOutletModel.setAktif(outletModel.isAktif());
 
             outletDB.save(newOutletModel);
             return newOutletModel;

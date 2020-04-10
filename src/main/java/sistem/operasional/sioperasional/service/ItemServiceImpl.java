@@ -59,6 +59,10 @@ public class ItemServiceImpl implements ItemService{
     }
 
     @Override
+    public List<ItemModel> geItemListByTanggalKeluarNullAndNotRusak() {
+        return itemDB.findItemByTanggalKeluarAndNotRusak(0);
+    }
+
     public ItemModel getItemDetailByIdItem(Long idItem) {
         return itemDB.findById(idItem).get();
     }

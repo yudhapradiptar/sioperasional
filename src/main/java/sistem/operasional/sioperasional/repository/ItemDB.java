@@ -20,4 +20,8 @@ public interface ItemDB extends JpaRepository<ItemModel, Long> {
 	@Query(value = "SELECT * FROM item WHERE nomor_delivery_order IS NULL or nomor_delivery_order = ?1", nativeQuery = true)
 	List<ItemModel> findItemByDeliveryOrder(String nomorDeliveryOrder, Object object);
 
+	@Query(value = "SELECT * FROM item WHERE tanggal_keluar IS NULL and is_rusak = ?1", nativeQuery = true)
+	List<ItemModel> findItemByTanggalKeluarAndNotRusak(int i);
+
+
 }
