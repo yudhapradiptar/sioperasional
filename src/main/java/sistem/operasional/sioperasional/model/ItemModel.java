@@ -17,7 +17,6 @@ import java.util.Date;
 public class ItemModel implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="idItem")
     private Long idItem;
 
     @ManyToOne(fetch = FetchType.EAGER)
