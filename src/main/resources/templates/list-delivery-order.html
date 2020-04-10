@@ -116,6 +116,7 @@
                                             <th scope="col">Nomor Delivery Order</th>
                                             <th scope="col">Outlet</th>
                                             <th scope="col">nomorInvoice</th>
+                                            <th scope="col">Bundling</th>
                                             <th scope="col"></th>
                                             <th scope="col"></th>
                                             <th scope="col"></th>
@@ -128,6 +129,12 @@
                                             <td th:text="${deliveryOrder.nomorDeliveryOrder}"></td>
                                             <td th:text="${deliveryOrder.outlet.namaOutlet}"></td>
                                             <td th:text="${deliveryOrder.nomorInvoice}"></td>
+                                            <div th:if="${deliveryOrder.subscribed == true}">
+                                                <td th:text="'Bundling'"></td>
+                                            </div>
+                                            <div th:if="${deliveryOrder.subscribed == false}">
+                                                <td th:text="'Tidak Bundling'"></td>
+                                            </div>
                                             <td><form action=""></form></td>
                                             <td>
                                                 <form
