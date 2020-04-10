@@ -13,6 +13,7 @@ import sistem.operasional.sioperasional.model.*;
 import sistem.operasional.sioperasional.repository.StatusItemDB;
 import sistem.operasional.sioperasional.service.*;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -94,7 +95,35 @@ public class ItemController {
         return "list-item";
     }
 
+    @RequestMapping(value = "/hardware-fulfillment/item/update/{idItem}", method = RequestMethod.GET)
+    public String UpdateStatusItem(@PathVariable("idItem") String idItem, Model model){
+        List<ItemModel> item = itemService.getItemDetailByIdItem(Long.parseLong(idItem));
+        List<StatusItemModel> statusItem = statusItemService.getListStatusItem();
+        ItemModel itemDetail = item.get(0);
+        
+        System.out.println("Status Item");
+        for(StatusItemModel s : statusItem){
+            System.out.println(s.getNamaStatusItem());
+        }
 
+        System.out.println("Item Detail");
+        System.out.println(itemDetail.getTanggalDatang());
+        System.out.println(itemDetail.getStatusItem().getNamaStatusItem());
+        System.out.println(itemDetail.isRusak());
+        System.out.println(itemDetail.getIdItem()); 
 
+        model.addAttribute("item", itemDetail);
+        model.addAttribute("allStatusItem", statusItem);
+
+        return "status-item-isRusak";
+    }
+
+    @RequestMapping(value = "/hardware-fulfillment/item/update/{idItem}/success", method = RequestMethod.POST)
+    public String updateStatusItemSubmit(@PathVariable String idItem, @ModelAttribute ItemModel itemModel, Model model) {
+
+        itemService.updateStatusItem(itemModel);
+
+        return "redirect:/hardware-fulfillment/item/all";
+    }
 
 }

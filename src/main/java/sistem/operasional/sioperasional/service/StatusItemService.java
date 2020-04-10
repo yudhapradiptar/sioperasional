@@ -8,4 +8,6 @@ public interface StatusItemService {
     StatusItemModel getStatusItemByIdStatusItem (Long idStatusItem);
 
     List<StatusItemModel> getListStatusItem();
+
+    void createStatusItem(StatusItemModel statusItem);
 }

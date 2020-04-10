@@ -16,6 +16,7 @@ public interface ItemDB extends JpaRepository<ItemModel, Long> {
     List<ItemModel> findItemByTanggalKeluar(Object object);
     List<ItemModel> findItemModelByKategoriItem(KategoriItemModel kategoriItemModel);
     List<ItemModel> findItemModelByMerekItem(MerekItemModel merekItemModel);
+    List<ItemModel> findByIdItem(Long idItem);
 
 	@Query(value = "SELECT * FROM item WHERE nomor_delivery_order IS NULL or nomor_delivery_order = ?1", nativeQuery = true)
 	List<ItemModel> findItemByDeliveryOrder(String nomorDeliveryOrder, Object object);

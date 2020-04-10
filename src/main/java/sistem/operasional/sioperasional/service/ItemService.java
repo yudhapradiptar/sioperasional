@@ -6,7 +6,6 @@ import sistem.operasional.sioperasional.model.MerekItemModel;
 import sistem.operasional.sioperasional.model.PurchaseOrderModel;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface ItemService {
     List<ItemModel> getItemByPurchaseOrder (PurchaseOrderModel purchaseOrder);
@@ -20,4 +19,8 @@ public interface ItemService {
     List<ItemModel> getItemListByKategoriItem(KategoriItemModel kategoriItemModel);
 
     List<ItemModel> getItemListByMerekItem(MerekItemModel merekItemModel);
+    
+    List<ItemModel> getItemDetailByIdItem(Long idItem);
+    
+    ItemModel updateStatusItem(ItemModel item);
 }

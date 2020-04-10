@@ -169,12 +169,12 @@ public class DeliveryOrderController {
         deliveryOrderModel.setOutlet(outletModel);
         List<OutletModel> outletModels = outletService.getOutletList();
 
-        List<ItemModel> itemModelsNull = itemService.getItemListByNomorDeliveryOrder(deliveryOrderModel.getNomorDeliveryOrder());
+        // List<ItemModel> itemModelsNull = itemService.getItemListByNomorDeliveryOrder(deliveryOrderModel.getNomorDeliveryOrder());
 
         model.addAttribute("listOutlet", outletModels);
         model.addAttribute("deliveryOrder", deliveryOrderModel);
         // model.addAttribute("listItem", itemModels);
-        model.addAttribute("listItem", itemModelsNull);
+        // model.addAttribute("listItem", itemModelsNull);
         
         return "form-update-delivery-order";
     }

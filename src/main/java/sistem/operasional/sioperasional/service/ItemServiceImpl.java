@@ -53,6 +53,27 @@ public class ItemServiceImpl implements ItemService{
         return itemDB.findItemModelByMerekItem(merekItemModel);
     }
 
+    @Override
+    public List<ItemModel> getItemDetailByIdItem(Long idItem) {
+        return itemDB.findByIdItem(idItem);
+    }
 
+    @Override
+    public ItemModel updateStatusItem(ItemModel itemModel) {
+        System.out.println("start");
+        ItemModel newItemModel = itemDB.findByIdItem(itemModel.getIdItem()).get(0);
 
+        // System.out.println(newItemModel.getStatusItem());
+        // newItemModel.setRusak(itemModel.isRusak());
+        // itemDB.save(newItemModel);
+        try {
+            newItemModel.setRusak(itemModel.isRusak());
+            newItemModel.setStatusItem(itemModel.getStatusItem());
+            itemDB.save(newItemModel);
+            return newItemModel;
+        } catch (NullPointerException nullException) {
+            return null;
+        }
+        // return newItemModel;
+    }    
 }
