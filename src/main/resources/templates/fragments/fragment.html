@@ -110,16 +110,16 @@
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
                 aria-expanded="true" aria-controls="collapseUtilities">
                 <i class="fas fa-fw fa-desktop"></i>
-                <span>apa yaa 1</span>
+                <span>Hardware Fulfillment</span>
             </a>
 
             <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
                 data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
-                    <h6 class="collapse-header">Menu apa yaaa:</h6>
-                    <a class="collapse-item" th:href="@{/}">test 1</a>
-                    <a class="collapse-item" th:href="@{/}">test 2</a>
-                    <a class="collapse-item" th:href="@{/}">test 3</a>
+                    <h6 class="collapse-header">Hardware Fulfillment:</h6>
+                    <a class="collapse-item" th:href="@{/hardware-fulfillment/item/all}">Item</a>
+                    <a class="collapse-item" th:href="@{/hardware-fulfillment/kategori/all}">Kategori Item</a>
+                    <a class="collapse-item" th:href="@{/hardware-fulfillment/jenis/all}">Jenis Item</a>
                 </div>
             </div>
         </li>
@@ -129,12 +129,14 @@
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
                 aria-expanded="true" aria-controls="collapsePages">
                 <i class="fas fa-fw fa-book"></i>
-                <span>apa yaa 2</span>
+                <span>Dashboard</span>
             </a>
             <div id="collapsePages" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
-                    <h6 class="collapse-header">Menu apa:</h6>
-                    <a class="collapse-item" th:href="@{/}">test 1</a>
+                    <h6 class="collapse-header">Dashboard:</h6>
+                    <a class="collapse-item" th:href="@{/dashboard/customer-feedback}">Customer Feedback</a>
+                    <a class="collapse-item" th:href="@{/dashboard/training}">Training</a>
+                    <a class="collapse-item" th:href="@{/dashboard/trainer}">Trainer</a>
                 </div>
             </div>
         </li>
@@ -219,10 +221,10 @@
                         <!-- Dropdown - User Information -->
                         <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                             aria-labelledby="userDropdown">
-                            <a class="dropdown-item" th:href="@{/user/profile}">
+                            <!-- <a class="dropdown-item" th:href="@{/user/profile}">
                                 <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                 Profile
-                            </a>
+                            </a> -->
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" th:href="@{/logout}">
                                 <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>

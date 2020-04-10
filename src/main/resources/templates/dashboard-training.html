@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Merek Item</title>
+    <title>Dashboard</title>
 
     <!-- Custom fonts for this template-->
     <link rel="stylesheet" th:href="@{/vendor/fontawesome-free/css/all.min.css}" type="text/css">
@@ -40,10 +40,21 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
-    <script type="text/javascript">
-        $(document).ready( function () {
-            $('#datatable').dataTable();
-        } );
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        let listBulan = /*[[${listBulan}]]*/ 'TestBulan';
+        let listTahun = /*[[${listTahun}]]*/ 'TestTahun';
+        let listJumlahTraining = /*[[${listJumlahTraining}]]*/ 'TestJumlahTraining';
+        /*]]>*/
+        console.log(listBulan);
+        console.log(listTahun);
+        console.log(listJumlahTraining);
+    </script>
+    <script th:inline="javascript" src="/js/training-line-chart.js"></script>
+    <script th:inline="javascript">
+        window.onload = function () {
+            $("#chartTraining").CanvasJSChart(training);
+        }
     </script>
 </head>
 
@@ -59,11 +70,9 @@
 
         <!-- Main Content -->
         <div id="content">
-
             <!-- Topbar -->
             <nav th:replace="fragments/fragment :: navbar"></nav>
             <!-- End of Topbar -->
-
             <!-- Begin Page Content -->
             <div class="container-fluid">
 
@@ -77,9 +86,47 @@
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
                                         <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                            Formulir</div>
+                                            Dashboard</div>
                                         <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                            <a th:href="@{/hardware-fulfillment/merek/create}">Buat Merek Item</a>
+                                            <a th:href="@{/dashboard/customer-feedback}">Dashboard Customer Feedback</a>
+                                        </div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-plus fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-primary shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                            Dashboard</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                            <a th:href="@{/dashboard/training}">Dashboard Training</a>
+                                        </div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-plus fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-primary shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                            Dashboard</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                            <a th:href="@{/dashboard/trainer}">Dashboard Trainer</a>
                                         </div>
                                     </div>
                                     <div class="col-auto">
@@ -93,48 +140,11 @@
                 </div>
             </div>
             <!-- /.container-fluid -->
-
-            <!-- Begin Page Content -->
             <div class="container-fluid">
-
-                <!-- Page Heading -->
-                <h1 class="h3 mb-2 text-gray-800">Daftar Merek</h1>
-
-                <!-- DataTales Example -->
-                <div class="card shadow mb-4">
-                    <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">Merek</h6>
-                    </div>
-                    <div class="card-body">
-                        <form class="form-group">
-                            <table id="datatable" class="table table-hover" style="width:100%;">
-                                <thead>
-                                <tr>
-                                    <th>No</th>
-                                    <th>Nama Merek</th>
-                                    <th></th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr th:each="merek, iterationStatus : *{listAllMerekItem}">
-                                    <th scope="row" th:text="${iterationStatus.count}"></th>
-                                    <td th:text="${merek.namaMerekItem}"></td>
-                                    <td>
-                                        <a class="btn btn-danger" id="delButton"
-                                           th:href="@{/hardware-fulfillment/merek/delete(idMerekItem=${merek.idMerekItem})}"
-                                           role="button"><i class="fa fa-trash-o"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </form>
-                    </div>
-                </div>
-
+                <div id="chartTraining" style="height: 370px; width: 100%;"></div>
+                <script type="text/javascript" src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+                <script type="text/javascript" src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
             </div>
-            <!-- /.container-fluid -->
-
         </div>
         <!-- End of Main Content -->
 

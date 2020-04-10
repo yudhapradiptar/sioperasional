@@ -2,8 +2,6 @@ package sistem.operasional.sioperasional.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -28,10 +26,10 @@ public class ItemModel implements Serializable {
     private KategoriItemModel kategoriItem;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "idMerekItem", referencedColumnName = "idMerekItem", nullable = false)
+    @JoinColumn(name = "idJenisItem", referencedColumnName = "idJenisItem", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
-    private MerekItemModel merekItem;
+    private JenisItemModel jenisItem;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "nomorPurchaseOrder", referencedColumnName = "nomorPurchaseOrder", nullable = true)
@@ -90,12 +88,12 @@ public class ItemModel implements Serializable {
         this.kategoriItem = kategoriItem;
     }
 
-    public MerekItemModel getMerekItem() {
-        return merekItem;
+    public JenisItemModel getJenisItem() {
+        return jenisItem;
     }
 
-    public void setMerekItem(MerekItemModel merekItem) {
-        this.merekItem = merekItem;
+    public void setJenisItem(JenisItemModel jenisItem) {
+        this.jenisItem = jenisItem;
     }
 
     public PurchaseOrderModel getPurchaseOrder() {
