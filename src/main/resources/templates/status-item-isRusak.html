@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
 
@@ -54,7 +54,7 @@
                                 <input type="hidden" class="form-control" name="deliveryOrder" th:field="*{deliveryOrder}">
                                 <input type="hidden" class="form-control" name="purchaseOrder" th:field="*{purchaseOrder}">
                                 <input type="hidden" class="form-control" name="kategoriItem" th:field="*{kategoriItem}">
-                                <input type="hidden" class="form-control" name="merekItem" th:field="*{merekItem}">
+                                <input type="hidden" class="form-control" name="jenisItem" th:field="*{jenisItem}">
                                 <!-- <input type="hidden" class="form-control" name="statusItem" th:field="*{statusItem}"> -->
                                 <div class="row">
                                     <div class="col-sm">
@@ -102,11 +102,11 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-sm">
-                                        Merek
+                                        Jenis
                                     </div>
                                     <div class="col-sm">
-                                        <p th:if="${item.merekItem} " th:text=" ':  ' + ${item.merekItem.namaMerekItem} "></p>
-                                        <p th:unless="${item.merekItem} " th:text=" ':  -' "></p>
+                                        <p th:if="${item.jenisItem} " th:text=" ':  ' + ${item.jenisItem.namaJenisItem} "></p>
+                                        <p th:unless="${item.jenisItem} " th:text=" ':  -' "></p>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -144,8 +144,6 @@
                                         </select>
                                     </div>
                                 </div>
-
-                                <button type="submit">Submit</button>
                             </form>
                         </div>
                     </div>

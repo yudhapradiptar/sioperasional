@@ -59,14 +59,14 @@ public class ItemServiceImpl implements ItemService{
     }
 
     @Override
-    public List<ItemModel> getItemDetailByIdItem(Long idItem) {
-        return itemDB.findByIdItem(idItem);
+    public ItemModel getItemDetailByIdItem(Long idItem) {
+        return itemDB.findById(idItem).get();
     }
 
     @Override
     public ItemModel updateStatusItem(ItemModel itemModel) {
         System.out.println("start");
-        ItemModel newItemModel = itemDB.findByIdItem(itemModel.getIdItem()).get(0);
+        ItemModel newItemModel = itemDB.findById(itemModel.getIdItem()).get();
 
         // System.out.println(newItemModel.getStatusItem());
         // newItemModel.setRusak(itemModel.isRusak());

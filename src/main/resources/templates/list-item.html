@@ -128,6 +128,7 @@
                                     <th>Tanggal Datang</th>
                                     <th>Tanggal Keluar</th>
                                     <th>Tanggal Refund</th>
+                                    <th>Action</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -144,9 +145,12 @@
                                             <p th:case=true>Ya</p>
                                         </div>
                                     </td>
-                                    <td th:text="${item.tanggalDatang}"></td>
-                                    <td th:text="${item.tanggalKeluar != null} ? ${item.tanggalKeluar}"></td>
-                                    <td th:text="${item.tanggalRefund != null} ? ${item.tanggalRefund}"></td>
+                                    <td th:text="${item.tanggalDatang.toString().substring(0,10)}"></td>
+                                    <td th:text="${item.tanggalKeluar != null} ? ${item.tanggalKeluar.toString().substring(0,10)}"></td>
+                                    <td th:text="${item.tanggalRefund != null} ? ${item.tanggalRefund.toString().subString(0,10)}"></td>
+                                    <td>
+                                        <a class="btn btn-info text-white" th:href="@{/hardware-fulfillment/item/update/} + ${item.idItem}">Detail</a>
+                                    </td>
                                 </tr>
                                 </tbody>
                             </table>
