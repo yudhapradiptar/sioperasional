@@ -31,6 +31,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/js/**").permitAll()
                 .antMatchers("/api/v1/**").permitAll()
                 .antMatchers("/customer-feedback/**").permitAll()
+                .antMatchers("/dashboard/**").hasAnyAuthority("Operation Manager")
+                .antMatchers("/account/**").hasAnyAuthority("Operation Manager")
+                .antMatchers("/delivery-order/**").hasAnyAuthority("Operation Manager")
+                .antMatchers("/hardware-fullfillment/item/**").hasAnyAuthority("Operation Manager", "Product Operation Specialist")
+                .antMatchers("/hardware-fulfillment/jenis/**").hasAnyAuthority("Operation Manager", "Product Operation Specialist")
+                .antMatchers("/outlet/**").hasAnyAuthority("Operation Manager", "Product Operation Specialist", "Operation Lead","Product Operation Specialist")
+                .antMatchers("/jenis-outlet/**").hasAnyAuthority("Operation Manager", "Product Operation Specialist", "Operation Lead","Product Operation Specialist")
                 .anyRequest().authenticated()
                 .and()
                 .csrf()
@@ -64,10 +71,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                  .passwordEncoder(encoder())
                  .withUser("product").password(encoder().encode("product123"))
                  .roles("Product Operation Specialist");
-         auth.inMemoryAuthentication()
-                 .passwordEncoder(encoder())
-                 .withUser("customerservice").password(encoder().encode("customerservice123"))
-                 .roles("Customer Service");
      }
 
         @Autowired

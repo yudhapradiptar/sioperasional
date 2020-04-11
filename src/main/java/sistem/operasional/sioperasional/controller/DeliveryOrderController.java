@@ -71,7 +71,7 @@ public class DeliveryOrderController {
     public String addDeliveryOrderFormPage(final Model model) {
         final DeliveryOrderModel deliveryOrderModel = new DeliveryOrderModel();
 
-        List<ItemModel> itemModels = itemService.geItemListByTanggalKeluarNullAndNotRusak();
+        final List<ItemModel> itemModels = itemService.geItemListByTanggalKeluarNullAndNotRusak();
 
         final ArrayList<ItemModel> listItemModels = new ArrayList<ItemModel>();
         listItemModels.add(new ItemModel());
@@ -99,14 +99,13 @@ public class DeliveryOrderController {
             return "delivery-order-already-exist";
         }
 
-        for(ItemModel itemModel2: deliveryOrderModel.getListItem()) {
+        for (final ItemModel itemModel2 : deliveryOrderModel.getListItem()) {
             // System.out.println("--------------------------------");
             // System.out.println(itemModel2.getIdItem());
             // System.out.println(deliveryOrderModel.getTanggalCreate());
-			itemModel2.setTanggalKeluar(deliveryOrderModel.getTanggalCreate());
-			itemModel2.setDeliveryOrder(deliveryOrderModel);
-		}
-
+            itemModel2.setTanggalKeluar(deliveryOrderModel.getTanggalCreate());
+            itemModel2.setDeliveryOrder(deliveryOrderModel);
+        }
 
         final UserModel user = userService.getUserCurrentLoggedIn();
         deliveryOrderModel.setCreator(user);
@@ -160,29 +159,30 @@ public class DeliveryOrderController {
         listItemModels.add(new ItemModel());
         deliveryOrderModel.setListItem(listItemModels);
 
-        OutletModel outletModel = new OutletModel();
+        final OutletModel outletModel = new OutletModel();
         deliveryOrderModel.setOutlet(outletModel);
-        List<OutletModel> outletModels = outletService.getOutletList();
+        final List<OutletModel> outletModels = outletService.getOutletList();
 
-        List<ItemModel> itemModelsNull = itemService.getItemListByNomorDeliveryOrder(deliveryOrderModel.getNomorDeliveryOrder());
+        final List<ItemModel> itemModelsNull = itemService
+                .getItemListByNomorDeliveryOrder(deliveryOrderModel.getNomorDeliveryOrder());
 
         model.addAttribute("listOutlet", outletModels);
         model.addAttribute("deliveryOrder", deliveryOrderModel);
         // model.addAttribute("listItem", itemModels);
         model.addAttribute("listItem", itemModelsNull);
-        
+
         return "form-update-delivery-order";
     }
 
     @RequestMapping(value = "/update/{nomor}", method = RequestMethod.POST)
-    public String updateSubmit(@PathVariable String nomor, @ModelAttribute DeliveryOrderModel deliveryOrderModel, Model model) {
+    public String updateSubmit(@PathVariable final String nomor, @ModelAttribute final DeliveryOrderModel deliveryOrderModel, final Model model) {
 
-        DeliveryOrderModel deliveryOrderNow = deliveryOrderService.getDeliveryOrderByNomorDeliveryOrder(deliveryOrderModel.getNomorDeliveryOrder());
+        final DeliveryOrderModel deliveryOrderNow = deliveryOrderService.getDeliveryOrderByNomorDeliveryOrder(deliveryOrderModel.getNomorDeliveryOrder());
 
         // System.out.println("item DO Now");
         // System.out.println(deliveryOrderNow.getListItem());
 
-        for(ItemModel itemModel3: deliveryOrderNow.getListItem()) {
+        for(final ItemModel itemModel3: deliveryOrderNow.getListItem()) {
             // System.out.println("==============mau set NUll ====================");
 			itemModel3.setDeliveryOrder(null);
 			itemModel3.setTanggalKeluar(null);
@@ -191,7 +191,7 @@ public class DeliveryOrderController {
         // System.out.println("================= ITEM BARU ====================");
         // System.out.println(deliveryOrderModel.getListItem());
         
-        for(ItemModel itemModel2: deliveryOrderModel.getListItem()) {
+        for(final ItemModel itemModel2: deliveryOrderModel.getListItem()) {
         final DeliveryOrderModel deliveryOrderNow = deliveryOrderService
                 .getDeliveryOrderByNomorDeliveryOrder(deliveryOrderModel.getNomorDeliveryOrder());
         System.out.println("item DO Now");
@@ -234,9 +234,9 @@ public class DeliveryOrderController {
         model.addAttribute("deliveryOrder", deliveryOrderModel);
 
 
-        List<ItemModel> itemModels = itemService.geItemListByTanggalKeluarNullAndNotRusak();
+        final List<ItemModel> itemModels = itemService.geItemListByTanggalKeluarNullAndNotRusak();
 
-        final List<ItemModel> itemModels = itemService.geItemListByTanggalKeluarNull();
+        
 
         model.addAttribute("listItem", itemModels);
 
@@ -248,15 +248,13 @@ public class DeliveryOrderController {
 
     @RequestMapping(value = "/add", method = RequestMethod.POST, params = { "removeRow" })
     public String removeRow(@ModelAttribute final DeliveryOrderModel deliveryOrderModel,
-        final BindingResult bindingResult, final HttpServletRequest req, final Model model) {
+            final BindingResult bindingResult, final HttpServletRequest req, final Model model) {
         final Integer rowId = Integer.valueOf(req.getParameter("removeRow"));
         deliveryOrderModel.getListItem().remove(rowId.intValue());
         model.addAttribute("deliveryOrder", deliveryOrderModel);
 
+        final List<ItemModel> itemModels = itemService.geItemListByTanggalKeluarNullAndNotRusak();
 
-        List<ItemModel> itemModels = itemService.geItemListByTanggalKeluarNullAndNotRusak();
-
-        final List<ItemModel> itemModels = itemService.geItemListByTanggalKeluarNull();
 
         model.addAttribute("listItem", itemModels);
 

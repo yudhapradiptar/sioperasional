@@ -61,20 +61,19 @@
                                 <div class="card-body">
                                     <form th:action="@{/account/edit/{username}(username=${user.username})}" method="POST">
                                         <label>User Name</label>
-                                        <input  type="text" name="username" class="form-control" disabled th:value="${user.username}">
+                                        <input  type="text" name="username" class="form-control" disabled th:value="${user.username}" required>
                                         <label>Nama</label>
-                                        <input type="text" name="nama" class="form-control" th:value="${user.nama}">
-                                        
-                                        <input type="password" name="password" class="form-control" th:value="${user.nama}" hidden>
+                                        <input type="text" name="nama" class="form-control" th:value="${user.nama}" required>
+                                        <input type="password" name="password" class="form-control" th:value="${user.password}" hidden>
                                         <label>Role</label>
-                                        <select name="role" class="form-control" >
-                                            <option selected value="${user.role.namaRole}">-- Pilih Role --</option>
+                                        <select name="role" class="form-control" required>
+                                            <option selected value="" disabled>-- Pilih Role --</option>
                                             <option th:each="roleAvailable : ${listRole} " th:value="${roleAvailable.idRole}" th:text="${roleAvailable.namaRole}"></option>
                                         </select>
                                         <label>Kode</label>
-                                        <input type="text" name="kode" class="form-control" th:value="${user.kode}">
+                                        <input type="text" name="kode" class="form-control" th:value="${user.kode}" required>
                                         <label>Status</label>
-                                        <select name="status" th:value="${user.status}" class="form-control">
+                                        <select name="status" th:value="${user.status}" class="form-control" required>
                                             <option selected value="" disabled>-- Pilih Status --</option>
                                             <option value="aktif" >Aktif</option>
                                             <option value="tidak aktif">tidak aktif</option>
