@@ -55,7 +55,7 @@ public class ItemServiceImpl implements ItemService{
 
     @Override
     public List<ItemModel> getItemListByNomorDeliveryOrder(String nomorDeliveryOrder) {
-        return itemDB.findItemByDeliveryOrder(nomorDeliveryOrder, null);
+        return itemDB.findItemByDeliveryOrder(nomorDeliveryOrder);
     }
 
     @Override
@@ -84,5 +84,10 @@ public class ItemServiceImpl implements ItemService{
             return null;
         }
         // return newItemModel;
-    }    
+    }
+
+    @Override
+    public List<ItemModel> getItemListAvailable(String nomorDeliveryOrder) {
+        return itemDB.findItemAvailableForUpdate(nomorDeliveryOrder, 0, null);
+    }
 }
