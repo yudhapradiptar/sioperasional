@@ -31,7 +31,7 @@ public class KategoriItemController {
         return "form-create-kategori";
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.POST)
+    @RequestMapping(value = "", method = RequestMethod.POST)
     public String createKategoriSubmit(@ModelAttribute KategoriItemModel kategoriItem, Model model) {
         List<KategoriItemModel> listKategoriItem =  kategoriItemService.getKategoriItemList();
         try {
