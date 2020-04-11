@@ -67,7 +67,7 @@ public class JenisItemController {
             return "fail-delete-jenis";
         }
         jenisItemService.deleteJenisItem(deletedJenis);
-        return "success-delete-jenis";
+        return "sucess-delete-jenis";
     }
 
 
