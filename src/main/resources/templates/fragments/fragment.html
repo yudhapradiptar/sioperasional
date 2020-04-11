@@ -165,6 +165,22 @@
                 <span>Dashboard</span></a>
         </li>
 
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseAcc"
+                aria-expanded="true" aria-controls="collapseAcc">
+                <i class="fas fa-user"></i>
+                <span>Akun</span>
+            </a>
+            <div id="collapseAcc" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Akun:</h6>
+                    <a class="collapse-item" th:href="@{/account/add}">Menambah Akun Baru</a>
+                    <a class="collapse-item" th:href="@{/account/user-list}">Daftar Akun</a>
+
+                </div>
+            </div>
+        </li>
+
         <!-- Divider -->
         <hr class="sidebar-divider d-none d-md-block">
 

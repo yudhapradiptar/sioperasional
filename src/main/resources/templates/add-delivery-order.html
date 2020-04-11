@@ -57,8 +57,8 @@
                         <br>
                         <div class="card-body">
                             <p th:text="'Delivery Order dengan nomor ' + ${deliveryOrder.nomorDeliveryOrder} + ' berhasil dibuat'"></p>
-                            <p th:text="'Dikirim ke ' + ${namaOutlet}"></p>
-                            <p th:text="'Dengan item : '"></p>
+                            <!-- <p th:text="'Dikirim ke ' + ${deliveryOrder.Outlet.alamatOutlet}"></p> -->
+                            <!-- <p th:text="'Dengan item : '"></p>
                             <tbody th:each="item, iterationStatus : ${listItem}">
                                 <tr>
                                     <th scope="row" th:text="${iterationStatus.count}"></th>
@@ -66,7 +66,7 @@
                                     <td th:text="${item.kategoriItem.namaKategoriItem}"></td>
                                     <td th:text="${item.statusItem.namaStatusItem}"></td>
                                 </tr>
-                            </tbody>
+                            </tbody> -->
                         </div>
                     </div>
                 </div>

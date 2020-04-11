@@ -27,5 +27,5 @@ public interface ItemService {
     List<ItemModel> getItemListByNomorDeliveryOrder(String nomorDeliveryOrder);
     List<ItemModel> getItemListByJenisItem(JenisItemModel jenisItemModel);
 
-    List<ItemModel> getItemListAvailable(String nomorDeliveryOrder);
+	List<ItemModel> getItemListAvailable(String nomorDeliveryOrder);
 }
