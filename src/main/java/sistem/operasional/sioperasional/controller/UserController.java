@@ -76,7 +76,7 @@ public class UserController {
             model.addAttribute("message", message);
             return "failed-add-user";
         }
-
+        user.getUsername()
         if (user.getUsername().isBlank() || user.getNama().isBlank()) {
             String message = "Username atau Nama tidak boleh Kosong!";
             model.addAttribute("message", message);
@@ -97,5 +97,7 @@ public class UserController {
 
         userService.addUser(user);
         model.addAttribute("userbaru", user);
+
+        return "success-add-user";
     }
 }
