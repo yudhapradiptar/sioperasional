@@ -35,8 +35,8 @@ public class DeliveryOrderController {
     OutletService outletService;
 
     @RequestMapping("/")
-    public String viewAllDeliveryOrder(final Model model) {
-        final List<DeliveryOrderModel> listDeliveryOrder = deliveryOrderService.getDeliveryOrderList();
+    public String viewAllDeliveryOrder(Model model) {
+        List<DeliveryOrderModel> listDeliveryOrder = deliveryOrderService.getDeliveryOrderList();
 
         model.addAttribute("listDeliveryOrder", listDeliveryOrder);
 
@@ -44,10 +44,10 @@ public class DeliveryOrderController {
     }
 
     @RequestMapping(value = "/detail/{nomor}", method = RequestMethod.GET)
-    public String viewDeliveryOrderByNomorDeliveryOrder(@PathVariable final String nomor, final Model model) {
+    public String viewDeliveryOrderByNomorDeliveryOrder(@PathVariable String nomor, Model model) {
 
-        final DeliveryOrderModel deliveryOrderModel = deliveryOrderService.getDeliveryOrderByNomorDeliveryOrder(nomor);
-        final List<ItemModel> listItem = deliveryOrderModel.getListItem();
+        DeliveryOrderModel deliveryOrderModel = deliveryOrderService.getDeliveryOrderByNomorDeliveryOrder(nomor);
+        List<ItemModel> listItem = deliveryOrderModel.getListItem();
 
         String tanggalCreateFormatted = deliveryOrderModel.getTanggalCreate().toString();
         tanggalCreateFormatted = tanggalCreateFormatted.substring(0, tanggalCreateFormatted.length() - 10);
@@ -66,20 +66,20 @@ public class DeliveryOrderController {
         model.addAttribute("listItem", listItem);
         return "detail-delivery-order";
     }
-
+    
     @RequestMapping(value = "/add", method = RequestMethod.GET)
-    public String addDeliveryOrderFormPage(final Model model) {
-        final DeliveryOrderModel deliveryOrderModel = new DeliveryOrderModel();
+    public String addDeliveryOrderFormPage(Model model) {
+        DeliveryOrderModel deliveryOrderModel = new DeliveryOrderModel();
 
-        final List<ItemModel> itemModels = itemService.geItemListByTanggalKeluarNullAndNotRusak();
+        List<ItemModel> itemModels = itemService.geItemListByTanggalKeluarNullAndNotRusak();
 
-        final ArrayList<ItemModel> listItemModels = new ArrayList<ItemModel>();
+        ArrayList<ItemModel> listItemModels = new ArrayList<ItemModel>();
         listItemModels.add(new ItemModel());
         deliveryOrderModel.setListItem(listItemModels);
 
-        final OutletModel outletModel = new OutletModel();
+        OutletModel outletModel = new OutletModel();
         deliveryOrderModel.setOutlet(outletModel);
-        final List<OutletModel> outletModels = outletService.getOutletList();
+        List<OutletModel> outletModels = outletService.getOutletList();
 
         model.addAttribute("listOutlet", outletModels);
         model.addAttribute("deliveryOrder", deliveryOrderModel);
@@ -87,28 +87,27 @@ public class DeliveryOrderController {
 
         return "form-add-delivery-order";
     }
-
+    
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public String addDeliveryOrderSubmit(@ModelAttribute final DeliveryOrderModel deliveryOrderModel,
-            @ModelAttribute final ItemModel itemModel, final Model model) {
+    public String addDeliveryOrderSubmit(@ModelAttribute DeliveryOrderModel deliveryOrderModel,
+            @ModelAttribute ItemModel itemModel, Model model) {
 
-        final DeliveryOrderModel deliveryOrderModel2 = deliveryOrderService
-                .getDeliveryOrderByNomorDeliveryOrder(deliveryOrderModel.getNomorDeliveryOrder());
+        UserModel user = userService.getUserCurrentLoggedIn();
+        deliveryOrderModel.setCreator(user);
+        DeliveryOrderModel deliveryOrderModel2 = deliveryOrderService.getDeliveryOrderByNomorDeliveryOrder(deliveryOrderModel.getNomorDeliveryOrder());
         if (deliveryOrderModel2 != null) {
             model.addAttribute("deliveryOrder", deliveryOrderModel);
             return "delivery-order-already-exist";
         }
 
-        for (final ItemModel itemModel2 : deliveryOrderModel.getListItem()) {
+        for(ItemModel itemModel2: deliveryOrderModel.getListItem()) {
             // System.out.println("--------------------------------");
             // System.out.println(itemModel2.getIdItem());
             // System.out.println(deliveryOrderModel.getTanggalCreate());
-            itemModel2.setTanggalKeluar(deliveryOrderModel.getTanggalCreate());
-            itemModel2.setDeliveryOrder(deliveryOrderModel);
-        }
+			itemModel2.setTanggalKeluar(deliveryOrderModel.getTanggalCreate());
+			itemModel2.setDeliveryOrder(deliveryOrderModel);
+		}
 
-        final UserModel user = userService.getUserCurrentLoggedIn();
-        deliveryOrderModel.setCreator(user);
 
         deliveryOrderService.addDeliveryOrder(deliveryOrderModel);
 
@@ -119,26 +118,26 @@ public class DeliveryOrderController {
     }
 
     @RequestMapping(value = "/set-tanggal-subscribe/{nomor}", method = RequestMethod.GET)
-    public String addSubscribeDateFormPage(@PathVariable final String nomor, final Model model) {
-        final DeliveryOrderModel deliveryOrderModel = deliveryOrderService.getDeliveryOrderByNomorDeliveryOrder(nomor);
+    public String addSubscribeDateFormPage(@PathVariable String nomor, Model model) {
+        DeliveryOrderModel deliveryOrderModel = deliveryOrderService.getDeliveryOrderByNomorDeliveryOrder(nomor);
         if (deliveryOrderModel.getSubscribed() == false) {
             model.addAttribute("deliveryOrder", deliveryOrderModel);
             return "cant-add-subscribe-date";
         }
 
-        final List<ItemModel> listItem = deliveryOrderModel.getListItem();
+        List<ItemModel> listItem = deliveryOrderModel.getListItem();
 
         model.addAttribute("deliveryOrder", deliveryOrderModel);
         model.addAttribute("listItem", listItem);
-
+        
         return "form-add-tanggal-subscribe";
     }
 
     @RequestMapping(value = "/set-tanggal-subscribe/{nomor}", method = RequestMethod.POST)
-    public String addSubscribeDate(@PathVariable final String nomor,
-            @ModelAttribute final DeliveryOrderModel deliveryOrderModel, final Model model) {
-
-        final DeliveryOrderModel newDeliveryOrderModel = deliveryOrderService.changeDeliveryOrder(deliveryOrderModel);
+    public String addSubscribeDate(@PathVariable String nomor, @ModelAttribute DeliveryOrderModel deliveryOrderModel,
+            Model model) {
+        
+        DeliveryOrderModel newDeliveryOrderModel = deliveryOrderService.changeDeliveryOrder(deliveryOrderModel);
         model.addAttribute("deliveryOrder", newDeliveryOrderModel);
 
         String tanggalStartFormatted = deliveryOrderModel.getTanggalSubscribeStart().toString();
@@ -152,37 +151,37 @@ public class DeliveryOrderController {
     }
 
     @RequestMapping(value = "/update/{nomor}", method = RequestMethod.GET)
-    public String updateFormPage(@PathVariable final String nomor, final Model model) {
-        final DeliveryOrderModel deliveryOrderModel = deliveryOrderService.getDeliveryOrderByNomorDeliveryOrder(nomor);
+    public String updateFormPage(@PathVariable String nomor, Model model) {
+        DeliveryOrderModel deliveryOrderModel = deliveryOrderService.getDeliveryOrderByNomorDeliveryOrder(nomor);
 
-        final ArrayList<ItemModel> listItemModels = new ArrayList<ItemModel>();
+        List<ItemModel> itemModelsNull = itemService.getItemListAvailable(deliveryOrderModel.getNomorDeliveryOrder());
+
+        ArrayList<ItemModel> listItemModels = new ArrayList<ItemModel>();
         listItemModels.add(new ItemModel());
         deliveryOrderModel.setListItem(listItemModels);
 
-        final OutletModel outletModel = new OutletModel();
+        OutletModel outletModel = new OutletModel();
         deliveryOrderModel.setOutlet(outletModel);
-        final List<OutletModel> outletModels = outletService.getOutletList();
+        List<OutletModel> outletModels = outletService.getOutletList();
 
-        final List<ItemModel> itemModelsNull = itemService
-                .getItemListByNomorDeliveryOrder(deliveryOrderModel.getNomorDeliveryOrder());
 
         model.addAttribute("listOutlet", outletModels);
         model.addAttribute("deliveryOrder", deliveryOrderModel);
         // model.addAttribute("listItem", itemModels);
         model.addAttribute("listItem", itemModelsNull);
-
+        
         return "form-update-delivery-order";
     }
 
     @RequestMapping(value = "/update/{nomor}", method = RequestMethod.POST)
-    public String updateSubmit(@PathVariable final String nomor, @ModelAttribute final DeliveryOrderModel deliveryOrderModel, final Model model) {
+    public String updateSubmit(@PathVariable String nomor, @ModelAttribute DeliveryOrderModel deliveryOrderModel, Model model) {
 
-        final DeliveryOrderModel deliveryOrderNow = deliveryOrderService.getDeliveryOrderByNomorDeliveryOrder(deliveryOrderModel.getNomorDeliveryOrder());
+        DeliveryOrderModel deliveryOrderNow = deliveryOrderService.getDeliveryOrderByNomorDeliveryOrder(deliveryOrderModel.getNomorDeliveryOrder());
 
         // System.out.println("item DO Now");
         // System.out.println(deliveryOrderNow.getListItem());
 
-        for(final ItemModel itemModel3: deliveryOrderNow.getListItem()) {
+        for(ItemModel itemModel3: deliveryOrderNow.getListItem()) {
             // System.out.println("==============mau set NUll ====================");
 			itemModel3.setDeliveryOrder(null);
 			itemModel3.setTanggalKeluar(null);
@@ -191,21 +190,7 @@ public class DeliveryOrderController {
         // System.out.println("================= ITEM BARU ====================");
         // System.out.println(deliveryOrderModel.getListItem());
         
-        for(final ItemModel itemModel2: deliveryOrderModel.getListItem()) {
-        final DeliveryOrderModel deliveryOrderNow = deliveryOrderService
-                .getDeliveryOrderByNomorDeliveryOrder(deliveryOrderModel.getNomorDeliveryOrder());
-        System.out.println("item DO Now");
-        System.out.println(deliveryOrderNow.getListItem());
-
-        for (final ItemModel itemModel3 : deliveryOrderNow.getListItem()) {
-            System.out.println("==============mau set NUll ====================");
-            itemModel3.setDeliveryOrder(null);
-            itemModel3.setTanggalKeluar(null);
-        }
-        System.out.println("================= ITEM BARU ====================");
-        System.out.println(deliveryOrderModel.getListItem());
-
-        for (final ItemModel itemModel2 : deliveryOrderModel.getListItem()) {
+        for(ItemModel itemModel2: deliveryOrderModel.getListItem()) {
             if (itemModel2 == null) {
                 // System.out.println("=============null==================");
             } else {
@@ -213,54 +198,46 @@ public class DeliveryOrderController {
 			    itemModel2.setDeliveryOrder(deliveryOrderModel);
 			    itemModel2.setTanggalKeluar(deliveryOrderModel.getTanggalCreate());
             }
-        }
+		}
+        
+        DeliveryOrderModel newDeliveryOrderModel = deliveryOrderService.changeDeliveryOrder(deliveryOrderModel);
 
-        final DeliveryOrderModel newDeliveryOrderModel = deliveryOrderService.changeDeliveryOrder(deliveryOrderModel);
-
-        final List<ItemModel> listItem = deliveryOrderModel.getListItem();
+        List<ItemModel> listItem = deliveryOrderModel.getListItem();
 
         model.addAttribute("deliveryOrder", newDeliveryOrderModel);
         model.addAttribute("listItem", listItem);
         return "update-delivery-oder";
     }
 
-    @RequestMapping(value = "/add", method = RequestMethod.POST, params = { "addRow" })
-    public String addRow(@ModelAttribute final DeliveryOrderModel deliveryOrderModel, final BindingResult bindingResult,
-            final Model model) {
-        if (deliveryOrderModel.getListItem() == null) {
+    @RequestMapping(value="/add", method = RequestMethod.POST, params= {"addRow"})
+	public String addRow(@ModelAttribute DeliveryOrderModel deliveryOrderModel, BindingResult bindingResult, Model model) {
+		if (deliveryOrderModel.getListItem() == null) {
             deliveryOrderModel.setListItem(new ArrayList<ItemModel>());
         }
         deliveryOrderModel.getListItem().add(new ItemModel());
         model.addAttribute("deliveryOrder", deliveryOrderModel);
 
-
-        final List<ItemModel> itemModels = itemService.geItemListByTanggalKeluarNullAndNotRusak();
-
-        
-
+        List<ItemModel> itemModels = itemService.geItemListByTanggalKeluarNullAndNotRusak();
         model.addAttribute("listItem", itemModels);
 
-        final List<OutletModel> outletModels = outletService.getOutletList();
+        List<OutletModel> outletModels = outletService.getOutletList();
         model.addAttribute("listOutlet", outletModels);
 
-        return "form-add-delivery-order";
+		return "form-add-delivery-order";
     }
 
-    @RequestMapping(value = "/add", method = RequestMethod.POST, params = { "removeRow" })
-    public String removeRow(@ModelAttribute final DeliveryOrderModel deliveryOrderModel,
-            final BindingResult bindingResult, final HttpServletRequest req, final Model model) {
+    @RequestMapping(value="/add", method = RequestMethod.POST, params={"removeRow"})
+	public String removeRow(@ModelAttribute DeliveryOrderModel deliveryOrderModel, final BindingResult bindingResult, final HttpServletRequest req, Model model) {
         final Integer rowId = Integer.valueOf(req.getParameter("removeRow"));
         deliveryOrderModel.getListItem().remove(rowId.intValue());
         model.addAttribute("deliveryOrder", deliveryOrderModel);
 
-        final List<ItemModel> itemModels = itemService.geItemListByTanggalKeluarNullAndNotRusak();
-
-
+        List<ItemModel> itemModels = itemService.geItemListByTanggalKeluarNullAndNotRusak();
         model.addAttribute("listItem", itemModels);
 
-        final List<OutletModel> outletModels = outletService.getOutletList();
+        List<OutletModel> outletModels = outletService.getOutletList();
         model.addAttribute("listOutlet", outletModels);
-
+        
 	    return "form-add-delivery-order";
     }
 }
