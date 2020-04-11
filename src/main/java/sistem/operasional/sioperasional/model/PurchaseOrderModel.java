@@ -33,7 +33,6 @@ public class PurchaseOrderModel implements Serializable {
     @JsonIgnore
     private VendorModel vendor;
 
-    @NotNull
     @Size(max = 200)
     @Column(name = "nomorInvoice", nullable = true)
     private String nomorInvoice;
@@ -66,6 +65,11 @@ public class PurchaseOrderModel implements Serializable {
     @JsonIgnore
     private StatusItemModel statusPO;
 
+
+    @OneToMany(mappedBy = "purchaseOrder", fetch = FetchType.LAZY)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    private List<ItemModel> Listitem;
 
     public String getNomorPurchaseOrder() {
         return nomorPurchaseOrder;
@@ -147,4 +151,13 @@ public class PurchaseOrderModel implements Serializable {
     public void setStatusPO(StatusItemModel statusPO) {
         this.statusPO = statusPO;
     }
+
+    public List<ItemModel> getListitem() {
+        return Listitem;
+    }
+
+    public void setListitem(List<ItemModel> listitem) {
+        Listitem = listitem;
+    }
+
 }

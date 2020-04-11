@@ -78,13 +78,13 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label class="control-label col-sm-2">Merek Item</label>
+                                    <label class="control-label col-sm-2">Jenis Item</label>
                                     <div class="control-label col-sm-10">
-                                        <select class="form-control" name="merek" th:field="*{listItemPO[__${iterationStatus.index}__].merekItem}"
+                                        <select class="form-control" name="jenis" th:field="*{listItemPO[__${iterationStatus.index}__].jenisItem}"
                                                 required="true">
-                                            <option value="0">-- Pilih Merek Item --</option>
-                                            <option th:each="merek : ${listMerekItem}" th:value="${{merek.idMerekItem}}"
-                                                    th:text="${merek.namaMerekItem}"></option>
+                                            <option value="0">-- Pilih Jenis Item --</option>
+                                            <option th:each="jenis : ${listJenisItem}" th:value="${{jenis.idJenisItem}}"
+                                                    th:text="${jenis.namaJenisItem}"></option>
                                         </select>
                                     </div>
                                 </div>

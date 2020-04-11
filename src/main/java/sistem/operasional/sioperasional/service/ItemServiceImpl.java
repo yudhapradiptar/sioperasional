@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import sistem.operasional.sioperasional.model.ItemModel;
 import sistem.operasional.sioperasional.model.KategoriItemModel;
-import sistem.operasional.sioperasional.model.MerekItemModel;
+import sistem.operasional.sioperasional.model.JenisItemModel;
 import sistem.operasional.sioperasional.model.PurchaseOrderModel;
 import sistem.operasional.sioperasional.repository.ItemDB;
 
@@ -23,10 +23,6 @@ public class ItemServiceImpl implements ItemService{
     @Autowired
     ItemService itemService;
 
-    @Override
-    public List<ItemModel> getItemListByNomorDeliveryOrder(String nomorDeliveryOrder) {
-        return itemDB.findItemByDeliveryOrder(nomorDeliveryOrder);
-    }
 
     @Override
     public List<ItemModel> getItemByPurchaseOrder (PurchaseOrderModel purchaseOrder){
@@ -53,11 +49,46 @@ public class ItemServiceImpl implements ItemService{
         return itemDB.findItemModelByKategoriItem(kategoriItemModel);
     }
 
-    @Override
-    public List<ItemModel> getItemListByMerekItem(MerekItemModel merekItemModel){
-        return itemDB.findItemModelByMerekItem(merekItemModel);
+
+    public List<ItemModel> getItemListByJenisItem(JenisItemModel jenisItemModel){
+        return itemDB.findItemModelByJenisItem(jenisItemModel);
     }
 
+    @Override
+    public List<ItemModel> getItemListByNomorDeliveryOrder(String nomorDeliveryOrder) {
+        return itemDB.findItemByDeliveryOrder(nomorDeliveryOrder);
+    }
 
+    @Override
+    public List<ItemModel> geItemListByTanggalKeluarNullAndNotRusak() {
+        return itemDB.findItemByTanggalKeluarAndNotRusak(0);
+    }
 
+    public ItemModel getItemDetailByIdItem(Long idItem) {
+        return itemDB.findById(idItem).get();
+    }
+
+    @Override
+    public ItemModel updateStatusItem(ItemModel itemModel) {
+        System.out.println("start");
+        ItemModel newItemModel = itemDB.findById(itemModel.getIdItem()).get();
+
+        // System.out.println(newItemModel.getStatusItem());
+        // newItemModel.setRusak(itemModel.isRusak());
+        // itemDB.save(newItemModel);
+        try {
+            newItemModel.setRusak(itemModel.isRusak());
+            newItemModel.setStatusItem(itemModel.getStatusItem());
+            itemDB.save(newItemModel);
+            return newItemModel;
+        } catch (NullPointerException nullException) {
+            return null;
+        }
+        // return newItemModel;
+    }
+
+    @Override
+    public List<ItemModel> getItemListAvailable(String nomorDeliveryOrder) {
+        return itemDB.findItemAvailableForUpdate(nomorDeliveryOrder, 0, null);
+    }
 }

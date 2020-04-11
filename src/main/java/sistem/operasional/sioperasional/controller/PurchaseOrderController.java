@@ -39,7 +39,7 @@ public class PurchaseOrderController {
     ItemPOService itemPOService;
 
     @Autowired
-    MerekItemService merekItemService;
+    JenisItemService jenisItemService;
 
     @Autowired
     KategoriItemService kategoriItemService;
@@ -78,9 +78,9 @@ public class PurchaseOrderController {
 
         purchaseOrder.getListItemPO().add(new ItemPOModel());
         List<KategoriItemModel> listKategoriItem = kategoriItemService.getKategoriItemList();
-        List<MerekItemModel> listMerek = merekItemService.getMerekItemList();
+        List<JenisItemModel> listJenis = jenisItemService.getJenisItemList();
 
-        model.addAttribute("listMerekItem", listMerek);
+        model.addAttribute("listJenisItem", listJenis);
         model.addAttribute("listKategoriItem", listKategoriItem);
         model.addAttribute("nomorPO", nomorPO);
         model.addAttribute("purchaseOrder", purchaseOrder);
@@ -120,7 +120,9 @@ public class PurchaseOrderController {
     public String addPurchaseOrderSubmit(@ModelAttribute PurchaseOrderModel purchaseOrderModel,
                                          Model model) {
 
-        UserModel user = userService.getUserByUsername("prodOpsSpec");
+
+        UserModel user = userService.getUserById("manager");
+//        UserModel user = userService.getUserCurrentLoggedIn();
         purchaseOrderModel.setCreator(user);
 
         StatusItemModel status = new StatusItemModel();
@@ -129,7 +131,7 @@ public class PurchaseOrderController {
         purchaseOrderModel.setStatusPO(status);
 
         List<KategoriItemModel> listKategoriItem = kategoriItemService.getKategoriItemList();
-        List<MerekItemModel> listMerek = merekItemService.getMerekItemList();
+        List<JenisItemModel> listJenis = jenisItemService.getJenisItemList();
         String nomorPurchaseOrder = purchaseOrderModel.getNomorPurchaseOrder();
 
         List<PurchaseOrderModel> purchaseOrderModels = purchaseOrderService.getAll();
@@ -153,7 +155,7 @@ public class PurchaseOrderController {
 
         model.addAttribute("itemPO", itemPOModel);
         model.addAttribute("nomorPO", nomorPurchaseOrder);
-        model.addAttribute("listMerekItem", listMerek);
+        model.addAttribute("listJenisItem", listJenis);
         model.addAttribute("listKategoriItem", listKategoriItem);
         model.addAttribute("purchaseOrder", purchaseOrderModel1);
         return "form-add-item-purchase-order";

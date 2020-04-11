@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Customer Feedback</title>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600' rel='stylesheet' type='text/css'>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
+    <link rel="stylesheet" href="static/style-form-feedback.css">
+    <style>
+        html, body {
+            min-height: 100%;
+        }
+        body, div, form, input, p {
+            padding: 0;
+            margin: 0;
+            outline: none;
+            font-family: Roboto, Arial, sans-serif;
+            font-size: 14px;
+            color: #666;
+            line-height: 22px;
+        }
+        h1 {
+            font-weight: 400;
+        }
+        h4 {
+            margin: 15px 0 4px;
+        }
+        .testbox {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: inherit;
+            padding: 3px;
+        }
+        form {
+            width: 100%;
+            padding: 20px;
+            background: #fff;
+            box-shadow: 0 2px 5px #ccc;
+        }
+        input {
+            width: calc(100% - 10px);
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            vertical-align: middle;
+        }
+        .namaAnda {
+            display: block;
+            width: 45%;
+        }
+        input:hover, textarea:hover {
+            outline: none;
+            border: 1px solid #095484;
+        }
+        th, td {
+            width: 5%;
+            padding: 15px 0;
+            border-bottom: 1px solid #ccc;
+            text-align: center;
+            vertical-align: unset;
+            line-height: 18px;
+            font-weight: 400;
+            word-break: break-all;
+        }
+        .first-col {
+            width: 16%;
+            text-align: left;
+        }
+        table {
+            width: 100%;
+        }
+        textarea {
+            width: calc(100% - 6px);
+        }
+        .btn-block {
+            margin-top: 20px;
+            text-align: center;
+        }
+        button {
+            width: 150px;
+            padding: 10px;
+            border: none;
+            -webkit-border-radius: 5px;
+            -moz-border-radius: 5px;
+            border-radius: 5px;
+            background-color: #095484;
+            font-size: 16px;
+            color: #fff;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0666a3;
+        }
+        @media (min-width: 568px) {
+            th, td {
+                word-break: keep-all;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="testbox">
+    <form th:action="@{/customer-feedback/{idTraining}(idTraining=${idTraining})}" th:object="${customerFeedback}" method="POST" >
+        <h1>Customer Feedback Form</h1>
+        <p>Untuk membantu kami meningkatkan kualitas pelayanan kami dalam menjalankan training process,
+            kami mohon kesediaan anda untuk mengisi kuesioner yang tersedia berdasarkan pengalaman anda selama
+            menjalani training ini. Terima kasih.</p>
+        <hr />
+        <p th:text="'Trainer: ' + ${training.trainer.nama}"></p>
+        <p th:text="'Tanggal Training: ' + ${tanggalTraining} + ' ' + ${bulanTraining} + ' ' + ${tahunTraining}"></p>
+        <p th:text="'Waktu Training: ' + ${training.waktuMulai} + ' - ' + ${training.waktuSelesai}"></p>
+        <hr />
+        <h3>Penilaian Tim Ops Selama Onboarding & Training</h3>
+        <table>
+            <tr>
+                <th class="first-col"></th>
+                <th>Sangat Setuju</th>
+                <th>Setuju</th>
+                <th>Agak Setuju</th>
+                <th>Netral</th>
+                <th>Agak Tidak Setuju</th>
+                <th>Tidak Setuju</th>
+                <th>Sangat Tidak Setuju</th>
+            </tr>
+            <tr>
+                <td class="first-col">Penampilan Ops Saat datang dalam keadaan rapi *</td>
+                <td><input type="radio" value="7" name="nilaiKerapihan" required/></td>
+                <td><input type="radio" value="6" name="nilaiKerapihan" /></td>
+                <td><input type="radio" value="5" name="nilaiKerapihan" /></td>
+                <td><input type="radio" value="4" name="nilaiKerapihan" /></td>
+                <td><input type="radio" value="3" name="nilaiKerapihan" /></td>
+                <td><input type="radio" value="2" name="nilaiKerapihan" /></td>
+                <td><input type="radio" value="1" name="nilaiKerapihan" /></td>
+            </tr>
+            <tr>
+                <td class="first-col">Ops kami datang dan menyelesaikan training sesuai waktu yg ditentukan *</td>
+                <td><input type="radio" value="7" name="nilaiTepatWaktu" required/></td>
+                <td><input type="radio" value="6" name="nilaiTepatWaktu" /></td>
+                <td><input type="radio" value="5" name="nilaiTepatWaktu" /></td>
+                <td><input type="radio" value="4" name="nilaiTepatWaktu" /></td>
+                <td><input type="radio" value="3" name="nilaiTepatWaktu" /></td>
+                <td><input type="radio" value="2" name="nilaiTepatWaktu" /></td>
+                <td><input type="radio" value="1" name="nilaiTepatWaktu" /></td>
+            </tr>
+            <tr>
+                <td class="first-col">Ketika anda menemukan masalah, Ops kami membantu secara simpatik dan meyakinkan *</td>
+                <td><input type="radio" value="7" name="nilaiSimpatik" required/></td>
+                <td><input type="radio" value="6" name="nilaiSimpatik" /></td>
+                <td><input type="radio" value="5" name="nilaiSimpatik" /></td>
+                <td><input type="radio" value="4" name="nilaiSimpatik" /></td>
+                <td><input type="radio" value="3" name="nilaiSimpatik" /></td>
+                <td><input type="radio" value="2" name="nilaiSimpatik" /></td>
+                <td><input type="radio" value="1" name="nilaiSimpatik" /></td>
+            </tr>
+            <tr>
+                <td class="first-col">Ops selalu siap sedia untuk membantu menyelesaikan masalah atau keluhan *</td>
+                <td><input type="radio" value="7" name="nilaiKesiapan" required/></td>
+                <td><input type="radio" value="6" name="nilaiKesiapan" /></td>
+                <td><input type="radio" value="5" name="nilaiKesiapan" /></td>
+                <td><input type="radio" value="4" name="nilaiKesiapan" /></td>
+                <td><input type="radio" value="3" name="nilaiKesiapan" /></td>
+                <td><input type="radio" value="2" name="nilaiKesiapan" /></td>
+                <td><input type="radio" value="1" name="nilaiKesiapan" /></td>
+            </tr>
+            <tr>
+                <td class="first-col">Respon Ops dalam menanggapi persoalan saat training cepat *</td>
+                <td><input type="radio" value="7" name="nilaiPenanggapan" required/></td>
+                <td><input type="radio" value="6" name="nilaiPenanggapan" /></td>
+                <td><input type="radio" value="5" name="nilaiPenanggapan" /></td>
+                <td><input type="radio" value="4" name="nilaiPenanggapan" /></td>
+                <td><input type="radio" value="3" name="nilaiPenanggapan" /></td>
+                <td><input type="radio" value="2" name="nilaiPenanggapan" /></td>
+                <td><input type="radio" value="1" name="nilaiPenanggapan" /></td>
+            </tr>
+            <tr>
+                <td class="first-col">Ops menunjukkan kesopanan saat berinteraksi selama training *</td>
+                <td><input type="radio" value="7" name="nilaiKesopanan" required/></td>
+                <td><input type="radio" value="6" name="nilaiKesopanan" /></td>
+                <td><input type="radio" value="5" name="nilaiKesopanan" /></td>
+                <td><input type="radio" value="4" name="nilaiKesopanan" /></td>
+                <td><input type="radio" value="3" name="nilaiKesopanan" /></td>
+                <td><input type="radio" value="2" name="nilaiKesopanan" /></td>
+                <td><input type="radio" value="1" name="nilaiKesopanan" /></td>
+            </tr>
+            <tr>
+                <td class="first-col">Ops mampu mengetahui kebutuhan anda *</td>
+                <td><input type="radio" value="7" name="nilaiMengetahuiKebutuhan" required/></td>
+                <td><input type="radio" value="6" name="nilaiMengetahuiKebutuhan" /></td>
+                <td><input type="radio" value="5" name="nilaiMengetahuiKebutuhan" /></td>
+                <td><input type="radio" value="4" name="nilaiMengetahuiKebutuhan" /></td>
+                <td><input type="radio" value="3" name="nilaiMengetahuiKebutuhan" /></td>
+                <td><input type="radio" value="2" name="nilaiMengetahuiKebutuhan" /></td>
+                <td><input type="radio" value="1" name="nilaiMengetahuiKebutuhan" /></td>
+            </tr>
+            <tr>
+                <td class="first-col">Ops fokus dan perhatian dalam memberikan training *</td>
+                <td><input type="radio" value="7" name="nilaiPerhatian" required/></td>
+                <td><input type="radio" value="6" name="nilaiPerhatian" /></td>
+                <td><input type="radio" value="5" name="nilaiPerhatian" /></td>
+                <td><input type="radio" value="4" name="nilaiPerhatian" /></td>
+                <td><input type="radio" value="3" name="nilaiPerhatian" /></td>
+                <td><input type="radio" value="2" name="nilaiPerhatian" /></td>
+                <td><input type="radio" value="1" name="nilaiPerhatian" /></td>
+            </tr>
+        </table>
+        <h4>Nama Anda *</h4>
+        <input class="namaAnda" type="text" name="nama" required/>
+        <h4>Alasan yang membuat anda puas ? (jika anda puas)</h4>
+        <textarea rows="3" type="text" name="alasanPuas"></textarea>
+        <h4>Alasan yang membuat anda tidak puas ? (jika anda tidak puas)</h4>
+        <textarea rows="3" type="text" name="alasanTidakPuas"></textarea>
+        <h4>Fitur apa saja yang membantu sesuai jenis usaha anda ?</h4>
+        <textarea rows="3" type="text" name="fiturMembantu"></textarea>
+        <h4>Apa saran anda terkait training yang sudah dilakukan ?</h4>
+        <textarea rows="3" type="text" name="saran"></textarea>
+        <div class="btn-block">
+            <button type="submit">Submit</button>
+        </div>
+    </form>
+</div>
+</body>
+</html>

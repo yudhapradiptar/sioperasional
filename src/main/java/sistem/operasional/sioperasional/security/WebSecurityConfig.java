@@ -30,6 +30,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/css/**").permitAll()
                 .antMatchers("/js/**").permitAll()
                 .antMatchers("/api/v1/**").permitAll()
+                .antMatchers("/customer-feedback/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .csrf()
@@ -69,11 +70,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .roles("Customer Service");
     }
 
-        @Autowired
-        private UserDetailsService userDetailsService;
+    @Autowired
+    private UserDetailsService userDetailsService;
 
-//        @Autowired
-//        public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception{
+//    @Autowired
+//    public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception{
 //        auth.userDetailsService(userDetailsService).passwordEncoder(encoder());
-//        }
+//    }
 }

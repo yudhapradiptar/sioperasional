@@ -36,6 +36,10 @@ public class OutletModel implements Serializable {
     @Column(name = "alamatOutlet", nullable = false)
     private String alamatOutlet;
 
+    @NotNull
+    @Column(name = "isAktif", nullable = false)
+    private boolean isAktif;
+
     @OneToMany(mappedBy = "outlet", fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
@@ -114,5 +118,16 @@ public class OutletModel implements Serializable {
 
     public void setJenisOutlet(JenisOutletModel jenisOutlet) {
         this.jenisOutlet = jenisOutlet;
+    }
+
+    /**
+     * @param isAktif the isAktif to set
+     */
+    public void setAktif(boolean isAktif) {
+        this.isAktif = isAktif;
+    }
+
+    public boolean isAktif() {
+        return isAktif;
     }
 }

@@ -62,7 +62,12 @@
                             <p th:text="'Nomor Invoice : ' + ${deliveryOrder.nomorInvoice}"></p>
                             <p th:text="'Status Delivery Order : ' + ${deliveryOrder.statusDO}"></p>
                             <p th:text="'Tanggal Dibuat : ' + ${tanggalCreate}"></p>
-                            <p th:text="'Subscribed : ' + ${deliveryOrder.subscribed}"></p>
+                            <div th:if="${deliveryOrder.subscribed == false}">
+                                <p th:text="'Status Bundling : Tidak'"></p>
+                            </div>
+                            <div th:if="${deliveryOrder.subscribed == true}">
+                                <p th:text="'Status Bundling : Iya'"></p>
+                            </div>
                             <div th:if="${deliveryOrder.subscribed == true}">
                                 <div th:if="${tanggalStartFormatted == null}">
                                     <p th:text="'Tanggal Subscirbe Mulai : - '"></p>
@@ -79,7 +84,11 @@
                                     <tr>
                                         <th scope="col">No</th>
                                         <th scope="col">ID Item</th>
+<<<<<<< HEAD
                                         <th scope="col">Merek Item</th>
+=======
+                                        <th scope="col">Jenis Item</th>
+>>>>>>> 88d0336aec5b3b3d8b216e9eec3e35c6957350ca
                                         <th scope="col">Kategori Item</th>
                                         <th scope="col">Status Item</th>
                                     </tr>
@@ -88,13 +97,24 @@
                                     <tr>
                                         <th scope="row" th:text="${iterationStatus.count}"></th>
                                         <td th:text="${item.idItem}"></td>
+<<<<<<< HEAD
                                         <td th:text="${item.merekItem.namaMerekItem}"></td>
+=======
+                                        <td th:text="${item.jenisItem.namaJenisItem}"></td>
+>>>>>>> 88d0336aec5b3b3d8b216e9eec3e35c6957350ca
                                         <td th:text="${item.kategoriItem.namaKategoriItem}"></td>
                                         <td th:text="${item.statusItem.namaStatusItem}"></td>
                                         <br>
                                     </tr>
                                 </tbody>   
                             </table>
+<<<<<<< HEAD
+=======
+                            <div class="row" dir="rtl">
+                                <a th:href="@{/delivery-order/update/} + ${deliveryOrder.nomorDeliveryOrder}">
+                                <button class="btn btn-warning text-white">update</button></a>
+                            </div>
+>>>>>>> 88d0336aec5b3b3d8b216e9eec3e35c6957350ca
                         </div>
                     </div>
                 </div>

@@ -24,5 +24,10 @@ public class StatusItemServiceImpl implements StatusItemService{
         return statusItemDB.findAll();
     }
 
+    @Override
+    public void createStatusItem(StatusItemModel statusItem) {
+        System.out.println("In service");
+        statusItemDB.save(statusItem);
+    }
 
 }

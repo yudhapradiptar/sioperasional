@@ -10,12 +10,10 @@ import sistem.operasional.sioperasional.repository.PurchaseOrderDB;
 import java.util.List;
 import java.util.Optional;
 
-
-
-
 @Service
 @Transactional
 public class PurchaseOrderServiceImpl implements PurchaseOrderService{
+
 
     @Autowired
     PurchaseOrderDB purchaseOrderDB;
@@ -26,15 +24,13 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService{
     }
 
     @Override
-    public PurchaseOrderModel addPurchaseOrder(PurchaseOrderModel purchaseOrderModel) {
-        return purchaseOrderDB.save(purchaseOrderModel);
+    public PurchaseOrderModel getPurchaseOrderByNomorPurchaseOrder(String nomorPurchaseOrder){
+        return purchaseOrderDB.findById(nomorPurchaseOrder).get();
     }
 
     @Override
-    public PurchaseOrderModel getPurchaseOrderByNomorPurchaseOrder(String nomorPurchaseOrder){
-        return purchaseOrderDB.findById(nomorPurchaseOrder).get();
-
+    public PurchaseOrderModel addPurchaseOrder(PurchaseOrderModel purchaseOrderModel) {
+        return purchaseOrderDB.save(purchaseOrderModel);
     }
-
 
 }
