@@ -122,7 +122,7 @@
                                             <u th:each="item : ${listItem}">
                                                 <input type="checkbox" th:field="*{listItem}" th:value="${item.idItem}" />
                                                 <label th:for="${#ids.prev('listItem')}" 
-                                            th:text="${item.idItem}"></label>
+                                            th:text="${item.kategoriItem.namaKategoriItem} + '_' + ${item.jenisItem.namaJenisItem} + '_' + ${item.idItem}"></label>
                                             <br>
                                         </u>
                                     </div>
