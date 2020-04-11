@@ -73,11 +73,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                  .roles("Product Operation Specialist");
      }
 
-        @Autowired
-        private UserDetailsService userDetailsService;
 
-        @Autowired
-        public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception{
+    @Autowired
+    private UserDetailsService userDetailsService;
+
+    @Autowired
+    public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception{
         auth.userDetailsService(userDetailsService).passwordEncoder(encoder());
-        }
+    }
 }

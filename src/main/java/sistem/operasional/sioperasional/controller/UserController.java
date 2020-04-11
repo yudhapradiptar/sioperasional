@@ -28,7 +28,7 @@ public class UserController {
     private final Logger logger = LoggerFactory.getLogger(UserController.class);
     @Autowired
     private UserService userService;
-    
+
     @Autowired
     private RoleService roleService;
 
@@ -70,39 +70,34 @@ public class UserController {
     private String addUserSubmit(@Valid  @ModelAttribute UserModel user, @ModelAttribute("passwordConfirm") String pass,
                                  @RequestParam(value = "password") String password, Model model) {
 
-    if(!userService.verifUser(user)) {
-        String message = "Sudah ada username dengan username: " + user.getUsername() + ". Mohon gunakan username lain!";
-        model.addAttribute("message", message);
-        return "failed-add-user";
+
+        if (!userService.verifUser(user)) {
+            String message = "Sudah ada username dengan username: " + user.getUsername() + ". Mohon gunakan username lain!";
+            model.addAttribute("message", message);
+            return "failed-add-user";
+        }
+
+        if (user.getUsername().isBlank() || user.getNama().isBlank()) {
+            String message = "Username atau Nama tidak boleh Kosong!";
+            model.addAttribute("message", message);
+            return "failed-add-user";
+        }
+
+        if (!userService.verifPass(user.getPassword())) {
+            String message = "Password tidak memenuhi syarat!";
+            model.addAttribute("message", message);
+            return "failed-add-user";
+        }
+
+        if (!user.getPassword().equals(pass)) {
+            String message = "password tidak sama dengan konfirmasi!";
+            model.addAttribute("message", message);
+            return "failed-add-user";
+        }
+
+        userService.addUser(user);
+        model.addAttribute("userbaru", user);
+
+        return "success-add-user";
     }
-        
-    if(user.getUsername().isBlank() || user.getNama().isBlank()) {
-        String message = "Username atau Nama tidak boleh Kosong!";
-        model.addAttribute("message", message);
-        return "failed-add-user";
-    }
-
-    if(!userService.verifPass(user.getPassword())) {
-        String message = "Password tidak memenuhi syarat!";
-        model.addAttribute("message", message);
-        return "failed-add-user";
-    }
-
-    if(!user.getPassword().equals(pass)) {
-        String message = "password tidak sama dengan konfirmasi!";
-        model.addAttribute("message", message);
-        return "failed-add-user";
-    }
-
-    userService.addUser(user);
-    model.addAttribute("userbaru", user);
-
-    return "success-add-user";
-}
-
-
-
-
-
-    
 }

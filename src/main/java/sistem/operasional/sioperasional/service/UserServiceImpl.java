@@ -50,7 +50,7 @@ public class UserServiceImpl implements UserService {
     public UserModel addUser(UserModel user) {
         String pass = encrypt(user.getPassword());
         user.setPassword(pass);
-        
+
         return userDB.save(user);
     }
 

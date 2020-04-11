@@ -1,5 +1,7 @@
 package sistem.operasional.sioperasional.service;
 
+import sistem.operasional.sioperasional.model.UserModel;
+
 import java.util.List;
 
 import sistem.operasional.sioperasional.model.UserModel;

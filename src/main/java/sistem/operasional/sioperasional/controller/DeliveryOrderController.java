@@ -104,10 +104,9 @@ public class DeliveryOrderController {
             // System.out.println("--------------------------------");
             // System.out.println(itemModel2.getIdItem());
             // System.out.println(deliveryOrderModel.getTanggalCreate());
-			itemModel2.setTanggalKeluar(deliveryOrderModel.getTanggalCreate());
-			itemModel2.setDeliveryOrder(deliveryOrderModel);
-		}
-
+            itemModel2.setTanggalKeluar(deliveryOrderModel.getTanggalCreate());
+            itemModel2.setDeliveryOrder(deliveryOrderModel);
+        }
 
         deliveryOrderService.addDeliveryOrder(deliveryOrderModel);
 
@@ -136,7 +135,6 @@ public class DeliveryOrderController {
     @RequestMapping(value = "/set-tanggal-subscribe/{nomor}", method = RequestMethod.POST)
     public String addSubscribeDate(@PathVariable String nomor, @ModelAttribute DeliveryOrderModel deliveryOrderModel,
             Model model) {
-        
         DeliveryOrderModel newDeliveryOrderModel = deliveryOrderService.changeDeliveryOrder(deliveryOrderModel);
         model.addAttribute("deliveryOrder", newDeliveryOrderModel);
 
@@ -169,7 +167,7 @@ public class DeliveryOrderController {
         model.addAttribute("deliveryOrder", deliveryOrderModel);
         // model.addAttribute("listItem", itemModels);
         model.addAttribute("listItem", itemModelsNull);
-        
+
         return "form-update-delivery-order";
     }
 
@@ -183,23 +181,21 @@ public class DeliveryOrderController {
 
         for(ItemModel itemModel3: deliveryOrderNow.getListItem()) {
             // System.out.println("==============mau set NUll ====================");
-			itemModel3.setDeliveryOrder(null);
-			itemModel3.setTanggalKeluar(null);
+            itemModel3.setDeliveryOrder(null);
+            itemModel3.setTanggalKeluar(null);
         }
 
         // System.out.println("================= ITEM BARU ====================");
         // System.out.println(deliveryOrderModel.getListItem());
-        
         for(ItemModel itemModel2: deliveryOrderModel.getListItem()) {
             if (itemModel2 == null) {
                 // System.out.println("=============null==================");
             } else {
                 // System.out.println("==============NOT NULL===================");
-			    itemModel2.setDeliveryOrder(deliveryOrderModel);
-			    itemModel2.setTanggalKeluar(deliveryOrderModel.getTanggalCreate());
+                itemModel2.setDeliveryOrder(deliveryOrderModel);
+                itemModel2.setTanggalKeluar(deliveryOrderModel.getTanggalCreate());
             }
 		}
-        
         DeliveryOrderModel newDeliveryOrderModel = deliveryOrderService.changeDeliveryOrder(deliveryOrderModel);
 
         List<ItemModel> listItem = deliveryOrderModel.getListItem();
@@ -237,7 +233,6 @@ public class DeliveryOrderController {
 
         List<OutletModel> outletModels = outletService.getOutletList();
         model.addAttribute("listOutlet", outletModels);
-        
 	    return "form-add-delivery-order";
     }
 }
