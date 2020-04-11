@@ -1,0 +1,109 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Home</title>
+
+    <!-- Custom fonts for this template-->
+    <link rel="stylesheet" th:href="@{/vendor/fontawesome-free/css/all.min.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/sb-admin-2.min.css}">
+
+    <object th:include="fragments/fragment :: css-dev" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js-dev" th:remove="tag"></object>
+
+    <link
+            href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+            rel="stylesheet">
+
+    <!-- Khusus untuk Table -->
+    <link rel="stylesheet" th:href="@{/vendor/datatables/dataTables.bootstrap4.min.css}">
+
+    <script th:src="@{/vendor/datatables/jquery.dataTables.min.js}"></script>
+    <script th:src="@{/vendor/datatables/dataTables.bootstrap4.min.js}"></script>
+    <!-- <script th:src="@{/js/demo/datatables-demo.js}"></script> -->
+    <!-- Khusus untuk Table -->
+    <style>
+        img {
+            position: absolute;
+            /*width: 0;*/
+            /*height: 100%;*/
+            left: 50%;
+            top: 40%;
+        }
+
+        h2 {
+            position: absolute;
+            /*width: 100%;*/
+            /*height: 100%;*/
+            left: 46%;
+            top: 50%;
+
+            font-family: Roboto;
+            font-style: italic;
+            font-weight: normal;
+            font-size: 28px;
+            line-height: 28px;
+            display: flex;
+            align-items: center;
+            text-align: center;
+
+            color: #333333;
+        }
+    </style>
+
+</head>
+
+<body id="page-top">
+
+<!-- Page Wrapper -->
+<div id="wrapper">
+
+    <ul th:replace="fragments/fragment :: sidebar"></ul>
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content">
+
+            <!-- Topbar -->
+            <nav th:replace="fragments/fragment :: navbar"></nav>
+            <!-- End of Topbar -->
+
+
+            <div class="container-fluid">
+                    <img src="https://i.ibb.co/KN2bCXY/Logo-Post-removebg-preview.png">
+                    <h2>Aplikasi Kasir Point of Sales</h2>
+            </div>
+            <!-- /.container-fluid -->
+
+        </div>
+        <!-- End of Main Content -->
+
+        <!-- Footer -->
+        <footer th:replace="fragments/fragment :: footer-dev-1"></footer>
+        <!-- End of Footer -->
+
+    </div>
+    <!-- End of Content Wrapper -->
+
+</div>
+<!-- End of Page Wrapper -->
+
+<a th:replace="fragments/fragment :: scroll-to-top"></a>
+
+<div th:replace="fragments/fragment :: logout-modal"></div>
+
+<!-- Bootstrap core JavaScript-->
+<link th:href="@{/vendor/jquery/jquery.min.js}">
+<link th:href="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}">
+<link th:href="@{/vendor/jquery-easing/jquery.easing.min.js}">
+<link th:href="@{/js/sb-admin-2.min.js}">
+</body>
+</html>

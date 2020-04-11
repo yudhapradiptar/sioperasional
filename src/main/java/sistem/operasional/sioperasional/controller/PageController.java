@@ -37,10 +37,7 @@ public class PageController {
 
     @RequestMapping("/")
     public String home (Model model, Authentication auth) {
-        List<DeliveryOrderModel> listDeliveryOrder = deliveryOrderService.getDeliveryOrderList();
-
-        model.addAttribute("listDeliveryOrder", listDeliveryOrder);
-        return "home";
+        return "homepage";
     }
 
     @RequestMapping("/login")
