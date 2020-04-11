@@ -1,3 +1,6 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
 <head>
 
     <meta charset="utf-8">
@@ -6,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Gagal Menambahkan Purchase Order</title>
+    <title>Vendor</title>
 
     <!-- Custom fonts for this template-->
     <link rel="stylesheet" th:href="@{/vendor/fontawesome-free/css/all.min.css}" type="text/css">
@@ -52,17 +55,12 @@
                     </div>
                     <br>
                     <div class="card-body">
-                        <div class="alert alert-danger">
-                        Purchase Order dengan nomor
-                        <h2><strong th:text="${nomorPO}" /></h2>
-                        <strong>gagal dibuat karena duplikasi</strong>
-                        </div>
+                        <p th:text="'Vendor ' + ${vendor.namaVendor} + ' tidak berhasil dihapus'"></p>
                     </div>
                 </div>
             </div>
             <div class="container-fluid">
-                <!--                <a th:href="@{/delivery-order/detail/} + ${deliveryOrder.nomorDeliveryOrder}" class="btn btn-info btn-block">Lihat Detail</a>-->
-                <a th:href="@{/purchase-order/}" class="btn btn-warning btn-block">Kembali ke Daftar Purchase Order</a>
+                <a th:href="@{/vendor/}" class="btn btn-info btn-block">Kembali ke Daftar Vendor</a>
             </div>
 
         </div>
