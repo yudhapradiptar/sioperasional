@@ -173,4 +173,3 @@ public class UserModel implements Serializable {
         this.status = status;
     }
 }
-

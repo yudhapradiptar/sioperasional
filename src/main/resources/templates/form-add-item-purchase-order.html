@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Create PO</title>
+
+    <!-- Custom fonts for this template-->
+    <link rel="stylesheet" th:href="@{/vendor/fontawesome-free/css/all.min.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/sb-admin-2.min.css}">
+
+    <object th:include="fragments/fragment :: css-dev" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js-dev" th:remove="tag"></object>
+
+    <link
+            href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+            rel="stylesheet">
+
+    <!-- Khusus untuk Table -->
+    <link rel="stylesheet" th:href="@{/vendor/datatables/dataTables.bootstrap4.min.css}">
+
+    <script th:src="@{/vendor/datatables/jquery.dataTables.min.js}"></script>
+    <script th:src="@{/vendor/datatables/dataTables.bootstrap4.min.js}"></script>
+    <!-- <script th:src="@{/js/demo/datatables-demo.js}"></script> -->
+    <!-- Khusus untuk Table -->
+
+</head>
+
+<body id="page-top">
+
+<!-- Page Wrapper -->
+<div id="wrapper">
+
+    <ul th:replace="fragments/fragment :: sidebar"></ul>
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content">
+
+            <!-- Topbar -->
+            <nav th:replace="fragments/fragment :: navbar"></nav>
+            <!-- End of Topbar -->
+
+            <div class="container-fluid">
+
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h3 class="m-0 font-weight-bold">Item Purchase Order</h3>
+                    </div>
+                    <br>
+                    <div class="card-body">
+                        <table class="table tab-content" align="center">
+                            <form class="form-horizontal" th:action="@{/purchase-order/add/item/} + ${nomorPO}"
+                                  th:object="${purchaseOrder}" method="POST">
+
+                                <th><button type="submit" name="addMore">Add More</button></th>
+
+                                <tr th:each="itemPO, iterationStatus : *{listItemPO}">
+
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">Kategori Item</label>
+                                    <div class="control-label col-sm-10">
+                                        <select class="form-control" name="kategori" th:field="*{listItemPO[__${iterationStatus.index}__].kategoriItem}"
+                                                required="true">
+                                            <option value="0">-- Pilih Kategori Item --</option>
+                                            <option th:each="kategori : ${listKategoriItem}" th:value="${{kategori.idKategoriItem}}"
+                                                    th:text="${kategori.namaKategoriItem}"></option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">Jenis Item</label>
+                                    <div class="control-label col-sm-10">
+                                        <select class="form-control" name="jenis" th:field="*{listItemPO[__${iterationStatus.index}__].jenisItem}"
+                                                required="true">
+                                            <option value="0">-- Pilih Jenis Item --</option>
+                                            <option th:each="jenis : ${listJenisItem}" th:value="${{jenis.idJenisItem}}"
+                                                    th:text="${jenis.namaJenisItem}"></option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">Jumlah Item</label>
+                                    <div class="control-label col-sm-10">
+                                        <input type="number" name="jumlah" th:field="*{listItemPO[__${iterationStatus.index}__].jumlahItem}"
+                                               class="form-control form-control-user" placeholder="Masukkan Jumlah Item">
+                                    </div>
+                                </div>
+
+<!--                                <div class="form-group" hidden="hidden">-->
+<!--                                    <label class="control-label col-sm-2">Nomer PO</label>-->
+<!--                                    <div class="control-label col-sm-10">-->
+<!--                                        <input type="text" name="PO"-->
+<!--                                               class="form-control form-control-user" th:value="${purchaseOrderModel}">-->
+<!--                                    </div>-->
+<!--                                </div>-->
+                                </tr>
+
+                                <div class="row" dir="rtl">
+                                    <button class="btn btn-success btn-icon-split">
+                                        <span class="icon text-white-50">
+                                        <i class="fas fa-check"></i>
+                                        </span>
+                                        <span class="text" type="submit" name="submit">Tambah Item</span>
+                                    </button>
+                                    <div class="control-label col-sm-2"></div>
+                                    &nbsp
+                                    &nbsp
+                                    <button class="btn btn-danger btn-icon-split" onclick="javascript:history.back()">
+                                        <span class="icon text-white-50">
+                                        <i class="fas fa-times"></i>
+                                        </span>
+                                        <span>Kembali</span>
+                                    </button>
+                                </div>
+                            </form>
+                        </table>
+                    </div>
+                </div>
+
+
+
+            </div>
+            <!-- /.container-fluid -->
+
+        </div>
+        <!-- End of Main Content -->
+
+        <!-- Footer -->
+        <footer th:replace="fragments/fragment :: footer-dev-1"></footer>
+        <!-- End of Footer -->
+
+    </div>
+    <!-- End of Content Wrapper -->
+
+</div>
+<!-- End of Page Wrapper -->
+
+<a th:replace="fragments/fragment :: scroll-to-top"></a>
+
+<div th:replace="fragments/fragment :: logout-modal"></div>
+
+<!-- Bootstrap core JavaScript-->
+<link th:href="@{/vendor/jquery/jquery.min.js}">
+<link th:href="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}">
+<link th:href="@{/vendor/jquery-easing/jquery.easing.min.js}">
+<link th:href="@{/js/sb-admin-2.min.js}">
+</body>
+
+</html>

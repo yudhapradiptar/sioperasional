@@ -32,5 +32,9 @@ public class ItemPOServiceImpl implements ItemPOService{
         return itemPODB.findAll();
     }
 
+    @Override
+    public ItemPOModel addItemPO(ItemPOModel itemPOModel) {
+        return itemPODB.save(itemPOModel);
+    }
 
 }

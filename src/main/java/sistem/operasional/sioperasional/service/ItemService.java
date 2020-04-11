@@ -17,12 +17,12 @@ public interface ItemService {
     List<ItemModel> geItemListByTanggalKeluarNull();
 
     List<ItemModel> getItemListByKategoriItem(KategoriItemModel kategoriItemModel);
-    
+
     ItemModel getItemDetailByIdItem(Long idItem);
-    
+
     ItemModel updateStatusItem(ItemModel item);
-  
-	  List<ItemModel> geItemListByTanggalKeluarNullAndNotRusak();
+
+    List<ItemModel> geItemListByTanggalKeluarNullAndNotRusak();
 
     List<ItemModel> getItemListByNomorDeliveryOrder(String nomorDeliveryOrder);
     List<ItemModel> getItemListByJenisItem(JenisItemModel jenisItemModel);

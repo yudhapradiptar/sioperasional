@@ -30,5 +30,4 @@ public class StatusItemServiceImpl implements StatusItemService{
         statusItemDB.save(statusItem);
     }
 
-
 }

@@ -57,6 +57,7 @@
                         <br>
                         <div class="card-body">
                             <table class="table tab-content" text-align="center">
+
                                 <form class="form-horizontal" th:action="@{/delivery-order/add}"
                                     th:object="${deliveryOrder}" method="POST">
                                     <div class="form-group">
@@ -131,6 +132,7 @@
                                 <div class="row" dir="rtl">
                                     <div class="control-label col-sm-2"></div>
                                     <button class="btn btn-success text-white" type="submit">submit</button>
+
                                 </div>
                                     
                             
@@ -163,7 +165,8 @@
                                 <div>
                                     <tr th:each="item, iterationStatus : *{listItem}">
                                         <input type="checkbox" th:value="${item.idItem}">
-                                        <label th:text="${item.jenisItem}"></label><br>
+                               <label th:text="${item.jenisItem}"></label><br>
+
                                     </tr>
                                 </div>
                             </div> -->
