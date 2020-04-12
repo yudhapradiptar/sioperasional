@@ -161,14 +161,38 @@ public class PurchaseOrderController {
         return "form-add-item-purchase-order";
     }
 
-        @RequestMapping(value = "/approve/{nomorPurchaseOrder}", method = RequestMethod.POST)
-    public String approvePurchaseOrder(@PathVariable("nomorPurchaseOrder") String nomorPurchaseOrder, @ModelAttribute PurchaseOrderModel purchaseOrderModel){
+    @RequestMapping(value = "/approve/{nomorPurchaseOrder}", method = RequestMethod.POST)
+    public String approvePurchaseOrder(@PathVariable("nomorPurchaseOrder") String nomorPurchaseOrder,
+                                       @ModelAttribute PurchaseOrderModel purchaseOrderModel){
+        PurchaseOrderModel purchaseOrder = new PurchaseOrderModel();
         List<PurchaseOrderModel> purchaseOrderModelList = purchaseOrderService.getAll();
-        Optional<PurchaseOrderModel> purchaseOrder = purchaseOrderDB.findById(nomorPurchaseOrder);
-        purchaseOrder.get().setDisetujui(true);
-        purchaseOrderDB.save(purchaseOrder.get());
+        for (PurchaseOrderModel po:purchaseOrderModelList) {
+            if(po.getNomorPurchaseOrder().equalsIgnoreCase(nomorPurchaseOrder)){
+                purchaseOrder = po;
+            }
+        }
+        purchaseOrder.setDisetujui(true);
+        purchaseOrderDB.save(purchaseOrder);
 
         return "redirect:/purchase-order/";
+    }
+
+    @RequestMapping(value = "/detail/{nomorPurchaseOrder}", method = RequestMethod.GET)
+    public String detailPurchaseOrder(@PathVariable("nomorPurchaseOrder") String nomorPurchaseOrder,
+                                       Model model){
+        PurchaseOrderModel purchaseOrder = new PurchaseOrderModel();
+        List<PurchaseOrderModel> purchaseOrderModelList = purchaseOrderService.getAll();
+        for (PurchaseOrderModel po:purchaseOrderModelList) {
+            if(po.getNomorPurchaseOrder().equalsIgnoreCase(nomorPurchaseOrder)){
+                purchaseOrder = po;
+            }
+        }
+
+        List<ItemPOModel> listItemPO = purchaseOrder.getListItemPO();
+
+        model.addAttribute("purchaseOrder", purchaseOrder);
+        model.addAttribute("listItemPO", listItemPO);
+        return "detail-purchase-order";
     }
 
 }

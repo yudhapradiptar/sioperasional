@@ -1,5 +1,6 @@
 package sistem.operasional.sioperasional.controller;
 
+import jdk.jshell.Snippet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -59,10 +60,15 @@ public class ItemController {
          * setStatusPO harusnya parameternya bukan string, tapi objek statusItemModel.
          * jadi harus didefine dulu status "Closed" itu IDnya berapa, objeknya harus dibuat dulu
          */
-//        purchaseOrder.setStatusPO("Closed");
+        List<StatusItemModel> statusItemModels = statusItemService.getListStatusItem();
+        for (StatusItemModel status:statusItemModels){
+            if(status.getNamaStatusItem().equalsIgnoreCase("closed")){
+                purchaseOrder.setStatusPO(status);
+            }
+        }
         purchaseOrderService.addPurchaseOrder(purchaseOrder);
         model.addAttribute("purchaseOrder", purchaseOrder);
-        model.addAttribute("listItem", purchaseOrder.getListitem());
+        model.addAttribute("listItem", purchaseOrder.getListItemPO());
         return "success-close-po";
     }
 
