@@ -106,6 +106,7 @@ public class DeliveryOrderController {
             // System.out.println(deliveryOrderModel.getTanggalCreate());
 			itemModel2.setTanggalKeluar(deliveryOrderModel.getTanggalCreate());
 			itemModel2.setDeliveryOrder(deliveryOrderModel);
+			itemModel2.setChecked(true);
 		}
 
 
@@ -155,6 +156,7 @@ public class DeliveryOrderController {
         DeliveryOrderModel deliveryOrderModel = deliveryOrderService.getDeliveryOrderByNomorDeliveryOrder(nomor);
 
         List<ItemModel> itemModelsNull = itemService.getItemListAvailable(deliveryOrderModel.getNomorDeliveryOrder());
+        List<ItemModel> itemModelsCurrent = deliveryOrderModel.getListItem();
 
         ArrayList<ItemModel> listItemModels = new ArrayList<ItemModel>();
         listItemModels.add(new ItemModel());
@@ -167,7 +169,7 @@ public class DeliveryOrderController {
 
         model.addAttribute("listOutlet", outletModels);
         model.addAttribute("deliveryOrder", deliveryOrderModel);
-        // model.addAttribute("listItem", itemModels);
+        model.addAttribute("itemModelsCurrent", itemModelsCurrent);
         model.addAttribute("listItem", itemModelsNull);
         
         return "form-update-delivery-order";
@@ -178,25 +180,26 @@ public class DeliveryOrderController {
 
         DeliveryOrderModel deliveryOrderNow = deliveryOrderService.getDeliveryOrderByNomorDeliveryOrder(deliveryOrderModel.getNomorDeliveryOrder());
 
-        // System.out.println("item DO Now");
-        // System.out.println(deliveryOrderNow.getListItem());
+        System.out.println("item DO Now");
+        System.out.println(deliveryOrderNow.getListItem());
 
         for(ItemModel itemModel3: deliveryOrderNow.getListItem()) {
-            // System.out.println("==============mau set NUll ====================");
+            System.out.println("==============mau set NUll ====================");
 			itemModel3.setDeliveryOrder(null);
 			itemModel3.setTanggalKeluar(null);
         }
 
-        // System.out.println("================= ITEM BARU ====================");
-        // System.out.println(deliveryOrderModel.getListItem());
+        System.out.println("================= ITEM BARU ====================");
+        System.out.println(deliveryOrderModel.getListItem());
         
         for(ItemModel itemModel2: deliveryOrderModel.getListItem()) {
             if (itemModel2 == null) {
-                // System.out.println("=============null==================");
+                System.out.println("=============null==================");
             } else {
-                // System.out.println("==============NOT NULL===================");
+                System.out.println("==============NOT NULL===================");
 			    itemModel2.setDeliveryOrder(deliveryOrderModel);
 			    itemModel2.setTanggalKeluar(deliveryOrderModel.getTanggalCreate());
+			    itemModel2.setChecked(true);
             }
 		}
         

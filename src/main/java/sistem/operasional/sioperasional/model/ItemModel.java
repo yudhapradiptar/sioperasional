@@ -60,6 +60,10 @@ public class ItemModel implements Serializable {
     @Column(name = "isRusak", nullable = false)
     private boolean isRusak;
 
+    @NotNull
+    @Column(name = "isChecked", nullable = false)
+    private boolean isChecked;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "idStatusItem", referencedColumnName = "idStatusItem", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
@@ -151,6 +155,20 @@ public class ItemModel implements Serializable {
 
     public void setStatusItem(StatusItemModel statusItem) {
         this.statusItem = statusItem;
+    }
+
+    /**
+     * @param isChecked the isChecked to set
+     */
+    public void setChecked(boolean isChecked) {
+        this.isChecked = isChecked;
+    }
+    
+    /**
+     * @return the isChecked
+     */
+    public boolean isChecked() {
+        return isChecked;
     }
 
 }

@@ -64,7 +64,7 @@
                                 <!-- <input type="hidden" class="form-control" name="listItem" th:field="*{listItem}"> -->
                             
                                 <div class="form-group row">
-                                    <label class="col-sm-2 col-form-label">Status Subscribed</label>
+                                    <label class="col-sm-2 col-form-label">Status Bundling</label>
                                     <div class="col-sm-7">
                                         <select class="form-control" th:field="*{subscribed}">
                                             <option value="1">Ya</option>
@@ -99,12 +99,14 @@
                                         </select>
                                     </div>
                                 </div>
+
+                                <!-- <p th:text="${itemModelsCurrent}"></p>
                             
-                                <!-- <label>Pilih Item</label>
+                                <label>Pilih Item</label>
                                 <ul>
-                                    <ul th:each="item : ${currentItemModel}">
-                                    <input type="checkbox" th:field="*{currentItemModel}" th:value="${item.idItem}" />
-                                    <label th:for="${#ids.prev('currentItemModel')}" 
+                                    <ul th:each="item : ${itemModelsCurrent}">
+                                    <input type="checkbox" th:field="*{itemModelsCurrent}" th:value="${item.idItem}" />
+                                    <label th:for="${#ids.prev('itemModelsCurrent')}" 
                                             th:text="${item.idItem}"></label>
                                     </ul>
                                 </ul> -->
@@ -112,8 +114,8 @@
                                 <label>Pilih Item</label>
                                 <ul>
                                     <ul th:each="item : ${listItem}">
-                                    <input type="checkbox" th:field="*{listItem}" th:value="${item.idItem}" />
-                                    <label th:for="${#ids.prev('listItem')}" 
+                                    <input type="checkbox" th:field="*{listItem}" th:value="${item.idItem}" th:checked="${item.checked}"/>
+                                    <label 
                                             th:text="${item.kategoriItem.namaKategoriItem} + '_' + ${item.jenisItem.namaJenisItem} + '_' + ${item.idItem}"></label>
                                     </ul>
                                 </ul>
