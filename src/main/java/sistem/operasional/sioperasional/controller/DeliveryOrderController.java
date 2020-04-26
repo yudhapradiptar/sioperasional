@@ -13,6 +13,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -212,35 +214,34 @@ public class DeliveryOrderController {
         return "update-delivery-oder";
     }
 
-    @RequestMapping(value="/add", method = RequestMethod.POST, params= {"addRow"})
-	public String addRow(@ModelAttribute DeliveryOrderModel deliveryOrderModel, BindingResult bindingResult, Model model) {
-		if (deliveryOrderModel.getListItem() == null) {
-            deliveryOrderModel.setListItem(new ArrayList<ItemModel>());
-        }
-        deliveryOrderModel.getListItem().add(new ItemModel());
-        model.addAttribute("deliveryOrder", deliveryOrderModel);
+    @RequestMapping(value = "/addwithpdf", method = RequestMethod.GET)
+    public String addDeliveryOrderFormPageWithPdf(Model model) {
+        DeliveryOrderModel deliveryOrderModel = new DeliveryOrderModel();
 
         List<ItemModel> itemModels = itemService.geItemListByTanggalKeluarNullAndNotRusak();
-        model.addAttribute("listItem", itemModels);
 
+        ArrayList<ItemModel> listItemModels = new ArrayList<ItemModel>();
+        listItemModels.add(new ItemModel());
+        deliveryOrderModel.setListItem(listItemModels);
+
+        OutletModel outletModel = new OutletModel();
+        deliveryOrderModel.setOutlet(outletModel);
         List<OutletModel> outletModels = outletService.getOutletList();
+
         model.addAttribute("listOutlet", outletModels);
-
-		return "form-add-delivery-order";
-    }
-
-    @RequestMapping(value="/add", method = RequestMethod.POST, params={"removeRow"})
-	public String removeRow(@ModelAttribute DeliveryOrderModel deliveryOrderModel, final BindingResult bindingResult, final HttpServletRequest req, Model model) {
-        final Integer rowId = Integer.valueOf(req.getParameter("removeRow"));
-        deliveryOrderModel.getListItem().remove(rowId.intValue());
         model.addAttribute("deliveryOrder", deliveryOrderModel);
-
-        List<ItemModel> itemModels = itemService.geItemListByTanggalKeluarNullAndNotRusak();
         model.addAttribute("listItem", itemModels);
 
-        List<OutletModel> outletModels = outletService.getOutletList();
-        model.addAttribute("listOutlet", outletModels);
-        
-	    return "form-add-delivery-order";
+        return "form-add-delivery-order-with-pdf";
     }
+
+    @RequestMapping(value = "/addwithpdf", method = RequestMethod.POST)
+	public String handleFileUpload(@RequestParam("file") MultipartFile file,
+			RedirectAttributes redirectAttributes) {
+                
+		redirectAttributes.addFlashAttribute("message",
+				"You successfully uploaded " + file.getOriginalFilename() + "!");
+
+		return "form-add-delivery-order-with-pdf";
+	}
 }
