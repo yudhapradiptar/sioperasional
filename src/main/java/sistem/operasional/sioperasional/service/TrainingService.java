@@ -12,4 +12,10 @@ public interface TrainingService {
 
     TrainingModel getTrainingByIdTraining(String idTraining);
 
+    void createTraining(TrainingModel training);
+
+    void deleteTraining(TrainingModel training);
+
+    TrainingModel editTraining(TrainingModel training);
+
 }
