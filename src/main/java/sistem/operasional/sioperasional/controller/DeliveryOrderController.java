@@ -8,6 +8,8 @@ import sistem.operasional.sioperasional.service.DeliveryOrderService;
 import sistem.operasional.sioperasional.service.ItemService;
 import sistem.operasional.sioperasional.service.OutletService;
 import sistem.operasional.sioperasional.service.UserService;
+
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,7 +18,15 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -68,7 +78,7 @@ public class DeliveryOrderController {
         model.addAttribute("listItem", listItem);
         return "detail-delivery-order";
     }
-    
+
     @RequestMapping(value = "/add", method = RequestMethod.GET)
     public String addDeliveryOrderFormPage(Model model) {
         DeliveryOrderModel deliveryOrderModel = new DeliveryOrderModel();
@@ -89,32 +99,33 @@ public class DeliveryOrderController {
 
         return "form-add-delivery-order";
     }
-    
+
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public String addDeliveryOrderSubmit(@ModelAttribute DeliveryOrderModel deliveryOrderModel,
             @ModelAttribute ItemModel itemModel, Model model) {
 
         UserModel user = userService.getUserCurrentLoggedIn();
         deliveryOrderModel.setCreator(user);
-        DeliveryOrderModel deliveryOrderModel2 = deliveryOrderService.getDeliveryOrderByNomorDeliveryOrder(deliveryOrderModel.getNomorDeliveryOrder());
+        DeliveryOrderModel deliveryOrderModel2 = deliveryOrderService
+                .getDeliveryOrderByNomorDeliveryOrder(deliveryOrderModel.getNomorDeliveryOrder());
         if (deliveryOrderModel2 != null) {
             model.addAttribute("deliveryOrder", deliveryOrderModel);
             return "delivery-order-already-exist";
         }
 
-        for(ItemModel itemModel2: deliveryOrderModel.getListItem()) {
+        for (ItemModel itemModel2 : deliveryOrderModel.getListItem()) {
             // System.out.println("--------------------------------");
             // System.out.println(itemModel2.getIdItem());
             // System.out.println(deliveryOrderModel.getTanggalCreate());
-			itemModel2.setTanggalKeluar(deliveryOrderModel.getTanggalCreate());
-			itemModel2.setDeliveryOrder(deliveryOrderModel);
-			itemModel2.setChecked(true);
-		}
-
+            itemModel2.setTanggalKeluar(deliveryOrderModel.getTanggalCreate());
+            itemModel2.setDeliveryOrder(deliveryOrderModel);
+            itemModel2.setChecked(true);
+        }
 
         deliveryOrderService.addDeliveryOrder(deliveryOrderModel);
 
         model.addAttribute("deliveryOrder", deliveryOrderModel);
+        // model.addAttribute("tanggal", deliveryOrderModel.getTanggalCreate());
         model.addAttribute("namaOutlet", deliveryOrderModel.getOutlet().getNamaOutlet());
         model.addAttribute("listItem", deliveryOrderModel.getListItem());
         return "add-delivery-order";
@@ -132,14 +143,14 @@ public class DeliveryOrderController {
 
         model.addAttribute("deliveryOrder", deliveryOrderModel);
         model.addAttribute("listItem", listItem);
-        
+
         return "form-add-tanggal-subscribe";
     }
 
     @RequestMapping(value = "/set-tanggal-subscribe/{nomor}", method = RequestMethod.POST)
     public String addSubscribeDate(@PathVariable String nomor, @ModelAttribute DeliveryOrderModel deliveryOrderModel,
             Model model) {
-        
+
         DeliveryOrderModel newDeliveryOrderModel = deliveryOrderService.changeDeliveryOrder(deliveryOrderModel);
         model.addAttribute("deliveryOrder", newDeliveryOrderModel);
 
@@ -168,43 +179,44 @@ public class DeliveryOrderController {
         deliveryOrderModel.setOutlet(outletModel);
         List<OutletModel> outletModels = outletService.getOutletList();
 
-
         model.addAttribute("listOutlet", outletModels);
         model.addAttribute("deliveryOrder", deliveryOrderModel);
         model.addAttribute("itemModelsCurrent", itemModelsCurrent);
         model.addAttribute("listItem", itemModelsNull);
-        
+
         return "form-update-delivery-order";
     }
 
     @RequestMapping(value = "/update/{nomor}", method = RequestMethod.POST)
-    public String updateSubmit(@PathVariable String nomor, @ModelAttribute DeliveryOrderModel deliveryOrderModel, Model model) {
+    public String updateSubmit(@PathVariable String nomor, @ModelAttribute DeliveryOrderModel deliveryOrderModel,
+            Model model) {
 
-        DeliveryOrderModel deliveryOrderNow = deliveryOrderService.getDeliveryOrderByNomorDeliveryOrder(deliveryOrderModel.getNomorDeliveryOrder());
+        DeliveryOrderModel deliveryOrderNow = deliveryOrderService
+                .getDeliveryOrderByNomorDeliveryOrder(deliveryOrderModel.getNomorDeliveryOrder());
 
         System.out.println("item DO Now");
         System.out.println(deliveryOrderNow.getListItem());
 
-        for(ItemModel itemModel3: deliveryOrderNow.getListItem()) {
+        for (ItemModel itemModel3 : deliveryOrderNow.getListItem()) {
             System.out.println("==============mau set NUll ====================");
-			itemModel3.setDeliveryOrder(null);
-			itemModel3.setTanggalKeluar(null);
+            itemModel3.setDeliveryOrder(null);
+            itemModel3.setTanggalKeluar(null);
         }
 
         System.out.println("================= ITEM BARU ====================");
         System.out.println(deliveryOrderModel.getListItem());
-        
-        for(ItemModel itemModel2: deliveryOrderModel.getListItem()) {
+
+        for (ItemModel itemModel2 : deliveryOrderModel.getListItem()) {
             if (itemModel2 == null) {
-                System.out.println("=============null==================");
+                // System.out.println("=============null==================");
             } else {
-                System.out.println("==============NOT NULL===================");
-			    itemModel2.setDeliveryOrder(deliveryOrderModel);
-			    itemModel2.setTanggalKeluar(deliveryOrderModel.getTanggalCreate());
-			    itemModel2.setChecked(true);
+                // System.out.println("==============NOT NULL===================");
+                itemModel2.setDeliveryOrder(deliveryOrderModel);
+                itemModel2.setTanggalKeluar(deliveryOrderModel.getTanggalCreate());
+                itemModel2.setChecked(true);
             }
-		}
-        
+        }
+
         DeliveryOrderModel newDeliveryOrderModel = deliveryOrderService.changeDeliveryOrder(deliveryOrderModel);
 
         List<ItemModel> listItem = deliveryOrderModel.getListItem();
@@ -214,8 +226,8 @@ public class DeliveryOrderController {
         return "update-delivery-oder";
     }
 
-    @RequestMapping(value = "/addwithpdf", method = RequestMethod.GET)
-    public String addDeliveryOrderFormPageWithPdf(Model model) {
+    @RequestMapping(value = "/addwithtxt", method = RequestMethod.GET)
+    public String addDeliveryOrderFormPageWithTxt(Model model) {
         DeliveryOrderModel deliveryOrderModel = new DeliveryOrderModel();
 
         List<ItemModel> itemModels = itemService.geItemListByTanggalKeluarNullAndNotRusak();
@@ -232,16 +244,67 @@ public class DeliveryOrderController {
         model.addAttribute("deliveryOrder", deliveryOrderModel);
         model.addAttribute("listItem", itemModels);
 
-        return "form-add-delivery-order-with-pdf";
+        return "form-add-delivery-order-with-txt";
     }
 
-    @RequestMapping(value = "/addwithpdf", method = RequestMethod.POST)
-	public String handleFileUpload(@RequestParam("file") MultipartFile file,
-			RedirectAttributes redirectAttributes) {
-                
-		redirectAttributes.addFlashAttribute("message",
-				"You successfully uploaded " + file.getOriginalFilename() + "!");
+    @RequestMapping(value = "/addwithtxt", method = RequestMethod.POST)
+    public String handleFileTxt(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes,
+    @ModelAttribute DeliveryOrderModel deliveryOrderModel,
+    @ModelAttribute ItemModel itemModel, Model model) throws IOException, ParseException {
+        
+        String content = new String(file.getBytes(), StandardCharsets.UTF_8);
+        Date date;
 
-		return "form-add-delivery-order-with-pdf";
+        ByteArrayInputStream stream = new   ByteArrayInputStream(file.getBytes());
+        String myString = IOUtils.toString(stream, "UTF-8");
+
+        String nomorDeliveryOrder = myString.substring(40, 68);
+        
+        String tanggal = myString.substring(0, 10);
+        date = new SimpleDateFormat("dd/MM/yyyy").parse(tanggal);  
+
+        // batas
+
+        UserModel user = userService.getUserCurrentLoggedIn();
+        deliveryOrderModel.setCreator(user);
+        System.out.println("==============SET USER===================");
+        deliveryOrderModel.setTanggalCreate(date);
+        System.out.println("==============SET tanggal===================");
+        deliveryOrderModel.setNomorDeliveryOrder(nomorDeliveryOrder);
+        deliveryOrderModel.setStatusDO(nomorDeliveryOrder);
+
+        DeliveryOrderModel deliveryOrderModel2 = deliveryOrderService
+                .getDeliveryOrderByNomorDeliveryOrder(deliveryOrderModel.getNomorDeliveryOrder());
+        if (deliveryOrderModel2 != null) {
+            model.addAttribute("deliveryOrder", deliveryOrderModel);
+            return "delivery-order-already-exist";
+        }
+        System.out.println("==============debug 1===================");
+
+        for (ItemModel itemModel2 : deliveryOrderModel.getListItem()) {
+            itemModel2.setTanggalKeluar(deliveryOrderModel.getTanggalCreate());
+            itemModel2.setDeliveryOrder(deliveryOrderModel);
+            itemModel2.setChecked(true);
+        }
+
+        System.out.println("==============debug 2===================");
+        System.out.println(deliveryOrderModel.getNomorDeliveryOrder());
+        System.out.println(deliveryOrderModel.getTanggalCreate());
+        System.out.println(deliveryOrderModel.getCreator());
+        System.out.println(deliveryOrderModel.getSubscribed());
+
+        deliveryOrderService.addDeliveryOrder(deliveryOrderModel);
+
+        System.out.println("==============debug 3===================");
+
+        model.addAttribute("deliveryOrder", deliveryOrderModel);
+        model.addAttribute("namaOutlet", deliveryOrderModel.getOutlet().getNamaOutlet());
+        model.addAttribute("listItem", deliveryOrderModel.getListItem());
+        
+        model.addAttribute("date", date);
+        model.addAttribute("tanggal", tanggal);
+        model.addAttribute("nomorDeliveryOrder", nomorDeliveryOrder);
+
+		return "add-delivery-order-with-txt";
 	}
 }
