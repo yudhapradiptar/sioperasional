@@ -3,6 +3,7 @@ package sistem.operasional.sioperasional.service;
 import sistem.operasional.sioperasional.model.TrainingModel;
 import sistem.operasional.sioperasional.model.UserModel;
 
+import java.util.Date;
 import java.util.List;
 
 public interface TrainingService {
@@ -17,5 +18,7 @@ public interface TrainingService {
     void deleteTraining(TrainingModel training);
 
     TrainingModel editTraining(TrainingModel training);
+
+    String tanggalFormat(Date tanggal);
 
 }

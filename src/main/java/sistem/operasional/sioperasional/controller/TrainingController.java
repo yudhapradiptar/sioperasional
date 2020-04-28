@@ -16,6 +16,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -43,6 +44,7 @@ public class TrainingController {
 
         List<OutletModel> listOutlet = outletService.getOutletList();
 
+        model.addAttribute("training", newTraining);
         model.addAttribute("listTrainer", listTrainer);
         model.addAttribute("listOutlet", listOutlet);
 
@@ -62,7 +64,9 @@ public class TrainingController {
         Date combinedStartDate = new Date(yearTanggalTraining, monthTanggalTraining, dateTanggalTraining, startHour, startMinute);
         Date combinedFinishedDate = new Date(yearTanggalTraining, monthTanggalTraining, dateTanggalTraining, finishHour, finishMinute);
         for(TrainingModel trainingCompared : listTraining){
-            if(training.getTanggalTraining() == trainingCompared.getTanggalTraining()){
+            if(training.getTanggalTraining().getYear() == trainingCompared.getTanggalTraining().getYear() &&
+                    training.getTanggalTraining().getMonth() == trainingCompared.getTanggalTraining().getMonth() &&
+                    training.getTanggalTraining().getDate() == trainingCompared.getTanggalTraining().getDate()){
                 int yearTanggalTrainingCompared = trainingCompared.getTanggalTraining().getYear();
                 int monthTanggalTrainingCompared = trainingCompared.getTanggalTraining().getMonth();
                 int dateTanggalTrainingCompared = trainingCompared.getTanggalTraining().getDate();
@@ -76,23 +80,23 @@ public class TrainingController {
                     model.addAttribute("notifTimeOverlap", "Waktu Training Overlap dengan Training yang sudah ada");
                     return "fail-create-training";
                 }
-                else {
-                    try {
-                        training.setCreator(userService.getUserByUsername(currentUser.getUsername()));
-                        training.setStatusTraining("Menunggu Persetujuan");
-                        trainingService.createTraining(training);
-
-                        model.addAttribute("idTraining", training.getIdTraining());
-                        model.addAttribute("namaTrainer", training.getTrainer().getNama());
-                        model.addAttribute("namaOutlet", training.getOutlet().getNamaOutlet());
-                        return "success-create-training";
-                    } catch (NullPointerException e) {
-                        return "redirect:/training/create";
-                    }
-                }
+            }
+            if(combinedStartDate.after(combinedFinishedDate)){
+                return "fail-create-training";
             }
         }
-        return "fail-create-training";
+        try {
+            training.setCreator(userService.getUserByUsername(currentUser.getUsername()));
+            training.setStatusTraining("Menunggu Persetujuan");
+            trainingService.createTraining(training);
+
+            model.addAttribute("idTraining", training.getIdTraining());
+            model.addAttribute("namaTrainer", training.getTrainer().getNama());
+            model.addAttribute("namaOutlet", training.getOutlet().getNamaOutlet());
+            return "success-create-training";
+        } catch (NullPointerException e) {
+            return "redirect:/training/create";
+        }
     }
 
     @RequestMapping(value = "/delete/{idTraining}/confirmation", method = RequestMethod.GET)
@@ -115,27 +119,40 @@ public class TrainingController {
         return "success-delete-training";
     }
 
-    @RequestMapping(value = "/edit")
-    public String editTrainingForm(@RequestParam("idTraining") String idTraining, Model model){
+    @RequestMapping(value = "/edit/{idTraining}")
+    public String editTrainingForm(@PathVariable String idTraining, Model model){
         TrainingModel existingTraining = trainingService.getTrainingByIdTraining(idTraining);
         if(existingTraining!=null){
-            model.addAttribute("bayar", existingTraining.getBayar());
-            model.addAttribute("tanggalRequest", existingTraining.getTanggalRequest());
-            model.addAttribute("tanggalTraining", existingTraining.getTanggalTraining());
-            model.addAttribute("waktuMulai", existingTraining.getWaktuMulai());
-            model.addAttribute("waktuSelesai", existingTraining.getWaktuSelesai());
-            model.addAttribute("trainer", existingTraining.getTrainer().getNama());
-            model.addAttribute("outlet", existingTraining.getOutlet().getNamaOutlet());
-            model.addAttribute("keterangan", existingTraining.getKeteranganTraining());
+//            model.addAttribute("bayar", existingTraining.getBayar());
+//            model.addAttribute("tanggalRequest", existingTraining.getTanggalRequest());
+//            model.addAttribute("tanggalTraining", existingTraining.getTanggalTraining());
+//            model.addAttribute("waktuMulai", existingTraining.getWaktuMulai());
+//            model.addAttribute("waktuSelesai", existingTraining.getWaktuSelesai());
+//            model.addAttribute("trainer", existingTraining.getTrainer().getNama());
+//            model.addAttribute("outlet", existingTraining.getOutlet().getNamaOutlet());
+//            model.addAttribute("keterangan", existingTraining.getKeteranganTraining());
+            model.addAttribute("training", existingTraining);
+
+            List<UserModel> listTrainer = new ArrayList<>();
+            for(UserModel trainer : userService.getAllUser()){
+                if(trainer.getRole().getNamaRole().equals("Operation Staff")){
+                    listTrainer.add(trainer);
+                }
+            }
+
+            model.addAttribute("listTrainer", listTrainer);
+            model.addAttribute("listOutlet", outletService.getOutletList());
 
             return "form-edit-training";
         }
-        return "404"; //Sementara sebelum ada 404
+        return "error/403"; //403 Belum ada
     }
 
-    @RequestMapping(value = "/edit", method = RequestMethod.POST)
-    public String editTrainingSubmit(String idTraining, @ModelAttribute TrainingModel training, Model model) {
+    @RequestMapping(value = "/edit/{idTraining}", method = RequestMethod.POST)
+    public String editTrainingSubmit(@PathVariable String idTraining, @ModelAttribute TrainingModel training, Model model) {
         List<TrainingModel> listTraining = trainingService.getAllTraining();
+
+        TrainingModel trainingEdited = trainingService.getTrainingByIdTraining(training.getIdTraining());
 
         int yearTanggalTraining = training.getTanggalTraining().getYear();
         int monthTanggalTraining = training.getTanggalTraining().getMonth();
@@ -146,43 +163,73 @@ public class TrainingController {
         int finishMinute = Integer.parseInt(training.getWaktuSelesai().substring(3, 4));
         Date combinedStartDate = new Date(yearTanggalTraining, monthTanggalTraining, dateTanggalTraining, startHour, startMinute);
         Date combinedFinishedDate = new Date(yearTanggalTraining, monthTanggalTraining, dateTanggalTraining, finishHour, finishMinute);
-        for (TrainingModel trainingCompared : listTraining) {
-            if (training.getTanggalTraining() == trainingCompared.getTanggalTraining()) {
+        for(TrainingModel trainingCompared : listTraining){
+            if(training.getTanggalTraining().getYear() == trainingCompared.getTanggalTraining().getYear() &&
+                    training.getTanggalTraining().getMonth() == trainingCompared.getTanggalTraining().getMonth() &&
+                    training.getTanggalTraining().getDate() == trainingCompared.getTanggalTraining().getDate() && !(training.getIdTraining().equals(trainingCompared.getIdTraining()))){
+
                 int yearTanggalTrainingCompared = trainingCompared.getTanggalTraining().getYear();
                 int monthTanggalTrainingCompared = trainingCompared.getTanggalTraining().getMonth();
                 int dateTanggalTrainingCompared = trainingCompared.getTanggalTraining().getDate();
-                int startHourCompared = Integer.parseInt(trainingCompared.getWaktuMulai().substring(0, 2));
-                int startMinuteCompared = Integer.parseInt(trainingCompared.getWaktuMulai().substring(3, 4));
-                int finishHourCompared = Integer.parseInt(trainingCompared.getWaktuSelesai().substring(0, 2));
-                int finishMinuteCompared = Integer.parseInt(trainingCompared.getWaktuSelesai().substring(3, 4));
+                int startHourCompared = Integer.parseInt(trainingCompared.getWaktuMulai().substring(0,2));
+                int startMinuteCompared = Integer.parseInt(trainingCompared.getWaktuMulai().substring(3,4));
+                int finishHourCompared = Integer.parseInt(trainingCompared.getWaktuSelesai().substring(0,2));
+                int finishMinuteCompared = Integer.parseInt(trainingCompared.getWaktuSelesai().substring(3,4));
                 Date combinedStartDateCompared = new Date(yearTanggalTrainingCompared, monthTanggalTraining, dateTanggalTraining, startHourCompared, startMinuteCompared);
                 Date combinedFinishDateCompared = new Date(yearTanggalTrainingCompared, monthTanggalTrainingCompared, dateTanggalTrainingCompared, finishHourCompared, finishMinuteCompared);
-                if (combinedStartDate.before(combinedFinishDateCompared) && combinedFinishedDate.after(combinedStartDateCompared)) {
+                if(combinedStartDate.before(combinedFinishDateCompared) && combinedFinishedDate.after(combinedStartDateCompared)){
                     model.addAttribute("notifTimeOverlap", "Waktu Training Overlap dengan Training yang sudah ada");
                     return "fail-edit-training";
-                } else {
-                    TrainingModel newTraining = trainingService.editTraining(training);
-                    model.addAttribute("newTraining", newTraining);
-
-                    return "success-edit-training";
                 }
+
+            }
+            if(combinedStartDate.after(combinedFinishedDate)){
+                model.addAttribute("idTraining", idTraining);
+                return "fail-edit-training";
             }
         }
-        return "fail-edit-training";
+        TrainingModel newTraining = trainingService.editTraining(training);
+        model.addAttribute("newTraining", newTraining);
+        model.addAttribute("idTraining", newTraining.getIdTraining());
+        model.addAttribute("namaTrainer", newTraining.getTrainer().getNama());
+        model.addAttribute("namaOutlet", newTraining.getOutlet().getNamaOutlet());
+        return "success-edit-training";
     }
 
     @RequestMapping(path = "/view/{idTraining}", method = RequestMethod.GET)
     public String viewTraining(@PathVariable String idTraining, @AuthenticationPrincipal UserDetails currentUser, Model model){
         TrainingModel viewedTraining = trainingService.getTrainingByIdTraining(idTraining);
         String roleCurrentUser = userService.getUserByUsername(currentUser.getUsername()).getRole().getNamaRole();
+        UserModel user = userService.getUserByUsername(currentUser.getUsername());
 
         if(viewedTraining != null){
+            if(roleCurrentUser.equals("Operation Staff")){
+                for(TrainingModel training : user.getListTrainingTrained()){
+                    if(training.getIdTraining().equals(viewedTraining.getIdTraining())){
+                        model.addAttribute("training", viewedTraining);
+                        model.addAttribute("idTraining", viewedTraining.getIdTraining());
+                        model.addAttribute("role", roleCurrentUser);
+
+                        model.addAttribute("tanggalRequestString",  trainingService.tanggalFormat(viewedTraining.getTanggalRequest()));
+                        model.addAttribute("tanggalTrainingString", trainingService.tanggalFormat(viewedTraining.getTanggalTraining()));
+
+                        return "detail-training";
+                    }
+                }
+                if(user.getListTrainingTrained().size()==0){
+                    return "error/403";
+                }
+            }
             model.addAttribute("training", viewedTraining);
+            model.addAttribute("idTraining", viewedTraining.getIdTraining());
             model.addAttribute("role", roleCurrentUser);
+
+            model.addAttribute("tanggalRequestString",  trainingService.tanggalFormat(viewedTraining.getTanggalRequest()));
+            model.addAttribute("tanggalTrainingString", trainingService.tanggalFormat(viewedTraining.getTanggalTraining()));
 
             return "detail-training";
         }
-        return "404";
+        return "error/403";
     }
 
 }
