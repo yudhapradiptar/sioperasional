@@ -265,21 +265,18 @@ public class DeliveryOrderController {
 
         // batas
 
-        UserModel user = userService.getUserCurrentLoggedIn();
-        deliveryOrderModel.setCreator(user);
-        System.out.println("==============SET USER===================");
-        deliveryOrderModel.setTanggalCreate(date);
-        System.out.println("==============SET tanggal===================");
-        deliveryOrderModel.setNomorDeliveryOrder(nomorDeliveryOrder);
-        deliveryOrderModel.setStatusDO(nomorDeliveryOrder);
-
         DeliveryOrderModel deliveryOrderModel2 = deliveryOrderService
-                .getDeliveryOrderByNomorDeliveryOrder(deliveryOrderModel.getNomorDeliveryOrder());
+                .getDeliveryOrderByNomorDeliveryOrder(nomorDeliveryOrder);
         if (deliveryOrderModel2 != null) {
             model.addAttribute("deliveryOrder", deliveryOrderModel);
             return "delivery-order-already-exist";
         }
-        System.out.println("==============debug 1===================");
+
+        UserModel user = userService.getUserCurrentLoggedIn();
+        deliveryOrderModel.setCreator(user);
+        deliveryOrderModel.setTanggalCreate(date);
+        deliveryOrderModel.setNomorDeliveryOrder(nomorDeliveryOrder);
+        deliveryOrderModel.setStatusDO(nomorDeliveryOrder);
 
         for (ItemModel itemModel2 : deliveryOrderModel.getListItem()) {
             itemModel2.setTanggalKeluar(deliveryOrderModel.getTanggalCreate());
@@ -287,7 +284,6 @@ public class DeliveryOrderController {
             itemModel2.setChecked(true);
         }
 
-        System.out.println("==============debug 2===================");
         System.out.println(deliveryOrderModel.getNomorDeliveryOrder());
         System.out.println(deliveryOrderModel.getTanggalCreate());
         System.out.println(deliveryOrderModel.getCreator());
@@ -295,7 +291,6 @@ public class DeliveryOrderController {
 
         deliveryOrderService.addDeliveryOrder(deliveryOrderModel);
 
-        System.out.println("==============debug 3===================");
 
         model.addAttribute("deliveryOrder", deliveryOrderModel);
         model.addAttribute("namaOutlet", deliveryOrderModel.getOutlet().getNamaOutlet());
@@ -306,5 +301,48 @@ public class DeliveryOrderController {
         model.addAttribute("nomorDeliveryOrder", nomorDeliveryOrder);
 
 		return "add-delivery-order-with-txt";
-	}
+    }
+    
+    @RequestMapping(value = "/addwithpdf", method = RequestMethod.GET)
+    public String addDeliveryOrderFormPageWithPDF(Model model) {
+        DeliveryOrderModel deliveryOrderModel = new DeliveryOrderModel();
+
+        List<ItemModel> itemModels = itemService.geItemListByTanggalKeluarNullAndNotRusak();
+
+        ArrayList<ItemModel> listItemModels = new ArrayList<ItemModel>();
+        listItemModels.add(new ItemModel());
+        deliveryOrderModel.setListItem(listItemModels);
+
+        OutletModel outletModel = new OutletModel();
+        deliveryOrderModel.setOutlet(outletModel);
+        List<OutletModel> outletModels = outletService.getOutletList();
+
+        model.addAttribute("listOutlet", outletModels);
+        model.addAttribute("deliveryOrder", deliveryOrderModel);
+        model.addAttribute("listItem", itemModels);
+
+        return "form-add-delivery-order-with-pdf";
+    }
+
+    @RequestMapping(value = "/addwithpdf", method = RequestMethod.POST)
+    public String handleFilePDF(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes,
+    Model model) throws IOException, ParseException {
+        
+        String content = new String(file.getBytes(), StandardCharsets.UTF_8);
+        Date date;
+
+        ByteArrayInputStream stream = new   ByteArrayInputStream(file.getBytes());
+        String myString = IOUtils.toString(stream, "UTF-8");
+
+        String nomorDeliveryOrder = myString.substring(40, 68);
+        
+        String tanggal = myString.substring(0, 10);
+        date = new SimpleDateFormat("dd/MM/yyyy").parse(tanggal);  
+        
+        model.addAttribute("date", date);
+        model.addAttribute("tanggal", tanggal);
+        model.addAttribute("nomorDeliveryOrder", nomorDeliveryOrder);
+
+		return "add-delivery-order-with-pdf";
+    }
 }
