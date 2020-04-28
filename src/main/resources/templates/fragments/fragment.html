@@ -159,6 +159,22 @@
             </div>
         </li>
 
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTraining"
+               aria-expanded="true" aria-controls="collapseTraining">
+                <i class="fas fa-fw fa-building"></i>
+                <span>On Site Training</span>
+            </a>
+            <div id="collapseTraining" class="collapse" aria-labelledby="headingTraining" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Training:</h6>
+                    <a class="collapse-item" th:href="@{/training/create}">Buat Training</a>
+                    <a class="collapse-item" th:href="@{/training/schedule}">Jadwal Training</a>
+
+                </div>
+            </div>
+        </li>
+
         <hr class="sidebar-divider">
 
         <li class="nav-item">
