@@ -2,6 +2,8 @@ package sistem.operasional.sioperasional.controller;
 
 import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,8 +38,9 @@ public class PageController {
     DeliveryOrderService deliveryOrderService;
 
     @RequestMapping("/")
-    public String home (Model model, Authentication auth) {
-        return "homepage";
+    public String home (@AuthenticationPrincipal UserDetails currentUser, Model model, Authentication auth) {
+        model.addAttribute("role", userService.getUserByUsername(currentUser.getUsername()).getRole().getNamaRole());
+        return "homepage-with-card";
     }
 
     @RequestMapping("/login")
