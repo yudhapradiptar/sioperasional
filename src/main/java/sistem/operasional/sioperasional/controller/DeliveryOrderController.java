@@ -10,6 +10,11 @@ import sistem.operasional.sioperasional.service.OutletService;
 import sistem.operasional.sioperasional.service.UserService;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.pdfbox.cos.COSDocument;
+import org.apache.pdfbox.io.RandomAccessRead;
+import org.apache.pdfbox.pdfparser.PDFParser;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.text.PDFTextStripper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,18 +23,24 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import antlr.StringUtils;
+
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.RandomAccessFile;
 import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Scanner;
 
 import javax.servlet.http.HttpServletRequest;
+
+import com.itextpdf.text.pdf.codec.Base64;
 
 @Controller
 @RequestMapping("/delivery-order")
@@ -249,26 +260,31 @@ public class DeliveryOrderController {
 
     @RequestMapping(value = "/addwithtxt", method = RequestMethod.POST)
     public String handleFileTxt(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes,
-    @ModelAttribute DeliveryOrderModel deliveryOrderModel,
-    @ModelAttribute ItemModel itemModel, Model model) throws IOException, ParseException {
-        
-        String content = new String(file.getBytes(), StandardCharsets.UTF_8);
+            @ModelAttribute DeliveryOrderModel deliveryOrderModel, @ModelAttribute ItemModel itemModel, Model model)
+            throws IOException, ParseException {
+
         Date date;
 
-        ByteArrayInputStream stream = new   ByteArrayInputStream(file.getBytes());
+        ByteArrayInputStream stream = new ByteArrayInputStream(file.getBytes());
         String myString = IOUtils.toString(stream, "UTF-8");
 
-        String nomorDeliveryOrder = myString.substring(40, 68);
-        
+        int startNomorDO = myString.indexOf("INV");
+        String nomorDeliveryOrder = myString.substring(startNomorDO, startNomorDO + 28);
+        nomorDeliveryOrder = nomorDeliveryOrder.replaceAll("/", "-");
+
+        // int startTokopediaLink = myString.indexOf("https://www.tokopedia.com/");
+        // String tokopediaLinkRaw = myString.substring(startTokopediaLink);
+        // String[] tokopediaArray = tokopediaLinkRaw.split(" ");
+        // String tokopediaLink = tokopediaArray[0].substring(0, tokopediaArray[0].length()-3);
+
         String tanggal = myString.substring(0, 10);
-        date = new SimpleDateFormat("dd/MM/yyyy").parse(tanggal);  
+        date = new SimpleDateFormat("MM/dd/yyyy").parse(tanggal);
 
         // batas
-
         DeliveryOrderModel deliveryOrderModel2 = deliveryOrderService
                 .getDeliveryOrderByNomorDeliveryOrder(nomorDeliveryOrder);
         if (deliveryOrderModel2 != null) {
-            model.addAttribute("deliveryOrder", deliveryOrderModel);
+            model.addAttribute("nomorDeliveryOrder", nomorDeliveryOrder);
             return "delivery-order-already-exist";
         }
 
@@ -276,7 +292,6 @@ public class DeliveryOrderController {
         deliveryOrderModel.setCreator(user);
         deliveryOrderModel.setTanggalCreate(date);
         deliveryOrderModel.setNomorDeliveryOrder(nomorDeliveryOrder);
-        deliveryOrderModel.setStatusDO(nomorDeliveryOrder);
 
         for (ItemModel itemModel2 : deliveryOrderModel.getListItem()) {
             itemModel2.setTanggalKeluar(deliveryOrderModel.getTanggalCreate());
@@ -284,25 +299,20 @@ public class DeliveryOrderController {
             itemModel2.setChecked(true);
         }
 
-        System.out.println(deliveryOrderModel.getNomorDeliveryOrder());
-        System.out.println(deliveryOrderModel.getTanggalCreate());
-        System.out.println(deliveryOrderModel.getCreator());
-        System.out.println(deliveryOrderModel.getSubscribed());
-
         deliveryOrderService.addDeliveryOrder(deliveryOrderModel);
-
 
         model.addAttribute("deliveryOrder", deliveryOrderModel);
         model.addAttribute("namaOutlet", deliveryOrderModel.getOutlet().getNamaOutlet());
         model.addAttribute("listItem", deliveryOrderModel.getListItem());
-        
-        model.addAttribute("date", date);
-        model.addAttribute("tanggal", tanggal);
-        model.addAttribute("nomorDeliveryOrder", nomorDeliveryOrder);
 
-		return "add-delivery-order-with-txt";
+        model.addAttribute("date", date);
+        model.addAttribute("nomorDeliveryOrder", nomorDeliveryOrder);
+        // model.addAttribute("tanggal", tanggal);
+        // model.addAttribute("tokopediaLink", tokopediaLink);
+
+        return "add-delivery-order-with-txt";
     }
-    
+
     @RequestMapping(value = "/addwithpdf", method = RequestMethod.GET)
     public String addDeliveryOrderFormPageWithPDF(Model model) {
         DeliveryOrderModel deliveryOrderModel = new DeliveryOrderModel();
@@ -326,22 +336,43 @@ public class DeliveryOrderController {
 
     @RequestMapping(value = "/addwithpdf", method = RequestMethod.POST)
     public String handleFilePDF(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes,
-    Model model) throws IOException, ParseException {
-        
-        String content = new String(file.getBytes(), StandardCharsets.UTF_8);
-        Date date;
+            Model model) throws IOException, ParseException {
 
-        ByteArrayInputStream stream = new   ByteArrayInputStream(file.getBytes());
+        ByteArrayInputStream stream = new ByteArrayInputStream(file.getBytes());
         String myString = IOUtils.toString(stream, "UTF-8");
 
-        String nomorDeliveryOrder = myString.substring(40, 68);
+        File convFile = new File( file.getOriginalFilename());
+        file.transferTo(convFile);
+
+        // File convFile = new File(System.getProperty("java.io.tmpdir") + "/" + file.getOriginalFilename());
+        // file.transferTo(convFile);
+
+        // // File f = new File(filename);
+        String parsedText;
+        PDFParser parser = new PDFParser((RandomAccessRead) new RandomAccessFile(convFile, "r"));
+        parser.parse();
+
+        COSDocument cosDoc = parser.getDocument();
+        PDFTextStripper pdfStripper = new PDFTextStripper();
+        PDDocument pdDoc = new PDDocument(cosDoc);
+        parsedText = pdfStripper.getText(pdDoc);
+
+        // String data = "";
+        // Scanner myReader = new Scanner(convFile);
+        // while (myReader.hasNextLine()) {
+        //     data += myReader.nextLine();
+        //     System.out.println("-------------------------------------print-------------------------------------");
+        //     System.out.println(data);
+        // }
+        // myReader.close();
+
+        // String nomorDeliveryOrder = myString.substring(40, 68);
         
-        String tanggal = myString.substring(0, 10);
-        date = new SimpleDateFormat("dd/MM/yyyy").parse(tanggal);  
+        // String tanggal = myString.substring(0, 10);
+        // date = new SimpleDateFormat("dd/MM/yyyy").parse(tanggal);  
         
-        model.addAttribute("date", date);
-        model.addAttribute("tanggal", tanggal);
-        model.addAttribute("nomorDeliveryOrder", nomorDeliveryOrder);
+        
+        model.addAttribute("nomorDeliveryOrder", parsedText);
 
 		return "add-delivery-order-with-pdf";
     }
