@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
 
@@ -136,7 +136,7 @@
                                                         value="submit">detail</button>
                                                 </form>
                                             </td>
-                                            <td>
+                                            <td th:unless="${role == 'Operation Staff'}">
                                                 <form
                                                     th:action="@{/outlet/update/} + ${outlet.idOutlet}"
                                                     th:method="GET">

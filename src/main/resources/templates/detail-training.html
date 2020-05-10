@@ -85,10 +85,10 @@
                                 <a type="button" class="btn btn-primary" th:href="@{/training/edit/} + ${training.idTraining}">Edit</a>
                                 <a type="button" class="btn btn-danger" th:href="@{/training/delete/} + ${training.idTraining} + @{/confirmation}">Hapus</a>
                             </div>
-                            <div th:if="${role == 'Operation Staff'}">
+                            <div th:if="${role == 'Operation Staff' && training.statusTraining == 'Disetujui'}">
                                 <a type="button" class="btn btn-warning">Selesai</a>
                             </div>
-                            <div th:if="${role == 'Operation Manager'}">
+                            <div th:if="${role == 'Operation Manager' && training.statusTraining == 'Menunggu Persetujuan'}">
                                 <a type="button" class="btn btn-warning">Setuju</a>
                             </div>
                         </div>
