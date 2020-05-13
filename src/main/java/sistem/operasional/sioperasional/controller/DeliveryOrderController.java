@@ -40,7 +40,6 @@ import java.util.Scanner;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.itextpdf.text.pdf.codec.Base64;
 
 @Controller
 @RequestMapping("/delivery-order")
