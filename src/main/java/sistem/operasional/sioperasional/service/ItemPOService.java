@@ -8,5 +8,8 @@ import java.util.List;
 public interface ItemPOService {
     List<ItemPOModel> getItemPObyPurchaseOrder (PurchaseOrderModel purchaseOrder);
 
-    List<ItemPOModel> getAllItemPO ();
+    List<ItemPOModel> getAllItemPO();
+
+    ItemPOModel addItemPO(ItemPOModel itemPOModel);
+
 }

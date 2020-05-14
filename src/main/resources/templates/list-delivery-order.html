@@ -110,6 +110,25 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-info shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                                Daftar</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                                <a th:href="@{/delivery-order/daftar-delivery-order-set-tanggal}">Masukan tanggal subsribe</a>
+                                            </div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-file fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         
             
                     </div>
@@ -132,7 +151,7 @@
                                 <table id="datatable" class="table table-hover" style="width:100%;">
                                     <thead>
                                         <tr>
-                                            <th scope="col">No</th>
+                                            <th scope="col">Tanggal</th>
                                             <th scope="col">Nomor Delivery Order</th>
                                             <th scope="col">Outlet</th>
                                             <th scope="col">Bundling</th>
@@ -143,7 +162,8 @@
                                     </thead>
                                     <tbody>
                                         <tr th:each="deliveryOrder, iterationStatus : ${listDeliveryOrder}">
-                                            <th scope="row" th:text="${iterationStatus.count}"></th>
+                                            <!-- <th scope="row" th:text="${iterationStatus.count}"></th> -->
+                                            <td th:text="${#strings.substring(deliveryOrder.tanggalCreate,0,10)}  "></td>
                                             <td th:text="${deliveryOrder.nomorDeliveryOrder}"></td>
                                             <td th:text="${deliveryOrder.outlet.namaOutlet}"></td>
                                             <div th:if="${deliveryOrder.subscribed == true}">
@@ -165,17 +185,24 @@
                                                    role="button">Ubah
                                                 </a>
                                             </td>
-                                            <td>
-                                                <a class="btn btn-success" id=""
-                                                   th:href="@{/delivery-order/set-tanggal-subscribe/} + ${deliveryOrder.nomorDeliveryOrder}"
-                                                   role="button">Tanggal Subscribe
-                                                </a>
-                                            </td>
+                                            <div th:if="${deliveryOrder.subscribed == false}">
+                                                <td>
+                                                </td>
+                                            </div>
+                                            <div th:if="${deliveryOrder.subscribed == true}">
+                                                <td>
+                                                    <a class="btn btn-success" id=""
+                                                    th:href="@{/delivery-order/set-tanggal-subscribe/} + ${deliveryOrder.nomorDeliveryOrder}"
+                                                    role="button">Tanggal Subscribe
+                                                    </a>
+                                                </td>
+                                            </div>
 
                                         </tr>
                                     </tbody>
                                 </table>
                             </form>
+
                         </div>
                     </div>
 
@@ -204,6 +231,7 @@
     <link th:href="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}">
     <link th:href="@{/vendor/jquery-easing/jquery.easing.min.js}">
     <link th:href="@{/js/sb-admin-2.min.js}">
+    <script th:src="@{js/sb-admin-2.min.js}"></script>
 </body>
 
 </html>

@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Create Training</title>
+
+    <!-- Custom fonts for this template-->
+    <link rel="stylesheet" th:href="@{/vendor/fontawesome-free/css/all.min.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/sb-admin-2.min.css}">
+
+    <object th:include="fragments/fragment :: css-dev" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js-dev" th:remove="tag"></object>
+
+    <link
+            href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+            rel="stylesheet">
+
+    <!-- Khusus untuk Table -->
+    <link rel="stylesheet" th:href="@{/vendor/datatables/dataTables.bootstrap4.min.css}">
+
+    <script th:src="@{/vendor/datatables/jquery.dataTables.min.js}"></script>
+    <script th:src="@{/vendor/datatables/dataTables.bootstrap4.min.js}"></script>
+    <!-- <script th:src="@{/js/demo/datatables-demo.js}"></script> -->
+    <!-- Khusus untuk Table -->
+
+</head>
+
+<body id="page-top">
+
+<!-- Page Wrapper -->
+<div id="wrapper">
+
+    <ul th:replace="fragments/fragment :: sidebar"></ul>
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content">
+
+            <!-- Topbar -->
+            <nav th:replace="fragments/fragment :: navbar"></nav>
+            <!-- End of Topbar -->
+
+            <div class="container-fluid">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h3 class="m-0 font-weight-bold">Buat Training</h3>
+                    </div>
+                    <br>
+                    <div class="card-body">
+                        <table class="table tab-content" align="center">
+                            <form class="form-horizontal" th:action="@{/training}"
+                                  th:object="${training}" method="POST">
+
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">Pembayaran</label>
+                                    <div class="control-label col-sm-10">
+                                        <select class="form-control" name="bayar" th:field="*{bayar}"
+                                                required="true">
+                                            <option value=""  hidden="">-- Pilih Pembayaran --</option>
+                                            <option value="Bayar">Bayar</option>
+                                            <option value="Bundling">Bundling</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">Tanggal Request</label>
+                                    <div class="col-sm-10">
+                                        <input type="date" name="tanggalRequest" th:field="*{tanggalRequest}"
+                                               class="form-control form-control-user" placeholder="Masukkan Tanggal Request Training"
+                                               required>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">Tanggal Training</label>
+                                    <div class="col-sm-10">
+                                        <input type="date" name="tanggalTraining" th:field="*{tanggalTraining}"
+                                               class="form-control form-control-user" placeholder="Masukkan Tanggal Training"
+                                               required>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">Waktu Mulai</label>
+                                    <div class="control-label col-sm-10">
+                                        <input type="time" name="waktuMulai" th:field="*{waktuMulai}"
+                                               class="form-control form-control-user" placeholder="Masukkan Waktu Mulai Training">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">Waktu Selesai</label>
+                                    <div class="control-label col-sm-10">
+                                        <input type="time" name="waktuSelesai" th:field="*{waktuSelesai}"
+                                               class="form-control form-control-user" placeholder="Masukkan Waktu Selesai Training">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">Outlet</label>
+                                    <div class="control-label col-sm-10">
+                                        <select class="form-control" name="outlet" required="true">
+                                            <option value=""  hidden="">-- Pilih Outlet --</option>
+                                            <option th:each="outlet : ${listOutlet}"
+                                                    th:value="${outlet.idOutlet}"
+                                                    th:text="${outlet.namaOutlet}"></option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">Trainer</label>
+                                    <div class="control-label col-sm-10">
+                                        <select class="form-control" name="trainer" required="true">
+                                            <option value="" hidden="">-----Pilih Trainer-----</option>
+                                            <option th:each="pelatih : ${listTrainer}"
+                                                    th:value="${pelatih.id}"
+                                                    th:text="${pelatih.nama}"></option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">Keterangan</label>
+                                    <div class="col-sm-10">
+                                        <textarea name="keteranganTraining" th:field="*{keteranganTraining}"
+                                               class="form-control form-control-user" placeholder="Masukkan Keterangan Training">
+                                        </textarea>
+                                    </div>
+                                </div>
+
+                                <div class="row" dir="rtl">
+                                    &nbsp
+                                    &nbsp
+                                    <button class="btn btn-success btn-icon-split">
+                                        <span class="icon text-white-50">
+                                        <i class="fas fa-check"></i>
+                                        </span>
+                                        <span class="text" type="submit" name="submit">Submit</span>
+                                    </button>
+                                </div>
+                            </form>
+                        </table>
+                    </div>
+                </div>
+
+
+
+            </div>
+            <!-- /.container-fluid -->
+
+        </div>
+        <!-- End of Main Content -->
+
+        <!-- Footer -->
+        <footer th:replace="fragments/fragment :: footer-dev-1"></footer>
+        <!-- End of Footer -->
+
+    </div>
+    <!-- End of Content Wrapper -->
+
+</div>
+<!-- End of Page Wrapper -->
+
+<a th:replace="fragments/fragment :: scroll-to-top"></a>
+
+<div th:replace="fragments/fragment :: logout-modal"></div>
+
+<!-- Bootstrap core JavaScript-->
+<link th:href="@{/vendor/jquery/jquery.min.js}">
+<link th:href="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}">
+<link th:href="@{/vendor/jquery-easing/jquery.easing.min.js}">
+<link th:href="@{/js/sb-admin-2.min.js}">
+</body>
+
+</html>

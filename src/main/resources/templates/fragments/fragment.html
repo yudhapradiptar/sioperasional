@@ -10,6 +10,7 @@
             rel="stylesheet" type="text/css">
 
         <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+        <link rel="stylesheet" th:href="@{/css/sb-admin-2.min.css}">
         <link rel="stylesheet" th:href="@{/css/landing-page.min.css}">
         <link rel="stylesheet" th:href="@{/vendor/bootstrap/css/bootstrap.min.css}">
         <link rel="stylesheet" th:href="@{/vendor/fontawesome-free/css/all.min.css}">
@@ -108,15 +109,33 @@
         <!-- Nav Item - Utilities Collapse Menu -->
         <!-- <div th:if="${#httpServletRequest.userPrincipal.authorities[0].toString()=='Admin TU'}" class="row"> -->
         <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePO"
+                aria-expanded="true" aria-controls="collapsePO">
+                <i class="fas fa-fw fa-desktop"></i>
+                <span>Purchase Order</span>
+
+            </a>
+
+            <div id="collapsePO" class="collapse" aria-labelledby="headingPO"
+                 data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Menu Purchase Order:</h6>
+                    <a class="collapse-item" th:href="@{/purchase-order/}">Daftar Purchase Order</a>
+                    <a class="collapse-item" th:href="@{/purchase-order/add}">Buat Purchase Order</a>
+                </div>
+            </div>
+        </li>
+
+        <li class="nav-item">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
-                aria-expanded="true" aria-controls="collapseUtilities">
+               aria-expanded="true" aria-controls="collapseUtilities">
                 <i class="fas fa-fw fa-desktop"></i>
                 <span>Hardware Fulfillment</span>
             </a>
-
             <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
                 data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
+
                     <h6 class="collapse-header">Hardware Fulfillment:</h6>
                     <a class="collapse-item" th:href="@{/hardware-fulfillment/item/all}">Item</a>
                     <a class="collapse-item" th:href="@{/hardware-fulfillment/kategori/all}">Kategori Item</a>
@@ -142,27 +161,55 @@
             </div>
         </li>
 
-        <div>
-            <hr class="sidebar-divider">
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTraining"
+               aria-expanded="true" aria-controls="collapseTraining">
+                <i class="fas fa-fw fa-building"></i>
+                <span>On Site Training</span>
+            </a>
+            <div id="collapseTraining" class="collapse" aria-labelledby="headingTraining" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Training:</h6>
+                    <a class="collapse-item" th:href="@{/training/create}">Buat Training</a>
+                    <a class="collapse-item" th:href="@{/training/schedule}">Jadwal Training</a>
 
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSettings"
-                    aria-expanded="true" aria-controls="collapseSettings">
-                    <i class="fas fa-fw fa-cog"></i>
-                    <span>Settings</span>
-                </a>
-                <div id="collapseSettings" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Dashboard:</h6>
-                        <a class="collapse-item" th:href="@{/outlet/}">Outlet</a>
-                        <a class="collapse-item" th:href="@{/}">settings 1</a>
-                        <a class="collapse-item" th:href="@{/}">settings 2</a>
-                    </div>
                 </div>
-            </li>
-        </div>
+            </div>
+        </li>
 
+        <hr class="sidebar-divider">
 
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSettings"
+               aria-expanded="true" aria-controls="collapseSettings">
+                <i class="fas fa-fw fa-cog"></i>
+                <span>Settings</span>
+            </a>
+            <div id="collapseSettings" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Dashboard:</h6>
+                    <a class="collapse-item" th:href="@{/outlet/}">Outlet</a>
+                    <a class="collapse-item" th:href="@{/vendor/}">Vendor</a>
+                    <a class="collapse-item" th:href="@{/hardware-fulfillment/item/status/all}">Status Item</a>
+                </div>
+            </div>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseAcc"
+                aria-expanded="true" aria-controls="collapseAcc">
+                <i class="fas fa-user"></i>
+                <span>Akun</span>
+            </a>
+            <div id="collapseAcc" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Akun:</h6>
+                    <a class="collapse-item" th:href="@{/account/add}">Menambah Akun Baru</a>
+                    <a class="collapse-item" th:href="@{/account/user-list}">Daftar Akun</a>
+
+                </div>
+            </div>
+        </li>
 
         <!-- Divider -->
         <hr class="sidebar-divider d-none d-md-block">
@@ -187,19 +234,19 @@
         </button>
 
         <!-- Topbar Search -->
-        <!-- <div class="input-group">
-            <form th:action="@{/}" method="GET"
-                class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                <div class="input-group">
-                    <input type="text" name="nama" class="form-control form-control-lg"
-                        placeholder="Kalau mau cari-cari tapi masih kosong" aria-label="Search"
-                        aria-describedby="basic-addon2">
-                    <div class="input-group-append">
-                        <button type="submit" class="btn btn-dark">Cari!</button>
-                    </div>
-                </div>
-            </form>
-        </div> -->
+<!--        <div class="input-group">-->
+<!--            <form th:action="@{/}" method="GET"-->
+<!--                class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">-->
+<!--                <div class="input-group">-->
+<!--                    <input type="text" name="nama" class="form-control form-control-lg"-->
+<!--                        placeholder="Kalau mau cari-cari tapi masih kosong" aria-label="Search"-->
+<!--                        aria-describedby="basic-addon2">-->
+<!--                    <div class="input-group-append">-->
+<!--                        <button type="submit" class="btn btn-dark">Cari!</button>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </form>-->
+<!--        </div>-->
 
         <!-- Topbar Navbar -->
         <ul class="navbar-nav ml-auto">
@@ -242,6 +289,7 @@
                                 <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                 Profile
                             </a> -->
+
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" th:href="@{/logout}">
                                 <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>

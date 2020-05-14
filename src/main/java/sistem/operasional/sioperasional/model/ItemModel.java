@@ -42,7 +42,7 @@ public class ItemModel implements Serializable {
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonBackReference
     private DeliveryOrderModel deliveryOrder;
-    
+
     @NotNull
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "tanggalDatang", nullable = false)
@@ -59,10 +59,6 @@ public class ItemModel implements Serializable {
     @NotNull
     @Column(name = "isRusak", nullable = false)
     private boolean isRusak;
-
-    @NotNull
-    @Column(name = "isChecked", nullable = false)
-    private boolean isChecked;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "idStatusItem", referencedColumnName = "idStatusItem", nullable = false)
@@ -155,20 +151,6 @@ public class ItemModel implements Serializable {
 
     public void setStatusItem(StatusItemModel statusItem) {
         this.statusItem = statusItem;
-    }
-
-    /**
-     * @param isChecked the isChecked to set
-     */
-    public void setChecked(boolean isChecked) {
-        this.isChecked = isChecked;
-    }
-    
-    /**
-     * @return the isChecked
-     */
-    public boolean isChecked() {
-        return isChecked;
     }
 
 }

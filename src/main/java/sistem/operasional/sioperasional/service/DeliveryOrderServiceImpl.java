@@ -54,4 +54,14 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
             return null;
         }
     }
+
+    @Override
+    public List<DeliveryOrderModel> getDeliveryOrderListBySubscribed() {
+        return deliveryOrderDB.findDeliveryOrderByIsSubscribed();
+    }
+
+    @Override
+    public List<DeliveryOrderModel> getDeliveryOrderListBySubscribedAndTanggalSubcribeStartNull() {
+        return deliveryOrderDB.findDeliveryOrderByIsSubscribedAndTanggalSubscribeStartNull();
+    }
 }

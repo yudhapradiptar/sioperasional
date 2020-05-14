@@ -59,28 +59,28 @@
                         <div class="col-md-12">
                             <div class="card">
                                 <div class="card-body">
-                                    <form th:action="@{/account/add}" method="POST">
+                                    <form th:action="@{/account/add}" method="POST" modelAttribute="addUserForm" th:object="${userform}" >
                                         <label>User Name</label>
-                                        <input type="text" name="username" class="form-control">
+                                        <input type="text" name="username" class="form-control" required>
                                         <label>Nama</label>
-                                        <input type="text" name="nama" class="form-control">
+                                        <input type="text" name="nama" class="form-control" required>
                                         <label>Role</label>
-                                        <select name="role" class="form-control">
+                                        <select name="role" class="form-control" required>
                                             <option selected value="" disabled>-- Pilih Role --</option>
                                             <option th:each="roleAvailable : ${listRole} " th:value="${roleAvailable.idRole}" th:text="${roleAvailable.namaRole}"></option>
                                         </select>
                                         <label>Kode</label>
-                                        <input type="text" name="kode" class="form-control">
+                                        <input type="text" name="kode" class="form-control" required>
                                         <label>Status</label>
-                                        <select name="status" class="form-control">
+                                        <select name="status" class="form-control" required>
                                             <option selected value="" disabled>-- Pilih Status --</option>
                                             <option value="aktif" >Aktif</option>
                                             <option value="tidak aktif">tidak aktif</option>
                                         </select>
-                                        <label>Password</label>
-                                        <input type="password" name="password" class="form-control">
+                                        <label>Password (Terdiri dari huruf dan angka Min. 8 huruf)</label>
+                                        <input type="password" name="password" class="form-control" required>
                                         <label>Konfirmasi Password</label>
-                                        <input type="password" name="passwordConfirm" class="form-control">
+                                        <input type="password" name="passwordConfirm" class="form-control" required>
                                         <br>
                                         <button type="submit" class="btn btn-primary">Simpan</button>
                                     </form>
@@ -136,3 +136,4 @@
     <link th:href="@{/js/sb-admin-2.min.js}">
 </body>
 
+>>>>>>> 88d0336aec5b3b3d8b216e9eec3e35c6957350ca

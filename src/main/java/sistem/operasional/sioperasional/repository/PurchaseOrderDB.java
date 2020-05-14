@@ -6,4 +6,5 @@ import sistem.operasional.sioperasional.model.PurchaseOrderModel;
 
 @Repository
 public interface PurchaseOrderDB extends JpaRepository<PurchaseOrderModel, String> {
+
 }

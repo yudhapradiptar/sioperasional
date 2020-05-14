@@ -24,7 +24,7 @@ public class VendorModel implements Serializable {
 
     @NotNull
     @Column(name = "noTelpVendor", nullable = false)
-    private int noTelpVendor;
+    private String noTelpVendor;
 
     @NotNull
     @Size(max = 200)
@@ -55,11 +55,11 @@ public class VendorModel implements Serializable {
         this.emailVendor = emailVendor;
     }
 
-    public int getNoTelpVendor() {
+    public String getNoTelpVendor() {
         return noTelpVendor;
     }
 
-    public void setNoTelpVendor(int noTelpVendor) {
+    public void setNoTelpVendor(String noTelpVendor) {
         this.noTelpVendor = noTelpVendor;
     }
 

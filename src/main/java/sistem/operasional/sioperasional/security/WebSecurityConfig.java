@@ -31,11 +31,22 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/js/**").permitAll()
                 .antMatchers("/api/v1/**").permitAll()
                 .antMatchers("/customer-feedback/**").permitAll()
-                // .antMatchers("/delivery-order/set-tanggal-subscribe/**").hasAnyAuthority("Operation Manager")
-                // .antMatchers("/delivery-order/").hasAnyAuthority("Operation Manager")
-                // .antMatchers("/delivery-order/**").hasAnyAuthority("Product Operation Specialist")
-                // .antMatchers("/outlet/**").hasAnyAuthority("Operation Manager")
-                // .antMatchers("/jenis-outlet/**").hasAnyAuthority("Operation Manager")
+                .antMatchers("/delivery-order/set-tanggal-subscribe/**").hasAnyAuthority("Operation Manager")
+                .antMatchers("/delivery-order/").hasAnyAuthority("Operation Manager")
+                .antMatchers("/delivery-order/**").hasAnyAuthority("Product Operation Specialist")
+                .antMatchers("/outlet/**").hasAnyAuthority("Operation Manager")
+                .antMatchers("/jenis-outlet/**").hasAnyAuthority("Operation Manager")
+                .antMatchers("/dashboard/**").hasAnyAuthority("Operation Manager")
+                .antMatchers("/account/**").hasAnyAuthority("Operation Manager")
+                .antMatchers("/delivery-order/**").hasAnyAuthority("Operation Manager")
+                .antMatchers("/hardware-fullfillment/item/**").hasAnyAuthority("Operation Manager", "Product Operation Specialist")
+                .antMatchers("/hardware-fulfillment/jenis/**").hasAnyAuthority("Operation Manager", "Product Operation Specialist")
+                .antMatchers("/outlet/**").hasAnyAuthority("Operation Manager", "Product Operation Specialist", "Operation Lead","Product Operation Specialist")
+                .antMatchers("/jenis-outlet/**").hasAnyAuthority("Operation Manager", "Product Operation Specialist", "Operation Lead","Product Operation Specialist")
+                .antMatchers("/training/create/**").hasAnyAuthority("Operation Manager", "Operation Lead")
+                .antMatchers("/training/edit/**").hasAnyAuthority("Operation Manager", "Operation Lead")
+                .antMatchers("/training/delete/**").hasAnyAuthority("Operation Manager", "Operation Lead")
+                .antMatchers("/training/view/**").hasAnyAuthority("Operation Manager", "Operation Lead", "Operation Staff")
                 .anyRequest().authenticated()
                 .and()
                 .csrf()
@@ -69,17 +80,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                  .passwordEncoder(encoder())
                  .withUser("product").password(encoder().encode("product123"))
                  .roles("Product Operation Specialist");
-         auth.inMemoryAuthentication()
-                 .passwordEncoder(encoder())
-                 .withUser("customerservice").password(encoder().encode("customerservice123"))
-                 .roles("Customer Service");
      }
 
-        @Autowired
-        private UserDetailsService userDetailsService;
 
-        @Autowired
-        public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception{
+    @Autowired
+    private UserDetailsService userDetailsService;
+
+    @Autowired
+    public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception{
         auth.userDetailsService(userDetailsService).passwordEncoder(encoder());
-        }
+    }
 }

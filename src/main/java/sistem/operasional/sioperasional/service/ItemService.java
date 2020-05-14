@@ -28,4 +28,6 @@ public interface ItemService {
     List<ItemModel> getItemListByJenisItem(JenisItemModel jenisItemModel);
 
 	List<ItemModel> getItemListAvailable(String nomorDeliveryOrder);
+
+	List<ItemModel> getItemListByTanggalKeluarNullAndNotRusak();
 }

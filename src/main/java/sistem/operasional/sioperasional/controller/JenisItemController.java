@@ -33,7 +33,7 @@ public class JenisItemController {
         return "form-create-jenis";
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.POST)
+    @RequestMapping(value = "", method = RequestMethod.POST)
     public String createJenisSubmit(@ModelAttribute JenisItemModel jenisItem, Model model) {
         List<JenisItemModel> listJenisItem =  jenisItemService.getJenisItemList();
         try {
@@ -67,8 +67,9 @@ public class JenisItemController {
             return "fail-delete-jenis";
         }
         jenisItemService.deleteJenisItem(deletedJenis);
-        return "success-delete-jenis";
+        return "sucess-delete-jenis";
     }
+    //s
 
 
 }

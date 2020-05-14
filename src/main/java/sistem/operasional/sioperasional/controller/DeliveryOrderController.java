@@ -65,6 +65,15 @@ public class DeliveryOrderController {
         return "list-delivery-order";
     }
 
+    @RequestMapping("/daftar-delivery-order-set-tanggal")
+    public String viewDeliveryOrderBundlingNotSetTanggal(Model model) {
+        
+        List<DeliveryOrderModel> listDeliveryOrderBundlingNotSetTanggalYet = deliveryOrderService.getDeliveryOrderListBySubscribedAndTanggalSubcribeStartNull();
+        model.addAttribute("listDeliveryOrder", listDeliveryOrderBundlingNotSetTanggalYet);
+
+        return "list-delivery-order-set-tanggal";
+    }
+
     @RequestMapping(value = "/detail/{nomor}", method = RequestMethod.GET)
     public String viewDeliveryOrderByNomorDeliveryOrder(@PathVariable String nomor, Model model) {
 
@@ -129,7 +138,6 @@ public class DeliveryOrderController {
             // System.out.println(deliveryOrderModel.getTanggalCreate());
             itemModel2.setTanggalKeluar(deliveryOrderModel.getTanggalCreate());
             itemModel2.setDeliveryOrder(deliveryOrderModel);
-            itemModel2.setChecked(true);
         }
 
         deliveryOrderService.addDeliveryOrder(deliveryOrderModel);
@@ -223,7 +231,6 @@ public class DeliveryOrderController {
                 // System.out.println("==============NOT NULL===================");
                 itemModel2.setDeliveryOrder(deliveryOrderModel);
                 itemModel2.setTanggalKeluar(deliveryOrderModel.getTanggalCreate());
-                itemModel2.setChecked(true);
             }
         }
 
@@ -295,7 +302,6 @@ public class DeliveryOrderController {
         for (ItemModel itemModel2 : deliveryOrderModel.getListItem()) {
             itemModel2.setTanggalKeluar(deliveryOrderModel.getTanggalCreate());
             itemModel2.setDeliveryOrder(deliveryOrderModel);
-            itemModel2.setChecked(true);
         }
 
         deliveryOrderService.addDeliveryOrder(deliveryOrderModel);
