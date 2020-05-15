@@ -33,7 +33,7 @@ public class TrainingController {
     OutletService outletService;
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)
-    public String createTrainingFormPage(Model model) {
+    public String createTrainingFormPage(@AuthenticationPrincipal UserDetails currentUser, Model model) {
         TrainingModel newTraining = new TrainingModel();
         List<UserModel> listTrainer = new ArrayList<>();
         for(UserModel trainer : userService.getAllUser()){
@@ -47,6 +47,7 @@ public class TrainingController {
         model.addAttribute("training", newTraining);
         model.addAttribute("listTrainer", listTrainer);
         model.addAttribute("listOutlet", listOutlet);
+        model.addAttribute("role", userService.getUserByUsername(currentUser.getUsername()).getRole().getNamaRole());
 
         return "form-create-training";
     }
@@ -93,6 +94,7 @@ public class TrainingController {
             model.addAttribute("idTraining", training.getIdTraining());
             model.addAttribute("namaTrainer", training.getTrainer().getNama());
             model.addAttribute("namaOutlet", training.getOutlet().getNamaOutlet());
+            model.addAttribute("role", userService.getUserByUsername(currentUser.getUsername()).getRole().getNamaRole());
             return "success-create-training";
         } catch (NullPointerException e) {
             return "redirect:/training/create";
@@ -100,27 +102,29 @@ public class TrainingController {
     }
 
     @RequestMapping(value = "/delete/{idTraining}/confirmation", method = RequestMethod.GET)
-    public String confirmationDeleteTraining(@PathVariable String idTraining, Model model){
+    public String confirmationDeleteTraining(@PathVariable String idTraining, @AuthenticationPrincipal UserDetails currentUser, Model model){
         TrainingModel trainingDeleted = trainingService.getTrainingByIdTraining(idTraining);
         model.addAttribute("idTraining", trainingDeleted.getIdTraining());
         model.addAttribute("outlet", trainingDeleted.getOutlet().getNamaOutlet());
+        model.addAttribute("role", userService.getUserByUsername(currentUser.getUsername()).getRole().getNamaRole());
 
         return "confirmation-delete-training";
     }
 
     @RequestMapping(value = "/delete/{idTraining}/confirm", method = RequestMethod.GET)
-    public String actualDeleteTraining(@PathVariable String idTraining, Model model){
+    public String actualDeleteTraining(@PathVariable String idTraining, @AuthenticationPrincipal UserDetails currentUser, Model model){
         TrainingModel trainingDeleted = trainingService.getTrainingByIdTraining(idTraining);
         String attributIdTraining = trainingDeleted.getIdTraining();
         trainingService.deleteTraining(trainingDeleted);
 
         model.addAttribute("atributIdTraining", attributIdTraining);
+        model.addAttribute("role", userService.getUserByUsername(currentUser.getUsername()).getRole().getNamaRole());
 
         return "success-delete-training";
     }
 
     @RequestMapping(value = "/edit/{idTraining}")
-    public String editTrainingForm(@PathVariable String idTraining, Model model){
+    public String editTrainingForm(@PathVariable String idTraining, @AuthenticationPrincipal UserDetails currentUser, Model model){
         TrainingModel existingTraining = trainingService.getTrainingByIdTraining(idTraining);
         if(existingTraining!=null){
 //            model.addAttribute("bayar", existingTraining.getBayar());
@@ -142,6 +146,7 @@ public class TrainingController {
 
             model.addAttribute("listTrainer", listTrainer);
             model.addAttribute("listOutlet", outletService.getOutletList());
+            model.addAttribute("role", userService.getUserByUsername(currentUser.getUsername()).getRole().getNamaRole());
 
             return "form-edit-training";
         }
@@ -149,7 +154,7 @@ public class TrainingController {
     }
 
     @RequestMapping(value = "/edit/{idTraining}", method = RequestMethod.POST)
-    public String editTrainingSubmit(@PathVariable String idTraining, @ModelAttribute TrainingModel training, Model model) {
+    public String editTrainingSubmit(@PathVariable String idTraining, @ModelAttribute TrainingModel training, @AuthenticationPrincipal UserDetails currentUser, Model model) {
         List<TrainingModel> listTraining = trainingService.getAllTraining();
 
         TrainingModel trainingEdited = trainingService.getTrainingByIdTraining(training.getIdTraining());
@@ -193,6 +198,7 @@ public class TrainingController {
         model.addAttribute("idTraining", newTraining.getIdTraining());
         model.addAttribute("namaTrainer", newTraining.getTrainer().getNama());
         model.addAttribute("namaOutlet", newTraining.getOutlet().getNamaOutlet());
+        model.addAttribute("role", userService.getUserByUsername(currentUser.getUsername()).getRole().getNamaRole());
         return "success-edit-training";
     }
 
