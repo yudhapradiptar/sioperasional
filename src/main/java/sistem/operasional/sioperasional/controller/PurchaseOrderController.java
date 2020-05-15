@@ -1,5 +1,7 @@
 package sistem.operasional.sioperasional.controller;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
@@ -11,6 +13,12 @@ import sistem.operasional.sioperasional.repository.ItemPODB;
 import sistem.operasional.sioperasional.repository.PurchaseOrderDB;
 import sistem.operasional.sioperasional.service.*;
 
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.OutputStream;
 import java.util.*;
 
 @Controller
@@ -43,6 +51,15 @@ public class PurchaseOrderController {
 
     @Autowired
     KategoriItemService kategoriItemService;
+
+    @Autowired
+    private ServletContext context;
+
+    private static Logger logger = LogManager.getLogger(PurchaseOrderController.class);
+
+    private static final String filePath = System.getProperty("user.home")+"\\Downloads\\Purchase Order\\";
+
+    private static final String image = "post.jpg";
 
 
     @RequestMapping("/")
@@ -195,4 +212,55 @@ public class PurchaseOrderController {
         return "detail-purchase-order";
     }
 
+    @RequestMapping(value="/download/{nomorPurchaseOrder}", method= RequestMethod.POST)
+    public void createPdf(HttpServletRequest request, HttpServletResponse response,
+                          @PathVariable("nomorPurchaseOrder") String nomorPurchaseOrder)
+    {
+
+        PurchaseOrderModel purchaseOrderModel =
+                purchaseOrderService.getPurchaseOrderByNomorPurchaseOrder(nomorPurchaseOrder);
+        boolean isFlag= purchaseOrderService.createPdf(purchaseOrderModel,context,request,response);
+
+        String namaFile = nomorPurchaseOrder+".pdf";
+        if(isFlag)
+        {
+            String fullPath = filePath+namaFile;
+            fileDownload(fullPath,response,namaFile);
+
+        }
+
+
+    }
+
+    private void fileDownload(String fullPath, HttpServletResponse response, String fileName) {
+        File file = new File(fullPath);
+        final int BUFFER_SIZE = 4096;
+        if(file.exists())
+        {
+            try
+            {
+                logger.info("============= START DOWNLOAD FILE =============");
+                FileInputStream fis= new FileInputStream(file);
+                String mimeType= context.getMimeType(fullPath);
+                response.setContentType(mimeType);
+                response.setHeader("content-disposition", "attachment;fileName="+fileName);
+
+                OutputStream os= response.getOutputStream();
+                byte[] buffer= new byte[BUFFER_SIZE];
+                int bytesRead = -1;
+                while((bytesRead=fis.read(buffer))!=-1)
+                {
+                    os.write(buffer, 0, bytesRead);
+                }
+
+                fis.close();
+                os.close();
+                file.delete();
+            }
+            catch(Exception ex)
+            {
+                ex.printStackTrace();
+            }
+        }
+    }
 }

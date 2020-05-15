@@ -6,6 +6,7 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 import java.io.Serializable;
 
 @Entity
@@ -36,6 +37,10 @@ public class ItemPOModel implements Serializable {
     @NotNull
     @Column(name = "jumlah", nullable = false)
     private int jumlahItem;
+
+//    @Null
+//    @Column(name = "hargaSatuan", nullable = true)
+//    private int hargaSatuan;
 
     public Long getIdItemPO() {
         return idItemPO;
@@ -76,4 +81,12 @@ public class ItemPOModel implements Serializable {
     public void setJumlahItem(int jumlahItem) {
         this.jumlahItem = jumlahItem;
     }
+
+//    public int getHargaItem() {
+//        return hargaSatuan;
+//    }
+//
+//    public void setHargaItem(int hargaSatuan) {
+//        this.hargaSatuan = hargaSatuan;
+//    }
 }

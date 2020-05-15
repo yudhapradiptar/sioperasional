@@ -67,6 +67,15 @@
                             <p th:text="'Persetujuan : ' + ${purchaseOrder.disetujui}"></p>
 
                             <span>
+                                <form class="form-horizontal"
+                                      th:action="@{/purchase-order/download/{nomorPurchaseOrder}(nomorPurchaseOrder=${purchaseOrder.nomorPurchaseOrder})}"
+                                      th:method="POST">
+                                <button class="btn btn-info text-white">
+                                    <span class="text" value="submit">download</span>
+                                </button>
+                                </form>
+                            </span>
+                            <span>
                             <table border="I" class="table-bordered table-striped text-center" style="border:1px solid black;margin-left:auto;margin-right:auto;">
                                 <p th:text="'Detail Item'"></p>
                             <thead>

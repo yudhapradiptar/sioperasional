@@ -91,7 +91,7 @@
                                 </td>
 
                                 <td>
-                                    <input type="number" name="jumlah" th:field="*{listItemPO[__${iterationStatus.index}__].jumlahItem}"
+                                    <input type="number" min="0" name="jumlah" th:field="*{listItemPO[__${iterationStatus.index}__].jumlahItem}"
                                        class="form-control form-control-user" placeholder="Masukkan Jumlah Item">
                                 </td>
                             </tbody>
