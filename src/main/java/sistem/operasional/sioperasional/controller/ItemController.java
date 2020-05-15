@@ -42,32 +42,32 @@ public class ItemController {
     @Autowired
     UserService userService;
 
-    @RequestMapping(path = "/{nomorPurchaseOrder}/close", method = RequestMethod.POST)
+    @RequestMapping(path = "/{nomorPurchaseOrder}/close", method = RequestMethod.GET)
     public String addItemFromPO(@PathVariable String nomorPurchaseOrder, @AuthenticationPrincipal UserDetails currentUser, @ModelAttribute ItemModel item, @ModelAttribute ItemPOModel itemPO, Model model){
         PurchaseOrderModel purchaseOrder = purchaseOrderService.getPurchaseOrderByNomorPurchaseOrder(nomorPurchaseOrder);
-        List<ItemPOModel> listOfItemPOByPurchaseOrder = itemPOService.getItemPObyPurchaseOrder(purchaseOrder);
-        for(ItemPOModel itemPOCreated : listOfItemPOByPurchaseOrder){
-            for(int j=0; j<itemPOCreated.getJumlahItem(); j++){
-                ItemModel itemModel = new ItemModel();
-                itemModel.setRusak(false);
-                itemModel.setTanggalDatang(new Date());
-                itemModel.setKategoriItem(itemPOCreated.getKategoriItem());
-                itemModel.setJenisItem(itemPOCreated.getJenisItem());
-                itemModel.setPurchaseOrder(itemPOCreated.getPurchaseOrder());
-                itemModel.setStatusItem(statusItemService.getStatusItemByIdStatusItem(Long.valueOf(1)));
-                itemService.createItem(itemModel);
+        if(purchaseOrder.getStatusPO().equals("Open") && purchaseOrder.isDisetujui()){
+            List<ItemPOModel> listOfItemPOByPurchaseOrder = itemPOService.getItemPObyPurchaseOrder(purchaseOrder);
+            for(ItemPOModel itemPOCreated : listOfItemPOByPurchaseOrder){
+                for(int j=0; j<itemPOCreated.getJumlahItem(); j++){
+                    ItemModel itemModel = new ItemModel();
+                    itemModel.setRusak(false);
+                    itemModel.setTanggalDatang(new Date());
+                    itemModel.setKategoriItem(itemPOCreated.getKategoriItem());
+                    itemModel.setJenisItem(itemPOCreated.getJenisItem());
+                    itemModel.setPurchaseOrder(itemPOCreated.getPurchaseOrder());
+                    itemModel.setStatusItem(statusItemService.getStatusItemByIdStatusItem(Long.valueOf(1)));
+                    itemService.createItem(itemModel);
+                }
             }
+            purchaseOrder.setStatusPO("Closed");
+//            purchaseOrderService.addPurchaseOrder(purchaseOrder);
+            model.addAttribute("purchaseOrder", purchaseOrder);
+            model.addAttribute("listItem", purchaseOrder.getListitem());
+            model.addAttribute("role", userService.getUserByUsername(currentUser.getUsername()).getRole().getNamaRole());
+            return "success-close-po";
         }
-        /***
-         * setStatusPO harusnya parameternya bukan string, tapi objek statusItemModel.
-         * jadi harus didefine dulu status "Closed" itu IDnya berapa, objeknya harus dibuat dulu
-         */
-//        purchaseOrder.setStatusPO("Closed");
-        purchaseOrderService.addPurchaseOrder(purchaseOrder);
-        model.addAttribute("purchaseOrder", purchaseOrder);
-        model.addAttribute("listItem", purchaseOrder.getListitem());
-        model.addAttribute("role", userService.getUserByUsername(currentUser.getUsername()).getRole().getNamaRole());
-        return "success-close-po";
+        model.addAttribute("nomorpo", purchaseOrder.getNomorPurchaseOrder());
+        return "fail-close-po";
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)

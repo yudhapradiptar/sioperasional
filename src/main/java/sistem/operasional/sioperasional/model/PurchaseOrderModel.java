@@ -59,11 +59,9 @@ public class PurchaseOrderModel implements Serializable {
     @Column(name = "isDisetujui", nullable = true)
     private boolean isDisetujui;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "statusPO", referencedColumnName = "idStatusItem", nullable = false, columnDefinition = "bigint default 1")
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @JsonIgnore
-    private StatusItemModel statusPO;
+    @NotNull
+    @Column(name = "statusPO", nullable = false)
+    private String statusPO;
 
 
     @OneToMany(mappedBy = "purchaseOrder", fetch = FetchType.LAZY)
@@ -143,12 +141,11 @@ public class PurchaseOrderModel implements Serializable {
         isDisetujui = disetujui;
     }
 
-
-    public StatusItemModel getStatusPO() {
+    public String getStatusPO() {
         return statusPO;
     }
 
-    public void setStatusPO(StatusItemModel statusPO) {
+    public void setStatusPO(String statusPO) {
         this.statusPO = statusPO;
     }
 
