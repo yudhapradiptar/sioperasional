@@ -60,6 +60,7 @@ public class ItemController {
                 }
             }
             purchaseOrder.setStatusPO("Closed");
+            purchaseOrder.setTanggalClose(new Date());
 //            purchaseOrderService.addPurchaseOrder(purchaseOrder);
             model.addAttribute("purchaseOrder", purchaseOrder);
             model.addAttribute("listItem", purchaseOrder.getListitem());
