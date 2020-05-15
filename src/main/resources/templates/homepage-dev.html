@@ -72,26 +72,28 @@
 
           <div class="row">
             <!-- Content Column -->
-              <div class="col-lg-6 mb-4">
-            <div th:if="${role == 'Operation Manager'}">
+            <div class="col-lg-6 mb-4">
+              <div th:if="${role == 'Operation Manager'}">
 
                 <!-- Project Card Example -->
                 <div class="card shadow mb-4">
                   <a href="#collapseCardExample1" class="d-block card-header py-3" data-toggle="collapse" role="button"
-                    aria-expanded="true" aria-controls="collapseCardExample1">
+                    aria-expanded="false" aria-controls="collapseCardExample1">
                     <h6 class="m-0 font-weight-bold text-primary">Delivery Order Bundling</h6>
                   </a>
                   <!-- Card Content - Collapse -->
                   <div class="collapse show" id="collapseCardExample1">
                     <div class="card-body">
-                      <h4 class="small font-weight-bold">Bundling belum ada tanggal <span
+                      <h4 class="small font-weight-bold">Delivery Order Bundling belum </h4>
+
+                      <h4 class="small font-weight-bold">diatur tanggal subscribe <span
                           th:text="${persentaseBelumSetTanggal} + '%'" class="float-right"></span></h4>
                       <div class="progress mb-4">
-                        <div class="progress-bar" role="progressbar"
+                        <div class="progress-bar bg-success" role="progressbar"
                           th:style="'width: ' + ${persentaseBelumSetTanggal} + '%'"></div>
                       </div>
-                      <a th:href="@{delivery-order/}" class="small font-weight-bold">
-                        <h4 class="small font-weight-bold"></h4>kunjungi </h4>
+                      <a th:href="@{delivery-order/daftar-delivery-order-set-tanggal}" class="small font-weight-bold">
+                        <h4 class="small font-weight-bold"></h4>kunjungi &rarr;</h4>
                       </a>
                       <span
                         th:text="${sumDeliveryOrderBundlingNotSetTanggalYet} + ' dari ' + ${sumDeliveryOrderBundling}"
@@ -103,28 +105,150 @@
               </div>
             </div>
 
-              <div class="col-lg-6 mb-4">
-            <div th:if="${role == 'Operation Manager'}">
+            <div class="col-lg-6 mb-4">
+              <div th:if="${role == 'Operation Manager'}">
                 <div class="card shadow mb-4">
                   <!-- Card Header - Accordion -->
-                  <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse" role="button"
-                    aria-expanded="true" aria-controls="collapseCardExample">
-                    <h6 class="m-0 font-weight-bold text-primary">Collapsable Card Example</h6>
+                  <a href="#collapseCardExample2" class="d-block card-header py-3" data-toggle="collapse" role="button"
+                    aria-expanded="false" aria-controls="collapseCardExample2">
+                    <h6 class="m-0 font-weight-bold text-primary">Purchase Order</h6>
                   </a>
                   <!-- Card Content - Collapse -->
-                  <div class="collapse show" id="collapseCardExample">
+                  <div class="collapse show" id="collapseCardExample2">
                     <div class="card-body">
-                      This is a collapsable card example using Bootstrap's built in collapse functionality.
-                      <strong>Click
-                        on the card header</strong> to see the card body collapse and expand!
+                      <h4 class="small font-weight-bold">PO belum disetujui <span
+                          th:text="${persentasePONotDisetujui} + '%'" class="float-right"></span></h4>
+                      <div class="progress mb-4">
+                        <div class="progress-bar bg-info" role="progressbar"
+                          th:style="'width: ' + ${persentasePONotDisetujui} + '%'"></div>
+                      </div>
+                      <a th:href="@{purchase-order/}" class="small font-weight-bold">
+                        <h4 class="small font-weight-bold"></h4>kunjungi &rarr;</h4>
+                      </a>
+                      <span th:text="${sumPONotDisetujui} + ' dari ' + ${sumPO}"
+                        class="small font-weight-bold float-right"></span>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <!-- Content Column -->
+            <div class="col-lg-6 mb-4">
+              <div th:if="${role == 'Operation Manager'}">
+
+                <!-- Project Card Example -->
+                <div class="card shadow mb-4">
+                  <a href="#collapseCardExample3" class="d-block card-header py-3" data-toggle="collapse" role="button"
+                    aria-expanded="false" aria-controls="collapseCardExample3">
+                    <h6 class="m-0 font-weight-bold text-primary">Trainingku hari ini</h6>
+                  </a>
+                  <!-- Card Content - Collapse -->
+                  <div class="collapse show" id="collapseCardExample3">
+                    <div class="card-body">
+                      <div th:each="training, iterationStatus : ${listMyTrainingToday}">
+                        <h4 class="small font-weight-bold">training id : <span th:text="${training.idTraining}"
+                            class="float-right"></span></h4>
+                        <h4 class="small font-weight-bold">tanggal training : <span th:text="${#strings.substring(training.tanggalTraining,0,10)}" class="float-right"></span></h4>
+                        <h4 class="small font-weight-bold">outlet : <span th:text="${training.outlet.namaOutlet}" class="float-right"></span></h4>
+                        <hr>
+                      </div>
+                      <a th:href="@{/}" class="small font-weight-bold">
+                        <h4 class="small font-weight-bold"></h4>Lihat Selengkapnya &rarr;</h4>
+                      </a>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
 
+            <div class="col-lg-6 mb-4">
+              <div th:if="${role == 'Operation Manager'}">
+                <div class="card shadow mb-4">
+                  <!-- Card Header - Accordion -->
+                  <a href="#collapseCardExample4" class="d-block card-header py-3" data-toggle="collapse" role="button"
+                    aria-expanded="false" aria-controls="collapseCardExample4">
+                    <h6 class="m-0 font-weight-bold text-primary">Training Yang Belum Disetujui</h6>
+                  </a>
+                  <!-- Card Content - Collapse -->
+                  <div class="collapse show" id="collapseCardExample4">
+                    <div class="card-body">
+                      <div th:each="training, iterationStatus : ${listTrainingMenungguPersetujuan}">
+                        <h4 class="small font-weight-bold">training id : <span th:text="${training.idTraining}"
+                            class="float-right"></span></h4>
+                        <h4 class="small font-weight-bold">tanggal training : <span th:text="${#strings.substring(training.tanggalTraining,0,10)}" class="float-right"></span></h4>
+                        <h4 class="small font-weight-bold">outlet : <span th:text="${training.outlet.namaOutlet}" class="float-right"></span></h4>
+                        <hr>
+                      </div>
+                      <a th:href="@{/}" class="small font-weight-bold">
+                        <h4 class="small font-weight-bold"></h4>Lihat Selengkapnya &rarr;</h4>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
 
+          <div class="row">
+            <!-- Content Column -->
+            <div class="col-lg-6 mb-4">
+              <div th:if="${role == 'Operation Manager'}">
 
+                <!-- Project Card Example -->
+                <div class="card shadow mb-4">
+                  <a href="#collapseCardExample5" class="d-block card-header py-3" data-toggle="collapse" role="button"
+                    aria-expanded="false" aria-controls="collapseCardExample5">
+                    <h6 class="m-0 font-weight-bold text-primary">Training yang Ditolak</h6>
+                  </a>
+                  <!-- Card Content - Collapse -->
+                  <div class="collapse show" id="collapseCardExample5">
+                    <div class="card-body">
+                      <div th:each="training, iterationStatus : ${listTrainingDitolak}">
+                        <h4 class="small font-weight-bold">training id : <span th:text="${training.idTraining}"
+                            class="float-right"></span></h4>
+                        <h4 class="small font-weight-bold">tanggal training : <span th:text="${#strings.substring(training.tanggalTraining,0,10)}" class="float-right"></span></h4>
+                        <h4 class="small font-weight-bold">outlet : <span th:text="${training.outlet.namaOutlet}" class="float-right"></span></h4>
+                        <hr>
+                      </div>
+                      <a th:href="@{/}" class="small font-weight-bold">
+                        <h4 class="small font-weight-bold"></h4>Lihat Selengkapnya &rarr;</h4>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-6 mb-4">
+              <div th:if="${role == 'Operation Manager'}">
+                <div class="card shadow mb-4">
+                  <!-- Card Header - Accordion -->
+                  <a href="#collapseCardExample6" class="d-block card-header py-3" data-toggle="collapse" role="button"
+                    aria-expanded="false" aria-controls="collapseCardExample6">
+                    <h6 class="m-0 font-weight-bold text-primary">Daftar Trainingku</h6>
+                  </a>
+                  <!-- Card Content - Collapse -->
+                  <div class="collapse show" id="collapseCardExample6">
+                    <div class="card-body">
+                      <div th:each="training, iterationStatus : ${listMyTraining}">
+                        <h4 class="small font-weight-bold">training id : <span th:text="${training.idTraining}"
+                            class="float-right"></span></h4>
+                        <h4 class="small font-weight-bold">tanggal training : <span th:text="${#strings.substring(training.tanggalTraining,0,10)}" class="float-right"></span></h4>
+                        <h4 class="small font-weight-bold">outlet : <span th:text="${training.outlet.namaOutlet}" class="float-right"></span></h4>
+                        <hr>
+                      </div>
+                      <a th:href="@{/}" class="small font-weight-bold">
+                        <h4 class="small font-weight-bold"></h4>Lihat Selengkapnya &rarr;</h4>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
 
         </div>

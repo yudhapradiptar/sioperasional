@@ -11,5 +11,7 @@ public interface PurchaseOrderService {
     PurchaseOrderModel getPurchaseOrderByNomorPurchaseOrder(String nomorPurchaseOrder);
 
     PurchaseOrderModel addPurchaseOrder(PurchaseOrderModel purchaseOrderModel);
+
+	List<PurchaseOrderModel> getPurchaseOrderListByNotDisetujui();
 }
 
