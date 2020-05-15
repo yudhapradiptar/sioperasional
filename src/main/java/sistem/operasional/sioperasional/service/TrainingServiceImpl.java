@@ -9,7 +9,11 @@ import sistem.operasional.sioperasional.repository.TrainingDB;
 
 import javax.transaction.Transactional;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -120,7 +124,17 @@ public class TrainingServiceImpl implements TrainingService {
 
     @Override
     public List<TrainingModel> getListTrainingByTrainerAndToday(String idUser, String todaysDate) {
-        return trainingDB.findByTrainerAndTanggalRequest(idUser, todaysDate);
+        List<TrainingModel> listTrainingToday = new ArrayList<>();
+        String date = DateTimeFormatter.ofPattern("yyyy-MM-dd 00:00:00").format(LocalDateTime.now());
+        String pattern = "yyyy-MM-dd 00:00:00";
+        DateFormat df = new SimpleDateFormat(pattern);
+        for(TrainingModel trainingModel : getAllTraining()){
+            String tanggalTraining = df.format(trainingModel.getTanggalTraining());
+            if(trainingModel.getTrainer().getId().equals(idUser) && tanggalTraining.equals(todaysDate)){
+                listTrainingToday.add(trainingModel);
+            }
+        }
+        return listTrainingToday;
     }
 
     @Override

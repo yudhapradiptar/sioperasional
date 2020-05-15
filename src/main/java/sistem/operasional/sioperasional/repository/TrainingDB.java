@@ -15,8 +15,8 @@ public interface TrainingDB extends JpaRepository<TrainingModel, Long> {
     List<TrainingModel> findByTrainer(UserModel trainer);
     Optional<TrainingModel> findByIdTraining(String idTraining);
 
-	@Query(value = "SELECT * FROM training WHERE tanggal_training = ?2 and trainer = ?1", nativeQuery = true)
-    List<TrainingModel> findByTrainerAndTanggalRequest(String idUser, String todaysDate);
+//	@Query(value = "SELECT * FROM training WHERE tanggal_training = ?2 and trainer = ?1", nativeQuery = true)
+//    List<TrainingModel> findByTrainerAndTanggalRequest(String idUser, String todaysDate);
     
 	List<TrainingModel> findAllByStatusTraining(String string);
 }

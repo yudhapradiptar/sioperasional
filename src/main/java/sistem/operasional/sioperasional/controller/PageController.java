@@ -62,8 +62,14 @@ public class PageController {
             float sumDeliveryOrderBundlingNotSetTanggalYet = listDeliveryOrderBundlingNotSetTanggalYet.size();
             model.addAttribute("sumDeliveryOrderBundlingNotSetTanggalYet", (int)sumDeliveryOrderBundlingNotSetTanggalYet);
 
-            float persentaseBelumSetTanggal = 100 * (sumDeliveryOrderBundlingNotSetTanggalYet / sumDeliveryOrderBundling);
-            model.addAttribute("persentaseBelumSetTanggal", persentaseBelumSetTanggal);
+            if(sumDeliveryOrderBundling<1){
+                float persentaseBelumSetTanggal = 0;
+                model.addAttribute("persentaseBelumSetTanggal", persentaseBelumSetTanggal);
+            }
+            else {
+                float persentaseBelumSetTanggal = 100 * (sumDeliveryOrderBundlingNotSetTanggalYet / sumDeliveryOrderBundling);
+                model.addAttribute("persentaseBelumSetTanggal", persentaseBelumSetTanggal);
+            }
 
             //Purchase Order
             List<PurchaseOrderModel> listPO = purchaseOrderDB.findAll();

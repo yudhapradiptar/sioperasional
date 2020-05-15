@@ -15,10 +15,10 @@ public interface DeliveryOrderDB extends JpaRepository<DeliveryOrderModel, Strin
 
 	DeliveryOrderModel findByNomorDeliveryOrder(String nomor);
 
-	@Query(value = "SELECT * FROM delivery_order WHERE is_subscribed = 1", nativeQuery = true)
-	List<DeliveryOrderModel> findDeliveryOrderByIsSubscribed();
-
-	@Query(value = "SELECT * FROM delivery_order WHERE is_subscribed = 1 AND tanggal_subscribe_start is null", nativeQuery = true)
-	List<DeliveryOrderModel> findDeliveryOrderByIsSubscribedAndTanggalSubscribeStartNull();
+//	@Query(value = "SELECT * FROM delivery_order WHERE is_subscribed = 1", nativeQuery = true)
+//	List<DeliveryOrderModel> findDeliveryOrderByIsSubscribed();
+//
+//	@Query(value = "SELECT * FROM delivery_order WHERE is_subscribed = 1 AND tanggal_subscribe_start is null", nativeQuery = true)
+//	List<DeliveryOrderModel> findDeliveryOrderByIsSubscribedAndTanggalSubscribeStartNull();
 
 }

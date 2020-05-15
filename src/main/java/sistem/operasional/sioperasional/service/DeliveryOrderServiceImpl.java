@@ -3,6 +3,7 @@ package sistem.operasional.sioperasional.service;
 import sistem.operasional.sioperasional.model.DeliveryOrderModel;
 import sistem.operasional.sioperasional.model.ItemModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,11 +58,23 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 
     @Override
     public List<DeliveryOrderModel> getDeliveryOrderListBySubscribed() {
-        return deliveryOrderDB.findDeliveryOrderByIsSubscribed();
+        List<DeliveryOrderModel> listDeliveryOrderSubsribed = new ArrayList<>();
+        for(DeliveryOrderModel deliveryOrderModel : getDeliveryOrderList()){
+            if(deliveryOrderModel.getSubscribed()){
+                listDeliveryOrderSubsribed.add(deliveryOrderModel);
+            }
+        }
+        return listDeliveryOrderSubsribed;
     }
 
     @Override
     public List<DeliveryOrderModel> getDeliveryOrderListBySubscribedAndTanggalSubcribeStartNull() {
-        return deliveryOrderDB.findDeliveryOrderByIsSubscribedAndTanggalSubscribeStartNull();
+        List<DeliveryOrderModel> listDeliveryOrderSubsribed = new ArrayList<>();
+        for(DeliveryOrderModel deliveryOrderModel : getDeliveryOrderList()){
+            if(deliveryOrderModel.getSubscribed() && deliveryOrderModel.getTanggalSubscribeStart()==null){
+                listDeliveryOrderSubsribed.add(deliveryOrderModel);
+            }
+        }
+        return listDeliveryOrderSubsribed;
     }
 }
