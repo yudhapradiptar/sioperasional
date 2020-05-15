@@ -5,8 +5,11 @@ import org.springframework.stereotype.Service;
 
 import org.springframework.transaction.annotation.Transactional;
 import sistem.operasional.sioperasional.model.PurchaseOrderModel;
+import sistem.operasional.sioperasional.model.TrainingModel;
 import sistem.operasional.sioperasional.repository.PurchaseOrderDB;
 
+import java.net.PortUnreachableException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,7 +38,13 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService{
 
     @Override
     public List<PurchaseOrderModel> getPurchaseOrderListByNotDisetujui() {
-        return purchaseOrderDB.findAllByNotDisetujui();
+        List<PurchaseOrderModel> listPONotDisetujui = new ArrayList<>();
+        for(PurchaseOrderModel purchaseOrderModel : getAll()){
+            if(!purchaseOrderModel.isDisetujui()){
+                listPONotDisetujui.add(purchaseOrderModel);
+            }
+        }
+        return listPONotDisetujui;
     }
 
 }

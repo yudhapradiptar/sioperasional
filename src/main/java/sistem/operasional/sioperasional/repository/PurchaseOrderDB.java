@@ -10,7 +10,7 @@ import sistem.operasional.sioperasional.model.PurchaseOrderModel;
 @Repository
 public interface PurchaseOrderDB extends JpaRepository<PurchaseOrderModel, String> {
 
-	@Query(value = "SELECT * FROM purchase_order WHERE is_disetujui = false", nativeQuery = true)
-	List<PurchaseOrderModel> findAllByNotDisetujui();
+//	@Query(value = "SELECT * FROM purchase_order WHERE is_disetujui = false", nativeQuery = true)
+//	List<PurchaseOrderModel> findAllByNotDisetujui();
 
 }

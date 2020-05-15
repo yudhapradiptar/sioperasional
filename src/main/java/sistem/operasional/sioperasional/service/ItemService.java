@@ -14,8 +14,6 @@ public interface ItemService {
 
     List<ItemModel> getItemList();
 
-    List<ItemModel> geItemListByTanggalKeluarNull();
-
     List<ItemModel> getItemListByKategoriItem(KategoriItemModel kategoriItemModel);
 
     ItemModel getItemDetailByIdItem(Long idItem);
@@ -28,6 +26,4 @@ public interface ItemService {
     List<ItemModel> getItemListByJenisItem(JenisItemModel jenisItemModel);
 
 	List<ItemModel> getItemListAvailable(String nomorDeliveryOrder);
-
-	List<ItemModel> getItemListByTanggalKeluarNullAndNotRusak();
 }

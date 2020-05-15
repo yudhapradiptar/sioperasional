@@ -10,6 +10,7 @@ import sistem.operasional.sioperasional.model.PurchaseOrderModel;
 import sistem.operasional.sioperasional.repository.ItemDB;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -40,11 +41,6 @@ public class ItemServiceImpl implements ItemService{
     }
 
     @Override
-    public List<ItemModel> geItemListByTanggalKeluarNull() {
-        return itemDB.findItemByTanggalKeluar(null);
-    }
-
-    @Override
     public List<ItemModel> getItemListByKategoriItem(KategoriItemModel kategoriItemModel){
         return itemDB.findItemModelByKategoriItem(kategoriItemModel);
     }
@@ -57,11 +53,6 @@ public class ItemServiceImpl implements ItemService{
     @Override
     public List<ItemModel> getItemListByNomorDeliveryOrder(String nomorDeliveryOrder) {
         return itemDB.findItemByDeliveryOrder(nomorDeliveryOrder);
-    }
-
-    @Override
-    public List<ItemModel> geItemListByTanggalKeluarNullAndNotRusak() {
-        return itemDB.findItemByTanggalKeluarAndNotRusak(0);
     }
 
     public ItemModel getItemDetailByIdItem(Long idItem) {
@@ -89,11 +80,23 @@ public class ItemServiceImpl implements ItemService{
 
     @Override
     public List<ItemModel> getItemListAvailable(String nomorDeliveryOrder) {
-        return itemDB.findItemAvailableForUpdate(nomorDeliveryOrder, 0, null);
+        List<ItemModel> listItemAvailable = new ArrayList<>();
+        for(ItemModel itemModel : getItemList()){
+            if(itemModel.getDeliveryOrder()==null && itemModel.isRusak()){
+                listItemAvailable.add(itemModel);
+            }
+        }
+        return listItemAvailable;
     }
 
     @Override
-    public List<ItemModel> getItemListByTanggalKeluarNullAndNotRusak() {
-        return itemDB.findItemByTanggalKeluarAndNotRusak(0);
+    public List<ItemModel> geItemListByTanggalKeluarNullAndNotRusak() {
+        List<ItemModel> listItemAvailable = new ArrayList<>();
+        for(ItemModel itemModel : getItemList()){
+            if(itemModel.getTanggalKeluar()==null && !itemModel.isRusak()){
+                listItemAvailable.add(itemModel);
+            }
+        }
+        return listItemAvailable;
     }
 }
