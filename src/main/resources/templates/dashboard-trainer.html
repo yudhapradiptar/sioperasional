@@ -52,6 +52,13 @@
             $("#pieChartTrainer").CanvasJSChart(trainer);
         }
     </script>
+    <script type="text/javascript">
+        $(document).ready( function () {
+            $('#datatable').DataTable({
+                "scrollX": true
+            });
+        } );
+    </script>
 </head>
 
 <body id="page-top">
@@ -140,6 +147,34 @@
                 <div id="pieChartTrainer" style="height: 370px; width: 100%;"></div>
                 <script type="text/javascript" src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
                 <script type="text/javascript" src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
+                <br>
+                <br>
+                <h3>List Training yang telah Selesai</h3>
+                <br>
+                <form class="form-group">
+                    <table id="datatable" class="table table-hover" style="width:100%;">
+                        <thead>
+                        <tr>
+                            <th>NO</th>
+                            <th>Nama Trainer</th>
+                            <th>Outlet</th>
+                            <th>Tanggal Training</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="training, iterationStatus : *{listAllTrainingSelesai}">
+                            <th scope="row" th:text="${iterationStatus.count}"></th>
+                            <td th:text="${training.trainer.nama}"></td>
+                            <td th:text="${training.outlet.namaOutlet}"></td>
+                            <td th:text="${training.tanggalTraining.toString().substring(0, 10)}"></td>
+                            <td>
+                                <a class="btn btn-info text-white" th:href="@{/training/view/} + ${training.idTraining}">Detail</a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </form>
             </div>
         </div>
         <!-- End of Main Content -->

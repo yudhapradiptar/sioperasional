@@ -73,10 +73,50 @@ public class DashboardController {
 //            listNilai.add(i);
 //        }
 
+        float rataListNilai = 0f;
+        int countListNilaiSize = 0;
+        for(int i : listNilai){
+            if(i>0){
+                rataListNilai += i;
+                countListNilaiSize++;
+            }
+        }
+        rataListNilai/=countListNilaiSize;
+
+        String staffBawahRata = "";
+        String staffAtasRata = "";
+        String staffTanpaNilai = "";
+
+        for(int i = 0; i < listNilai.size(); i++){
+            if(listNilai.get(i)>=rataListNilai){
+                if(staffAtasRata.equals("")){
+                    staffAtasRata += listTrainer.get(i);
+                } else {
+                    staffAtasRata += (", " + listTrainer.get(i));
+                }
+            }
+            else if (listNilai.get(i) < rataListNilai && listNilai.get(i) > 0){
+                if(staffBawahRata.equals("")){
+                    staffBawahRata += listTrainer.get(i);
+                } else {
+                    staffBawahRata += (", " + listTrainer.get(i));
+                }
+            } else if (listNilai.get(i) == 0){
+                if(staffTanpaNilai.equals("")){
+                    staffTanpaNilai += listTrainer.get(i);
+                } else {
+                    staffTanpaNilai += (", " + listTrainer.get(i));
+                }
+            }
+        }
 
         model.addAttribute("listTrainer", listTrainer);
         model.addAttribute("listNilai", listNilai);
         model.addAttribute("role", userService.getUserByUsername(currentUser.getUsername()).getRole().getNamaRole());
+        model.addAttribute("rataListNilai", rataListNilai);
+        model.addAttribute("staffAtasRata", staffAtasRata);
+        model.addAttribute("staffBawahRata", staffBawahRata);
+        model.addAttribute("staffTanpaNilai", staffTanpaNilai);
 
         return "dashboard-feedback";
     }
@@ -143,6 +183,14 @@ public class DashboardController {
             }
         }
 
+        List<TrainingModel> listAllTraining = trainingService.getAllTraining();
+        List<TrainingModel> listAllTrainingSelesai = new ArrayList<>();
+
+        for(TrainingModel trainingModel : listAllTraining){
+            if(trainingModel.getStatusTraining().equals("Selesai")){
+                listAllTrainingSelesai.add(trainingModel);
+            }
+        }
 //        for(int i=0;i<6;i++){
 //            listTrainer.add("trainer" + i);
 //            listJumlahTraining.add(i);
@@ -151,6 +199,7 @@ public class DashboardController {
         model.addAttribute("listTrainer", listTrainer);
         model.addAttribute("listJumlahTraining", listJumlahTraining);
         model.addAttribute("role", userService.getUserByUsername(currentUser.getUsername()).getRole().getNamaRole());
+        model.addAttribute("listAllTrainingSelesai", listAllTrainingSelesai);
         return "dashboard-trainer";
     }
 }

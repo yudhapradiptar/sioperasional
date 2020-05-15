@@ -142,6 +142,13 @@
                 <div id="chartNilai" style="height: 370px; width: 100%;"></div>
                 <script type="text/javascript" src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
                 <script type="text/javascript" src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
+                <br>
+                <br>
+                <h3>Keterangan: </h3>
+                <br>
+                <p th:text="'- Staff dengan nilai feedback diatas atau sama dengan rata-rata: ' + ${staffAtasRata}"></p>
+                <p th:text="'- Staff dengan nilai feedback dibawah rata-rata: ' + ${staffBawahRata}"></p>
+                <p th:text="'- Staff yang tidak memiliki nilai feedback: ' + ${staffTanpaNilai}"></p>
             </div>
         </div>
         <!-- End of Main Content -->
