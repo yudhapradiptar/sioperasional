@@ -55,11 +55,7 @@ public class ItemController {
                 itemService.createItem(itemModel);
             }
         }
-        /***
-         * setStatusPO harusnya parameternya bukan string, tapi objek statusItemModel.
-         * jadi harus didefine dulu status "Closed" itu IDnya berapa, objeknya harus dibuat dulu
-         */
-//        purchaseOrder.setStatusPO("Closed");
+        purchaseOrder.setStatusPO("Closed")
         purchaseOrderService.addPurchaseOrder(purchaseOrder);
         model.addAttribute("purchaseOrder", purchaseOrder);
         model.addAttribute("listItem", purchaseOrder.getListitem());
