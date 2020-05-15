@@ -12,10 +12,10 @@ import java.util.List;
 
 @Repository
 public interface ItemDB extends JpaRepository<ItemModel, Long> {
-    List<ItemModel> findAllByPurchaseOrder (PurchaseOrderModel purchaseOrder);
-    List<ItemModel> findItemByTanggalKeluar(Object object);
-    List<ItemModel> findItemModelByKategoriItem(KategoriItemModel kategoriItemModel);
-    List<ItemModel> findItemModelByJenisItem(JenisItemModel jenisItemModel);
+	List<ItemModel> findAllByPurchaseOrder (PurchaseOrderModel purchaseOrder);
+	List<ItemModel> findItemByTanggalKeluar(Object object);
+	List<ItemModel> findItemModelByKategoriItem(KategoriItemModel kategoriItemModel);
+	List<ItemModel> findItemModelByJenisItem(JenisItemModel jenisItemModel);
 
 	@Query(value = "SELECT * FROM item WHERE nomor_delivery_order IS NULL and is_rusak = ?2 or nomor_delivery_order = ?1", nativeQuery = true)
 	List<ItemModel> findItemAvailableForUpdate(String nomorDeliveryOrder, int i, Object object);

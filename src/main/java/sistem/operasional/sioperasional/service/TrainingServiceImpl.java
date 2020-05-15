@@ -73,44 +73,44 @@ public class TrainingServiceImpl implements TrainingService {
         calendar.setTime(tanggal);
         int tanggalToInt = calendar.get(Calendar.DATE);
         String tanggalString = Integer.toString(tanggalToInt);
-        int bulan = calendar.get(Calendar.MONTH) + 1;
+        int bulan = calendar.get(Calendar.MONTH)+1;
         String namaBulan = "";
         switch (bulan) {
             case 1:
-                namaBulan += "Januari";
+                namaBulan+="Januari";
                 break;
             case 2:
-                namaBulan += "Feburari";
+                namaBulan+="Feburari";
                 break;
             case 3:
-                namaBulan += "Maret";
+                namaBulan+="Maret";
                 break;
             case 4:
-                namaBulan += "April";
+                namaBulan+="April";
                 break;
             case 5:
-                namaBulan += "Mei";
+                namaBulan+="Mei";
                 break;
             case 6:
-                namaBulan += "Juni";
+                namaBulan+="Juni";
                 break;
             case 7:
-                namaBulan += "Juli";
+                namaBulan+="Juli";
                 break;
             case 8:
-                namaBulan += "Agustus";
+                namaBulan+="Agustus";
                 break;
             case 9:
-                namaBulan += "September";
+                namaBulan+="September";
                 break;
             case 10:
-                namaBulan += "Oktober";
+                namaBulan+="Oktober";
                 break;
             case 11:
-                namaBulan += "November";
+                namaBulan+="November";
                 break;
             case 12:
-                namaBulan += "Desember";
+                namaBulan+="Desember";
                 break;
         }
         int tahun = calendar.get(Calendar.YEAR);

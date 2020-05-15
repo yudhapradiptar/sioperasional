@@ -23,6 +23,7 @@ public class ItemServiceImpl implements ItemService{
     @Autowired
     ItemService itemService;
 
+
     @Override
     public List<ItemModel> getItemByPurchaseOrder (PurchaseOrderModel purchaseOrder){
         return itemDB.findAllByPurchaseOrder(purchaseOrder);
@@ -48,7 +49,7 @@ public class ItemServiceImpl implements ItemService{
         return itemDB.findItemModelByKategoriItem(kategoriItemModel);
     }
 
-    @Override
+
     public List<ItemModel> getItemListByJenisItem(JenisItemModel jenisItemModel){
         return itemDB.findItemModelByJenisItem(jenisItemModel);
     }

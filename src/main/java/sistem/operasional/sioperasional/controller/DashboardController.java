@@ -2,6 +2,8 @@ package sistem.operasional.sioperasional.controller;
 
 import org.apache.tomcat.jni.Local;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,7 +34,7 @@ public class DashboardController {
     UserService userService;
 
     @RequestMapping(value="/customer-feedback")
-    public String dashboardFeedback(Model model){
+    public String dashboardFeedback(@AuthenticationPrincipal UserDetails currentUser, Model model){
         List<CustomerFeedbackModel> listOfAllFeedback = customerFeedbackService.getAllCustomerFeedback();
         model.addAttribute("allCustomerFeedback", listOfAllFeedback);
         List<UserModel> listAllUser = userService.getAllUser();
@@ -110,6 +112,7 @@ public class DashboardController {
 
         model.addAttribute("listTrainer", listTrainer);
         model.addAttribute("listNilai", listNilai);
+        model.addAttribute("role", userService.getUserByUsername(currentUser.getUsername()).getRole().getNamaRole());
         model.addAttribute("rataListNilai", rataListNilai);
         model.addAttribute("staffAtasRata", staffAtasRata);
         model.addAttribute("staffBawahRata", staffBawahRata);
@@ -119,7 +122,7 @@ public class DashboardController {
     }
 
     @RequestMapping(value="/training")
-    public String dashboardTraining(Model model){
+    public String dashboardTraining(@AuthenticationPrincipal UserDetails currentUser, Model model){
         List<Integer> listJumlahTraining = new ArrayList<>();
         List<Integer> listBulan = new ArrayList<>();
         List<Integer> listTahun = new ArrayList<>();
@@ -153,12 +156,13 @@ public class DashboardController {
         model.addAttribute("listBulan", listBulan);
         model.addAttribute("listTahun", listTahun);
         model.addAttribute("listJumlahTraining", listJumlahTraining);
+        model.addAttribute("role", userService.getUserByUsername(currentUser.getUsername()).getRole().getNamaRole());
 
         return "dashboard-training";
     }
 
     @RequestMapping(value="/trainer")
-    public String dashboardTrainer(Model model){
+    public String dashboardTrainer(@AuthenticationPrincipal UserDetails currentUser, Model model){
         List<UserModel> listAllUser = userService.getAllUser();
         List<String> listTrainer = new ArrayList<>();
         List<Integer> listJumlahTraining = new ArrayList<>();
@@ -194,6 +198,7 @@ public class DashboardController {
 
         model.addAttribute("listTrainer", listTrainer);
         model.addAttribute("listJumlahTraining", listJumlahTraining);
+        model.addAttribute("role", userService.getUserByUsername(currentUser.getUsername()).getRole().getNamaRole());
         model.addAttribute("listAllTrainingSelesai", listAllTrainingSelesai);
         return "dashboard-trainer";
     }

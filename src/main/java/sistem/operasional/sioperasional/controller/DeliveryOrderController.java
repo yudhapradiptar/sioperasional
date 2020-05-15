@@ -168,7 +168,6 @@ public class DeliveryOrderController {
     @RequestMapping(value = "/set-tanggal-subscribe/{nomor}", method = RequestMethod.POST)
     public String addSubscribeDate(@PathVariable String nomor, @ModelAttribute DeliveryOrderModel deliveryOrderModel,
             Model model) {
-
         DeliveryOrderModel newDeliveryOrderModel = deliveryOrderService.changeDeliveryOrder(deliveryOrderModel);
         model.addAttribute("deliveryOrder", newDeliveryOrderModel);
 
@@ -215,8 +214,8 @@ public class DeliveryOrderController {
         System.out.println("item DO Now");
         System.out.println(deliveryOrderNow.getListItem());
 
-        for (ItemModel itemModel3 : deliveryOrderNow.getListItem()) {
-            System.out.println("==============mau set NUll ====================");
+        for(ItemModel itemModel3: deliveryOrderNow.getListItem()) {
+            // System.out.println("==============mau set NUll ====================");
             itemModel3.setDeliveryOrder(null);
             itemModel3.setTanggalKeluar(null);
         }
