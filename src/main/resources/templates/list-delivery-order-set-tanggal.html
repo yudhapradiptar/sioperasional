@@ -69,77 +69,8 @@
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
 
-                    <!-- Content Row -->
-                    <div class="row">
-
-                        <!-- Earnings (Monthly) Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-primary shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                Formulir</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                                <a th:href="@{/delivery-order/add}">Tambah Delivery Order</a>
-                                            </div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-plus fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-warning shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                                                Formulir</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                                <a th:href="@{/delivery-order/add}">Tambah Delivery Order dengan File</a>
-                                            </div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-file fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-info shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
-                                                Daftar</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                                <a th:href="@{/delivery-order/daftar-delivery-order-set-tanggal}">Masukan tanggal subsribe</a>
-                                            </div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-calendar fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-            
-                    </div>
-                </div>
-                <!-- /.container-fluid -->
-
-                <!-- Begin Page Content -->
-                <div class="container-fluid">
-
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">Daftar Delivery Order</h1>
+                    <h1 class="h3 mb-2 text-gray-800">Daftar Delivery Order Bundling</h1>
 
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
@@ -151,7 +82,7 @@
                                 <table id="datatable" class="table table-hover" style="width:100%;">
                                     <thead>
                                         <tr>
-                                            <th scope="col">Tanggal</th>
+                                            <th scope="col">No</th>
                                             <th scope="col">Nomor Delivery Order</th>
                                             <th scope="col">Outlet</th>
                                             <th scope="col">Bundling</th>
@@ -162,8 +93,7 @@
                                     </thead>
                                     <tbody>
                                         <tr th:each="deliveryOrder, iterationStatus : ${listDeliveryOrder}">
-                                            <!-- <th scope="row" th:text="${iterationStatus.count}"></th> -->
-                                            <td th:text="${#strings.substring(deliveryOrder.tanggalCreate,0,10)}  "></td>
+                                            <th scope="row" th:text="${iterationStatus.count}"></th>
                                             <td th:text="${deliveryOrder.nomorDeliveryOrder}"></td>
                                             <td th:text="${deliveryOrder.outlet.namaOutlet}"></td>
                                             <div th:if="${deliveryOrder.subscribed == true}">
@@ -185,18 +115,12 @@
                                                    role="button">Ubah
                                                 </a>
                                             </td>
-                                            <div th:if="${deliveryOrder.subscribed == false}">
-                                                <td>
-                                                </td>
-                                            </div>
-                                            <div th:if="${deliveryOrder.subscribed == true}">
-                                                <td>
-                                                    <a class="btn btn-success" id=""
-                                                    th:href="@{/delivery-order/set-tanggal-subscribe/} + ${deliveryOrder.nomorDeliveryOrder}"
-                                                    role="button">Tanggal Subscribe
-                                                    </a>
-                                                </td>
-                                            </div>
+                                            <td>
+                                                <a class="btn btn-success" id=""
+                                                   th:href="@{/delivery-order/set-tanggal-subscribe/} + ${deliveryOrder.nomorDeliveryOrder}"
+                                                   role="button">Tanggal Subscribe
+                                                </a>
+                                            </td>
 
                                         </tr>
                                     </tbody>

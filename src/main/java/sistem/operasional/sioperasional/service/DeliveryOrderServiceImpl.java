@@ -7,12 +7,13 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import sistem.operasional.sioperasional.repository.DeliveryOrderDB;
 
 @Service
 public class DeliveryOrderServiceImpl implements DeliveryOrderService {
-    
+
     @Autowired
     private DeliveryOrderDB deliveryOrderDB;
 
@@ -33,7 +34,8 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
 
     @Override
     public DeliveryOrderModel changeDeliveryOrder(DeliveryOrderModel deliveryOrderModel) {
-        DeliveryOrderModel newDeliveryOrderModel = deliveryOrderDB.findByNomorDeliveryOrder(deliveryOrderModel.getNomorDeliveryOrder());
+        DeliveryOrderModel newDeliveryOrderModel = deliveryOrderDB
+                .findByNomorDeliveryOrder(deliveryOrderModel.getNomorDeliveryOrder());
 
         try {
             newDeliveryOrderModel.setCreator(deliveryOrderModel.getCreator());
@@ -53,4 +55,13 @@ public class DeliveryOrderServiceImpl implements DeliveryOrderService {
         }
     }
 
+    @Override
+    public List<DeliveryOrderModel> getDeliveryOrderListBySubscribed() {
+        return deliveryOrderDB.findDeliveryOrderByIsSubscribed();
+    }
+
+    @Override
+    public List<DeliveryOrderModel> getDeliveryOrderListBySubscribedAndTanggalSubcribeStartNull() {
+        return deliveryOrderDB.findDeliveryOrderByIsSubscribedAndTanggalSubscribeStartNull();
+    }
 }

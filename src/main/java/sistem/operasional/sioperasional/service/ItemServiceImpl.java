@@ -91,4 +91,9 @@ public class ItemServiceImpl implements ItemService{
     public List<ItemModel> getItemListAvailable(String nomorDeliveryOrder) {
         return itemDB.findItemAvailableForUpdate(nomorDeliveryOrder, 0, null);
     }
+
+    @Override
+    public List<ItemModel> getItemListByTanggalKeluarNullAndNotRusak() {
+        return itemDB.findItemByTanggalKeluarAndNotRusak(0);
+    }
 }

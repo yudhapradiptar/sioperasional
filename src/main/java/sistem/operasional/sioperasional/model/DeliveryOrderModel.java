@@ -32,14 +32,12 @@ public class DeliveryOrderModel implements Serializable {
     @JsonIgnore
     private OutletModel outlet;
 
-    @NotNull
     @Size(max = 200)
     @Column(name = "nomorInvoice", nullable = true)
     private String nomorInvoice;
 
-    @NotNull
     @Size(max = 200)
-    @Column(name = "statusDO", nullable = false)
+    @Column(name = "statusDO", nullable = true)
     private String statusDO;
 
     @NotNull

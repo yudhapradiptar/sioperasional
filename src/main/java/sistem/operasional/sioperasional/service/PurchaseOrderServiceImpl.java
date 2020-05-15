@@ -33,4 +33,9 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService{
         return purchaseOrderDB.save(purchaseOrderModel);
     }
 
+    @Override
+    public List<PurchaseOrderModel> getPurchaseOrderListByNotDisetujui() {
+        return purchaseOrderDB.findAllByNotDisetujui();
+    }
+
 }
