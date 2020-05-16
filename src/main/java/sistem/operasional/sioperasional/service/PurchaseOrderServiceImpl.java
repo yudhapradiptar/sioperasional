@@ -42,14 +42,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService{
 
     @Override
     public PurchaseOrderModel getPurchaseOrderByNomorPurchaseOrder(String nomorPurchaseOrder){
-        List<PurchaseOrderModel> purchaseOrderModelList = getAll();
-        PurchaseOrderModel result = new PurchaseOrderModel();
-        for (PurchaseOrderModel po : purchaseOrderModelList) {
-            if(po.getNomorPurchaseOrder().equalsIgnoreCase(nomorPurchaseOrder)){
-                result = po;
-            }
-        }
-        return result;
+        return purchaseOrderDB.findById(nomorPurchaseOrder).get();
     }
 
     @Override
