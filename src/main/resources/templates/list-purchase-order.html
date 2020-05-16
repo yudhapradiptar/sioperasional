@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
 
@@ -43,7 +43,9 @@
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
     <script type="text/javascript">
         $(document).ready( function () {
-            $('#datatable').dataTable();
+            $('#datatable').DataTable({
+                "scrollX": true
+            });
         } );
     </script>
 
@@ -126,8 +128,8 @@
 
                                 </tr>
                                 </thead>
-                                <tbody th:each="PO, iterationStatus : ${listPO}">
-                                <tr>
+                                <tbody>
+                                <tr th:each="PO, iterationStatus : ${listPO}">
                                     <th scope="row" th:text="${iterationStatus.count}"></th>
                                     <td th:text="${PO.nomorPurchaseOrder}"></td>
                                     <td th:text="${PO.nomorInvoice}"></td>
@@ -143,17 +145,10 @@
                                         </span>
                                     </td>
                                     <td>
-                                        <span>
-                                        <span>
-                                            <form class="form-horizontal"
-                                                th:action="@{/purchase-order/detail/{nomorPurchaseOrder}(nomorPurchaseOrder=${PO.nomorPurchaseOrder})}"
-                                                th:method="GET">
-                                            <button class="btn btn-info text-white">
-                                                <span class="text" value="submit">detail</span>
-                                            </button>
-                                            </form>
-                                        </span>
-                                        </span>
+                                        <a class="btn btn-info text-white"
+                                           th:href="@{/purchase-order/detail/{nomorPurchaseOrder}(nomorPurchaseOrder=${PO.nomorPurchaseOrder})}"
+                                           role="button">Detail
+                                        </a>
                                     </td>
                                 </tr>
                                 </tbody>
