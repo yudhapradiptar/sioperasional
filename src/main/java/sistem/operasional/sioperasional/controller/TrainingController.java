@@ -1,5 +1,6 @@
 package sistem.operasional.sioperasional.controller;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.ui.Model;
@@ -295,5 +296,23 @@ public class TrainingController {
         }
         return html;
     }
+
+    @RequestMapping(path = "/schedule", method = RequestMethod.GET)
+    public String viewSchedule( @AuthenticationPrincipal UserDetails currentUser, Model model, Authentication auth){
+        String roleCurrentUser = userService.getUserByUsername(currentUser.getUsername()).getRole().getNamaRole();
+        List<TrainingModel> daftarTraining;
+        if (roleCurrentUser.equals("Product Operation Specialist")){
+            return "error/403";
+        } 
+        if (roleCurrentUser.equals("Operation Staff")){
+            daftarTraining = trainingService.getListTrainingByTrainer(userService.getUserByUsername(currentUser.getUsername()));
+        } else {
+            daftarTraining = trainingService.getAllTraining();
+        }
+        model.addAttribute("trainingList", daftarTraining);
+        System.out.println(daftarTraining.size());
+        return "view-all-schedule";
+    }
+
 
 }
