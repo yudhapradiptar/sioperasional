@@ -89,7 +89,7 @@
         </div>
 
         <!-- Nav Item - Pages Collapse Menu -->
-        <li class="nav-item">
+        <li class="nav-item" th:if="${role == 'Operation Manager' || role == 'Product Operation Specialist'}">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
                 aria-expanded="true" aria-controls="collapseTwo">
                 <i class="fas fa-fw fa-building"></i>
@@ -108,7 +108,7 @@
 
         <!-- Nav Item - Utilities Collapse Menu -->
         <!-- <div th:if="${#httpServletRequest.userPrincipal.authorities[0].toString()=='Admin TU'}" class="row"> -->
-        <li class="nav-item">
+        <li class="nav-item" th:if="${role == 'Operation Manager' || role == 'Product Operation Specialist'}">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePO"
                 aria-expanded="true" aria-controls="collapsePO">
                 <i class="fas fa-fw fa-desktop"></i>
@@ -126,7 +126,7 @@
             </div>
         </li>
 
-        <li class="nav-item">
+        <li class="nav-item" th:if="${role == 'Operation Manager' || role == 'Product Operation Specialist'}">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
                aria-expanded="true" aria-controls="collapseUtilities">
                 <i class="fas fa-fw fa-desktop"></i>
@@ -146,7 +146,7 @@
         </li>
 
         <!-- Nav Item - Utilities Collapse Menu -->
-        <li class="nav-item">
+        <li class="nav-item" th:if="${role == 'Operation Manager' || role == 'Operation Lead'}">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
                 aria-expanded="true" aria-controls="collapsePages">
                 <i class="fas fa-fw fa-chart-area"></i>
@@ -162,7 +162,7 @@
             </div>
         </li>
 
-        <li class="nav-item">
+        <li class="nav-item" th:if="${role == 'Operation Manager' || role == 'Operation Lead' || role == 'Operation Staff'}">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTraining"
                aria-expanded="true" aria-controls="collapseTraining">
                 <i class="fas fa-fw fa-building"></i>
@@ -171,7 +171,7 @@
             <div id="collapseTraining" class="collapse" aria-labelledby="headingTraining" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">Training:</h6>
-                    <a class="collapse-item" th:href="@{/training/create}">Buat Training</a>
+                    <a th:if="${role == 'Operation Manager' || role == 'Operation Lead'}" class="collapse-item" th:href="@{/training/create}">Buat Training</a>
                     <a class="collapse-item" th:href="@{/training/schedule}">Jadwal Training</a>
 
                 </div>
@@ -190,12 +190,12 @@
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">Settings:</h6>
                     <a class="collapse-item" th:href="@{/outlet/}">Outlet</a>
-                    <a class="collapse-item" th:href="@{/vendor/}">Vendor</a>
+                    <a th:if="${role == 'Operation Manager' || role == 'Product Operation Specialist'}" class="collapse-item" th:href="@{/vendor/}">Vendor</a>
                     </div>
             </div>
         </li>
 
-        <li class="nav-item">
+        <li class="nav-item" th:if="${role == 'Operation Manager'}">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseAcc"
                 aria-expanded="true" aria-controls="collapseAcc">
                 <i class="fas fa-user"></i>

@@ -45,7 +45,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/vendor/").hasAnyAuthority("Operation Manager", "Product Operation Specialist")
                 .antMatchers("/vendor/add/**").hasAnyAuthority("Operation Manager", "Product Operation Specialist")
                 .antMatchers("/vendor/delete/**").hasAnyAuthority("Operation Manager", "Product Operation Specialist")
-                .antMatchers("/account/**").hasAnyAuthority("Operation Manager")
+                .antMatchers("/account/**").hasAnyAuthority("Operation Manager", "ROLE_Operation Manager")
                 .anyRequest().authenticated()
                 .and()
                 .csrf()

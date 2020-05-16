@@ -4,6 +4,8 @@ import javax.persistence.Id;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -35,6 +37,17 @@ public class UserController {
     @RequestMapping(value = "/add", method = RequestMethod.GET)
     private String addUser(Model model) {
         model.addAttribute("listRole", roleService.findAll());
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String role = "";
+        for(GrantedAuthority each : auth.getAuthorities()){
+            role = each.getAuthority();
+        }
+        if(role.substring(0,4).equals("ROLE")){
+            model.addAttribute("role", role.substring(5));
+        } else {
+            model.addAttribute("role", userService.getUserCurrentLoggedIn().getRole().getNamaRole());
+        }
+
         return "add-user";
 
     }
@@ -99,6 +112,18 @@ public class UserController {
 
         userService.addUser(user);
         model.addAttribute("userbaru", user);
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String role = "";
+        for(GrantedAuthority each : auth.getAuthorities()){
+            role = each.getAuthority();
+        }
+        System.out.println(role);
+        if(role.substring(0,4).equals("ROLE")){
+            model.addAttribute("role", role.substring(5));
+        } else {
+            model.addAttribute("role", userService.getUserCurrentLoggedIn().getRole().getNamaRole());
+        }
 
         return "success-add-user";
     }
