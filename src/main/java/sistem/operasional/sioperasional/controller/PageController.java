@@ -7,7 +7,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import sistem.operasional.sioperasional.model.CustomerFeedbackModel;
 import sistem.operasional.sioperasional.model.TrainingModel;
 import sistem.operasional.sioperasional.model.UserModel;
 import sistem.operasional.sioperasional.repository.PurchaseOrderDB;
@@ -15,18 +14,13 @@ import sistem.operasional.sioperasional.service.CustomerFeedbackService;
 
 import sistem.operasional.sioperasional.model.DeliveryOrderModel;
 import sistem.operasional.sioperasional.model.PurchaseOrderModel;
-import sistem.operasional.sioperasional.model.RoleModel;
 import sistem.operasional.sioperasional.service.DeliveryOrderService;
 import sistem.operasional.sioperasional.service.PurchaseOrderService;
-import sistem.operasional.sioperasional.service.RoleService;
 import sistem.operasional.sioperasional.service.TrainingService;
 import sistem.operasional.sioperasional.service.UserService;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-
 import java.util.List;
 
 @Controller
@@ -78,43 +72,44 @@ public class PageController {
 
             List<PurchaseOrderModel> listPONotDisetujui = purchaseOrderService.getPurchaseOrderListByNotDisetujui();
             float sumPONotDisetujui = listPONotDisetujui.size();
+            System.out.println(listPONotDisetujui);
             model.addAttribute("sumPONotDisetujui", (int)sumPONotDisetujui);
 
-            float persentasePONotDisetujui = 100 * (sumPO / sumPONotDisetujui);
+            float persentasePONotDisetujui = 100 * (sumPONotDisetujui / sumPO);
             model.addAttribute("persentasePONotDisetujui", persentasePONotDisetujui);
         }
 
-        //Purchase Order
-        List<TrainingModel> listMyTraining = trainingService.getListTrainingByTrainer(userNow);
-        if (listMyTraining.size() > 2) {
-            model.addAttribute("listMyTraining", listMyTraining.subList(0, 2));
-        } else {
-            model.addAttribute("listMyTraining", listMyTraining);
+        if (roleNow.equals("Operation Staff")) {
+            List<TrainingModel> listMyTraining = trainingService.getListTrainingByTrainer(userNow);
+            if (listMyTraining.size() > 2) {
+                model.addAttribute("listMyTraining", listMyTraining.subList(0, 2));
+            } else {
+                model.addAttribute("listMyTraining", listMyTraining);
+            }
+
+            String date = DateTimeFormatter.ofPattern("yyyy-MM-dd 00:00:00").format(LocalDateTime.now());
+            List<TrainingModel> listMyTrainingToday = trainingService.getListTrainingByTrainerAndToday(userNow.getId(), date);
+            System.out.println("--------------");
+            System.out.println(listMyTrainingToday);
+            System.out.println(date);
+            model.addAttribute("listMyTrainingToday", listMyTrainingToday);
         }
 
-        List<TrainingModel> listTrainingMenungguPersetujuan = trainingService.getAllTrainingByStatusTraining("Menunggu Persetujuan");
-        if (listTrainingMenungguPersetujuan.size() > 2) {
-            model.addAttribute("listTrainingMenungguPersetujuan", listTrainingMenungguPersetujuan.subList(0, 2));
-        } else {
-            model.addAttribute("listTrainingMenungguPersetujuan", listTrainingMenungguPersetujuan);
+        if (roleNow.equals("Operation Manager") || roleNow.equals("Operation Lead")) {
+            List<TrainingModel> listTrainingMenungguPersetujuan = trainingService.getAllTrainingByStatusTraining("Menunggu Persetujuan");
+            if (listTrainingMenungguPersetujuan.size() > 2) {
+                model.addAttribute("listTrainingMenungguPersetujuan", listTrainingMenungguPersetujuan.subList(0, 2));
+            } else {
+                model.addAttribute("listTrainingMenungguPersetujuan", listTrainingMenungguPersetujuan);
+            }
+
+            List<TrainingModel> listTrainingDitolak = trainingService.getAllTrainingByStatusTraining("Ditolak");
+            if (listTrainingDitolak.size() > 2) {
+                model.addAttribute("listTrainingDitolak", listTrainingDitolak.subList(0, 2));
+            } else {
+                model.addAttribute("listTrainingDitolak", listTrainingDitolak);
+            }
         }
-
-        List<TrainingModel> listTrainingDitolak = trainingService.getAllTrainingByStatusTraining("Ditolak");
-        if (listTrainingDitolak.size() > 2) {
-            model.addAttribute("listTrainingDitolak", listTrainingDitolak.subList(0, 2));
-        } else {
-            model.addAttribute("listTrainingDitolak", listTrainingDitolak);
-        }
-
-
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd 00:00:00");
-        String date = DateTimeFormatter.ofPattern("yyyy-MM-dd 00:00:00").format(LocalDateTime.now());
-        List<TrainingModel> listMyTrainingToday = trainingService.getListTrainingByTrainerAndToday(userNow.getId(), date);
-        System.out.println("--------------");
-        System.out.println(listMyTrainingToday);
-        System.out.println(date);
-        model.addAttribute("listMyTrainingToday", listMyTrainingToday);
-        
 
         model.addAttribute("nama", userNow.getNama());
         model.addAttribute("role", userService.getUserByUsername(currentUser.getUsername()).getRole().getNamaRole());

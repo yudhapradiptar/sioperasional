@@ -128,7 +128,7 @@ public class PurchaseOrderController {
         StatusItemModel status = new StatusItemModel();
         Long statusItem = new Long(1);
         status.setIdStatusItem(statusItem);
-        purchaseOrderModel.setStatusPO(status);
+        // purchaseOrderModel.setStatusPO(status);
 
         List<KategoriItemModel> listKategoriItem = kategoriItemService.getKategoriItemList();
         List<JenisItemModel> listJenis = jenisItemService.getJenisItemList();

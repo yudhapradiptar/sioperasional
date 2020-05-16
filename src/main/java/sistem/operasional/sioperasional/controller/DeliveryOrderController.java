@@ -10,20 +10,12 @@ import sistem.operasional.sioperasional.service.OutletService;
 import sistem.operasional.sioperasional.service.UserService;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.pdfbox.cos.COSDocument;
-import org.apache.pdfbox.io.RandomAccessRead;
-import org.apache.pdfbox.pdfparser.PDFParser;
-import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.text.PDFTextStripper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import antlr.StringUtils;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -62,6 +54,7 @@ public class DeliveryOrderController {
 
         model.addAttribute("listDeliveryOrder", listDeliveryOrder);
 
+        model.addAttribute("role", userService.getUserCurrentLoggedIn().getRole().getNamaRole());
         return "list-delivery-order";
     }
 
@@ -71,6 +64,7 @@ public class DeliveryOrderController {
         List<DeliveryOrderModel> listDeliveryOrderBundlingNotSetTanggalYet = deliveryOrderService.getDeliveryOrderListBySubscribedAndTanggalSubcribeStartNull();
         model.addAttribute("listDeliveryOrder", listDeliveryOrderBundlingNotSetTanggalYet);
 
+        model.addAttribute("role", userService.getUserCurrentLoggedIn().getRole().getNamaRole());
         return "list-delivery-order-set-tanggal";
     }
 
@@ -95,6 +89,7 @@ public class DeliveryOrderController {
         model.addAttribute("deliveryOrder", deliveryOrderModel);
         model.addAttribute("tanggalCreate", tanggalCreateFormatted);
         model.addAttribute("listItem", listItem);
+        model.addAttribute("role", userService.getUserCurrentLoggedIn().getRole().getNamaRole());
         return "detail-delivery-order";
     }
 
@@ -116,6 +111,7 @@ public class DeliveryOrderController {
         model.addAttribute("deliveryOrder", deliveryOrderModel);
         model.addAttribute("listItem", itemModels);
 
+        model.addAttribute("role", userService.getUserCurrentLoggedIn().getRole().getNamaRole());
         return "form-add-delivery-order";
     }
 
@@ -133,9 +129,6 @@ public class DeliveryOrderController {
         }
 
         for (ItemModel itemModel2 : deliveryOrderModel.getListItem()) {
-            // System.out.println("--------------------------------");
-            // System.out.println(itemModel2.getIdItem());
-            // System.out.println(deliveryOrderModel.getTanggalCreate());
             itemModel2.setTanggalKeluar(deliveryOrderModel.getTanggalCreate());
             itemModel2.setDeliveryOrder(deliveryOrderModel);
         }
@@ -146,6 +139,7 @@ public class DeliveryOrderController {
         // model.addAttribute("tanggal", deliveryOrderModel.getTanggalCreate());
         model.addAttribute("namaOutlet", deliveryOrderModel.getOutlet().getNamaOutlet());
         model.addAttribute("listItem", deliveryOrderModel.getListItem());
+        model.addAttribute("role", userService.getUserCurrentLoggedIn().getRole().getNamaRole());
         return "add-delivery-order";
     }
 
@@ -162,6 +156,7 @@ public class DeliveryOrderController {
         model.addAttribute("deliveryOrder", deliveryOrderModel);
         model.addAttribute("listItem", listItem);
 
+        model.addAttribute("role", userService.getUserCurrentLoggedIn().getRole().getNamaRole());
         return "form-add-tanggal-subscribe";
     }
 
@@ -178,6 +173,7 @@ public class DeliveryOrderController {
         model.addAttribute("tanggalStartFormatted", tanggalStartFormatted);
         model.addAttribute("tanggalEndFormatted", tanggalEndFormatted);
 
+        model.addAttribute("role", userService.getUserCurrentLoggedIn().getRole().getNamaRole());
         return "add-tanggal-subscribe";
     }
 
@@ -201,6 +197,7 @@ public class DeliveryOrderController {
         model.addAttribute("itemModelsCurrent", itemModelsCurrent);
         model.addAttribute("listItem", itemModelsNull);
 
+        model.addAttribute("role", userService.getUserCurrentLoggedIn().getRole().getNamaRole());
         return "form-update-delivery-order";
     }
 
@@ -211,23 +208,14 @@ public class DeliveryOrderController {
         DeliveryOrderModel deliveryOrderNow = deliveryOrderService
                 .getDeliveryOrderByNomorDeliveryOrder(deliveryOrderModel.getNomorDeliveryOrder());
 
-        System.out.println("item DO Now");
-        System.out.println(deliveryOrderNow.getListItem());
-
         for(ItemModel itemModel3: deliveryOrderNow.getListItem()) {
-            // System.out.println("==============mau set NUll ====================");
             itemModel3.setDeliveryOrder(null);
             itemModel3.setTanggalKeluar(null);
         }
 
-        System.out.println("================= ITEM BARU ====================");
-        System.out.println(deliveryOrderModel.getListItem());
-
         for (ItemModel itemModel2 : deliveryOrderModel.getListItem()) {
             if (itemModel2 == null) {
-                // System.out.println("=============null==================");
             } else {
-                // System.out.println("==============NOT NULL===================");
                 itemModel2.setDeliveryOrder(deliveryOrderModel);
                 itemModel2.setTanggalKeluar(deliveryOrderModel.getTanggalCreate());
             }
@@ -239,6 +227,7 @@ public class DeliveryOrderController {
 
         model.addAttribute("deliveryOrder", newDeliveryOrderModel);
         model.addAttribute("listItem", listItem);
+        model.addAttribute("role", userService.getUserCurrentLoggedIn().getRole().getNamaRole());
         return "update-delivery-oder";
     }
 
@@ -260,6 +249,7 @@ public class DeliveryOrderController {
         model.addAttribute("deliveryOrder", deliveryOrderModel);
         model.addAttribute("listItem", itemModels);
 
+        model.addAttribute("role", userService.getUserCurrentLoggedIn().getRole().getNamaRole());
         return "form-add-delivery-order-with-txt";
     }
 
@@ -314,70 +304,8 @@ public class DeliveryOrderController {
         // model.addAttribute("tanggal", tanggal);
         // model.addAttribute("tokopediaLink", tokopediaLink);
 
+
+        model.addAttribute("role", userService.getUserCurrentLoggedIn().getRole().getNamaRole());
         return "add-delivery-order-with-txt";
-    }
-
-    @RequestMapping(value = "/addwithpdf", method = RequestMethod.GET)
-    public String addDeliveryOrderFormPageWithPDF(Model model) {
-        DeliveryOrderModel deliveryOrderModel = new DeliveryOrderModel();
-
-        List<ItemModel> itemModels = itemService.geItemListByTanggalKeluarNullAndNotRusak();
-
-        ArrayList<ItemModel> listItemModels = new ArrayList<ItemModel>();
-        listItemModels.add(new ItemModel());
-        deliveryOrderModel.setListItem(listItemModels);
-
-        OutletModel outletModel = new OutletModel();
-        deliveryOrderModel.setOutlet(outletModel);
-        List<OutletModel> outletModels = outletService.getOutletList();
-
-        model.addAttribute("listOutlet", outletModels);
-        model.addAttribute("deliveryOrder", deliveryOrderModel);
-        model.addAttribute("listItem", itemModels);
-
-        return "form-add-delivery-order-with-pdf";
-    }
-
-    @RequestMapping(value = "/addwithpdf", method = RequestMethod.POST)
-    public String handleFilePDF(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes,
-            Model model) throws IOException, ParseException {
-
-        ByteArrayInputStream stream = new ByteArrayInputStream(file.getBytes());
-        String myString = IOUtils.toString(stream, "UTF-8");
-
-        File convFile = new File( file.getOriginalFilename());
-        file.transferTo(convFile);
-
-        // File convFile = new File(System.getProperty("java.io.tmpdir") + "/" + file.getOriginalFilename());
-        // file.transferTo(convFile);
-
-        // // File f = new File(filename);
-        String parsedText;
-        PDFParser parser = new PDFParser((RandomAccessRead) new RandomAccessFile(convFile, "r"));
-        parser.parse();
-
-        COSDocument cosDoc = parser.getDocument();
-        PDFTextStripper pdfStripper = new PDFTextStripper();
-        PDDocument pdDoc = new PDDocument(cosDoc);
-        parsedText = pdfStripper.getText(pdDoc);
-
-        // String data = "";
-        // Scanner myReader = new Scanner(convFile);
-        // while (myReader.hasNextLine()) {
-        //     data += myReader.nextLine();
-        //     System.out.println("-------------------------------------print-------------------------------------");
-        //     System.out.println(data);
-        // }
-        // myReader.close();
-
-        // String nomorDeliveryOrder = myString.substring(40, 68);
-        
-        // String tanggal = myString.substring(0, 10);
-        // date = new SimpleDateFormat("dd/MM/yyyy").parse(tanggal);  
-        
-        
-        model.addAttribute("nomorDeliveryOrder", parsedText);
-
-		return "add-delivery-order-with-pdf";
     }
 }
