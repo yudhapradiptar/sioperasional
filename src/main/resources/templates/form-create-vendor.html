@@ -68,7 +68,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label class="col-sm-2 col-form-label">No. Telepon Vendor</label>
-                                    <input type="text" class="form-control" id="teleponVendor" th:field="*{noTelpVendor}" placeholder="Nomor Telepon Vendor" required="true">
+                                    <input type="tel" pattern="[0-9]{3-13}" class="form-control" id="teleponVendor" th:field="*{noTelpVendor}" placeholder="Nomor Telepon Vendor" required="true">
                                 </div>
                                 <div class="form-group">
                                     <label class="col-sm-2 col-form-label">Alamat Vendor</label>

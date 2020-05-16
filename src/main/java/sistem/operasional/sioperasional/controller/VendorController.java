@@ -8,6 +8,7 @@ import sistem.operasional.sioperasional.model.DeliveryOrderModel;
 import sistem.operasional.sioperasional.model.VendorModel;
 import sistem.operasional.sioperasional.model.TrainingModel;
 import sistem.operasional.sioperasional.repository.VendorDB;
+import sistem.operasional.sioperasional.service.UserService;
 import sistem.operasional.sioperasional.service.VendorService;
 
 import java.util.List;
@@ -22,11 +23,15 @@ public class VendorController {
     @Autowired
     VendorDB vendorDB;
 
-    @RequestMapping("/")
+    @Autowired
+    UserService userService;
+
+    @RequestMapping("")
     public String viewAllVendor(Model model) {
         List<VendorModel> listVendor = vendorService.getVendorList();
 
         model.addAttribute("listVendor", listVendor);
+        model.addAttribute("role", userService.getUserCurrentLoggedIn().getRole().getNamaRole());
 
         return "list-vendor";
     }
@@ -36,13 +41,14 @@ public class VendorController {
         VendorModel vendorModel = new VendorModel();
 
         model.addAttribute("vendor", vendorModel);
+        model.addAttribute("role", userService.getUserCurrentLoggedIn().getRole().getNamaRole());
 
         return "form-create-vendor";
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public String addVendorSubmit(@ModelAttribute VendorModel vendorModel, Model model) {
-
+        model.addAttribute("role", userService.getUserCurrentLoggedIn().getRole().getNamaRole());
         List<VendorModel> vendorModelList = vendorService.getVendorList();
         for (VendorModel vendor:vendorModelList) {
             if (vendor.getNamaVendor().equals(vendorModel.getNamaVendor())) {
@@ -58,6 +64,7 @@ public class VendorController {
 
     @RequestMapping(value = "/delete/{idVendor}", method = RequestMethod.POST)
     public String deleteVendor(@PathVariable("idVendor") Long idVendor, Model model){
+        model.addAttribute("role", userService.getUserCurrentLoggedIn().getRole().getNamaRole());
         VendorModel deletedVendor = vendorDB.findById(idVendor).get();
         List<VendorModel> vendorModelList = vendorService.getVendorList();
 

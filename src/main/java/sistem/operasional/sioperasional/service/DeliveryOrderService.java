@@ -15,4 +15,8 @@ public interface DeliveryOrderService {
 
 	DeliveryOrderModel changeDeliveryOrder(DeliveryOrderModel deliveryOrderModel);
 
+	List<DeliveryOrderModel> getDeliveryOrderListBySubscribed();
+
+	List<DeliveryOrderModel> getDeliveryOrderListBySubscribedAndTanggalSubcribeStartNull();
+
 }

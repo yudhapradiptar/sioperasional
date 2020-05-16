@@ -3,6 +3,7 @@ package sistem.operasional.sioperasional.service;
 import sistem.operasional.sioperasional.model.TrainingModel;
 import sistem.operasional.sioperasional.model.UserModel;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -11,7 +12,13 @@ public interface TrainingService {
 
     List<TrainingModel> getListTrainingByTrainer(UserModel trainer);
 
+    List<TrainingModel> getTrainingList();
+
     TrainingModel getTrainingByIdTraining(String idTraining);
+
+    TrainingModel getTrainingDetail(String idTraining);
+
+    TrainingModel updateTraining(TrainingModel trainingModel, String status);
 
     void createTraining(TrainingModel training);
 
@@ -20,5 +27,9 @@ public interface TrainingService {
     TrainingModel editTraining(TrainingModel training);
 
     String tanggalFormat(Date tanggal);
+
+	List<TrainingModel> getListTrainingByTrainerAndToday(String idUser, String date);
+
+	List<TrainingModel> getAllTrainingByStatusTraining(String string);
 
 }

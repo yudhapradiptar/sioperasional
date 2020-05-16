@@ -1,5 +1,7 @@
 package sistem.operasional.sioperasional.controller;
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import sistem.operasional.sioperasional.model.DeliveryOrderModel;
 import sistem.operasional.sioperasional.model.JenisOutletModel;
 import sistem.operasional.sioperasional.model.OutletModel;
@@ -13,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import sistem.operasional.sioperasional.service.UserService;
 
 @Controller
 @RequestMapping("/outlet")
@@ -23,17 +26,21 @@ public class OutletController {
     @Autowired
     JenisOutletService jenisOutletService;
 
-    @RequestMapping("/")
-    public String viewAllOutlet(Model model) {
+    @Autowired
+    UserService userService;
+
+    @RequestMapping("")
+    public String viewAllOutlet(@AuthenticationPrincipal UserDetails currentUser, Model model) {
         List<OutletModel> listOutlet = outletService.getOutletList();
 
         model.addAttribute("listOutlet", listOutlet);
+        model.addAttribute("role", userService.getUserByUsername(currentUser.getUsername()).getRole().getNamaRole());
 
         return "list-outlet";
     }
 
     @RequestMapping(value = "/detail/{id}", method = RequestMethod.GET)
-    public String viewOutletByIdOutlet(@PathVariable Long id, Model model) {
+    public String viewOutletByIdOutlet(@PathVariable Long id, @AuthenticationPrincipal UserDetails currentUser, Model model) {
 
         OutletModel outletModel = outletService.getOutletByIdOutlet(id).get();
         List<DeliveryOrderModel> listDeliveryOrderModels = outletModel.getListDeliveryOrderOutlet();
@@ -42,6 +49,7 @@ public class OutletController {
         model.addAttribute("outlet", outletModel);
         model.addAttribute("listDeliveryOrder", listDeliveryOrderModels);
         model.addAttribute("listTraining", listTrainingModels);
+        model.addAttribute("role", userService.getUserByUsername(currentUser.getUsername()).getRole().getNamaRole());
 
         return "detail-outlet";
     }
@@ -56,6 +64,7 @@ public class OutletController {
 
         model.addAttribute("jenisOutlet", jenisOutletModels);
         model.addAttribute("outlet", outletModel);
+        model.addAttribute("role", userService.getUserCurrentLoggedIn().getRole().getNamaRole());
 
         return "form-add-outlet";
     }
@@ -67,6 +76,7 @@ public class OutletController {
         outletService.addOutlet(outletModel);
 
         model.addAttribute("outlet", outletModel);
+        model.addAttribute("role", userService.getUserCurrentLoggedIn().getRole().getNamaRole());
         return "add-outlet";
     }
 
@@ -80,6 +90,7 @@ public class OutletController {
 
         model.addAttribute("jenisOutlet", jenisOutletModels);
         model.addAttribute("outlet", outletModel);
+        model.addAttribute("role", userService.getUserCurrentLoggedIn().getRole().getNamaRole());
 
         return "form-update-outlet";
     }
@@ -90,6 +101,7 @@ public class OutletController {
         OutletModel newOutletModel = outletService.changeOutlet(outletModel);
 
         model.addAttribute("outlet", newOutletModel);
+        model.addAttribute("role", userService.getUserCurrentLoggedIn().getRole().getNamaRole());
         return "update-outlet";
     }
 

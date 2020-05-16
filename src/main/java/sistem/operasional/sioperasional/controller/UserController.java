@@ -4,6 +4,8 @@ import javax.persistence.Id;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -35,6 +37,17 @@ public class UserController {
     @RequestMapping(value = "/add", method = RequestMethod.GET)
     private String addUser(Model model) {
         model.addAttribute("listRole", roleService.findAll());
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String role = "";
+        for(GrantedAuthority each : auth.getAuthorities()){
+            role = each.getAuthority();
+        }
+        if(role.substring(0,4).equals("ROLE")){
+            model.addAttribute("role", role.substring(5));
+        } else {
+            model.addAttribute("role", userService.getUserCurrentLoggedIn().getRole().getNamaRole());
+        }
+
         return "add-user";
 
     }
@@ -44,11 +57,13 @@ public class UserController {
         UserModel existingUser = userService.getUserByUsername(username);
         model.addAttribute("listRole", roleService.findAll());
         model.addAttribute("user", existingUser);
+        model.addAttribute("role", userService.getUserCurrentLoggedIn().getRole().getNamaRole());
         return "form-edit-user";
     }
 
     @RequestMapping(value = "/edit/{username}" , method = RequestMethod.POST)
     private String editUserFormSubmit(@PathVariable String username, @ModelAttribute UserModel user, Model model) {
+        model.addAttribute("role", userService.getUserCurrentLoggedIn().getRole().getNamaRole());
         if(user.getNama().isBlank()) {
             String message = "Nama tidak boleh Kosong!";
             model.addAttribute("message", message);
@@ -62,6 +77,7 @@ public class UserController {
     @RequestMapping(value = "/user-list", method = RequestMethod.GET)
     private String viewAllUser(Model model) {
         model.addAttribute("listUser", userService.getAllUser());
+        model.addAttribute("role", userService.getUserCurrentLoggedIn().getRole().getNamaRole());
         return "view-all-user";
 
     }
@@ -96,6 +112,18 @@ public class UserController {
 
         userService.addUser(user);
         model.addAttribute("userbaru", user);
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String role = "";
+        for(GrantedAuthority each : auth.getAuthorities()){
+            role = each.getAuthority();
+        }
+        System.out.println(role);
+        if(role.substring(0,4).equals("ROLE")){
+            model.addAttribute("role", role.substring(5));
+        } else {
+            model.addAttribute("role", userService.getUserCurrentLoggedIn().getRole().getNamaRole());
+        }
 
         return "success-add-user";
     }

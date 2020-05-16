@@ -8,16 +8,30 @@ import sistem.operasional.sioperasional.service.DeliveryOrderService;
 import sistem.operasional.sioperasional.service.ItemService;
 import sistem.operasional.sioperasional.service.OutletService;
 import sistem.operasional.sioperasional.service.UserService;
+
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.RandomAccessFile;
+import java.nio.charset.StandardCharsets;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Scanner;
 
 import javax.servlet.http.HttpServletRequest;
+
 
 @Controller
 @RequestMapping("/delivery-order")
@@ -34,13 +48,24 @@ public class DeliveryOrderController {
     @Autowired
     OutletService outletService;
 
-    @RequestMapping("/")
+    @RequestMapping("")
     public String viewAllDeliveryOrder(Model model) {
         List<DeliveryOrderModel> listDeliveryOrder = deliveryOrderService.getDeliveryOrderList();
 
         model.addAttribute("listDeliveryOrder", listDeliveryOrder);
 
+        model.addAttribute("role", userService.getUserCurrentLoggedIn().getRole().getNamaRole());
         return "list-delivery-order";
+    }
+
+    @RequestMapping("/daftar-delivery-order-set-tanggal")
+    public String viewDeliveryOrderBundlingNotSetTanggal(Model model) {
+        
+        List<DeliveryOrderModel> listDeliveryOrderBundlingNotSetTanggalYet = deliveryOrderService.getDeliveryOrderListBySubscribedAndTanggalSubcribeStartNull();
+        model.addAttribute("listDeliveryOrder", listDeliveryOrderBundlingNotSetTanggalYet);
+
+        model.addAttribute("role", userService.getUserCurrentLoggedIn().getRole().getNamaRole());
+        return "list-delivery-order-set-tanggal";
     }
 
     @RequestMapping(value = "/detail/{nomor}", method = RequestMethod.GET)
@@ -64,9 +89,10 @@ public class DeliveryOrderController {
         model.addAttribute("deliveryOrder", deliveryOrderModel);
         model.addAttribute("tanggalCreate", tanggalCreateFormatted);
         model.addAttribute("listItem", listItem);
+        model.addAttribute("role", userService.getUserCurrentLoggedIn().getRole().getNamaRole());
         return "detail-delivery-order";
     }
-    
+
     @RequestMapping(value = "/add", method = RequestMethod.GET)
     public String addDeliveryOrderFormPage(Model model) {
         DeliveryOrderModel deliveryOrderModel = new DeliveryOrderModel();
@@ -85,25 +111,24 @@ public class DeliveryOrderController {
         model.addAttribute("deliveryOrder", deliveryOrderModel);
         model.addAttribute("listItem", itemModels);
 
+        model.addAttribute("role", userService.getUserCurrentLoggedIn().getRole().getNamaRole());
         return "form-add-delivery-order";
     }
-    
+
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public String addDeliveryOrderSubmit(@ModelAttribute DeliveryOrderModel deliveryOrderModel,
             @ModelAttribute ItemModel itemModel, Model model) {
 
         UserModel user = userService.getUserCurrentLoggedIn();
         deliveryOrderModel.setCreator(user);
-        DeliveryOrderModel deliveryOrderModel2 = deliveryOrderService.getDeliveryOrderByNomorDeliveryOrder(deliveryOrderModel.getNomorDeliveryOrder());
+        DeliveryOrderModel deliveryOrderModel2 = deliveryOrderService
+                .getDeliveryOrderByNomorDeliveryOrder(deliveryOrderModel.getNomorDeliveryOrder());
         if (deliveryOrderModel2 != null) {
             model.addAttribute("deliveryOrder", deliveryOrderModel);
             return "delivery-order-already-exist";
         }
 
-        for(ItemModel itemModel2: deliveryOrderModel.getListItem()) {
-            // System.out.println("--------------------------------");
-            // System.out.println(itemModel2.getIdItem());
-            // System.out.println(deliveryOrderModel.getTanggalCreate());
+        for (ItemModel itemModel2 : deliveryOrderModel.getListItem()) {
             itemModel2.setTanggalKeluar(deliveryOrderModel.getTanggalCreate());
             itemModel2.setDeliveryOrder(deliveryOrderModel);
         }
@@ -111,8 +136,10 @@ public class DeliveryOrderController {
         deliveryOrderService.addDeliveryOrder(deliveryOrderModel);
 
         model.addAttribute("deliveryOrder", deliveryOrderModel);
+        // model.addAttribute("tanggal", deliveryOrderModel.getTanggalCreate());
         model.addAttribute("namaOutlet", deliveryOrderModel.getOutlet().getNamaOutlet());
         model.addAttribute("listItem", deliveryOrderModel.getListItem());
+        model.addAttribute("role", userService.getUserCurrentLoggedIn().getRole().getNamaRole());
         return "add-delivery-order";
     }
 
@@ -128,7 +155,8 @@ public class DeliveryOrderController {
 
         model.addAttribute("deliveryOrder", deliveryOrderModel);
         model.addAttribute("listItem", listItem);
-        
+
+        model.addAttribute("role", userService.getUserCurrentLoggedIn().getRole().getNamaRole());
         return "form-add-tanggal-subscribe";
     }
 
@@ -145,6 +173,7 @@ public class DeliveryOrderController {
         model.addAttribute("tanggalStartFormatted", tanggalStartFormatted);
         model.addAttribute("tanggalEndFormatted", tanggalEndFormatted);
 
+        model.addAttribute("role", userService.getUserCurrentLoggedIn().getRole().getNamaRole());
         return "add-tanggal-subscribe";
     }
 
@@ -153,6 +182,7 @@ public class DeliveryOrderController {
         DeliveryOrderModel deliveryOrderModel = deliveryOrderService.getDeliveryOrderByNomorDeliveryOrder(nomor);
 
         List<ItemModel> itemModelsNull = itemService.getItemListAvailable(deliveryOrderModel.getNomorDeliveryOrder());
+        List<ItemModel> itemModelsCurrent = deliveryOrderModel.getListItem();
 
         ArrayList<ItemModel> listItemModels = new ArrayList<ItemModel>();
         listItemModels.add(new ItemModel());
@@ -162,77 +192,120 @@ public class DeliveryOrderController {
         deliveryOrderModel.setOutlet(outletModel);
         List<OutletModel> outletModels = outletService.getOutletList();
 
-
         model.addAttribute("listOutlet", outletModels);
         model.addAttribute("deliveryOrder", deliveryOrderModel);
-        // model.addAttribute("listItem", itemModels);
+        model.addAttribute("itemModelsCurrent", itemModelsCurrent);
         model.addAttribute("listItem", itemModelsNull);
 
+        model.addAttribute("role", userService.getUserCurrentLoggedIn().getRole().getNamaRole());
         return "form-update-delivery-order";
     }
 
     @RequestMapping(value = "/update/{nomor}", method = RequestMethod.POST)
-    public String updateSubmit(@PathVariable String nomor, @ModelAttribute DeliveryOrderModel deliveryOrderModel, Model model) {
+    public String updateSubmit(@PathVariable String nomor, @ModelAttribute DeliveryOrderModel deliveryOrderModel,
+            Model model) {
 
-        DeliveryOrderModel deliveryOrderNow = deliveryOrderService.getDeliveryOrderByNomorDeliveryOrder(deliveryOrderModel.getNomorDeliveryOrder());
-
-        // System.out.println("item DO Now");
-        // System.out.println(deliveryOrderNow.getListItem());
+        DeliveryOrderModel deliveryOrderNow = deliveryOrderService
+                .getDeliveryOrderByNomorDeliveryOrder(deliveryOrderModel.getNomorDeliveryOrder());
 
         for(ItemModel itemModel3: deliveryOrderNow.getListItem()) {
-            // System.out.println("==============mau set NUll ====================");
             itemModel3.setDeliveryOrder(null);
             itemModel3.setTanggalKeluar(null);
         }
 
-        // System.out.println("================= ITEM BARU ====================");
-        // System.out.println(deliveryOrderModel.getListItem());
-        for(ItemModel itemModel2: deliveryOrderModel.getListItem()) {
+        for (ItemModel itemModel2 : deliveryOrderModel.getListItem()) {
             if (itemModel2 == null) {
-                // System.out.println("=============null==================");
             } else {
-                // System.out.println("==============NOT NULL===================");
                 itemModel2.setDeliveryOrder(deliveryOrderModel);
                 itemModel2.setTanggalKeluar(deliveryOrderModel.getTanggalCreate());
             }
-		}
+        }
+
         DeliveryOrderModel newDeliveryOrderModel = deliveryOrderService.changeDeliveryOrder(deliveryOrderModel);
 
         List<ItemModel> listItem = deliveryOrderModel.getListItem();
 
         model.addAttribute("deliveryOrder", newDeliveryOrderModel);
         model.addAttribute("listItem", listItem);
+        model.addAttribute("role", userService.getUserCurrentLoggedIn().getRole().getNamaRole());
         return "update-delivery-oder";
     }
 
-    @RequestMapping(value="/add", method = RequestMethod.POST, params= {"addRow"})
-	public String addRow(@ModelAttribute DeliveryOrderModel deliveryOrderModel, BindingResult bindingResult, Model model) {
-		if (deliveryOrderModel.getListItem() == null) {
-            deliveryOrderModel.setListItem(new ArrayList<ItemModel>());
-        }
-        deliveryOrderModel.getListItem().add(new ItemModel());
-        model.addAttribute("deliveryOrder", deliveryOrderModel);
+    @RequestMapping(value = "/addwithtxt", method = RequestMethod.GET)
+    public String addDeliveryOrderFormPageWithTxt(Model model) {
+        DeliveryOrderModel deliveryOrderModel = new DeliveryOrderModel();
 
         List<ItemModel> itemModels = itemService.geItemListByTanggalKeluarNullAndNotRusak();
+
+        ArrayList<ItemModel> listItemModels = new ArrayList<ItemModel>();
+        listItemModels.add(new ItemModel());
+        deliveryOrderModel.setListItem(listItemModels);
+
+        OutletModel outletModel = new OutletModel();
+        deliveryOrderModel.setOutlet(outletModel);
+        List<OutletModel> outletModels = outletService.getOutletList();
+
+        model.addAttribute("listOutlet", outletModels);
+        model.addAttribute("deliveryOrder", deliveryOrderModel);
         model.addAttribute("listItem", itemModels);
 
-        List<OutletModel> outletModels = outletService.getOutletList();
-        model.addAttribute("listOutlet", outletModels);
-
-		return "form-add-delivery-order";
+        model.addAttribute("role", userService.getUserCurrentLoggedIn().getRole().getNamaRole());
+        return "form-add-delivery-order-with-txt";
     }
 
-    @RequestMapping(value="/add", method = RequestMethod.POST, params={"removeRow"})
-	public String removeRow(@ModelAttribute DeliveryOrderModel deliveryOrderModel, final BindingResult bindingResult, final HttpServletRequest req, Model model) {
-        final Integer rowId = Integer.valueOf(req.getParameter("removeRow"));
-        deliveryOrderModel.getListItem().remove(rowId.intValue());
+    @RequestMapping(value = "/addwithtxt", method = RequestMethod.POST)
+    public String handleFileTxt(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes,
+            @ModelAttribute DeliveryOrderModel deliveryOrderModel, @ModelAttribute ItemModel itemModel, Model model)
+            throws IOException, ParseException {
+
+        Date date;
+
+        ByteArrayInputStream stream = new ByteArrayInputStream(file.getBytes());
+        String myString = IOUtils.toString(stream, "UTF-8");
+
+        int startNomorDO = myString.indexOf("INV");
+        String nomorDeliveryOrder = myString.substring(startNomorDO, startNomorDO + 28);
+        nomorDeliveryOrder = nomorDeliveryOrder.replaceAll("/", "-");
+
+        // int startTokopediaLink = myString.indexOf("https://www.tokopedia.com/");
+        // String tokopediaLinkRaw = myString.substring(startTokopediaLink);
+        // String[] tokopediaArray = tokopediaLinkRaw.split(" ");
+        // String tokopediaLink = tokopediaArray[0].substring(0, tokopediaArray[0].length()-3);
+
+        String tanggal = myString.substring(0, 10);
+        date = new SimpleDateFormat("MM/dd/yyyy").parse(tanggal);
+
+        // batas
+        DeliveryOrderModel deliveryOrderModel2 = deliveryOrderService
+                .getDeliveryOrderByNomorDeliveryOrder(nomorDeliveryOrder);
+        if (deliveryOrderModel2 != null) {
+            model.addAttribute("nomorDeliveryOrder", nomorDeliveryOrder);
+            return "delivery-order-already-exist";
+        }
+
+        UserModel user = userService.getUserCurrentLoggedIn();
+        deliveryOrderModel.setCreator(user);
+        deliveryOrderModel.setTanggalCreate(date);
+        deliveryOrderModel.setNomorDeliveryOrder(nomorDeliveryOrder);
+
+        for (ItemModel itemModel2 : deliveryOrderModel.getListItem()) {
+            itemModel2.setTanggalKeluar(deliveryOrderModel.getTanggalCreate());
+            itemModel2.setDeliveryOrder(deliveryOrderModel);
+        }
+
+        deliveryOrderService.addDeliveryOrder(deliveryOrderModel);
+
         model.addAttribute("deliveryOrder", deliveryOrderModel);
+        model.addAttribute("namaOutlet", deliveryOrderModel.getOutlet().getNamaOutlet());
+        model.addAttribute("listItem", deliveryOrderModel.getListItem());
 
-        List<ItemModel> itemModels = itemService.geItemListByTanggalKeluarNullAndNotRusak();
-        model.addAttribute("listItem", itemModels);
+        model.addAttribute("date", date);
+        model.addAttribute("nomorDeliveryOrder", nomorDeliveryOrder);
+        // model.addAttribute("tanggal", tanggal);
+        // model.addAttribute("tokopediaLink", tokopediaLink);
 
-        List<OutletModel> outletModels = outletService.getOutletList();
-        model.addAttribute("listOutlet", outletModels);
-	    return "form-add-delivery-order";
+
+        model.addAttribute("role", userService.getUserCurrentLoggedIn().getRole().getNamaRole());
+        return "add-delivery-order-with-txt";
     }
 }

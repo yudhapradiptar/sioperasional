@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
 
@@ -67,7 +67,7 @@
                             <div th:if="${outlet.aktif == true}">
                                 <p th:text="'Status Aktif : Aktif'"></p>
                             </div>
-                            <table class="table table-bordered">
+                            <table class="table table-bordered" th:unless="${role == 'Operation Staff' || role == 'Operation Lead'}">
                                 <thead>
                                     <tr>
                                         <th scope="col">No</th>
@@ -95,7 +95,7 @@
                                     </tr>
                                 </tbody>   
                             </table>
-                            <div class="row" dir="rtl">
+                            <div class="row" dir="rtl" th:unless="${role == 'Operation Staff' || role == 'Operation Lead'}">
                                 <a th:href="@{/outlet/update/} + ${outlet.idOutlet}">
                                 <button class="btn btn-warning text-white">update</button></a>
                             </div>
