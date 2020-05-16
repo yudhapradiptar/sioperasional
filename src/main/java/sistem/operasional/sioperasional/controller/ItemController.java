@@ -112,15 +112,19 @@ public class ItemController {
     }
 
     @RequestMapping(value = "/update/{idItem}", method = RequestMethod.GET)
-    public String UpdateStatusItem(@PathVariable("idItem") String idItem, @AuthenticationPrincipal UserDetails currentUser, Model model){
-        ItemModel item = itemService.getItemDetailByIdItem(Long.parseLong(idItem));
+    public String UpdateStatusItem(@PathVariable("idItem") String idItem, Model model){
+        //ItemModel item = itemService.getItemDetailByIdItem(Long.parseLong(idItem));
         List<StatusItemModel> statusItem = statusItemService.getListStatusItem();
-        ItemModel itemDetail = item;
+        //ItemModel itemDetail = item;
         for(StatusItemModel s : statusItem){
             System.out.println(s.getNamaStatusItem());
         }
 
-        model.addAttribute("item", itemDetail);
+        System.out.println("Start");
+        //System.out.println(item);
+        System.out.println("End");
+
+        //model.addAttribute("item", itemDetail);
         model.addAttribute("allStatusItem", statusItem);
         model.addAttribute("role", userService.getUserByUsername(currentUser.getUsername()).getRole().getNamaRole());
 
