@@ -211,6 +211,7 @@ public class TrainingController {
         if(viewedTraining != null){
             if(roleCurrentUser.equals("Operation Staff")){
                 for(TrainingModel training : user.getListTrainingTrained()){
+                    System.out.println(training.getTrainer().getUsername());
                     if(training.getIdTraining().equals(viewedTraining.getIdTraining())){
                         model.addAttribute("training", viewedTraining);
                         model.addAttribute("idTraining", viewedTraining.getIdTraining());
@@ -225,15 +226,36 @@ public class TrainingController {
                 if(user.getListTrainingTrained().size()==0){
                     return "error/403";
                 }
+            } else {
+                model.addAttribute("training", viewedTraining);
+                model.addAttribute("idTraining", viewedTraining.getIdTraining());
+                model.addAttribute("role", roleCurrentUser);
+
+                model.addAttribute("tanggalRequestString",  trainingService.tanggalFormat(viewedTraining.getTanggalRequest()));
+                model.addAttribute("tanggalTrainingString", trainingService.tanggalFormat(viewedTraining.getTanggalTraining()));
+                return "detail-training";
             }
+        }
+        return "error/403";
+    }
+
+    @RequestMapping(path = "/view/{idTraining}/selesai", method = RequestMethod.GET)
+    public String selesaiTraining(@PathVariable String idTraining, @AuthenticationPrincipal UserDetails currentUser, Model model){
+        TrainingModel viewedTraining = trainingService.getTrainingByIdTraining(idTraining);
+        String roleCurrentUser = userService.getUserByUsername(currentUser.getUsername()).getRole().getNamaRole();
+        UserModel user = userService.getUserByUsername(currentUser.getUsername());
+        model.addAttribute("role", roleCurrentUser);
+        Date now = new Date();
+        if(viewedTraining != null){
             model.addAttribute("training", viewedTraining);
-            model.addAttribute("idTraining", viewedTraining.getIdTraining());
-            model.addAttribute("role", roleCurrentUser);
-
-            model.addAttribute("tanggalRequestString",  trainingService.tanggalFormat(viewedTraining.getTanggalRequest()));
-            model.addAttribute("tanggalTrainingString", trainingService.tanggalFormat(viewedTraining.getTanggalTraining()));
-
-            return "detail-training";
+            if(viewedTraining.getStatusTraining().equals("Disetujui") && !now.before(viewedTraining.getTanggalTraining()) && viewedTraining.getTrainer()==userService.getUserByUsername(currentUser.getUsername())){
+                viewedTraining.setStatusTraining("Selesai");
+                model.addAttribute("tanggalTrainingString", trainingService.tanggalFormat(viewedTraining.getTanggalTraining()));
+                model.addAttribute("training", viewedTraining);
+                return "success-selesai-training";
+            } else {
+                return "fail-selesai-training";
+            }
         }
         return "error/403";
     }
