@@ -211,6 +211,7 @@ public class TrainingController {
         if(viewedTraining != null){
             if(roleCurrentUser.equals("Operation Staff")){
                 for(TrainingModel training : user.getListTrainingTrained()){
+                    System.out.println(training.getTrainer().getUsername());
                     if(training.getIdTraining().equals(viewedTraining.getIdTraining())){
                         model.addAttribute("training", viewedTraining);
                         model.addAttribute("idTraining", viewedTraining.getIdTraining());
@@ -225,17 +226,79 @@ public class TrainingController {
                 if(user.getListTrainingTrained().size()==0){
                     return "error/403";
                 }
+            } else {
+                model.addAttribute("training", viewedTraining);
+                model.addAttribute("idTraining", viewedTraining.getIdTraining());
+                model.addAttribute("role", roleCurrentUser);
+
+                model.addAttribute("tanggalRequestString",  trainingService.tanggalFormat(viewedTraining.getTanggalRequest()));
+                model.addAttribute("tanggalTrainingString", trainingService.tanggalFormat(viewedTraining.getTanggalTraining()));
+                return "detail-training";
             }
-            model.addAttribute("training", viewedTraining);
-            model.addAttribute("idTraining", viewedTraining.getIdTraining());
-            model.addAttribute("role", roleCurrentUser);
-
-            model.addAttribute("tanggalRequestString",  trainingService.tanggalFormat(viewedTraining.getTanggalRequest()));
-            model.addAttribute("tanggalTrainingString", trainingService.tanggalFormat(viewedTraining.getTanggalTraining()));
-
-            return "detail-training";
         }
         return "error/403";
+    }
+
+    @RequestMapping(path = "/view/{idTraining}/selesai", method = RequestMethod.GET)
+    public String selesaiTraining(@PathVariable String idTraining, @AuthenticationPrincipal UserDetails currentUser, Model model){
+        TrainingModel viewedTraining = trainingService.getTrainingByIdTraining(idTraining);
+        String roleCurrentUser = userService.getUserByUsername(currentUser.getUsername()).getRole().getNamaRole();
+        UserModel user = userService.getUserByUsername(currentUser.getUsername());
+        model.addAttribute("role", roleCurrentUser);
+        Date now = new Date();
+        if(viewedTraining != null){
+            model.addAttribute("training", viewedTraining);
+            if(viewedTraining.getStatusTraining().equals("Disetujui") && !now.before(viewedTraining.getTanggalTraining()) && viewedTraining.getTrainer()==userService.getUserByUsername(currentUser.getUsername())){
+                viewedTraining.setStatusTraining("Selesai");
+                model.addAttribute("tanggalTrainingString", trainingService.tanggalFormat(viewedTraining.getTanggalTraining()));
+                model.addAttribute("training", viewedTraining);
+                return "success-selesai-training";
+            } else {
+                return "fail-selesai-training";
+            }
+        }
+        return "error/403";
+    }
+
+//     @RequestMapping(value = "/{idTraining}", method = RequestMethod.GET)
+//     public String DetailTraining(@PathVariable("idTraining") String idTraining, Model model){
+
+//         TrainingModel training = trainingService.getTrainingDetail(idTraining);
+
+//         System.out.println("Training Detail");
+//         System.out.println(training.getBayar());
+//         System.out.println("End");
+
+//         model.addAttribute("training", training);
+
+//         return "training-detail";
+//     }
+
+    @RequestMapping(value = "/{idTraining}/{statusTraining}", method = RequestMethod.POST)
+    public String updateTrainingSubmit(@PathVariable String idTraining, @PathVariable String statusTraining, @ModelAttribute TrainingModel trainingModel, Model model) {
+
+        String html = "";
+        if ((statusTraining.equals("approve") || statusTraining.equals("reject") && trainingService.getTrainingByIdTraining(idTraining).getStatusTraining().equals("Menunggu Persetujuan"))){
+            String word = "";
+            if (statusTraining.equals("approve")){
+                word = "Disetujui";
+            } else {
+                word = "Ditolak";
+            }
+            trainingService.updateTraining(trainingModel, word);
+            model.addAttribute("training", trainingModel);
+            model.addAttribute("status", word);
+            System.out.println("Update");
+            System.out.println(trainingModel.getStatusTraining());
+            System.out.println("End");
+            html = "success-update-training";
+            System.out.println(trainingModel.getTrainer());
+            System.out.println(trainingModel.getOutlet());
+        }
+        else {
+            html = "form-approve-training";
+        }
+        return html;
     }
 
 }

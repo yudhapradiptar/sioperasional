@@ -57,74 +57,71 @@
                     </div>
                     <br>
                     <div class="card-body">
-                        <table class="table tab-content" align="center">
-                            <form class="form-horizontal" th:action="@{/purchase-order/add/item/} + ${nomorPO}"
-                                  th:object="${purchaseOrder}" method="POST">
+                        <form class="form-horizontal" th:action="@{/purchase-order/add/item/} + ${nomorPO}"
+                              th:object="${purchaseOrder}" method="POST">
 
-                                <th><button type="submit" name="addMore">Add More</button></th>
+                            <table class="table tab-content" align="center">
 
-                                <tr th:each="itemPO, iterationStatus : *{listItemPO}">
+                            <thead>
+                            <tr>
+                                <th scope="col">Kategori Item</th>
+                                <th scope="col">Jenis Item</th>
+                                <th scope="col">Jumlah Item</th>
+                                <th scope="col">Harga Satuan</th>
+                                <th><button class="btn btn-info" type="submit" name="addMore">Add More</button></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="itemPO, iterationStatus : *{listItemPO}">
+                               <td>
+                                <select class="form-control" name="kategori" th:field="*{listItemPO[__${iterationStatus.index}__].kategoriItem}"
+                                        required="true">
+                                    <option value="0">-- Pilih Kategori Item --</option>
+                                    <option th:each="kategori : ${listKategoriItem}" th:value="${{kategori.idKategoriItem}}"
+                                            th:text="${kategori.namaKategoriItem}"></option>
+                                </select>
+                               </td>
 
-                                <div class="form-group">
-                                    <label class="control-label col-sm-2">Kategori Item</label>
-                                    <div class="control-label col-sm-10">
-                                        <select class="form-control" name="kategori" th:field="*{listItemPO[__${iterationStatus.index}__].kategoriItem}"
+                                <td>
+                                <select class="form-control" name="jenis" th:field="*{listItemPO[__${iterationStatus.index}__].jenisItem}"
                                                 required="true">
-                                            <option value="0">-- Pilih Kategori Item --</option>
-                                            <option th:each="kategori : ${listKategoriItem}" th:value="${{kategori.idKategoriItem}}"
-                                                    th:text="${kategori.namaKategoriItem}"></option>
-                                        </select>
-                                    </div>
-                                </div>
+                                    <option value="0">-- Pilih Jenis Item --</option>
+                                    <option th:each="jenis : ${listJenisItem}" th:value="${{jenis.idJenisItem}}"
+                                            th:text="${jenis.namaJenisItem}"></option>
+                                </select>
+                                </td>
 
-                                <div class="form-group">
-                                    <label class="control-label col-sm-2">Jenis Item</label>
-                                    <div class="control-label col-sm-10">
-                                        <select class="form-control" name="jenis" th:field="*{listItemPO[__${iterationStatus.index}__].jenisItem}"
-                                                required="true">
-                                            <option value="0">-- Pilih Jenis Item --</option>
-                                            <option th:each="jenis : ${listJenisItem}" th:value="${{jenis.idJenisItem}}"
-                                                    th:text="${jenis.namaJenisItem}"></option>
-                                        </select>
-                                    </div>
-                                </div>
+                                <td>
+                                    <input type="number" min="0" name="jumlah" th:field="*{listItemPO[__${iterationStatus.index}__].jumlahItem}"
+                                       class="form-control form-control-user" placeholder="Masukkan Jumlah Item">
+                                </td>
 
-                                <div class="form-group">
-                                    <label class="control-label col-sm-2">Jumlah Item</label>
-                                    <div class="control-label col-sm-10">
-                                        <input type="number" name="jumlah" th:field="*{listItemPO[__${iterationStatus.index}__].jumlahItem}"
-                                               class="form-control form-control-user" placeholder="Masukkan Jumlah Item">
-                                    </div>
-                                </div>
-
-<!--                                <div class="form-group" hidden="hidden">-->
-<!--                                    <label class="control-label col-sm-2">Nomer PO</label>-->
-<!--                                    <div class="control-label col-sm-10">-->
-<!--                                        <input type="text" name="PO"-->
-<!--                                               class="form-control form-control-user" th:value="${purchaseOrderModel}">-->
-<!--                                    </div>-->
-<!--                                </div>-->
-                                </tr>
-
-                                <div class="row" dir="rtl">
-                                    <button class="btn btn-success btn-icon-split">
+                                <td>
+                                    <input type="number" min="0" name="harga" th:field="*{listItemPO[__${iterationStatus.index}__].hargaSatuan}"
+                                           class="form-control form-control-user" placeholder="Masukkan Harga Satuan Item">
+                                </td>
+                            </tbody>
+                            </tr>
+                        </table>
+                            <div class="row" dir="rtl">
+                                &nbsp
+                                &nbsp
+                                <button class="btn btn-success btn-icon-split">
                                         <span class="icon text-white-50">
                                         <i class="fas fa-check"></i>
                                         </span>
-                                        <span class="text" type="submit" name="submit">Tambah Item</span>
-                                    </button>
-                                    <div class="control-label col-sm-2"></div>
-                                    &nbsp
-                                    &nbsp
-                                    <button class="btn btn-danger btn-icon-split" onclick="javascript:history.back()">
+                                    <span class="text" type="submit" name="submit">Tambah Item</span>
+                                </button>
+                                &nbsp
+                                &nbsp
+                                <button class="btn btn-danger btn-icon-split" onclick="javascript:history.back()">
                                         <span class="icon text-white-50">
                                         <i class="fas fa-times"></i>
                                         </span>
-                                        <span>Kembali</span>
-                                    </button>
-                                </div>
-                            </form>
-                        </table>
+                                <span class="text" type="submit" name="kembali">Kembali</span>
+                            </button>
+                            </div>
+                        </form>
                     </div>
                 </div>
 

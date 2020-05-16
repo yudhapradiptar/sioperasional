@@ -50,6 +50,6 @@ public class StatusItemController {
             System.out.println(s.getIdStatusItem());
         }
         System.out.println("End");
-        return "yyy";
+        return "list-status-item";
     }
 }
