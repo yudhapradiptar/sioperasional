@@ -44,11 +44,13 @@ public class UserController {
         UserModel existingUser = userService.getUserByUsername(username);
         model.addAttribute("listRole", roleService.findAll());
         model.addAttribute("user", existingUser);
+        model.addAttribute("role", userService.getUserCurrentLoggedIn().getRole().getNamaRole());
         return "form-edit-user";
     }
 
     @RequestMapping(value = "/edit/{username}" , method = RequestMethod.POST)
     private String editUserFormSubmit(@PathVariable String username, @ModelAttribute UserModel user, Model model) {
+        model.addAttribute("role", userService.getUserCurrentLoggedIn().getRole().getNamaRole());
         if(user.getNama().isBlank()) {
             String message = "Nama tidak boleh Kosong!";
             model.addAttribute("message", message);
@@ -62,6 +64,7 @@ public class UserController {
     @RequestMapping(value = "/user-list", method = RequestMethod.GET)
     private String viewAllUser(Model model) {
         model.addAttribute("listUser", userService.getAllUser());
+        model.addAttribute("role", userService.getUserCurrentLoggedIn().getRole().getNamaRole());
         return "view-all-user";
 
     }

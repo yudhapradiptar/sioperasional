@@ -43,7 +43,7 @@ public class PageController {
     @Autowired
     PurchaseOrderDB purchaseOrderDB;
 
-    @RequestMapping("/")
+    @RequestMapping("")
     public String home (@AuthenticationPrincipal UserDetails currentUser, Model model, Authentication auth) {
         String roleNow = userService.getUserByUsername(currentUser.getUsername()).getRole().getNamaRole();
         UserModel userNow = userService.getUserCurrentLoggedIn();
@@ -72,10 +72,14 @@ public class PageController {
 
             List<PurchaseOrderModel> listPONotDisetujui = purchaseOrderService.getPurchaseOrderListByNotDisetujui();
             float sumPONotDisetujui = listPONotDisetujui.size();
-            System.out.println(listPONotDisetujui);
             model.addAttribute("sumPONotDisetujui", (int)sumPONotDisetujui);
 
-            float persentasePONotDisetujui = 100 * (sumPONotDisetujui / sumPO);
+            float persentasePONotDisetujui;
+            if(sumPO<1){
+                persentasePONotDisetujui = 0;
+            } else {
+                persentasePONotDisetujui = 100 * (sumPONotDisetujui / sumPO);
+            }
             model.addAttribute("persentasePONotDisetujui", persentasePONotDisetujui);
         }
 
@@ -89,9 +93,6 @@ public class PageController {
 
             String date = DateTimeFormatter.ofPattern("yyyy-MM-dd 00:00:00").format(LocalDateTime.now());
             List<TrainingModel> listMyTrainingToday = trainingService.getListTrainingByTrainerAndToday(userNow.getId(), date);
-            System.out.println("--------------");
-            System.out.println(listMyTrainingToday);
-            System.out.println(date);
             model.addAttribute("listMyTrainingToday", listMyTrainingToday);
         }
 
@@ -119,22 +120,6 @@ public class PageController {
     @RequestMapping("/login")
     public String login (Model model){
         return "login-dev";
-    }
-
-    @RequestMapping("/blank-page/")
-    public String blankPage (Model model) {
-        List<DeliveryOrderModel> listDeliveryOrder = deliveryOrderService.getDeliveryOrderList();
-
-        model.addAttribute("listDeliveryOrder", listDeliveryOrder);
-        return "blank-page";
-    }
-
-    @RequestMapping("/template/")
-    public String template (Model model) {
-        List<DeliveryOrderModel> listDeliveryOrder = deliveryOrderService.getDeliveryOrderList();
-
-        model.addAttribute("listDeliveryOrder", listDeliveryOrder);
-        return "template";
     }
 
 }

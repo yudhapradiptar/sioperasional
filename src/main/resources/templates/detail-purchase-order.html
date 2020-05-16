@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
 
@@ -209,7 +209,7 @@
                                 &nbsp
                                 &nbsp
                                 &nbsp
-                            <span th:if="${purchaseOrder.disetujui == false}">
+                            <span th:if="${purchaseOrder.disetujui == false && role == 'Operation Manager'}">
                                 <form class="form-horizontal"
                                       th:action="@{/purchase-order/approve/{nomorPurchaseOrder}(nomorPurchaseOrder=${purchaseOrder.nomorPurchaseOrder})}" th:object="${purchaseOrder}"
                                       th:method="POST">
