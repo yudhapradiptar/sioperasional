@@ -32,11 +32,6 @@ public class TrainingController {
     @Autowired
     OutletService outletService;
 
-    @RequestMapping("/hello")
-	public String index() {
-		return "Spring Boot Example!!";
-	}
-
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String createTrainingFormPage(Model model) {
         TrainingModel newTraining = new TrainingModel();
@@ -237,19 +232,19 @@ public class TrainingController {
         return "error/403";
     }
 
-    @RequestMapping(value = "/{idTraining}", method = RequestMethod.GET)
-    public String DetailTraining(@PathVariable("idTraining") String idTraining, Model model){
+//     @RequestMapping(value = "/{idTraining}", method = RequestMethod.GET)
+//     public String DetailTraining(@PathVariable("idTraining") String idTraining, Model model){
 
-        TrainingModel training = trainingService.getTrainingDetail(idTraining);
+//         TrainingModel training = trainingService.getTrainingDetail(idTraining);
 
-        System.out.println("Training Detail");
-        System.out.println(training.getBayar());
-        System.out.println("End");
+//         System.out.println("Training Detail");
+//         System.out.println(training.getBayar());
+//         System.out.println("End");
 
-        model.addAttribute("training", training);
+//         model.addAttribute("training", training);
 
-        return "training-detail";
-    }
+//         return "training-detail";
+//     }
 
     @RequestMapping(value = "/{idTraining}/{statusTraining}", method = RequestMethod.POST)
     public String updateTrainingSubmit(@PathVariable String idTraining, @PathVariable String statusTraining, @ModelAttribute TrainingModel trainingModel, Model model) {
