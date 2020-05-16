@@ -278,7 +278,7 @@ public class TrainingController {
     public String updateTrainingSubmit(@PathVariable String idTraining, @PathVariable String statusTraining, @ModelAttribute TrainingModel trainingModel, Model model) {
 
         String html = "";
-        if (statusTraining.equals("approve") || statusTraining.equals("reject")){
+        if ((statusTraining.equals("approve") || statusTraining.equals("reject") && trainingService.getTrainingByIdTraining(idTraining).getStatusTraining().equals("Menunggu Persetujuan"))){
             String word = "";
             if (statusTraining.equals("approve")){
                 word = "Disetujui";

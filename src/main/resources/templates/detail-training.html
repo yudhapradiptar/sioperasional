@@ -89,7 +89,19 @@
                                 <a type="button" th:href="@{/training/view/} + ${training.idTraining} + @{/selesai}" class="btn btn-warning">Selesai</a>
                             </div>
                             <div th:if="${role == 'Operation Manager' && training.statusTraining == 'Menunggu Persetujuan'}">
-                                <a type="button" class="btn btn-warning">Setuju</a>
+                                <div class="row">
+                                    <form method="POST" th:action="@{'/training/' + ${training.idTraining} + '/approve'}">
+                                        <input type="hidden" class="form-control" name="trainer" th:field="*{training.trainer}">
+                                        <input type="hidden" class="form-control" name="outlet" th:field="*{training.outlet}">
+                                        <button type="submit" name="submit" value="value" class="btn btn-success">Setuju</button>
+                                    </form>
+                                    &nbsp;&nbsp;
+                                    <form method="POST" th:action="@{'/training/' + ${training.idTraining} + '/reject'}">
+                                        <input type="hidden" class="form-control" name="trainer" th:field="*{training.trainer}">
+                                        <input type="hidden" class="form-control" name="outlet" th:field="*{training.outlet}">
+                                        <button type="submit" name="submit" value="value" class="btn btn-danger">Tolak</button>
+                                    </form>
+                                </div>
                             </div>
                         </div>  
                     </div>
