@@ -54,6 +54,7 @@ public class TrainingController {
 
     @RequestMapping(value = "", method = RequestMethod.POST)
     public String createTrainingSubmit(@ModelAttribute TrainingModel training, @AuthenticationPrincipal UserDetails currentUser, Model model) {
+        model.addAttribute("role", userService.getUserByUsername(currentUser.getUsername()).getRole().getNamaRole());
         List<TrainingModel> listTraining = trainingService.getAllTraining();
         int yearTanggalTraining = training.getTanggalTraining().getYear();
         int monthTanggalTraining = training.getTanggalTraining().getMonth();
@@ -94,7 +95,6 @@ public class TrainingController {
             model.addAttribute("idTraining", training.getIdTraining());
             model.addAttribute("namaTrainer", training.getTrainer().getNama());
             model.addAttribute("namaOutlet", training.getOutlet().getNamaOutlet());
-            model.addAttribute("role", userService.getUserByUsername(currentUser.getUsername()).getRole().getNamaRole());
             return "success-create-training";
         } catch (NullPointerException e) {
             return "redirect:/training/create";
@@ -276,7 +276,7 @@ public class TrainingController {
 
     @RequestMapping(value = "/{idTraining}/{statusTraining}", method = RequestMethod.POST)
     public String updateTrainingSubmit(@PathVariable String idTraining, @PathVariable String statusTraining, @ModelAttribute TrainingModel trainingModel, Model model) {
-
+        model.addAttribute("role", userService.getUserCurrentLoggedIn().getRole().getNamaRole());
         String html = "";
         if ((statusTraining.equals("approve") || statusTraining.equals("reject") && trainingService.getTrainingByIdTraining(idTraining).getStatusTraining().equals("Menunggu Persetujuan"))){
             String word = "";
@@ -288,12 +288,7 @@ public class TrainingController {
             trainingService.updateTraining(trainingModel, word);
             model.addAttribute("training", trainingModel);
             model.addAttribute("status", word);
-            System.out.println("Update");
-            System.out.println(trainingModel.getStatusTraining());
-            System.out.println("End");
             html = "success-update-training";
-            System.out.println(trainingModel.getTrainer());
-            System.out.println(trainingModel.getOutlet());
         }
         else {
             html = "form-approve-training";

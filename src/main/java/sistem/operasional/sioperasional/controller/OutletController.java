@@ -29,7 +29,7 @@ public class OutletController {
     @Autowired
     UserService userService;
 
-    @RequestMapping("/")
+    @RequestMapping("")
     public String viewAllOutlet(@AuthenticationPrincipal UserDetails currentUser, Model model) {
         List<OutletModel> listOutlet = outletService.getOutletList();
 
@@ -64,6 +64,7 @@ public class OutletController {
 
         model.addAttribute("jenisOutlet", jenisOutletModels);
         model.addAttribute("outlet", outletModel);
+        model.addAttribute("role", userService.getUserCurrentLoggedIn().getRole().getNamaRole());
 
         return "form-add-outlet";
     }
@@ -75,6 +76,7 @@ public class OutletController {
         outletService.addOutlet(outletModel);
 
         model.addAttribute("outlet", outletModel);
+        model.addAttribute("role", userService.getUserCurrentLoggedIn().getRole().getNamaRole());
         return "add-outlet";
     }
 
@@ -88,6 +90,7 @@ public class OutletController {
 
         model.addAttribute("jenisOutlet", jenisOutletModels);
         model.addAttribute("outlet", outletModel);
+        model.addAttribute("role", userService.getUserCurrentLoggedIn().getRole().getNamaRole());
 
         return "form-update-outlet";
     }
@@ -98,6 +101,7 @@ public class OutletController {
         OutletModel newOutletModel = outletService.changeOutlet(outletModel);
 
         model.addAttribute("outlet", newOutletModel);
+        model.addAttribute("role", userService.getUserCurrentLoggedIn().getRole().getNamaRole());
         return "update-outlet";
     }
 

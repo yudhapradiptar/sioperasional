@@ -64,7 +64,7 @@ public class PurchaseOrderController {
     private static final String image = "post.jpg";
 
 
-    @RequestMapping("/")
+    @RequestMapping("")
     public String getAll(@AuthenticationPrincipal UserDetails currentUser, Model model) {
         List<PurchaseOrderModel> listPO = purchaseOrderDB.findAll(Sort.by(Sort.Direction.ASC, "nomorPurchaseOrder"));
         model.addAttribute("listPO", listPO);
@@ -149,8 +149,7 @@ public class PurchaseOrderController {
                                          Model model) {
 
 
-        UserModel user = userService.getUserById("manager");
-//        UserModel user = userService.getUserCurrentLoggedIn();
+        UserModel user = userService.getUserCurrentLoggedIn();
         purchaseOrderModel.setCreator(user);
 
         purchaseOrderModel.setStatusPO("Open");

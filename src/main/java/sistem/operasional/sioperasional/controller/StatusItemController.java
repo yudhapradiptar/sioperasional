@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.security.core.userdetails.User;
 import sistem.operasional.sioperasional.model.StatusItemModel;
 import sistem.operasional.sioperasional.service.*;
 import org.springframework.stereotype.Controller;
@@ -17,10 +18,14 @@ public class StatusItemController {
     @Autowired
     StatusItemService statusItemService;
 
+    @Autowired
+    UserService userService;
+
     @RequestMapping(value = "/hardware-fulfillment/item/status/create", method = RequestMethod.GET)
     public String createStatusItem(Model model) {
         StatusItemModel newStatus = new StatusItemModel();
         model.addAttribute("status", newStatus);
+        model.addAttribute("role", userService.getUserCurrentLoggedIn().getRole().getNamaRole());
 
         return "form-create-status-item";
     }
@@ -28,14 +33,12 @@ public class StatusItemController {
     @RequestMapping(value = "/hardware-fulfillment/item/status/create/success", method = RequestMethod.POST)
     public String createItemSubmit(@ModelAttribute StatusItemModel statusItem, Model model) {
         try {
-            System.out.println(statusItem.getNamaStatusItem());
-            System.out.println(statusItem.getIdStatusItem());
-            System.out.println("Begin create");
             statusItemService.createStatusItem(statusItem);
-            System.out.println("End");
             model.addAttribute("status", statusItem);
+            model.addAttribute("role", userService.getUserCurrentLoggedIn().getRole().getNamaRole());
             return "success-create-status";
         } catch (NullPointerException e) {
+            model.addAttribute("role", userService.getUserCurrentLoggedIn().getRole().getNamaRole());
             return "form-create-status-item";
         }
     }
@@ -44,12 +47,7 @@ public class StatusItemController {
     public String viewAllItem(Model model){
         List<StatusItemModel> listAllStatusItem = statusItemService.getListStatusItem();
         model.addAttribute("allStatusItem", listAllStatusItem);
-        System.out.println("All Status");
-        for (StatusItemModel s : listAllStatusItem){
-            System.out.println(s.getNamaStatusItem());
-            System.out.println(s.getIdStatusItem());
-        }
-        System.out.println("End");
+        model.addAttribute("role", userService.getUserCurrentLoggedIn().getRole().getNamaRole());
         return "list-status-item";
     }
 }
