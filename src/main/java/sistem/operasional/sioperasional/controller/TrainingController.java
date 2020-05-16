@@ -32,6 +32,11 @@ public class TrainingController {
     @Autowired
     OutletService outletService;
 
+    @RequestMapping("/hello")
+	public String index() {
+		return "Spring Boot Example!!";
+	}
+
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String createTrainingFormPage(Model model) {
         TrainingModel newTraining = new TrainingModel();
@@ -230,6 +235,47 @@ public class TrainingController {
             return "detail-training";
         }
         return "error/403";
+    }
+
+    @RequestMapping(value = "/{idTraining}", method = RequestMethod.GET)
+    public String DetailTraining(@PathVariable("idTraining") String idTraining, Model model){
+
+        TrainingModel training = trainingService.getTrainingDetail(idTraining);
+
+        System.out.println("Training Detail");
+        System.out.println(training.getBayar());
+        System.out.println("End");
+
+        model.addAttribute("training", training);
+
+        return "training-detail";
+    }
+
+    @RequestMapping(value = "/{idTraining}/{statusTraining}", method = RequestMethod.POST)
+    public String updateTrainingSubmit(@PathVariable String idTraining, @PathVariable String statusTraining, @ModelAttribute TrainingModel trainingModel, Model model) {
+
+        String html = "";
+        if (statusTraining.equals("approve") || statusTraining.equals("reject")){
+            String word = "";
+            if (statusTraining.equals("approve")){
+                word = "Disetujui";
+            } else {
+                word = "Ditolak";
+            }
+            trainingService.updateTraining(trainingModel, word);
+            model.addAttribute("training", trainingModel);
+            model.addAttribute("status", word);
+            System.out.println("Update");
+            System.out.println(trainingModel.getStatusTraining());
+            System.out.println("End");
+            html = "success-update-training";
+            System.out.println(trainingModel.getTrainer());
+            System.out.println(trainingModel.getOutlet());
+        }
+        else {
+            html = "form-approve-training";
+        }
+        return html;
     }
 
 }

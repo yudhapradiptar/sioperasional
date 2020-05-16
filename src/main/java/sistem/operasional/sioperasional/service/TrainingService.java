@@ -11,7 +11,13 @@ public interface TrainingService {
 
     List<TrainingModel> getListTrainingByTrainer(UserModel trainer);
 
+    List<TrainingModel> getTrainingList();
+
     TrainingModel getTrainingByIdTraining(String idTraining);
+
+    TrainingModel getTrainingDetail(String idTraining);
+
+    TrainingModel updateTraining(TrainingModel trainingModel, String status);
 
     void createTraining(TrainingModel training);
 

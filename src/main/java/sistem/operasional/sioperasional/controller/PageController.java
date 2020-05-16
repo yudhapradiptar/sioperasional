@@ -39,6 +39,10 @@ public class PageController {
 
     @RequestMapping("/")
     public String home (@AuthenticationPrincipal UserDetails currentUser, Model model, Authentication auth) {
+        System.out.println("Start");
+        System.out.println(userService.getUserByUsername(currentUser.getUsername()).getRole().getNamaRole());
+        System.out.println("End");
+
         model.addAttribute("role", userService.getUserByUsername(currentUser.getUsername()).getRole().getNamaRole());
         return "homepage-with-card";
     }

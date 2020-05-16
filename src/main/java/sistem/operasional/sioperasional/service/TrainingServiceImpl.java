@@ -6,6 +6,7 @@ import sistem.operasional.sioperasional.model.DeliveryOrderModel;
 import sistem.operasional.sioperasional.model.TrainingModel;
 import sistem.operasional.sioperasional.model.UserModel;
 import sistem.operasional.sioperasional.repository.TrainingDB;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import javax.transaction.Transactional;
 import java.util.Calendar;
@@ -33,8 +34,7 @@ public class TrainingServiceImpl implements TrainingService{
         return trainingDB.findByIdTraining(idTraining).get();
     }
 
-    @Override
-    public void createTraining(TrainingModel training){trainingDB.save(training);}
+    
 
     @Override
     public void deleteTraining(TrainingModel training){trainingDB.delete(training);}
@@ -111,5 +111,50 @@ public class TrainingServiceImpl implements TrainingService{
         String tahunString = Integer.toString(tahun);
         return tanggalString + ' ' + namaBulan + ' ' + tahunString;
     }
+
+    @Qualifier("trainingServiceImpl")
+    @Autowired
+    TrainingService trainingService;
+
+    @Override
+    public void createTraining(TrainingModel trainingModel) {
+        trainingDB.save(trainingModel);
+    }
+
+    @Override
+    public List<TrainingModel> getTrainingList() {
+        return trainingDB.findAll();
+    }
+
+    @Override
+    public TrainingModel getTrainingDetail(String idTraining) {
+        return trainingDB.findByIdTraining(idTraining).get();
+    }
+
+    @Override
+    public TrainingModel updateTraining(TrainingModel trainingModel, String status) {
+        System.out.println("start");
+        TrainingModel newTrainingModel = trainingDB.findByIdTraining(trainingModel.getIdTraining()).get();
+        // System.out.println(newItemModel.getStatusItem());
+        // newItemModel.setRusak(itemModel.isRusak());
+        // itemDB.save(newItemModel);
+        try {
+            // String temp = status;
+            // if (temp.equals("approve")){
+            //     temp = "disetujui";
+            // }
+            // else {
+            //     temp = "ditolak";
+            // }
+            // System.out.println("Temp");
+            // System.out.println(temp);
+            newTrainingModel.setStatusTraining(status);
+            trainingDB.save(newTrainingModel);
+            return newTrainingModel;
+        } catch (NullPointerException nullException) {
+            return null;
+        }
+        // return newItemModel;
+    }    
 
 }

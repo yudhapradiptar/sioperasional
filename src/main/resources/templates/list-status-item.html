@@ -74,7 +74,7 @@
                                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                                 Formulir</div>
                                             <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                                <a th:href="@{/hardware-fulfillment/merek/create}">Buat Status Item</a>
+                                                <a th:href="@{/hardware-fulfillment/item/status/create/}">Buat Status Item</a>
                                             </div>
                                         </div>
                                         <div class="col-auto">
@@ -107,18 +107,12 @@
                                         <tr>
                                             <th>Id Item</th>
                                             <th>Status Item</th>
-                                            <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr th:each="status, iterationStatus : *{allStatusItem}">
                                             <th scope="row" th:text="${iterationStatus.count}"></th>
                                             <td th:text="${status.namaStatusItem}"></td>
-                                            <td>
-                                                <p>Hehe</p>
-                                                <!-- <a class="btn btn-danger" id="delButton" th:href="@{/hardware-fulfillment/kategori/delete(idKategoriItem=${kategori.idKategoriItem})}" role="button"><i class="fa fa-trash-o"></i>
-                                        </a> -->
-                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
