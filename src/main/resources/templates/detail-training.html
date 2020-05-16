@@ -90,12 +90,13 @@
                             </div>
                             <div th:if="${role == 'Operation Manager' && training.statusTraining == 'Menunggu Persetujuan'}">
                                 <div class="row">
+                                    &nbsp;&nbsp;&nbsp;
                                     <form method="POST" th:action="@{'/training/' + ${training.idTraining} + '/approve'}">
                                         <input type="hidden" class="form-control" name="trainer" th:field="*{training.trainer}">
                                         <input type="hidden" class="form-control" name="outlet" th:field="*{training.outlet}">
                                         <button type="submit" name="submit" value="value" class="btn btn-success">Setuju</button>
                                     </form>
-                                    &nbsp;&nbsp;
+                                    &nbsp;&nbsp;&nbsp;
                                     <form method="POST" th:action="@{'/training/' + ${training.idTraining} + '/reject'}">
                                         <input type="hidden" class="form-control" name="trainer" th:field="*{training.trainer}">
                                         <input type="hidden" class="form-control" name="outlet" th:field="*{training.outlet}">

@@ -310,6 +310,7 @@ public class TrainingController {
             daftarTraining = trainingService.getAllTraining();
         }
         model.addAttribute("trainingList", daftarTraining);
+        model.addAttribute("role", userService.getUserByUsername(currentUser.getUsername()).getRole().getNamaRole());
         System.out.println(daftarTraining.size());
         return "view-all-schedule";
     }
