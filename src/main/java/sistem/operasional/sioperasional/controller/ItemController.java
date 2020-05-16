@@ -40,7 +40,7 @@ public class ItemController {
     @Autowired
     JenisItemService jenisItemService;
 
-    @RequestMapping(path = "/{nomorPurchaseOrder}/close", method = RequestMethod.POST)
+    @RequestMapping(path = "/{nomorPurchaseOrder}/close", method = RequestMethod.GET)
     public String addItemFromPO(@PathVariable String nomorPurchaseOrder, @AuthenticationPrincipal UserDetails currentUser, @ModelAttribute ItemModel item, @ModelAttribute ItemPOModel itemPO, Model model){
         PurchaseOrderModel purchaseOrder = purchaseOrderService.getPurchaseOrderByNomorPurchaseOrder(nomorPurchaseOrder);
         if(purchaseOrder.getStatusPO().equals("Open") && purchaseOrder.isDisetujui()){
