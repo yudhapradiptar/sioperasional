@@ -220,7 +220,7 @@
                             </span>
                             &nbsp
                             &nbsp
-                            <span th:if="${purchaseOrder.disetujui == true}">
+                            <span th:if="${purchaseOrder.disetujui == true && purchaseOrder.statusPO == 'Open'}">
                                 <form class="form-horizontal"
                                       th:action="@{/hardware-fulfillment/item/{nomorPO}(nomorPO=${purchaseOrder.nomorPurchaseOrder})/close}"
                                       th:object="${item}"
