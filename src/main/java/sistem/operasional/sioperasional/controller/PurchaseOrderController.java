@@ -116,50 +116,50 @@ public class PurchaseOrderController {
         return "add-purchase-order";
     }
 
-//    @RequestMapping(value = "/add", method = RequestMethod.POST)
-//    public String addPurchaseOrderSubmit(@ModelAttribute PurchaseOrderModel purchaseOrderModel,
-//                                         Model model) {
-//
-//
-//        UserModel user = userService.getUserById("manager");
-////        UserModel user = userService.getUserCurrentLoggedIn();
-//        purchaseOrderModel.setCreator(user);
-//
-//        StatusItemModel status = new StatusItemModel();
-//        Long statusItem = new Long(1);
-//        status.setIdStatusItem(statusItem);
-//        purchaseOrderModel.setStatusPO(status);
-//
-//        List<KategoriItemModel> listKategoriItem = kategoriItemService.getKategoriItemList();
-//        List<JenisItemModel> listJenis = jenisItemService.getJenisItemList();
-//        String nomorPurchaseOrder = purchaseOrderModel.getNomorPurchaseOrder();
-//
-//        List<PurchaseOrderModel> purchaseOrderModels = purchaseOrderService.getAll();
-//        for (PurchaseOrderModel po:purchaseOrderModels) {
-//            if (po.getNomorPurchaseOrder().equals(purchaseOrderModel.getNomorPurchaseOrder())) {
-//                String nomorPO = purchaseOrderModel.getNomorPurchaseOrder();
-//                model.addAttribute("nomorPO", nomorPO);
-//                return "purchase-order-already-exist";
-//            }
-//        }
-//
-//        purchaseOrderService.addPurchaseOrder(purchaseOrderModel);
-//
-//        ItemPOModel itemPOModel = new ItemPOModel();
-//        PurchaseOrderModel purchaseOrderModel1 = purchaseOrderService.getPurchaseOrderByNomorPurchaseOrder(nomorPurchaseOrder);
-//
-//        ArrayList<ItemPOModel> itemPO = new ArrayList<>();
-//        itemPO.add(itemPOModel);
-//        purchaseOrderModel1.setListItemPO(itemPO);
-//        itemPOModel.setPurchaseOrder(purchaseOrderModel1);
-//
-//        model.addAttribute("itemPO", itemPOModel);
-//        model.addAttribute("nomorPO", nomorPurchaseOrder);
-//        model.addAttribute("listJenisItem", listJenis);
-//        model.addAttribute("listKategoriItem", listKategoriItem);
-//        model.addAttribute("purchaseOrder", purchaseOrderModel1);
-//        return "form-add-item-purchase-order";
-//    }
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    public String addPurchaseOrderSubmit(@ModelAttribute PurchaseOrderModel purchaseOrderModel,
+                                         Model model) {
+
+
+        UserModel user = userService.getUserById("manager");
+//        UserModel user = userService.getUserCurrentLoggedIn();
+        purchaseOrderModel.setCreator(user);
+
+        StatusItemModel status = new StatusItemModel();
+        Long statusItem = new Long(1);
+        status.setIdStatusItem(statusItem);
+        purchaseOrderModel.setStatusPO(status);
+
+        List<KategoriItemModel> listKategoriItem = kategoriItemService.getKategoriItemList();
+        List<JenisItemModel> listJenis = jenisItemService.getJenisItemList();
+        String nomorPurchaseOrder = purchaseOrderModel.getNomorPurchaseOrder();
+
+        List<PurchaseOrderModel> purchaseOrderModels = purchaseOrderService.getAll();
+        for (PurchaseOrderModel po:purchaseOrderModels) {
+            if (po.getNomorPurchaseOrder().equals(purchaseOrderModel.getNomorPurchaseOrder())) {
+                String nomorPO = purchaseOrderModel.getNomorPurchaseOrder();
+                model.addAttribute("nomorPO", nomorPO);
+                return "purchase-order-already-exist";
+            }
+        }
+
+        purchaseOrderService.addPurchaseOrder(purchaseOrderModel);
+
+        ItemPOModel itemPOModel = new ItemPOModel();
+        PurchaseOrderModel purchaseOrderModel1 = purchaseOrderService.getPurchaseOrderByNomorPurchaseOrder(nomorPurchaseOrder);
+
+        ArrayList<ItemPOModel> itemPO = new ArrayList<>();
+        itemPO.add(itemPOModel);
+        purchaseOrderModel1.setListItemPO(itemPO);
+        itemPOModel.setPurchaseOrder(purchaseOrderModel1);
+
+        model.addAttribute("itemPO", itemPOModel);
+        model.addAttribute("nomorPO", nomorPurchaseOrder);
+        model.addAttribute("listJenisItem", listJenis);
+        model.addAttribute("listKategoriItem", listKategoriItem);
+        model.addAttribute("purchaseOrder", purchaseOrderModel1);
+        return "form-add-item-purchase-order";
+    }
 
         @RequestMapping(value = "/approve/{nomorPurchaseOrder}", method = RequestMethod.POST)
     public String approvePurchaseOrder(@PathVariable("nomorPurchaseOrder") String nomorPurchaseOrder, @ModelAttribute PurchaseOrderModel purchaseOrderModel){
