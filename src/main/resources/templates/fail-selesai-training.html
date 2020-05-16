@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Add User Success</title>
+    <title>Training</title>
 
     <!-- Custom fonts for this template-->
     <link rel="stylesheet" th:href="@{/vendor/fontawesome-free/css/all.min.css}" type="text/css">
@@ -51,16 +51,17 @@
             <div class="container-fluid">
                 <div class="card shadow mb-4 text-center">
                     <div class="card-header py-3">
-                        <h3 class="m-0 font-weight-bold">Berhasil!</h3>
+                        <h3 class="m-0 font-weight-bold">Gagal!</h3>
                     </div>
                     <br>
                     <div class="card-body">
-                        <p th:text="'User dengan nama ' + ${userbaru.nama}  + ' berhasil dibuat'"></p>
+                        <p>Training yang belum disetujui Manager atau belum Selesai tidak dapat diselesaikan</p>
                     </div>
                 </div>
             </div>
             <div class="container-fluid">
-                <a th:href="@{/account/user-list}" class="btn btn-warning btn-block">Kembali</a>
+                <a th:href="@{/training/schedule}" class="btn btn-info btn-block">Lihat Jadwal Training</a>
+                <a th:href="@{/training/view/} + ${idTraining}" class="btn btn-warning btn-block">Kembali</a>
             </div>
 
         </div>

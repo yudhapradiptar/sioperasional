@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Add User Success</title>
+    <title>Training</title>
 
     <!-- Custom fonts for this template-->
     <link rel="stylesheet" th:href="@{/vendor/fontawesome-free/css/all.min.css}" type="text/css">
@@ -55,12 +55,17 @@
                     </div>
                     <br>
                     <div class="card-body">
-                        <p th:text="'User dengan nama ' + ${userbaru.nama}  + ' berhasil dibuat'"></p>
+                        <p>Training Berhasil Dibuat</p>
+                        <p th:text="'ID Training: ' + ${idTraining}"></p>
+                        <p th:text="'Trainer: ' + ${namaTrainer}"></p>
+                        <p th:text="'Outlet: ' + ${namaOutlet}"></p>
                     </div>
                 </div>
             </div>
             <div class="container-fluid">
-                <a th:href="@{/account/user-list}" class="btn btn-warning btn-block">Kembali</a>
+                <a th:href="@{/training/schedule}" class="btn btn-info btn-block">Lihat Jadwal Training</a>
+                <a th:href="@{/training/view/} + ${idTraining}" class="btn btn-info btn-block">Lihat Detail Training</a>
+                <a th:href="@{/training/create}" class="btn btn-warning btn-block">Kembali</a>
             </div>
 
         </div>

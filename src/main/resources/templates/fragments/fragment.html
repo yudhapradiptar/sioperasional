@@ -10,6 +10,7 @@
             rel="stylesheet" type="text/css">
 
         <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+        <link rel="stylesheet" th:href="@{/css/sb-admin-2.min.css}">
         <link rel="stylesheet" th:href="@{/css/landing-page.min.css}">
         <link rel="stylesheet" th:href="@{/vendor/bootstrap/css/bootstrap.min.css}">
         <link rel="stylesheet" th:href="@{/vendor/fontawesome-free/css/all.min.css}">
@@ -98,7 +99,8 @@
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">Menu Delivery Order:</h6>
                     <a class="collapse-item" th:href="@{/delivery-order/}">Daftar Delivery Order</a>
-                    <a class="collapse-item" th:href="@{/delivery-order/add}">Buat Delivery Order</a>
+                    <a class="collapse-item" th:href="@{/delivery-order/add}">Tambah DO</a>
+                    <a class="collapse-item" th:href="@{/delivery-order/addwithtxt}">Tambah DO dengan File</a>
 
                 </div>
             </div>
@@ -146,7 +148,7 @@
         <li class="nav-item">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
                 aria-expanded="true" aria-controls="collapsePages">
-                <i class="fas fa-fw fa-book"></i>
+                <i class="fas fa-fw fa-chart-area"></i>
                 <span>Dashboard</span>
             </a>
             <div id="collapsePages" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
@@ -155,6 +157,22 @@
                     <a class="collapse-item" th:href="@{/dashboard/customer-feedback}">Customer Feedback</a>
                     <a class="collapse-item" th:href="@{/dashboard/training}">Training</a>
                     <a class="collapse-item" th:href="@{/dashboard/trainer}">Trainer</a>
+                </div>
+            </div>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTraining"
+               aria-expanded="true" aria-controls="collapseTraining">
+                <i class="fas fa-fw fa-building"></i>
+                <span>On Site Training</span>
+            </a>
+            <div id="collapseTraining" class="collapse" aria-labelledby="headingTraining" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Training:</h6>
+                    <a class="collapse-item" th:href="@{/training/create}">Buat Training</a>
+                    <a class="collapse-item" th:href="@{/training/schedule}">Jadwal Training</a>
+
                 </div>
             </div>
         </li>
@@ -172,7 +190,7 @@
                     <h6 class="collapse-header">Dashboard:</h6>
                     <a class="collapse-item" th:href="@{/outlet/}">Outlet</a>
                     <a class="collapse-item" th:href="@{/vendor/}">Vendor</a>
-                    <a class="collapse-item" th:href="@{/#}">settings 2</a>
+                    <a class="collapse-item" th:href="@{/hardware-fulfillment/item/status/all}">Status Item</a>
                 </div>
             </div>
         </li>
@@ -216,19 +234,19 @@
         </button>
 
         <!-- Topbar Search -->
-        <div class="input-group">
-            <form th:action="@{/}" method="GET"
-                class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                <div class="input-group">
-                    <input type="text" name="nama" class="form-control form-control-lg"
-                        placeholder="Kalau mau cari-cari tapi masih kosong" aria-label="Search"
-                        aria-describedby="basic-addon2">
-                    <div class="input-group-append">
-                        <button type="submit" class="btn btn-dark">Cari!</button>
-                    </div>
-                </div>
-            </form>
-        </div>
+<!--        <div class="input-group">-->
+<!--            <form th:action="@{/}" method="GET"-->
+<!--                class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">-->
+<!--                <div class="input-group">-->
+<!--                    <input type="text" name="nama" class="form-control form-control-lg"-->
+<!--                        placeholder="Kalau mau cari-cari tapi masih kosong" aria-label="Search"-->
+<!--                        aria-describedby="basic-addon2">-->
+<!--                    <div class="input-group-append">-->
+<!--                        <button type="submit" class="btn btn-dark">Cari!</button>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </form>-->
+<!--        </div>-->
 
         <!-- Topbar Navbar -->
         <ul class="navbar-nav ml-auto">

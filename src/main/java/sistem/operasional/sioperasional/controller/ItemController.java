@@ -40,6 +40,9 @@ public class ItemController {
     @Autowired
     JenisItemService jenisItemService;
 
+    @Autowired
+    UserService userService;
+
     @RequestMapping(path = "/{nomorPurchaseOrder}/close", method = RequestMethod.GET)
     public String addItemFromPO(@PathVariable String nomorPurchaseOrder, @AuthenticationPrincipal UserDetails currentUser, @ModelAttribute ItemModel item, @ModelAttribute ItemPOModel itemPO, Model model){
         PurchaseOrderModel purchaseOrder = purchaseOrderService.getPurchaseOrderByNomorPurchaseOrder(nomorPurchaseOrder);
@@ -70,7 +73,7 @@ public class ItemController {
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)
-    public String createItemFormPage(Model model) {
+    public String createItemFormPage(@AuthenticationPrincipal UserDetails currentUser, Model model) {
         ItemModel newItem = new ItemModel();
         List<KategoriItemModel> listKategori = kategoriItemService.getKategoriItemList();
         List<JenisItemModel> listJenis = jenisItemService.getJenisItemList();
@@ -79,12 +82,13 @@ public class ItemController {
         model.addAttribute("listKategori", listKategori);
         model.addAttribute("listJenis", listJenis);
         model.addAttribute("listStatus", listStatus);
+        model.addAttribute("role", userService.getUserByUsername(currentUser.getUsername()).getRole().getNamaRole());
 
         return "form-create-item";
     }
 
     @RequestMapping(value = "", method = RequestMethod.POST)
-    public String createItemSubmit(@ModelAttribute ItemModel item, Model model) {
+    public String createItemSubmit(@ModelAttribute ItemModel item, @AuthenticationPrincipal UserDetails currentUser, Model model) {
         try {
             item.setRusak(false);
             itemService.createItem(item);
@@ -92,6 +96,7 @@ public class ItemController {
             model.addAttribute("kategoriItem", item.getKategoriItem().getNamaKategoriItem());
             model.addAttribute("jenisItem", item.getJenisItem().getNamaJenisItem());
             model.addAttribute("idItem", item.getIdItem());
+            model.addAttribute("role", userService.getUserByUsername(currentUser.getUsername()).getRole().getNamaRole());
             return "success-create-item";
         } catch (NullPointerException e) {
             return "form-create-item";
@@ -99,14 +104,15 @@ public class ItemController {
     }
 
     @RequestMapping(value = "/all", method = RequestMethod.GET)
-    public String viewAllItem(Model model){
+    public String viewAllItem(@AuthenticationPrincipal UserDetails currentUser, Model model){
         List<ItemModel> listAllItem = itemService.getItemList();
         model.addAttribute("listAllItem", listAllItem);
+        model.addAttribute("role", userService.getUserByUsername(currentUser.getUsername()).getRole().getNamaRole());
         return "list-item";
     }
 
     @RequestMapping(value = "/update/{idItem}", method = RequestMethod.GET)
-    public String UpdateStatusItem(@PathVariable("idItem") String idItem, Model model){
+    public String UpdateStatusItem(@PathVariable("idItem") String idItem, @AuthenticationPrincipal UserDetails currentUser, Model model){
         ItemModel item = itemService.getItemDetailByIdItem(Long.parseLong(idItem));
         List<StatusItemModel> statusItem = statusItemService.getListStatusItem();
         ItemModel itemDetail = item;
@@ -116,14 +122,16 @@ public class ItemController {
 
         model.addAttribute("item", itemDetail);
         model.addAttribute("allStatusItem", statusItem);
+        model.addAttribute("role", userService.getUserByUsername(currentUser.getUsername()).getRole().getNamaRole());
 
         return "status-item-isRusak";
     }
 
     @RequestMapping(value = "/update/{idItem}/success", method = RequestMethod.POST)
-    public String updateStatusItemSubmit(@PathVariable String idItem, @ModelAttribute ItemModel itemModel, Model model) {
+    public String updateStatusItemSubmit(@PathVariable String idItem, @ModelAttribute ItemModel itemModel, @AuthenticationPrincipal UserDetails currentUser, Model model) {
 
         itemService.updateStatusItem(itemModel);
+        model.addAttribute("role", userService.getUserByUsername(currentUser.getUsername()).getRole().getNamaRole());
 
         return "redirect:/hardware-fulfillment/item/all";
     }
