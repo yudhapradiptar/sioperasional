@@ -65,9 +65,15 @@
                         <p th:text="'Waktu Selesai Training : ' + ${training.waktuSelesai}"></p>
                         <p th:text="'Creator : ' + ${training.creator.nama}"></p>
                         <p th:text="'Trainer : ' + ${training.trainer.nama}"></p>
-                        <p th:text="'Outlet : ' + ${training.outlet.namaOutlet}"></p>
+                        <div class="row">
+                            &nbsp; &nbsp;
+                            <p th:text="'Outlet : '"></p>&nbsp;<a th:href="@{/outlet/detail/} + ${training.outlet.idOutlet}" th:text="${training.outlet.namaOutlet}"></a>
+                        </div>
                         <div>
-                            <p th:if="${training.statusTraining == 'Selesai'}" th:text="'Link Feedback : /customer-feedback/' + ${training.idTraining}" id="linkFeedback"></p>
+                            <div th:if="${training.statusTraining == 'Selesai'}" class="row">
+                                &nbsp; &nbsp;
+                                <p th:text="'Link Feedback : '"></p>&nbsp;<a th:href="@{/customer-feedback/} + ${training.idTraining}" th:text="'/customer-feedback/' + ${training.idTraining}"></a>
+                            </div>
                             <p th:unless="${training.statusTraining == 'Selesai'}" id="">Link Feedback : </p>
                         </div>
                         <div>
@@ -79,10 +85,10 @@
                                 <a type="button" class="btn btn-primary" th:href="@{/training/edit/} + ${training.idTraining}">Edit</a>
                                 <a type="button" class="btn btn-danger" th:href="@{/training/delete/} + ${training.idTraining} + @{/confirmation}">Hapus</a>
                             </div>
-                            <div th:if="${role == 'Operation Staff'}">
-                                <a type="button" class="btn btn-warning">Selesai</a>
+                            <div th:if="${role == 'Operation Staff' && training.statusTraining == 'Disetujui'}">
+                                <a type="button" th:href="@{/training/view/} + ${training.idTraining} + @{/selesai}" class="btn btn-warning">Selesai</a>
                             </div>
-                            <div th:if="${role == 'Operation Manager'}">
+                            <div th:if="${role == 'Operation Manager' && training.statusTraining == 'Menunggu Persetujuan'}">
                                 <a type="button" class="btn btn-warning">Setuju</a>
                             </div>
                         </div>  

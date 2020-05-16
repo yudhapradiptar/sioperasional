@@ -1,5 +1,6 @@
 package sistem.operasional.sioperasional.controller;
 
+import jdk.jshell.Snippet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -39,35 +40,40 @@ public class ItemController {
     @Autowired
     JenisItemService jenisItemService;
 
-    @RequestMapping(path = "/{nomorPurchaseOrder}/close", method = RequestMethod.POST)
-    public String addItemFromPO(@PathVariable String nomorPurchaseOrder, @ModelAttribute ItemModel item, @ModelAttribute ItemPOModel itemPO, Model model){
+    @Autowired
+    UserService userService;
+
+    @RequestMapping(path = "/{nomorPurchaseOrder}/close", method = RequestMethod.GET)
+    public String addItemFromPO(@PathVariable String nomorPurchaseOrder, @AuthenticationPrincipal UserDetails currentUser, @ModelAttribute ItemModel item, @ModelAttribute ItemPOModel itemPO, Model model){
         PurchaseOrderModel purchaseOrder = purchaseOrderService.getPurchaseOrderByNomorPurchaseOrder(nomorPurchaseOrder);
-        List<ItemPOModel> listOfItemPOByPurchaseOrder = itemPOService.getItemPObyPurchaseOrder(purchaseOrder);
-        for(ItemPOModel itemPOCreated : listOfItemPOByPurchaseOrder){
-            for(int j=0; j<itemPOCreated.getJumlahItem(); j++){
-                ItemModel itemModel = new ItemModel();
-                itemModel.setRusak(false);
-                itemModel.setTanggalDatang(new Date());
-                itemModel.setKategoriItem(itemPOCreated.getKategoriItem());
-                itemModel.setJenisItem(itemPOCreated.getJenisItem());
-                itemModel.setPurchaseOrder(itemPOCreated.getPurchaseOrder());
-                itemModel.setStatusItem(statusItemService.getStatusItemByIdStatusItem(Long.valueOf(1)));
-                itemService.createItem(itemModel);
+        if(purchaseOrder.getStatusPO().equals("Open") && purchaseOrder.isDisetujui()){
+            List<ItemPOModel> listOfItemPOByPurchaseOrder = itemPOService.getItemPObyPurchaseOrder(purchaseOrder);
+            for(ItemPOModel itemPOCreated : listOfItemPOByPurchaseOrder){
+                for(int j=0; j<itemPOCreated.getJumlahItem(); j++){
+                    ItemModel itemModel = new ItemModel();
+                    itemModel.setRusak(false);
+                    itemModel.setTanggalDatang(new Date());
+                    itemModel.setKategoriItem(itemPOCreated.getKategoriItem());
+                    itemModel.setJenisItem(itemPOCreated.getJenisItem());
+                    itemModel.setPurchaseOrder(itemPOCreated.getPurchaseOrder());
+                    itemModel.setStatusItem(statusItemService.getStatusItemByIdStatusItem(Long.valueOf(1)));
+                    itemService.createItem(itemModel);
+                }
             }
+            purchaseOrder.setStatusPO("Closed");
+            purchaseOrder.setTanggalClose(new Date());
+//            purchaseOrderService.addPurchaseOrder(purchaseOrder);
+            model.addAttribute("purchaseOrder", purchaseOrder);
+            model.addAttribute("listItem", purchaseOrder.getListitem());
+            model.addAttribute("role", userService.getUserByUsername(currentUser.getUsername()).getRole().getNamaRole());
+            return "success-close-po";
         }
-        /***
-         * setStatusPO harusnya parameternya bukan string, tapi objek statusItemModel.
-         * jadi harus didefine dulu status "Closed" itu IDnya berapa, objeknya harus dibuat dulu
-         */
-//        purchaseOrder.setStatusPO("Closed");
-        purchaseOrderService.addPurchaseOrder(purchaseOrder);
-        model.addAttribute("purchaseOrder", purchaseOrder);
-        model.addAttribute("listItem", purchaseOrder.getListitem());
-        return "success-close-po";
+        model.addAttribute("nomorpo", purchaseOrder.getNomorPurchaseOrder());
+        return "fail-close-po";
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)
-    public String createItemFormPage(Model model) {
+    public String createItemFormPage(@AuthenticationPrincipal UserDetails currentUser, Model model) {
         ItemModel newItem = new ItemModel();
         List<KategoriItemModel> listKategori = kategoriItemService.getKategoriItemList();
         List<JenisItemModel> listJenis = jenisItemService.getJenisItemList();
@@ -76,12 +82,13 @@ public class ItemController {
         model.addAttribute("listKategori", listKategori);
         model.addAttribute("listJenis", listJenis);
         model.addAttribute("listStatus", listStatus);
+        model.addAttribute("role", userService.getUserByUsername(currentUser.getUsername()).getRole().getNamaRole());
 
         return "form-create-item";
     }
 
     @RequestMapping(value = "", method = RequestMethod.POST)
-    public String createItemSubmit(@ModelAttribute ItemModel item, Model model) {
+    public String createItemSubmit(@ModelAttribute ItemModel item, @AuthenticationPrincipal UserDetails currentUser, Model model) {
         try {
             item.setRusak(false);
             itemService.createItem(item);
@@ -89,6 +96,7 @@ public class ItemController {
             model.addAttribute("kategoriItem", item.getKategoriItem().getNamaKategoriItem());
             model.addAttribute("jenisItem", item.getJenisItem().getNamaJenisItem());
             model.addAttribute("idItem", item.getIdItem());
+            model.addAttribute("role", userService.getUserByUsername(currentUser.getUsername()).getRole().getNamaRole());
             return "success-create-item";
         } catch (NullPointerException e) {
             return "form-create-item";
@@ -96,9 +104,10 @@ public class ItemController {
     }
 
     @RequestMapping(value = "/all", method = RequestMethod.GET)
-    public String viewAllItem(Model model){
+    public String viewAllItem(@AuthenticationPrincipal UserDetails currentUser, Model model){
         List<ItemModel> listAllItem = itemService.getItemList();
         model.addAttribute("listAllItem", listAllItem);
+        model.addAttribute("role", userService.getUserByUsername(currentUser.getUsername()).getRole().getNamaRole());
         return "list-item";
     }
 
@@ -117,14 +126,16 @@ public class ItemController {
 
         //model.addAttribute("item", itemDetail);
         model.addAttribute("allStatusItem", statusItem);
+        model.addAttribute("role", userService.getUserByUsername(currentUser.getUsername()).getRole().getNamaRole());
 
         return "status-item-isRusak";
     }
 
     @RequestMapping(value = "/update/{idItem}/success", method = RequestMethod.POST)
-    public String updateStatusItemSubmit(@PathVariable String idItem, @ModelAttribute ItemModel itemModel, Model model) {
+    public String updateStatusItemSubmit(@PathVariable String idItem, @ModelAttribute ItemModel itemModel, @AuthenticationPrincipal UserDetails currentUser, Model model) {
 
         itemService.updateStatusItem(itemModel);
+        model.addAttribute("role", userService.getUserByUsername(currentUser.getUsername()).getRole().getNamaRole());
 
         return "redirect:/hardware-fulfillment/item/all";
     }

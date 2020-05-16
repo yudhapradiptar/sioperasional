@@ -14,8 +14,6 @@ public interface ItemService {
 
     List<ItemModel> getItemList();
 
-    List<ItemModel> geItemListByTanggalKeluarNull();
-
     List<ItemModel> getItemListByKategoriItem(KategoriItemModel kategoriItemModel);
 
     ItemModel getItemDetailByIdItem(Long idItem);

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
 
@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Confirmation Page</title>
+    <title>Purchase Order</title>
 
     <!-- Custom fonts for this template-->
     <link rel="stylesheet" th:href="@{/vendor/fontawesome-free/css/all.min.css}" type="text/css">
@@ -51,44 +51,17 @@
             <div class="container-fluid">
                 <div class="card shadow mb-4 text-center">
                     <div class="card-header py-3">
-                        <h3 class="m-0 font-weight-bold" >Berhasil!</h3>
+                        <h3 class="m-0 font-weight-bold">Gagal!</h3>
                     </div>
                     <br>
-
-
                     <div class="card-body">
-                        <span th:text="'Purchase order dengan nomor'"/>
-                        <h2><strong th:text="${purchaseOrder.nomorPurchaseOrder}"/></h2>
-                        <p th:text="'berhasil dibuat untuk vendor'"></p>
-                        <h2><strong th:text="${namaVendor}"/></h2>
-                        <br>
-                        <span th:text="'Detail item pada purchase order ini'"/>
-                        <span>
-                            <table border="I" class="table-bordered table-striped text-center" style="border:1px solid black;margin-left:auto;margin-right:auto;">
-                            <thead>
-                            <tr>
-                                <th style="text-align: center">No.</th>
-                                <th style="text-align: center">Kategori Item</th>
-                                <th style="text-align: center">Jenis Item</th>
-                                <th style="text-align: center">Jumlah Item</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr th:each="itemPO, iterationStatus : *{listItemPO}">
-                                <td th:text="${iterationStatus.count}"></td>
-                                <td th:text="${itemPO.kategoriItem.namaKategoriItem}"></td>
-                                <td th:text="${itemPO.jenisItem.namaJenisItem}"></td>
-                                <td th:text="${itemPO.jumlahItem}"></td>
-                            </tr>
-                            </tbody>
-                        </table>
-                        </span>
-                        </div>
+                        <p>Purchase Order belum disetujui atau sudah ditutup</p>
+                    </div>
                 </div>
             </div>
             <div class="container-fluid">
-<!--                <a th:href="@{/delivery-order/detail/} + ${deliveryOrder.nomorDeliveryOrder}" class="btn btn-info btn-block">Lihat Detail</a>-->
-                <a th:href="@{/purchase-order/}" class="btn btn-warning btn-block">Kembali ke Daftar Purchase Order</a>
+                <a th:href="@{/purchase-order/}" class="btn btn-info btn-block">Lihat Semua Purchase Order</a>
+                <a th:href="@{/purchase-order/detail/} + ${nomorpo}" class="btn btn-warning btn-block">Kembali</a>
             </div>
 
         </div>

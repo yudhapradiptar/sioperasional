@@ -9,35 +9,42 @@ import sistem.operasional.sioperasional.repository.TrainingDB;
 import org.springframework.beans.factory.annotation.Qualifier;
 
 import javax.transaction.Transactional;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 @Service
 @Transactional
-public class TrainingServiceImpl implements TrainingService{
+public class TrainingServiceImpl implements TrainingService {
     @Autowired
     TrainingDB trainingDB;
 
     @Override
-    public List<TrainingModel> getAllTraining(){
+    public List<TrainingModel> getAllTraining() {
         return trainingDB.findAll();
     }
 
     @Override
-    public List<TrainingModel> getListTrainingByTrainer(UserModel trainer){
+    public List<TrainingModel> getListTrainingByTrainer(UserModel trainer) {
         return trainingDB.findByTrainer(trainer);
     }
 
     @Override
-    public TrainingModel getTrainingByIdTraining(String idTraining){
+    public TrainingModel getTrainingByIdTraining(String idTraining) {
         return trainingDB.findByIdTraining(idTraining).get();
     }
-
     
 
     @Override
-    public void deleteTraining(TrainingModel training){trainingDB.delete(training);}
+    public void deleteTraining(TrainingModel training) {
+        trainingDB.delete(training);
+    }
 
     @Override
     public TrainingModel editTraining(TrainingModel training) {
@@ -62,7 +69,7 @@ public class TrainingServiceImpl implements TrainingService{
     }
 
     @Override
-    public String tanggalFormat(Date tanggal){
+    public String tanggalFormat(Date tanggal) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(tanggal);
         int tanggalToInt = calendar.get(Calendar.DATE);
@@ -156,5 +163,25 @@ public class TrainingServiceImpl implements TrainingService{
         }
         // return newItemModel;
     }    
+
+    @Override
+    public List<TrainingModel> getListTrainingByTrainerAndToday(String idUser, String todaysDate) {
+        List<TrainingModel> listTrainingToday = new ArrayList<>();
+        String date = DateTimeFormatter.ofPattern("yyyy-MM-dd 00:00:00").format(LocalDateTime.now());
+        String pattern = "yyyy-MM-dd 00:00:00";
+        DateFormat df = new SimpleDateFormat(pattern);
+        for(TrainingModel trainingModel : getAllTraining()){
+            String tanggalTraining = df.format(trainingModel.getTanggalTraining());
+            if(trainingModel.getTrainer().getId().equals(idUser) && tanggalTraining.equals(todaysDate)){
+                listTrainingToday.add(trainingModel);
+            }
+        }
+        return listTrainingToday;
+    }
+
+    @Override
+    public List<TrainingModel> getAllTrainingByStatusTraining(String string) {
+        return trainingDB.findAllByStatusTraining(string);
+    }
 
 }

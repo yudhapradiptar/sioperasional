@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 /*!
  * Chart.js v2.8.0
  * https://www.chartjs.org
@@ -803,7 +802,6 @@ Converter.prototype.getValues = function(space) {
 
 var colorConvert = convert;
 
-=======
 /*!
  * Chart.js v2.8.0
  * https://www.chartjs.org
@@ -1608,7 +1606,6 @@ Converter.prototype.getValues = function(space) {
 
 var colorConvert = convert;
 
->>>>>>> 88d0336aec5b3b3d8b216e9eec3e35c6957350ca
 var colorName = {
 	"aliceblue": [240, 248, 255],
 	"antiquewhite": [250, 235, 215],
@@ -1758,7 +1755,6 @@ var colorName = {
 	"whitesmoke": [245, 245, 245],
 	"yellow": [255, 255, 0],
 	"yellowgreen": [154, 205, 50]
-<<<<<<< HEAD
 };
 
 /* MIT license */
@@ -15486,8 +15482,6 @@ core_controller.helpers.each(
 return src;
 
 })));
-=======
-};
 
 /* MIT license */
 
@@ -29214,4 +29208,3 @@ core_controller.helpers.each(
 return src;
 
 })));
->>>>>>> 88d0336aec5b3b3d8b216e9eec3e35c6957350ca

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
 
@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>List DO</title>
+    <title>List PO</title>
 
     <!-- Custom fonts for this template-->
     <link rel="stylesheet" th:href="@{/vendor/fontawesome-free/css/all.min.css}" type="text/css">
@@ -43,7 +43,9 @@
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
     <script type="text/javascript">
         $(document).ready( function () {
-            $('#datatable').dataTable();
+            $('#datatable').DataTable({
+                "scrollX": true
+            });
         } );
     </script>
 
@@ -126,8 +128,8 @@
 
                                 </tr>
                                 </thead>
-                                <tbody th:each="PO, iterationStatus : ${listPO}">
-                                <tr>
+                                <tbody>
+                                <tr th:each="PO, iterationStatus : ${listPO}">
                                     <th scope="row" th:text="${iterationStatus.count}"></th>
                                     <td th:text="${PO.nomorPurchaseOrder}"></td>
                                     <td th:text="${PO.nomorInvoice}"></td>
@@ -136,29 +138,17 @@
                                     <td th:text="${#dates.format(PO.tanggalOpen, 'dd MMMM, yyyy')}"></td>
                                     <td th:text="${#dates.format(PO.tanggalBayar, 'dd MMMM, yyyy')}"></td>
                                     <td th:text="${#dates.format(PO.tanggalClose, 'dd MMMM, yyyy')}"></td>
-                                    <td th:text="${PO.statusPO.namaStatusItem}"></td>
-                                    <td th:text="${PO.disetujui}"></td>
-                                    <td>
-                                        <span th:if="${PO.disetujui == false}">
-                                            <form class="form-horizontal" th:action="@{/purchase-order/approve/{nomorPurchaseOrder}(nomorPurchaseOrder=${PO.nomorPurchaseOrder})}" th:object="${PO}"
-                                                  th:method="POST">
-                                            <button class="btn btn-info text-white">
-                                                <span class="text-white-50">
-                                                    <i class="fas fa-check"></i>
-                                                </span>
-                                                    <span class="text" type="submit">Accept PO</span>
-                                            </button>
-                                            </form>
+                                    <td th:text="${PO.statusPO}"></td>
+                                    <td align="center">
+                                        <span th:if="${PO.disetujui == true}">
+                                            <i class="fas fa-check"  style="font-size:30px;"></i>
                                         </span>
-                                        <form class="form-horizontal" th:action="@{/hardware-fulfillment/{nomorPO}(nomorPO=${purchaseOrder.nomorPurchaseOrder})/close}"
-                                              th:object="${item}" method="POST">
-                                            <button class="btn btn-danger text-white">
-                                                <span class="text-white-50">
-                                                    <i class="fas fa-check"></i>
-                                                </span>
-                                                <span class="text" type="submit">Close PO</span>
-                                            </button>
-                                        </form>
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-info text-white"
+                                           th:href="@{/purchase-order/detail/{nomorPurchaseOrder}(nomorPurchaseOrder=${PO.nomorPurchaseOrder})}"
+                                           role="button">Detail
+                                        </a>
                                     </td>
                                 </tr>
                                 </tbody>

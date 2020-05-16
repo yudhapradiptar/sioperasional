@@ -1,0 +1,149 @@
+<!-- <html xmlns:th="https://www.thymeleaf.org">
+<body>
+
+	<div th:if="${message}">
+		<h2 th:text="${message}"/>
+	</div>
+
+	<div>
+		<form method="POST" enctype="multipart/form-data" action="/delivery-order/addwithtxt">
+			<table>
+				<tr><td>File to upload:</td><td><input type="file" name="file" /></td></tr>
+				<tr><td></td><td><input type="submit" value="Upload" /></td></tr>
+			</table>
+		</form>
+	</div>
+
+</body>
+</html> -->
+
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="">
+	<meta name="author" content="">
+
+	<title>Tambah DO</title>
+
+	<link rel="stylesheet" th:href="@{/vendor/fontawesome-free/css/all.min.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/css/sb-admin-2.min.css}">
+
+	<object th:include="fragments/fragment :: css-dev" th:remove="tag"></object>
+	<object th:include="fragments/fragment :: js-dev" th:remove="tag"></object>
+
+	<link
+		href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+		rel="stylesheet">
+
+	<link rel="stylesheet" th:href="@{/vendor/datatables/dataTables.bootstrap4.min.css}">
+
+	<script th:src="@{/vendor/datatables/jquery.dataTables.min.js}"></script>
+	<script th:src="@{/vendor/datatables/dataTables.bootstrap4.min.js}"></script>
+
+</head>
+
+<body id="page-top">
+
+	<div id="wrapper">
+
+		<ul th:replace="fragments/fragment :: sidebar"></ul>
+
+		<div id="content-wrapper" class="d-flex flex-column">
+
+			<div id="content">
+
+				<nav th:replace="fragments/fragment :: navbar"></nav>
+
+				<div class="container-fluid">
+					<div class="card shadow mb-4">
+						<div class="card-header py-3">
+							<h3 class="m-0 font-weight-bold">Add Delivery Order</h3>
+						</div>
+						<br>
+						<div class="card-body">
+							<table class="table tab-content" text-align="center">
+								<form class="form-horizontal" th:action="@{/delivery-order/addwithtxt}"
+									enctype="multipart/form-data" th:object="${deliveryOrder}" method="POST">
+
+									<div class="form-group">
+										<label class="control-label col-sm-2">Status Bundling</label>
+										<div class="col-sm-10">
+											<select class="form-control" th:field="*{subscribed}">
+												<option value="1">Ya</option>
+												<option value="0">Tidak</option>
+											</select>
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label col-sm-2">Nama Outlet</label>
+										<div class="control-label col-sm-10">
+											<select class="form-control" name="outlet" th:field="*{outlet.idOutlet}"
+												required="true">
+												<option value="0">-- Pilih outlet --</option>
+												<option th:each="outlet : ${listOutlet}" th:value="${{outlet.idOutlet}}"
+													th:text="${outlet.namaOutlet}"></option>
+											</select>
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label col-sm-2">Daftar Item</label>
+										<div class="control-label col-sm-10">
+											<u th:each="item : ${listItem}">
+												<input type="checkbox" th:field="*{listItem}"
+													th:value="${item.idItem}" />
+												<label th:for="${#ids.prev('listItem')}" 
+												th:text="${item.kategoriItem.namaKategoriItem} + '_' + ${item.jenisItem.namaJenisItem} + '_' + ${item.idItem}"></label>
+												<br>
+											</u>
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label col-sm-12">Masukan File .TXT*</label>
+										<a  href="https://pdftotext.com/" target="_blank"><small class="col-sm-12">ubah pdf menjadi txt</small></a>
+										<div class="control-label col-sm-10" classButton="btn btn-primary">
+											<input type="file" name="file" accept=".txt" 
+											style="position:relative;"/>
+										</div>
+									</div>
+									
+
+                                <div class="row" dir="rtl">
+                                    <div class="control-label col-sm-2"></div>
+                                    <button class="btn btn-success text-white" type="submit">submit</button>
+                                </div>
+                                <br>                            
+                        </form>
+
+                    </table>
+                </div>
+            </div>
+
+                </div>
+            </div>
+
+            <footer th:replace="fragments/fragment :: footer-dev-1"></footer>
+
+        </div>
+
+    </div>
+
+    <a th:replace="fragments/fragment :: scroll-to-top"></a>
+
+	<div th:replace="fragments/fragment :: logout-modal"></div>
+	
+    <link th:href="@{/vendor/jquery/jquery.min.js}">
+    <link th:href="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}">
+    <link th:href="@{/vendor/jquery-easing/jquery.easing.min.js}">
+    <link th:href="@{/js/sb-admin-2.min.js}">
+</body>
+
+</html>
