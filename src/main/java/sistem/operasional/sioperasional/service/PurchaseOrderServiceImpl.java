@@ -326,4 +326,15 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService{
         return strDate;
     }
 
+    @Override
+    public List<PurchaseOrderModel> getPurchaseOrderListByNotDisetujui(){
+        List<PurchaseOrderModel> listPONotDisetujui = new ArrayList<>();
+        for(PurchaseOrderModel purchaseOrderModel : getAll()){
+            if(!purchaseOrderModel.isDisetujui()){
+                listPONotDisetujui.add(purchaseOrderModel);
+            }
+        }
+        return listPONotDisetujui;
+    }
+
 }
