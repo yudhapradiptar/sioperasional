@@ -63,7 +63,7 @@ public class ItemController {
         List<StatusItemModel> statusItemModels = statusItemService.getListStatusItem();
         for (StatusItemModel status:statusItemModels){
             if(status.getNamaStatusItem().equalsIgnoreCase("closed")){
-                purchaseOrder.setStatusPO(status);
+                purchaseOrder.setStatusPO("Closed");
             }
         }
         purchaseOrderService.addPurchaseOrder(purchaseOrder);

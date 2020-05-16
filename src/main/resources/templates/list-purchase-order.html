@@ -136,7 +136,7 @@
                                     <td th:text="${#dates.format(PO.tanggalOpen, 'dd MMMM, yyyy')}"></td>
                                     <td th:text="${#dates.format(PO.tanggalBayar, 'dd MMMM, yyyy')}"></td>
                                     <td th:text="${#dates.format(PO.tanggalClose, 'dd MMMM, yyyy')}"></td>
-                                    <td th:text="${PO.statusPO.namaStatusItem}"></td>
+                                    <td th:text="${PO.statusPO}"></td>
                                     <td align="center">
                                         <span th:if="${PO.disetujui == true}">
                                             <i class="fas fa-check"  style="font-size:30px;"></i>
@@ -144,31 +144,16 @@
                                     </td>
                                     <td>
                                         <span>
+                                        <span>
                                             <form class="form-horizontal"
                                                 th:action="@{/purchase-order/detail/{nomorPurchaseOrder}(nomorPurchaseOrder=${PO.nomorPurchaseOrder})}"
                                                 th:method="GET">
                                             <button class="btn btn-info text-white">
                                                 <span class="text" value="submit">detail</span>
                                             </button>
-                                        </form>
-                                            </span>
-                                        <span th:if="${PO.disetujui == false}">
-                                            <form class="form-horizontal"
-                                                  th:action="@{/purchase-order/approve/{nomorPurchaseOrder}(nomorPurchaseOrder=${PO.nomorPurchaseOrder})}" th:object="${PO}"
-                                                  th:method="POST">
-                                            <button class="btn btn-success text-white">
-                                                    <span class="text" type="submit">Accept PO</span>
-                                            </button>
                                             </form>
                                         </span>
-<!--                                        <form class="form-horizontal"-->
-<!--                                              th:action="@{/hardware-fulfillment/{nomorPO}(nomorPO=${purchaseOrder.nomorPurchaseOrder})/close}"-->
-<!--                                              th:object="${item}"-->
-<!--                                              method="POST">-->
-<!--                                            <button class="btn btn-danger text-white">-->
-<!--                                                <span class="text" type="submit">Close PO</span>-->
-<!--                                            </button>-->
-<!--                                        </form>-->
+                                        </span>
                                     </td>
                                 </tr>
                                 </tbody>

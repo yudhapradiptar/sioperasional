@@ -56,46 +56,192 @@
                             <h3 class="m-0 font-weight-bold">Detail Purchase Order</h3>
                         </div>
                         <div class="card-body">
-                            <p th:text="'Nomor Purchase Order : ' + ${purchaseOrder.nomorPurchaseOrder}"></p>
-                            <p th:text="'Nomor Invoice : ' + ${purchaseOrder.nomorInvoice}"></p>
-                            <p th:text="'Pembuat Purchase Order : ' + ${purchaseOrder.creator.nama}"></p>
-                            <p th:text="'Nama Vendor : ' + ${purchaseOrder.vendor.namaVendor}"></p>
-                            <p th:text="'Tanggal Purchase Order Dibuat : ' + ${purchaseOrder.tanggalOpen}"></p>
-                            <p th:text="'Tanggal Purchase Order Dibayar : ' + ${purchaseOrder.tanggalBayar}"></p>
-                            <p th:text="'Tanggal Purchase Order Ditutup : ' + ${purchaseOrder.tanggalClose}"></p>
-                            <p th:text="'Status Purchase Order : ' + ${purchaseOrder.statusPO.namaStatusItem}"></p>
-                            <p th:text="'Persetujuan : ' + ${purchaseOrder.disetujui}"></p>
-
-                            <span>
+                            <table class="table table-borderless">
+                                <tbody>
+                                <tr>
+                                    <td>
+                                        <p>
+                                            <b>
+                                                Nomor Purchase Order
+                                            </b>
+                                        </p>
+                                    </td>
+                                    <td style="vertical-align: middle;">
+                                        <p th:text="${purchaseOrder.nomorPurchaseOrder}"></p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <p>
+                                            <b>
+                                                Nomor Invoice
+                                            </b>
+                                        </p>
+                                    </td>
+                                    <td style="vertical-align: middle;">
+                                        <p th:text=" ${purchaseOrder.nomorInvoice}"></p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <p>
+                                            <b>
+                                                Pembuat Purchase Order
+                                            </b>
+                                        </p>
+                                    </td>
+                                    <td style="vertical-align: middle;">
+                                        <p th:text="${purchaseOrder.creator.nama}"></p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <p>
+                                            <b>
+                                                Nama Vendor
+                                            </b>
+                                        </p>
+                                    </td>
+                                    <td style="vertical-align: middle;">
+                                        <p th:text=" ${purchaseOrder.vendor.namaVendor}"></p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <p>
+                                            <b>
+                                                Tanggal Purchase Order Dibuat
+                                            </b>
+                                        </p>
+                                    </td>
+                                    <td style="vertical-align: middle;">
+                                        <p th:text="${#dates.format(purchaseOrder.tanggalOpen, 'dd MMMM, yyyy')}"></p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <p>
+                                            <b>
+                                                Tanggal Purchase Order Dibayar
+                                            </b>
+                                        </p>
+                                    </td>
+                                    <td style="vertical-align: middle;">
+                                        <p th:text="${#dates.format(purchaseOrder.tanggalBayar, 'dd MMMM, yyyy')}"></p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <p>
+                                            <b>
+                                                Tanggal Purchase Order Ditutup
+                                            </b>
+                                        </p>
+                                    </td>
+                                    <td style="vertical-align: middle;">
+                                        <p th:text="${#dates.format(purchaseOrder.tanggalClose, 'dd MMMM, yyyy')}"></p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <p>
+                                            <b>
+                                                Status Purchase Order
+                                            </b>
+                                        </p>
+                                    </td>
+                                    <td style="vertical-align: middle;">
+                                        <p th:text="${purchaseOrder.statusPO}"></p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <p>
+                                            <b>
+                                                Persetujuan
+                                            </b>
+                                        </p>
+                                    </td>
+                                    <td style="vertical-align: middle;">
+                                        <p th:text="${purchaseOrder.disetujui}"></p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <p>
+                                            <b>
+                                                Detail Item
+                                            </b>
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <span>
+                                            <table border="I" class="table-striped">
+                                            <thead>
+                                            <tr>
+                                                <th style="text-align: center">No.</th>
+                                                <th style="text-align: center">Kategori Item</th>
+                                                <th style="text-align: center">Merek Item</th>
+                                                <th style="text-align: center">Jumlah Item</th>
+                                                <th style="text-align: center">Harga Satuan</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr th:each="itemPO, iterationStatus : *{listItemPO}">
+                                                <td th:text="${iterationStatus.count}"></td>
+                                                <td th:text="${itemPO.kategoriItem.namaKategoriItem}"></td>
+                                                <td th:text="${itemPO.jenisItem.namaJenisItem}"></td>
+                                                <td th:text="${itemPO.jumlahItem}"></td>
+                                                <td th:text="${itemPO.hargaSatuan}"></td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </span>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <br>
+                            <div class="row" dir="rtl">
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                                &nbsp
+                            <span th:if="${purchaseOrder.disetujui == false}">
+                                <form class="form-horizontal"
+                                      th:action="@{/purchase-order/approve/{nomorPurchaseOrder}(nomorPurchaseOrder=${purchaseOrder.nomorPurchaseOrder})}" th:object="${purchaseOrder}"
+                                      th:method="POST">
+                                <button class="btn btn-success text-white">
+                                        <span class="text" type="submit">Accept PO</span>
+                                </button>
+                                </form>
+                            </span>
+                            &nbsp
+                            &nbsp
+                            <span th:if="${purchaseOrder.disetujui == true}">
+                                <form class="form-horizontal"
+                                      th:action="@{/hardware-fulfillment/item/{nomorPO}(nomorPO=${purchaseOrder.nomorPurchaseOrder})/close}"
+                                      th:object="${item}"
+                                      method="GET">
+                                    <button class="btn btn-danger text-white">
+                                        <span class="text" type="submit">Close PO Hardware</span>
+                                    </button>
+                                </form>
+                            </span>
+                                &nbsp
+                                &nbsp
+                                <span>
                                 <form class="form-horizontal"
                                       th:action="@{/purchase-order/download/{nomorPurchaseOrder}(nomorPurchaseOrder=${purchaseOrder.nomorPurchaseOrder})}"
                                       th:method="POST">
                                 <button class="btn btn-info text-white">
-                                    <span class="text" value="submit">download</span>
+                                    <span class="text" value="submit">Download PDF</span>
                                 </button>
                                 </form>
                             </span>
-                            <span>
-                            <table border="I" class="table-bordered table-striped text-center" style="border:1px solid black;margin-left:auto;margin-right:auto;">
-                                <p th:text="'Detail Item'"></p>
-                            <thead>
-                            <tr>
-                                <th style="text-align: center">No.</th>
-                                <th style="text-align: center">Kategori Item</th>
-                                <th style="text-align: center">Merek Item</th>
-                                <th style="text-align: center">Jumlah Item</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr th:each="itemPO, iterationStatus : *{listItemPO}">
-                                <td th:text="${iterationStatus.count}"></td>
-                                <td th:text="${itemPO.kategoriItem.namaKategoriItem}"></td>
-                                <td th:text="${itemPO.jenisItem.namaJenisItem}"></td>
-                                <td th:text="${itemPO.jumlahItem}"></td>
-                            </tr>
-                            </tbody>
-                        </table>
-                        </span>
+                                </div>
                         </div>
                     </div>
                 </div>

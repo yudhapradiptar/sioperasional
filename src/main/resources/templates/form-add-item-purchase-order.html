@@ -67,6 +67,7 @@
                                 <th scope="col">Kategori Item</th>
                                 <th scope="col">Jenis Item</th>
                                 <th scope="col">Jumlah Item</th>
+                                <th scope="col">Harga Satuan</th>
                                 <th><button class="btn btn-info" type="submit" name="addMore">Add More</button></th>
                             </tr>
                             </thead>
@@ -93,6 +94,11 @@
                                 <td>
                                     <input type="number" min="0" name="jumlah" th:field="*{listItemPO[__${iterationStatus.index}__].jumlahItem}"
                                        class="form-control form-control-user" placeholder="Masukkan Jumlah Item">
+                                </td>
+
+                                <td>
+                                    <input type="number" min="0" name="harga" th:field="*{listItemPO[__${iterationStatus.index}__].hargaSatuan}"
+                                           class="form-control form-control-user" placeholder="Masukkan Harga Satuan Item">
                                 </td>
                             </tbody>
                             </tr>

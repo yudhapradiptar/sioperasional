@@ -38,9 +38,9 @@ public class ItemPOModel implements Serializable {
     @Column(name = "jumlah", nullable = false)
     private int jumlahItem;
 
-//    @Null
-//    @Column(name = "hargaSatuan", nullable = true)
-//    private int hargaSatuan;
+    @NotNull
+    @Column(name = "hargaSatuan", nullable = false)
+    private int hargaSatuan;
 
     public Long getIdItemPO() {
         return idItemPO;
@@ -82,11 +82,11 @@ public class ItemPOModel implements Serializable {
         this.jumlahItem = jumlahItem;
     }
 
-//    public int getHargaItem() {
-//        return hargaSatuan;
-//    }
-//
-//    public void setHargaItem(int hargaSatuan) {
-//        this.hargaSatuan = hargaSatuan;
-//    }
+    public int getHargaSatuan() {
+        return hargaSatuan;
+    }
+
+    public void setHargaSatuan(int hargaSatuan) {
+        this.hargaSatuan = hargaSatuan;
+    }
 }

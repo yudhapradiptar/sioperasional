@@ -2,12 +2,14 @@ package sistem.operasional.sioperasional.model;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Builder;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Date;
@@ -55,16 +57,17 @@ public class PurchaseOrderModel implements Serializable {
     @Column(name = "tanggalClose", nullable = true)
     private Date tanggalClose;
 
-    @NotNull
     @Column(name = "isDisetujui", nullable = true)
     private boolean isDisetujui;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "statusPO", referencedColumnName = "idStatusItem", nullable = false, columnDefinition = "bigint default 1")
+    @NotNull
+    @Column(name = "statusPO", nullable = false)
+    private String statusPO;
+
+    @OneToMany(mappedBy = "purchaseOrder", fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
-    private StatusItemModel statusPO;
-
+    private List<ItemModel> Listitem;
 
     public String getNomorPurchaseOrder() {
         return nomorPurchaseOrder;
@@ -139,12 +142,19 @@ public class PurchaseOrderModel implements Serializable {
     }
 
 
-    public StatusItemModel getStatusPO() {
+    public String getStatusPO() {
         return statusPO;
     }
 
-    public void setStatusPO(StatusItemModel statusPO) {
+    public void setStatusPO(String statusPO) {
         this.statusPO = statusPO;
     }
 
+    public List<ItemModel> getListitem() {
+        return Listitem;
+    }
+
+    public void setListitem(List<ItemModel> listitem) {
+        Listitem = listitem;
+    }
 }

@@ -1,10 +1,7 @@
 package sistem.operasional.sioperasional.service;
 
 import com.itextpdf.text.*;
-import com.itextpdf.text.pdf.ColumnText;
-import com.itextpdf.text.pdf.PdfPCell;
-import com.itextpdf.text.pdf.PdfPTable;
-import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.text.pdf.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +42,14 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService{
 
     @Override
     public PurchaseOrderModel getPurchaseOrderByNomorPurchaseOrder(String nomorPurchaseOrder){
-        return purchaseOrderDB.findById(nomorPurchaseOrder).get();
+        List<PurchaseOrderModel> purchaseOrderModelList = getAll();
+        PurchaseOrderModel result = new PurchaseOrderModel();
+        for (PurchaseOrderModel po : purchaseOrderModelList) {
+            if(po.getNomorPurchaseOrder().equalsIgnoreCase(nomorPurchaseOrder)){
+                result = po;
+            }
+        }
+        return result;
     }
 
     @Override
@@ -55,13 +59,13 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService{
 
     private static Logger logger = LogManager.getLogger(PurchaseOrderServiceImpl.class);
 
-    private static final String filePath = System.getProperty("user.home")+"\\Downloads\\Purchase order\\";
+    private static final String filePath = System.getProperty("user.home")+"\\Downloads\\";
 
     private static Image postImage = null;
 
     static {
         try {
-            postImage = Image.getInstance("classpath:/static/img/post.jpg");
+            postImage = Image.getInstance("classpath:/static/img/postPdf.jpg");
         } catch (BadElementException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -75,16 +79,11 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService{
         Document document = new Document(PageSize.A4,15,15,45,30);
         try
         {
-
-            logger.info("FILE PATH DI SERVICE IMPL: " + filePath);
             boolean exists = new File(filePath).exists();
-            logger.info("BOOLEAN DI SERVICE IMPL: " + exists);
             File file = new File(filePath);
             if(!exists)
             {
                 boolean temp = new File(filePath).mkdirs();
-                logger.info("BOOLEAN DI EXIST-nya SERVICE IMPL: " + temp);
-
             }
 
             PdfPTable tableUpper = new PdfPTable(2);
@@ -92,10 +91,8 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService{
             tableUpper.setSpacingBefore(10);
             tableUpper.setSpacingAfter(10);
 
-            float[] columnWidthsUpper = {1f,1f};
+            float[] columnWidthsUpper = {2f,2f};
             tableUpper.setWidths(columnWidthsUpper);
-
-
 
             PdfWriter writer = PdfWriter.getInstance(document,
                     new FileOutputStream(file+"/"+purchaseOrderModel.getNomorPurchaseOrder()+".pdf"));
@@ -103,20 +100,32 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService{
             Font mainFont = FontFactory.getFont("Arial",10, BaseColor.BLACK);
             Font mainFontSizeNine = FontFactory.getFont("Arial",9, BaseColor.BLACK);
             Font mainFontBold = FontFactory.getFont("Arial",10, 1,  BaseColor.BLACK);
+            Font mainFontBoldUnderline = FontFactory.getFont("Arial",10, 5,  BaseColor.BLACK);
 
             Font tableHeader = FontFactory.getFont("Arial", 10, 1, BaseColor.BLACK);
             Font tableBody = FontFactory.getFont("Arial", 9,BaseColor.BLACK);
 
-            String alamat = "Menara Prima Lt 6, Kawasan, Jl. Mega Kuningan Barat Jl. DR. Ide Anak Agung Gde Agung No.2, RT.5/RW.2, Kuningan, East Kuningan, Setiabudi, South Jakarta City, Jakarta 12950";
-            Paragraph address = new Paragraph(alamat, mainFontSizeNine);
-            address.setAlignment(Element.ALIGN_RIGHT);
-            address.setIndentationLeft(400);
-            address.setIndentationRight(20);
-            address.setSpacingAfter(5);
-            document.add(address);
+            Image postImage = Image.getInstance("classpath:/static/img/postPdf.jpg");
+            PdfPCell image = new PdfPCell(postImage);
+            image.setBorderColor(BaseColor.BLACK);
+            image.setPaddingLeft(10);
+            image.setHorizontalAlignment(Element.ALIGN_LEFT);
+            image.setVerticalAlignment(Element.ALIGN_LEFT);
+            image.setExtraParagraphSpace(5f);
+            image.setBorder(Rectangle.NO_BORDER);
+            tableUpper.addCell(image);
 
-            Image postImage = Image.getInstance("classpath:/static/img/post.jpg");
-            document.add(postImage);
+            String alamat = "Menara Prima Lt 6, Kawasan, Jl. Mega Kuningan Barat Jl. DR. Ide Anak Agung Gde Agung No.2, RT.5/RW.2, Kuningan, East Kuningan, Setiabudi, South Jakarta City, Jakarta 12950";
+            PdfPCell address = new PdfPCell(new Paragraph(alamat, mainFontSizeNine));
+            address.setBorderColor(BaseColor.BLACK);
+            address.setPaddingLeft(10);
+            address.setHorizontalAlignment(Element.ALIGN_RIGHT);
+            address.setVerticalAlignment(Element.ALIGN_RIGHT);
+            address.setExtraParagraphSpace(5f);
+            address.setBorder(Rectangle.NO_BORDER);
+            tableUpper.addCell(address);
+
+            document.add(tableUpper);
 
             Paragraph purchaseOrderHeader = new Paragraph("PURCHASE ORDER", mainFontBold);
             purchaseOrderHeader.setAlignment(Element.ALIGN_LEFT);
@@ -161,7 +170,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService{
             PdfPTable table = new PdfPTable(5);
             table.setWidthPercentage(80);
             table.setSpacingBefore(10);
-            table.setSpacingAfter(10);
+            table.setSpacingAfter(0);
 
             float[] columnWidths = {1f,1f,1f,1f,1f};
             table.setWidths(columnWidths);
@@ -216,6 +225,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService{
             totalAmmountHeader.setBorder(Rectangle.BOTTOM);
             table.addCell(totalAmmountHeader);
 
+            int totalAmmount = 0;
             List<ItemPOModel> listItemPOModel = purchaseOrderModel.getListItemPO();
             for (ItemPOModel item : listItemPOModel) {
 
@@ -232,13 +242,13 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService{
                 table.addCell(itemTable);
 
                 String deskripsi = item.getJenisItem().getNamaJenisItem() + " - " + item.getKategoriItem().getNamaKategoriItem();
-                itemTable = new PdfPCell(new Paragraph((deskripsi+" Versi 2.0 Dengan Kekuatan Terbarunya WOW").toUpperCase(), mainFont));
+                itemTable = new PdfPCell(new Paragraph((deskripsi).toUpperCase(), mainFont));
                 itemTable.setHorizontalAlignment(Element.ALIGN_LEFT);
                 itemTable.setBorder(Rectangle.NO_BORDER);
                 itemTable.setBorder(Rectangle.BOTTOM);
                 table.addCell(itemTable);
 
-                int hargaUnit = 2000000;
+                int hargaUnit = item.getHargaSatuan();
                 String hargaUnitFormated = String.format("%,d", hargaUnit);
                 itemTable = new PdfPCell(new Paragraph(hargaUnitFormated, mainFont));
                 itemTable.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -254,6 +264,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService{
                 table.addCell(itemTable);
 
                 int totalHarga = hargaUnit*jumlah;
+                totalAmmount += totalHarga;
                 int totalHargaTaxed = totalHarga+(totalHarga/10);
                 String totalHargaTaxedFormated = String.format("%,d", totalHargaTaxed);
                 itemTable = new PdfPCell(new Paragraph(totalHargaTaxedFormated, mainFont));
@@ -263,26 +274,50 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService{
                 table.addCell(itemTable);
 
             }
-
-            PdfPCell  currDate= new PdfPCell(new Paragraph("date: "+new Date(),tableHeader));
-            currDate.setBorderColor(BaseColor.BLACK);
-            currDate.setPaddingLeft(30);
-            currDate.setHorizontalAlignment(Element.ALIGN_RIGHT);
-            currDate.setVerticalAlignment(Element.ALIGN_CENTER);
-            currDate.setBackgroundColor(BaseColor.GRAY);
-            currDate.setExtraParagraphSpace(5f);
-            table.addCell(currDate);
-
             document.add(table);
+
+            String totalAmmountFormated = String.format("%,d", totalAmmount);
+            String totalAmountFormatedString = String.format("TOTAL%25s", totalAmmountFormated);
+            Paragraph totalAmount = new Paragraph(totalAmountFormatedString , mainFontBoldUnderline);
+            totalAmount.setAlignment(Element.ALIGN_RIGHT);
+            totalAmount.setIndentationRight(55);
+            totalAmount.setSpacingAfter(80);
+            totalAmount.setExtraParagraphSpace(5f);
+            document.add(totalAmount);
+
+
+            String requestedBy = String.format("%-16s", "Requested by");
+            Paragraph requestedByOutput = new Paragraph(requestedBy , mainFont);
+            requestedByOutput.setAlignment(Element.ALIGN_RIGHT);
+            requestedByOutput.setIndentationRight(55);
+            requestedByOutput.setSpacingAfter(60);
+            requestedByOutput.setExtraParagraphSpace(5f);
+            document.add(requestedByOutput);
+
+
+            String signName = String.format("%s", purchaseOrderModel.getCreator().getNama());
+            Paragraph signNameOutput = new Paragraph(signName , mainFont);
+            signNameOutput.setAlignment(Element.ALIGN_RIGHT);
+            signNameOutput.setIndentationRight(55);
+            signNameOutput.setSpacingAfter(0);
+            signNameOutput.setExtraParagraphSpace(5f);
+            document.add(signNameOutput);
+
+            String currDate = String.format("%-15s", dateToStringHelper(purchaseOrderModel.getTanggalOpen()));
+            Paragraph currDateOutput = new Paragraph(currDate , mainFont);
+            currDateOutput.setAlignment(Element.ALIGN_RIGHT);
+            currDateOutput.setIndentationRight(55);
+            currDateOutput.setSpacingAfter(0);
+            currDateOutput.setExtraParagraphSpace(5f);
+            document.add(currDateOutput);
+
             document.close();
             return true;
 
         }
         catch(Exception ex)
         {
-
-            logger.info("==========================PRINT ERROR=================");
-            logger.info(ex);
+            logger.info("ERROR: " + ex);
             return false;
         }
 
@@ -290,8 +325,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService{
     }
 
     protected String dateToStringHelper(Date date){
-        date = Calendar.getInstance().getTime();
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         String strDate = dateFormat.format(date);
         return strDate;
     }
