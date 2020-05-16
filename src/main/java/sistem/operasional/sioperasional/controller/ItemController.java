@@ -41,7 +41,7 @@ public class ItemController {
     JenisItemService jenisItemService;
 
     @RequestMapping(path = "/{nomorPurchaseOrder}/close", method = RequestMethod.POST)
-    public String addItemFromPO(@PathVariable String nomorPurchaseOrder, @ModelAttribute ItemModel item, @ModelAttribute ItemPOModel itemPO, Model model){
+    public String addItemFromPO(@PathVariable String nomorPurchaseOrder, @AuthenticationPrincipal UserDetails currentUser, @ModelAttribute ItemModel item, @ModelAttribute ItemPOModel itemPO, Model model){
         PurchaseOrderModel purchaseOrder = purchaseOrderService.getPurchaseOrderByNomorPurchaseOrder(nomorPurchaseOrder);
         if(purchaseOrder.getStatusPO().equals("Open") && purchaseOrder.isDisetujui()){
             List<ItemPOModel> listOfItemPOByPurchaseOrder = itemPOService.getItemPObyPurchaseOrder(purchaseOrder);
