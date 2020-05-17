@@ -11,7 +11,7 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-
+ 
 @Entity
 @Table(name = "delivery_order")
 public class DeliveryOrderModel implements Serializable {
