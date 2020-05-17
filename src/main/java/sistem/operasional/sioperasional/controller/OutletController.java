@@ -1,6 +1,9 @@
 package sistem.operasional.sioperasional.controller;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import sistem.operasional.sioperasional.model.DeliveryOrderModel;
 import sistem.operasional.sioperasional.model.JenisOutletModel;
@@ -82,15 +85,15 @@ public class OutletController {
 
     @RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
     public String updateOutletFormPage(@PathVariable Long id, Model model) {
+        model.addAttribute("role", userService.getUserCurrentLoggedIn().getRole().getNamaRole());
         OutletModel outletModel = outletService.getOutletByIdOutlet(id).get();
-        
-        JenisOutletModel jenisOutletModel = new JenisOutletModel();
-        outletModel.setJenisOutlet(jenisOutletModel);
+
         List<JenisOutletModel> jenisOutletModels = jenisOutletService.getJenisOutletList();
 
         model.addAttribute("jenisOutlet", jenisOutletModels);
         model.addAttribute("outlet", outletModel);
-        model.addAttribute("role", userService.getUserCurrentLoggedIn().getRole().getNamaRole());
+
+//        String role = userService.getUserCurrentLoggedIn().getRole().getNamaRole();
 
         return "form-update-outlet";
     }
