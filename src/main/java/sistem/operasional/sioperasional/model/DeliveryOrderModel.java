@@ -32,14 +32,6 @@ public class DeliveryOrderModel implements Serializable {
     @JsonIgnore
     private OutletModel outlet;
 
-    @Size(max = 200)
-    @Column(name = "nomorInvoice", nullable = true)
-    private String nomorInvoice;
-
-    @Size(max = 200)
-    @Column(name = "statusDO", nullable = true)
-    private String statusDO;
-
     @NotNull
     @Column(name = "isSubscribed", nullable = false)
     private boolean isSubscribed;
@@ -81,22 +73,6 @@ public class DeliveryOrderModel implements Serializable {
 
     public void setOutlet(OutletModel outlet) {
         this.outlet = outlet;
-    }
-
-    public String getNomorInvoice() {
-        return nomorInvoice;
-    }
-
-    public void setNomorInvoice(String nomorInvoice) {
-        this.nomorInvoice = nomorInvoice;
-    }
-
-    public String getStatusDO() {
-        return statusDO;
-    }
-
-    public void setStatusDO(String statusDO) {
-        this.statusDO = statusDO;
     }
 
     public Date getTanggalSubscribeStart() {
