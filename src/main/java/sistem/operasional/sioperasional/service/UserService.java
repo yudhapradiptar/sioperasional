@@ -21,5 +21,7 @@ public interface UserService {
   boolean verifPass(String pass);
   boolean verifUser(UserModel user);
   UserModel changeUser(UserModel user);
+  UserModel changeUserPassword(UserModel user, String password);
+  UserModel changeUserPasswordReset(UserModel user);
 
 }

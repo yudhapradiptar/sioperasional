@@ -28,6 +28,7 @@ public class StatusItemServiceImpl implements StatusItemService{
     public void createStatusItem(StatusItemModel statusItem) {
         System.out.println("In service");
         statusItemDB.save(statusItem);
+        System.out.println("Created in service");
     }
 
 }

@@ -29,7 +29,7 @@ public class OutletModel implements Serializable {
 
     @NotNull
     @Column(name = "noTelpOutlet", nullable = false)
-    private int noTelpOutlet;
+    private String noTelpOutlet;
 
     @NotNull
     @Size(max = 200)
@@ -80,11 +80,11 @@ public class OutletModel implements Serializable {
         this.emailOutlet = emailOutlet;
     }
 
-    public int getNoTelpOutlet() {
+    public String getNoTelpOutlet() {
         return noTelpOutlet;
     }
 
-    public void setNoTelpOutlet(int noTelpOutlet) {
+    public void setNoTelpOutlet(String noTelpOutlet) {
         this.noTelpOutlet = noTelpOutlet;
     }
 

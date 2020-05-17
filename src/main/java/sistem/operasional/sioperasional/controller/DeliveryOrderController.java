@@ -48,7 +48,7 @@ public class DeliveryOrderController {
     @Autowired
     OutletService outletService;
 
-    @RequestMapping("/")
+    @RequestMapping("")
     public String viewAllDeliveryOrder(Model model) {
         List<DeliveryOrderModel> listDeliveryOrder = deliveryOrderService.getDeliveryOrderList();
 

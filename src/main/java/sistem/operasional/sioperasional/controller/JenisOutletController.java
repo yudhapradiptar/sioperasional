@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import sistem.operasional.sioperasional.service.UserService;
 
 @Controller
 @RequestMapping("/jenis-outlet")
@@ -17,11 +18,15 @@ public class JenisOutletController {
     @Autowired
     JenisOutletService jenisOutletService;
 
-    @RequestMapping("/")
+    @Autowired
+    UserService userService;
+
+    @RequestMapping("")
     public String viewAllJenisOutlet(Model model) {
         List<JenisOutletModel> listJenisOutlet = jenisOutletService.getJenisOutletList();
 
         model.addAttribute("listJenisOutlet", listJenisOutlet);
+        model.addAttribute("role", userService.getUserCurrentLoggedIn().getRole().getNamaRole());
 
         return "list-jenis-outlet";
     }
@@ -35,6 +40,7 @@ public class JenisOutletController {
         
         model.addAttribute("jenisOutlet", jenisOutletModel);
         model.addAttribute("listOutlet", listOutlet);
+        model.addAttribute("role", userService.getUserCurrentLoggedIn().getRole().getNamaRole());
 
         return "detail-jenis-outlet";
     }
@@ -44,6 +50,7 @@ public class JenisOutletController {
         JenisOutletModel jenisOutletModel = new JenisOutletModel();
 
         model.addAttribute("jenisOutlet", jenisOutletModel);
+        model.addAttribute("role", userService.getUserCurrentLoggedIn().getRole().getNamaRole());
 
         return "form-add-jenis-outlet";
     }
@@ -54,6 +61,7 @@ public class JenisOutletController {
         jenisOutletService.addJenisOutlet(jenisOutletModel);
 
         model.addAttribute("jenisOutlet", jenisOutletModel);
+        model.addAttribute("role", userService.getUserCurrentLoggedIn().getRole().getNamaRole());
         return "add-jenis-outlet";
     }
 
@@ -62,6 +70,7 @@ public class JenisOutletController {
         JenisOutletModel jenisOutletModel = jenisOutletService.getJenisOutletById(id).get();
         
         model.addAttribute("jenisOutlet", jenisOutletModel);
+        model.addAttribute("role", userService.getUserCurrentLoggedIn().getRole().getNamaRole());
 
         return "form-update-jenis-outlet";
     }
@@ -72,6 +81,7 @@ public class JenisOutletController {
         JenisOutletModel newJenisOutletModel = jenisOutletService.changeJenisOutlet(jenisOutletModel);
 
         model.addAttribute("jenisOutlet", newJenisOutletModel);
+        model.addAttribute("role", userService.getUserCurrentLoggedIn().getRole().getNamaRole());
         return "update-jenis-outlet";
     }
 }

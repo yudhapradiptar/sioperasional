@@ -2,12 +2,14 @@ package sistem.operasional.sioperasional.model;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Builder;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Date;
@@ -55,14 +57,12 @@ public class PurchaseOrderModel implements Serializable {
     @Column(name = "tanggalClose", nullable = true)
     private Date tanggalClose;
 
-    @NotNull
     @Column(name = "isDisetujui", nullable = true)
     private boolean isDisetujui;
 
     @NotNull
     @Column(name = "statusPO", nullable = false)
     private String statusPO;
-
 
     @OneToMany(mappedBy = "purchaseOrder", fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)
@@ -157,5 +157,4 @@ public class PurchaseOrderModel implements Serializable {
     public void setListitem(List<ItemModel> listitem) {
         Listitem = listitem;
     }
-
 }
