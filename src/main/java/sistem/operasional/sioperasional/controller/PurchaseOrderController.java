@@ -124,6 +124,12 @@ public class PurchaseOrderController {
                 purchaseOrder1 = po;
             }
         }
+        List<ItemPOModel> oldItemPOModel = itemPOService.getAllItemPO();
+        for (ItemPOModel item : oldItemPOModel) {
+            if(item.getPurchaseOrder().getNomorPurchaseOrder().equalsIgnoreCase(purchaseOrder1.getNomorPurchaseOrder()))
+            itemPODB.delete(item);
+        }
+
         for (ItemPOModel itemPO : purchaseOrder.getListItemPO()) {
             itemPO.setPurchaseOrder(purchaseOrder1);
             String kategoriItem = itemPO.getKategoriItem().getNamaKategoriItem();
@@ -171,7 +177,7 @@ public class PurchaseOrderController {
         purchaseOrderService.addPurchaseOrder(purchaseOrderModel);
 
         ItemPOModel itemPOModel = new ItemPOModel();
-        PurchaseOrderModel purchaseOrderModel1 = purchaseOrderService.getPurchaseOrderByNomorPurchaseOrder(nomorPurchaseOrder);
+        PurchaseOrderModel purchaseOrderModel1 = purchaseOrderService.getPurchaseOrderByNomorPurchaseOrder(nomorPurchaseOrder).get();
 
         ArrayList<ItemPOModel> itemPO = new ArrayList<>();
         itemPO.add(itemPOModel);
@@ -241,13 +247,68 @@ public class PurchaseOrderController {
         return "detail-purchase-order";
     }
 
+    @RequestMapping(value = "/update/{nomorPurchaseOrder}", method = RequestMethod.GET)
+    public String updateFormPage(@PathVariable String nomorPurchaseOrder, Model model) {
+        PurchaseOrderModel purchaseOrderModel = purchaseOrderService.getPurchaseOrderByNomorPurchaseOrder(nomorPurchaseOrder).get();
+
+        List<ItemPOModel> listItemPO = purchaseOrderModel.getListItemPO();
+        List<VendorModel> listVendor = vendorService.getVendorList();
+        List<KategoriItemModel> listKategoriItem = kategoriItemService.getKategoriItemList();
+        List<JenisItemModel> listJenis = jenisItemService.getJenisItemList();
+
+        model.addAttribute("purchaseOrder", purchaseOrderModel);
+        model.addAttribute("listVendor", listVendor);
+        model.addAttribute("listItemPO", listItemPO);
+        model.addAttribute("listJenisItem", listJenis);
+        model.addAttribute("listKategoriItem", listKategoriItem);
+        model.addAttribute("role", userService.getUserCurrentLoggedIn().getRole().getNamaRole());
+        return "form-update-purchase-order";
+    }
+
+    @RequestMapping(value = "/update/{nomorPurchaseOrder}", method = RequestMethod.POST)
+    public String updateFormSubmit(@PathVariable String nomorPurchaseOrder,  @ModelAttribute PurchaseOrderModel purchaseOrder, Model model) {
+
+        PurchaseOrderModel newPurchaseOrder = purchaseOrderService.changePurchaseOrder(purchaseOrder);
+
+        model.addAttribute("purchaseOrder", newPurchaseOrder);
+        model.addAttribute("role", userService.getUserCurrentLoggedIn().getRole().getNamaRole());
+        return "update-purchase-oder";
+    }
+
+    @RequestMapping(value="/update/edit-item/{nomorPurchaseOrder}", method = RequestMethod.POST, params= {"addMore"})
+    public String addMoreFormUpdate(@AuthenticationPrincipal UserDetails currentUser,
+                              @PathVariable("nomorPurchaseOrder") String nomorPO,
+                              @ModelAttribute PurchaseOrderModel purchaseOrder,
+                              BindingResult bindingResult, Model model) {
+
+        if(purchaseOrder.getListItemPO() == null) {
+            purchaseOrder.setListItemPO(new ArrayList<ItemPOModel>());
+        }
+
+        logger.info("============Length Before: "+ purchaseOrder.getListItemPO().size());
+        purchaseOrder.getListItemPO().add(new ItemPOModel());
+        logger.info("============Length After: "+ purchaseOrder.getListItemPO().size());
+
+        List<KategoriItemModel> listKategoriItem = kategoriItemService.getKategoriItemList();
+        List<JenisItemModel> listJenis = jenisItemService.getJenisItemList();
+        List<ItemPOModel> listItemPO = purchaseOrder.getListItemPO();
+
+        model.addAttribute("purchaseOrder", purchaseOrder);
+        model.addAttribute("listItemPO", listItemPO);
+        model.addAttribute("listJenisItem", listJenis);
+        model.addAttribute("listKategoriItem", listKategoriItem);
+        model.addAttribute("nomorPO", nomorPO);
+        model.addAttribute("role", userService.getUserByUsername(currentUser.getUsername()).getRole().getNamaRole());
+        return "form-add-item-purchase-order";
+    }
+
     @RequestMapping(value="/download/{nomorPurchaseOrder}", method= RequestMethod.POST)
     public void createPdf(HttpServletRequest request, HttpServletResponse response,
                           @PathVariable("nomorPurchaseOrder") String nomorPurchaseOrder)
     {
 
         PurchaseOrderModel purchaseOrderModel =
-                purchaseOrderService.getPurchaseOrderByNomorPurchaseOrder(nomorPurchaseOrder);
+                purchaseOrderService.getPurchaseOrderByNomorPurchaseOrder(nomorPurchaseOrder).get();
         boolean isFlag= purchaseOrderService.createPdf(purchaseOrderModel,context,request,response);
 
         String namaFile = nomorPurchaseOrder+".pdf";

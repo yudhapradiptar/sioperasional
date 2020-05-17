@@ -241,6 +241,17 @@
                                 </button>
                                 </form>
                             </span>
+                                &nbsp
+                                &nbsp
+                                <span>
+                                <form class="form-horizontal"
+                                      th:action="@{/purchase-order/update/{nomorPurchaseOrder}(nomorPurchaseOrder=${purchaseOrder.nomorPurchaseOrder})}"
+                                      th:method="GET">
+                                <button class="btn btn-info text-white">
+                                    <span class="text" value="submit">Update</span>
+                                </button>
+                                </form>
+                            </span>
                                 </div>
                         </div>
                     </div>
