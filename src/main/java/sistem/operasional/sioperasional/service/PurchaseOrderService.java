@@ -6,12 +6,13 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
+import java.util.Optional;
 
 
 public interface PurchaseOrderService {
     List<PurchaseOrderModel> getAll();
 
-    PurchaseOrderModel getPurchaseOrderByNomorPurchaseOrder(String nomorPurchaseOrder);
+    Optional<PurchaseOrderModel> getPurchaseOrderByNomorPurchaseOrder(String nomorPurchaseOrder);
 
     PurchaseOrderModel addPurchaseOrder(PurchaseOrderModel purchaseOrderModel);
 
@@ -19,6 +20,8 @@ public interface PurchaseOrderService {
                              HttpServletRequest request, HttpServletResponse response);
 
     List<PurchaseOrderModel> getPurchaseOrderListByNotDisetujui();
+
+    PurchaseOrderModel changePurchaseOrder(PurchaseOrderModel purchaseOrderModel);
 
 }
 
