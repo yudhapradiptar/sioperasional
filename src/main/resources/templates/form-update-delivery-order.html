@@ -63,7 +63,7 @@
                                 <input type="hidden" class="form-control" name="tanggalCreate" th:field="*{tanggalCreate}">
                                 <!-- <input type="hidden" class="form-control" name="listItem" th:field="*{listItem}"> -->
                             
-                                <div class="form-group row">
+                                <div class="form-group">
                                     <label class="col-sm-2 col-form-label">Status Bundling</label>
                                     <div class="col-sm-7">
                                         <select class="form-control" th:field="*{subscribed}">
@@ -73,7 +73,7 @@
                                     </div>
                                 </div>
                             
-                                <div class="form-group row">
+                                <div class="form-group">
                                     <label class="col-sm-2 col-form-label">Pilih Outlet</label>
 
                                     <div class="col-sm-7">
@@ -102,11 +102,12 @@
                                     <label class="control-label col-sm-2">Daftar Item</label>
                                     <div class="control-label col-sm-10">
                                         <u th:each="item : ${listItem}">
-                                            <input type="checkbox" th:field="*{listItem}" th:value="${item.idItem}" />
-                                            <label th:for="${#ids.prev('listItem')}" 
-                                        th:text="${item.kategoriItem.namaKategoriItem} + '_' + ${item.jenisItem.namaJenisItem} + '_' + ${item.idItem}"></label>
-                                        <br>
-                                    </u>
+                                                <input type="checkbox" th:field="*{listItem}" th:value="${item.idItem}" />
+                                                <label th:for="${#ids.prev('listItem')}" 
+                                            th:text="${item.kategoriItem.namaKategoriItem} + '_' + ${item.jenisItem.namaJenisItem} + '_' + ${item.idItem}"></label>
+                                            <br>
+                                        </u>
+                                    </div>
                                 </div>
 
                                 <!-- <div class="form-group row">
