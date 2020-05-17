@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Template</title>
+    <title>403</title>
 
     <!-- Custom fonts for this template-->
     <link rel="stylesheet" th:href="@{/vendor/fontawesome-free/css/all.min.css}" type="text/css">
@@ -37,7 +37,7 @@
     <!-- Page Wrapper -->
     <div id="wrapper">
 
-        <ul th:replace="fragments/fragment :: sidebar"></ul>
+<!--        <ul th:replace="fragments/fragment :: sidebar"></ul>-->
 
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
@@ -52,19 +52,22 @@
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
 
+                    <!-- Page Heading -->
+                    <h1 class="h3 mb-4 text-gray-800"></h1>
 
-                    <div class="container-fluid">
-                        <!-- 403 Error Text -->
-                        <div class="text-center">
-                            <div class="error mx-auto" data-text="403">403</div>
-                            <p class="lead text-gray-800 mb-5">Forbidden</p>
-                            <p class="text-gray-500 mb-0">Anda tidak mempunyai akses ke laman ini</p>
-                            <a th:href="@{'/'}">&larr; Back to Home</a>
-                        </div>
+                </div>
 
+                <div class="container-fluid">
+                    <!-- 403 Error Text -->
+                    <div class="text-center">
+                        <div class="error mx-auto" data-text="403">403</div>
+                        <p class="lead text-gray-800 mb-5">Forbidden</p>
+                        <p class="text-gray-500 mb-0">Anda tidak mempunyai akses ke laman ini</p>
+                        <a th:href="@{'/'}">&larr; Back to Home</a>
                     </div>
 
                 </div>
+                <!-- /.container-fluid -->
 
             </div>
             <!-- End of Main Content -->
@@ -95,8 +98,7 @@
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current
-                    session.</div>
+                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
                     <a class="btn btn-primary" href="login.html">Logout</a>
