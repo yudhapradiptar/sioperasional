@@ -58,19 +58,61 @@ public class UserController {
         model.addAttribute("listRole", roleService.findAll());
         model.addAttribute("user", existingUser);
         model.addAttribute("role", userService.getUserCurrentLoggedIn().getRole().getNamaRole());
+        if(existingUser==userService.getUserCurrentLoggedIn()){
+            model.addAttribute("yourself", true);
+        } else {
+            model.addAttribute("yourself", false);
+        }
         return "form-edit-user";
     }
 
     @RequestMapping(value = "/edit/{username}" , method = RequestMethod.POST)
     private String editUserFormSubmit(@PathVariable String username, @ModelAttribute UserModel user, Model model) {
         model.addAttribute("role", userService.getUserCurrentLoggedIn().getRole().getNamaRole());
+        String statusOldUser = userService.getUserByUsername(username).getStatus();
         if(user.getNama().isBlank()) {
             String message = "Nama tidak boleh Kosong!";
             model.addAttribute("message", message);
             return "failed-edit-user";
         }
         UserModel newUserData = userService.changeUser(user);
-        model.addAttribute("userbaru", newUserData);
+//        model.addAttribute("userbaru", newUserData);
+        if(statusOldUser.equals("aktif") && newUserData.getStatus().equals("tidak aktif")){
+            UserModel newNewUserData = userService.changeUserPassword(newUserData, "nonaktif123");
+            model.addAttribute("userbaru", newNewUserData);
+            if(newUserData.getUsername().equals(userService.getUserCurrentLoggedIn().getUsername())){
+                return "redirect:/logout";
+            }
+            return "success-change-user";
+        } else if(statusOldUser.equals("tidak aktif") && newUserData.getStatus().equals("aktif")){
+            if(newUserData.getUsername().equals(userService.getUserCurrentLoggedIn().getUsername())){
+                UserModel newNewUserData = userService.changeUserPassword(newUserData, "newpassword123");
+                return "redirect:/logout";
+            }
+            UserModel newNewUserData = userService.changeUserPassword(newUserData, "newpassword123");
+            return "redirect:/account/edit/" + username + "/reset-password/form";
+        } else{
+            model.addAttribute("userbaru", newUserData);
+            return "success-change-user";
+        }
+    }
+
+    @RequestMapping(value = "/edit/{username}/reset-password/form", method = {RequestMethod.GET })
+    private String formResetPassword(@PathVariable(value = "username") String  username, Model model){
+        UserModel existingUser = userService.getUserByUsername(username);
+        model.addAttribute("role", userService.getUserCurrentLoggedIn().getRole().getNamaRole());
+        model.addAttribute("user", existingUser);
+
+        return "form-reset-password";
+    }
+
+    @RequestMapping(value = "/edit/{username}/reset-password", method = RequestMethod.POST)
+    private String resetPasswordSubmit(@PathVariable String username, @ModelAttribute UserModel user, Model model){
+        model.addAttribute("role", userService.getUserCurrentLoggedIn().getRole().getNamaRole());
+        model.addAttribute("userbaru", userService.getUserByUsername(username));
+
+        UserModel newUserPassword = userService.changeUserPasswordReset(user);
+
         return "success-change-user";
     }
 

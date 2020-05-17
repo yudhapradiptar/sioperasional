@@ -78,7 +78,7 @@
                                             <option value="tidak aktif">tidak aktif</option>
                                         </select>
                                         <label>Password (Terdiri dari huruf dan angka Min. 8 huruf)</label>
-                                        <input type="password" name="password" class="form-control" required>
+                                        <input type="password" name="password" class="form-control" required pattern="(?=.*\d).{8,}">
                                         <label>Konfirmasi Password</label>
                                         <input type="password" name="passwordConfirm" class="form-control" required>
                                         <br>

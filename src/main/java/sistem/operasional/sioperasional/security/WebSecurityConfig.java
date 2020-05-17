@@ -34,7 +34,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/delivery-order/set-tanggal-subscribe/**").hasAnyAuthority("Operation Manager")
                 .antMatchers("/delivery-order/**").hasAnyAuthority("Product Operation Specialist", "Operation Manager")
                 .antMatchers("/purchase-order/**").hasAnyAuthority("Product Operation Specialist", "Operation Manager")
-                .antMatchers("/hardware-fullfillment/**").hasAnyAuthority("Operation Manager", "Product Operation Specialist")
+                .antMatchers("/hardware-fulfillment/**").hasAnyAuthority("Operation Manager", "Product Operation Specialist")
                 .antMatchers("/dashboard/**").hasAnyAuthority("Operation Manager", "Operation Lead")
                 .antMatchers("/training/create/**").hasAnyAuthority("Operation Manager", "Operation Lead")
                 .antMatchers("/training/edit/**").hasAnyAuthority("Operation Manager", "Operation Lead")
@@ -67,18 +67,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                  .passwordEncoder(encoder())
                  .withUser("manager").password(encoder().encode("manager123"))
                  .roles("Operation Manager");
-         auth.inMemoryAuthentication()
-                 .passwordEncoder(encoder())
-                 .withUser("opslead").password(encoder().encode("opslead123"))
-                 .roles("Operation Lead");
-         auth.inMemoryAuthentication()
-                 .passwordEncoder(encoder())
-                 .withUser("opsstaff").password(encoder().encode("opsstaff123"))
-                 .roles("Operation Staff");
-         auth.inMemoryAuthentication()
-                 .passwordEncoder(encoder())
-                 .withUser("product").password(encoder().encode("product123"))
-                 .roles("Product Operation Specialist");
      }
 
 

@@ -121,4 +121,28 @@ public class UserServiceImpl implements UserService {
             return null;
         }
     }
+
+    @Override
+    public UserModel changeUserPassword(UserModel user, String password){
+        UserModel targetUser = userDB.findByUsername(user.getUsername());
+        try{
+            targetUser.setPassword(encrypt(password));
+            userDB.save(targetUser);
+            return targetUser;
+        } catch (NullPointerException nullException) {
+            return null;
+        }
+    }
+
+    @Override
+    public UserModel changeUserPasswordReset(UserModel user){
+        UserModel targetUser = userDB.findByUsername(user.getUsername());
+        try{
+            targetUser.setPassword(encrypt(user.getPassword()));
+            userDB.save(targetUser);
+            return targetUser;
+        } catch (NullPointerException nullException) {
+            return null;
+        }
+    }
 }
