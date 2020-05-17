@@ -11,7 +11,7 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-
+ 
 @Entity
 @Table(name = "delivery_order")
 public class DeliveryOrderModel implements Serializable {
@@ -31,14 +31,6 @@ public class DeliveryOrderModel implements Serializable {
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private OutletModel outlet;
-
-    @Size(max = 200)
-    @Column(name = "nomorInvoice", nullable = true)
-    private String nomorInvoice;
-
-    @Size(max = 200)
-    @Column(name = "statusDO", nullable = true)
-    private String statusDO;
 
     @NotNull
     @Column(name = "isSubscribed", nullable = false)
@@ -81,22 +73,6 @@ public class DeliveryOrderModel implements Serializable {
 
     public void setOutlet(OutletModel outlet) {
         this.outlet = outlet;
-    }
-
-    public String getNomorInvoice() {
-        return nomorInvoice;
-    }
-
-    public void setNomorInvoice(String nomorInvoice) {
-        this.nomorInvoice = nomorInvoice;
-    }
-
-    public String getStatusDO() {
-        return statusDO;
-    }
-
-    public void setStatusDO(String statusDO) {
-        this.statusDO = statusDO;
     }
 
     public Date getTanggalSubscribeStart() {

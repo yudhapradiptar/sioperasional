@@ -80,23 +80,6 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <label class="control-label col-sm-2">Nomor Invoice</label>
-                                        <div class="col-sm-10">
-                                            <input type="text" name="nomorInvoice" th:field="*{nomorInvoice}"
-                                                class="form-control form-control-user" placeholder="Masukkan Nomor Invoice">
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label class="control-label col-sm-2">Status Delivery Order</label>
-                                        <div class="col-sm-10">
-                                            <input type="text" name="statusDO" th:field="*{statusDO}"
-                                                class="form-control form-control-user"
-                                                placeholder="Masukkan Status Delivery Order">
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
                                         <label class="control-label col-sm-2">Tanggal Pembuatan</label>
                                         <div class="col-sm-10">
                                             <input type="date" name="tanggalCreate" th:field="*{tanggalCreate}"
@@ -131,10 +114,15 @@
 
                                 <div class="row" dir="rtl">
                                     <div class="control-label col-sm-2"></div>
-                                    <button class="btn btn-success text-white" type="submit">submit</button>
-
+                                    <button class="btn btn-success btn-icon-split">
+                                        <span class="icon text-white-50">
+                                        <i class="fas fa-check"></i>
+                                        </span>
+                                        <span class="text" type="submit">Buat</span>
+                                    </button>
+                                    &nbsp
+                                    &nbsp
                                 </div>
-                                    
                             
                                 <br>
                                 <!-- <div class="row">

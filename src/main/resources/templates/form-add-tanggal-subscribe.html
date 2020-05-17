@@ -61,13 +61,9 @@
                             <p th:text="'Nomor Delivery Order : ' + ${deliveryOrder.nomorDeliveryOrder}"></p>
                             <p th:text="'Pembuat Delivery Order : ' + ${deliveryOrder.creator.nama}"></p>
                             <p th:text="'Outlet Pembeli : ' + ${deliveryOrder.outlet.namaOutlet}"></p>
-                            <p th:text="'Nomor Invoice : ' + ${deliveryOrder.nomorInvoice}"></p>
-                            <p th:text="'Status Delivery Order : ' + ${deliveryOrder.statusDO}"></p>
                             <br>
                             <form th:action="@{/delivery-order/set-tanggal-subscribe/{nomor}(nomor=${deliveryOrder.nomorDeliveryOrder})}" th:object="${deliveryOrder}" method="POST">
                                 <input type="hidden" class="form-control" name="nomorDeliveryOrder" th:field="*{nomorDeliveryOrder}">
-                                <input type="hidden" class="form-control" name="statusDO" th:field="*{statusDO}">
-                                <input type="hidden" class="form-control" name="nomorInvoice" th:field="*{nomorInvoice}">
                                 <input type="hidden" class="form-control" name="outlet" th:field="*{outlet}">
                                 <input type="hidden" class="form-control" name="creator" th:field="*{creator}">
                                 <input type="hidden" class="form-control" name="tanggalCreate" th:field="*{tanggalCreate}">
