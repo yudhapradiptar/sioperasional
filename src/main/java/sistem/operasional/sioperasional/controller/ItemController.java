@@ -112,27 +112,21 @@ public class ItemController {
     }
 
     @RequestMapping(value = "/update/{idItem}", method = RequestMethod.GET)
-    public String UpdateStatusItem(@PathVariable("idItem") String idItem, @AuthenticationPrincipal UserDetails currentUser, Model model){
+    public String UpdateStatusItem(@PathVariable("idItem") Long idItem, @AuthenticationPrincipal UserDetails currentUser, Model model){
         //ItemModel item = itemService.getItemDetailByIdItem(Long.parseLong(idItem));
         List<StatusItemModel> statusItem = statusItemService.getListStatusItem();
         //ItemModel itemDetail = item;
-        for(StatusItemModel s : statusItem){
-            System.out.println(s.getNamaStatusItem());
-        }
-
-        System.out.println("Start");
-        //System.out.println(item);
-        System.out.println("End");
 
         //model.addAttribute("item", itemDetail);
         model.addAttribute("allStatusItem", statusItem);
         model.addAttribute("role", userService.getUserByUsername(currentUser.getUsername()).getRole().getNamaRole());
+        model.addAttribute("item", itemService.getItemDetailByIdItem(idItem));
 
         return "status-item-isRusak";
     }
 
     @RequestMapping(value = "/update/{idItem}/success", method = RequestMethod.POST)
-    public String updateStatusItemSubmit(@PathVariable String idItem, @ModelAttribute ItemModel itemModel, @AuthenticationPrincipal UserDetails currentUser, Model model) {
+    public String updateStatusItemSubmit(@PathVariable Long idItem, @ModelAttribute ItemModel itemModel, @AuthenticationPrincipal UserDetails currentUser, Model model) {
 
         itemService.updateStatusItem(itemModel);
         model.addAttribute("role", userService.getUserByUsername(currentUser.getUsername()).getRole().getNamaRole());

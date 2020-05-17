@@ -197,7 +197,7 @@ public class DeliveryOrderController {
         model.addAttribute("itemModelsCurrent", itemModelsCurrent);
         model.addAttribute("listItem", itemModelsNull);
 
-        model.addAttribute("role", userService.getUserCurrentLoggedIn().getRole().getNamaRole());
+//        model.addAttribute("role", userService.getUserCurrentLoggedIn().getRole().getNamaRole());
         return "form-update-delivery-order";
     }
 
