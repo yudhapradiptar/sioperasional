@@ -82,7 +82,7 @@ public class ItemServiceImpl implements ItemService{
     public List<ItemModel> getItemListAvailable(String nomorDeliveryOrder) {
         List<ItemModel> listItemAvailable = new ArrayList<>();
         for(ItemModel itemModel : getItemList()){
-            if(itemModel.getDeliveryOrder()==null && itemModel.isRusak() == false){
+            if(itemModel.getDeliveryOrder()==null && itemModel.isRusak() == false || itemModel.getDeliveryOrder().getNomorDeliveryOrder() == nomorDeliveryOrder){
                 listItemAvailable.add(itemModel);
             }
         }
