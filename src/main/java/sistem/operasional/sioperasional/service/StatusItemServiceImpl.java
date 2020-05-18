@@ -26,9 +26,12 @@ public class StatusItemServiceImpl implements StatusItemService{
 
     @Override
     public void createStatusItem(StatusItemModel statusItem) {
-        System.out.println("In service");
         statusItemDB.save(statusItem);
-        System.out.println("Created in service");
+    }
+
+    @Override
+    public void deleteStatusItem(StatusItemModel statusItemModel){
+        statusItemDB.delete(statusItemModel);
     }
 
 }

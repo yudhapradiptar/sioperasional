@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Jenis</title>
+    <title>Status Item</title>
 
     <!-- Custom fonts for this template-->
     <link rel="stylesheet" th:href="@{/vendor/fontawesome-free/css/all.min.css}" type="text/css">
@@ -51,17 +51,16 @@
             <div class="container-fluid">
                 <div class="card shadow mb-4 text-center">
                     <div class="card-header py-3">
-                        <h3 class="m-0 font-weight-bold">Gagal!</h3>
+                        <h3 class="m-0 font-weight-bold">Berhasil!</h3>
                     </div>
                     <br>
                     <div class="card-body">
-                        <p>Jenis Item tidak dapat dihapus</p>
-                        <p th:text="'Terdapat Item dengan Jenis ' + ${jenis.namaJenisItem} + ' di Inventory'"></p>
+                        <p th:text="'Status Item dengan nama ' + ${statusItem.namaStatusItem} + ' berhasil dihapus'"></p>
                     </div>
                 </div>
             </div>
             <div class="container-fluid">
-                <a th:href="@{/hardware-fulfillment/jenis/all}" class="btn btn-info btn-block">Lihat Semua Jenis</a>
+                <a th:href="@{/hardware-fulfillment/item/status/all}" class="btn btn-info btn-block">Lihat Semua Status Item</a>
             </div>
 
         </div>

@@ -3,10 +3,7 @@ package sistem.operasional.sioperasional.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import sistem.operasional.sioperasional.model.ItemModel;
-import sistem.operasional.sioperasional.model.KategoriItemModel;
-import sistem.operasional.sioperasional.model.JenisItemModel;
-import sistem.operasional.sioperasional.model.PurchaseOrderModel;
+import sistem.operasional.sioperasional.model.*;
 import sistem.operasional.sioperasional.repository.ItemDB;
 
 import javax.transaction.Transactional;
@@ -98,5 +95,10 @@ public class ItemServiceImpl implements ItemService{
             }
         }
         return listItemAvailable;
+    }
+
+    @Override
+    public List<ItemModel> getItemListByStatusItem(StatusItemModel statusItemModel){
+        return itemDB.findItemModelByStatusItem(statusItemModel);
     }
 }
