@@ -122,6 +122,18 @@
                                     <td>
                                         <p>
                                             <b>
+                                                Tanggal Update Purchase Order Terakhir
+                                            </b>
+                                        </p>
+                                    </td>
+                                    <td style="vertical-align: middle;">
+                                        <p th:text="${#dates.format(purchaseOrder.tanggalUpdate, 'dd MMMM, yyyy')}"></p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <p>
+                                            <b>
                                                 Tanggal Purchase Order Dibayar
                                             </b>
                                         </p>
@@ -162,8 +174,8 @@
                                             </b>
                                         </p>
                                     </td>
-                                    <td style="vertical-align: middle;">
-                                        <p th:text="${purchaseOrder.disetujui}"></p>
+                                    <td style="vertical-align: middle;" th:if="${purchaseOrder.disetujui == true}">
+                                            <i class="fas fa-check"  style="font-size:25px;"></i>
                                     </td>
                                 </tr>
                                 <tr>

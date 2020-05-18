@@ -72,9 +72,12 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService{
     public PurchaseOrderModel changePurchaseOrder(PurchaseOrderModel purchaseOrderModel) {
         PurchaseOrderModel newPurchaseOrderModel = purchaseOrderDB.findById(purchaseOrderModel.getNomorPurchaseOrder()).get();
 
+        Date newDate = new Date();
+
         try {
             newPurchaseOrderModel.setNomorInvoice(purchaseOrderModel.getNomorInvoice());
             newPurchaseOrderModel.setVendor(purchaseOrderModel.getVendor());
+            newPurchaseOrderModel.setTanggalUpdate(newDate);
             newPurchaseOrderModel.setTanggalBayar(purchaseOrderModel.getTanggalBayar());
             purchaseOrderDB.save(newPurchaseOrderModel);
             return newPurchaseOrderModel;
@@ -295,15 +298,9 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService{
             totalAmount.setExtraParagraphSpace(5f);
             document.add(totalAmount);
 
-
-            int creatorNameLength = purchaseOrderModel.getCreator().getNama().length();
-            int length = Math.floorDiv(creatorNameLength,3);
-            int requestedLength = 12 + length;
-            int currDateLength = 12 + length;
-            logger.info("Ini Panjangnya: "+length);
             String signName = String.format("%s", purchaseOrderModel.getCreator().getNama());
-            String requestedBy = String.format("%-"+requestedLength+"s", "Requested by");
-            String currDate = String.format("%-"+currDateLength+"s", dateToStringHelper(purchaseOrderModel.getTanggalOpen()));
+            String requestedBy = String.format("%s", "Requested by");
+            String currDate = String.format("%s", dateToStringHelper(purchaseOrderModel.getTanggalOpen()));
 
             Paragraph requestedByOutput = new Paragraph(requestedBy , mainFont);
             requestedByOutput.setAlignment(Element.ALIGN_RIGHT);
