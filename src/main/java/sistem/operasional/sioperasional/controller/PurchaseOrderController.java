@@ -305,11 +305,13 @@ public class PurchaseOrderController {
 
         PurchaseOrderModel purchaseOrderModel =
                 purchaseOrderService.getPurchaseOrderByNomorPurchaseOrder(nomorPurchaseOrder).get();
+        logger.info("MASUK KEK DOWNLOAD METHOD");
         boolean isFlag= purchaseOrderService.createPdf(purchaseOrderModel,context,request,response);
-
+        logger.info("CREATE PDF METHOD UDH SELESAI, HASIL BOOLEANNYA: "+ isFlag);
         String namaFile = nomorPurchaseOrder+".pdf";
         if(isFlag)
         {
+            logger.info("MASUK KE IF DI METHOD CREATE PDF");
             String fullPath = filePath+namaFile;
             fileDownload(fullPath,response,namaFile);
         }
@@ -343,6 +345,8 @@ public class PurchaseOrderController {
             }
             catch(Exception ex)
             {
+                logger.info("ERROR DI FILE DOWNLOAD");
+                logger.info(ex.getMessage());
                 ex.printStackTrace();
             }
         }

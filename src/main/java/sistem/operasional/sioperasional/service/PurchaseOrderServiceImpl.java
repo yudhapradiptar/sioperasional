@@ -329,7 +329,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService{
         }
         catch(Exception ex)
         {
-            logger.info("ERROR: " + ex);
+            logger.info("==============ERROR DI SERVICE IMPL: " + ex);
             return false;
         }
 
