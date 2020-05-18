@@ -123,10 +123,12 @@ public class DeliveryOrderController {
 
         UserModel user = userService.getUserCurrentLoggedIn();
         deliveryOrderModel.setCreator(user);
+        deliveryOrderModel.setNomorDeliveryOrder(deliveryOrderModel.getNomorDeliveryOrder().replaceAll("/", "-"));
+
         DeliveryOrderModel deliveryOrderModel2 = deliveryOrderService
                 .getDeliveryOrderByNomorDeliveryOrder(deliveryOrderModel.getNomorDeliveryOrder());
         if (deliveryOrderModel2 != null) {
-            model.addAttribute("deliveryOrder", deliveryOrderModel);
+            model.addAttribute("nomorDeliveryOrder", deliveryOrderModel.getNomorDeliveryOrder());
             return "delivery-order-already-exist";
         }
 
