@@ -59,7 +59,7 @@ public class PurchaseOrderController {
 
     private static Logger logger = LogManager.getLogger(PurchaseOrderController.class);
 
-    private static final String filePath = System.getProperty("user.home");
+    private static final String filePath = System.getProperty("user.home"+"/");
 
     private static final String image = "post.jpg";
 
