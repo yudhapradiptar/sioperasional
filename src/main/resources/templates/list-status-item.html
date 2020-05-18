@@ -107,12 +107,19 @@
                                         <tr>
                                             <th>Id Item</th>
                                             <th>Status Item</th>
+                                            <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr th:each="status, iterationStatus : *{allStatusItem}">
                                             <th scope="row" th:text="${iterationStatus.count}"></th>
                                             <td th:text="${status.namaStatusItem}"></td>
+                                            <td>
+                                                <a class="btn btn-danger" id="delButton"
+                                                   th:href="@{/hardware-fulfillment/item/status/delete(idStatusItem=${status.idStatusItem})}"
+                                                   role="button"><i class="fa fa-trash-o"></i>
+                                                </a>
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>

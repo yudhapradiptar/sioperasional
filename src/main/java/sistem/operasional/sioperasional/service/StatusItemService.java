@@ -10,4 +10,6 @@ public interface StatusItemService {
     List<StatusItemModel> getListStatusItem();
 
     void createStatusItem(StatusItemModel statusItem);
+
+    void deleteStatusItem(StatusItemModel statusItemModel);
 }

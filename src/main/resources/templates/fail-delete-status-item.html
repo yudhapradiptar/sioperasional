@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Jenis</title>
+    <title>Status Item</title>
 
     <!-- Custom fonts for this template-->
     <link rel="stylesheet" th:href="@{/vendor/fontawesome-free/css/all.min.css}" type="text/css">
@@ -55,13 +55,13 @@
                     </div>
                     <br>
                     <div class="card-body">
-                        <p>Jenis Item tidak dapat dihapus</p>
-                        <p th:text="'Terdapat Item dengan Jenis ' + ${jenis.namaJenisItem} + ' di Inventory'"></p>
+                        <p>Kategori Item tidak dapat dihapus</p>
+                        <p th:text="'Terdapat Item dengan Status' + ${statusItem.namaStatusItem} + ' di inventory'"></p>
                     </div>
                 </div>
             </div>
             <div class="container-fluid">
-                <a th:href="@{/hardware-fulfillment/jenis/all}" class="btn btn-info btn-block">Lihat Semua Jenis</a>
+                <a th:href="@{/hardware-fulfillment/item/status/all}" class="btn btn-info btn-block">Lihat Semua Kategori</a>
             </div>
 
         </div>

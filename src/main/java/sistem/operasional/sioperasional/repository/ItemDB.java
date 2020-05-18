@@ -1,12 +1,10 @@
 package sistem.operasional.sioperasional.repository;
 
+import jdk.jshell.Snippet;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
-import sistem.operasional.sioperasional.model.ItemModel;
-import sistem.operasional.sioperasional.model.KategoriItemModel;
-import sistem.operasional.sioperasional.model.JenisItemModel;
-import sistem.operasional.sioperasional.model.PurchaseOrderModel;
+import sistem.operasional.sioperasional.model.*;
 
 import java.util.List;
 
@@ -23,6 +21,7 @@ public interface ItemDB extends JpaRepository<ItemModel, Long> {
 //	@Query(value = "SELECT * FROM item WHERE tanggal_keluar IS NULL and is_rusak = ?1", nativeQuery = true)
 //	List<ItemModel> findItemByTanggalKeluarAndNotRusak(int i);
 	List<ItemModel> findItemByDeliveryOrder(String nomorDeliveryOrder);
+	List<ItemModel> findItemModelByStatusItem(StatusItemModel statusItemModel);
 
 
 }
