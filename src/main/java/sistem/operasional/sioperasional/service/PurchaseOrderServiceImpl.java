@@ -34,28 +34,9 @@ import java.util.Optional;
 @Transactional
 public class PurchaseOrderServiceImpl implements PurchaseOrderService{
 
-
-    @Autowired
-    PurchaseOrderDB purchaseOrderDB;
-
-    @Override
-    public List<PurchaseOrderModel> getAll() {
-        return purchaseOrderDB.findAll();
-    }
-
-    @Override
-    public PurchaseOrderModel getPurchaseOrderByNomorPurchaseOrder(String nomorPurchaseOrder){
-        return purchaseOrderDB.findById(nomorPurchaseOrder).get();
-    }
-
-    @Override
-    public PurchaseOrderModel addPurchaseOrder(PurchaseOrderModel purchaseOrderModel) {
-        return purchaseOrderDB.save(purchaseOrderModel);
-    }
-
     private static Logger logger = LogManager.getLogger(PurchaseOrderServiceImpl.class);
 
-    private static final String filePath = System.getProperty("user.home")+"\\Downloads\\";
+    private static final String filePath = System.getProperty("user.home");
 
     private static Image postImage = null;
 
@@ -66,6 +47,42 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService{
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    @Autowired
+    PurchaseOrderDB purchaseOrderDB;
+
+    @Override
+    public List<PurchaseOrderModel> getAll() {
+        return purchaseOrderDB.findAll();
+    }
+
+    @Override
+    public Optional<PurchaseOrderModel> getPurchaseOrderByNomorPurchaseOrder(String nomorPurchaseOrder){
+        return purchaseOrderDB.findById(nomorPurchaseOrder);
+    }
+
+    @Override
+    public PurchaseOrderModel addPurchaseOrder(PurchaseOrderModel purchaseOrderModel) {
+        return purchaseOrderDB.save(purchaseOrderModel);
+    }
+
+    @Override
+    public PurchaseOrderModel changePurchaseOrder(PurchaseOrderModel purchaseOrderModel) {
+        PurchaseOrderModel newPurchaseOrderModel = purchaseOrderDB.findById(purchaseOrderModel.getNomorPurchaseOrder()).get();
+
+        Date newDate = new Date();
+
+        try {
+            newPurchaseOrderModel.setNomorInvoice(purchaseOrderModel.getNomorInvoice());
+            newPurchaseOrderModel.setVendor(purchaseOrderModel.getVendor());
+            newPurchaseOrderModel.setTanggalUpdate(newDate);
+            newPurchaseOrderModel.setTanggalBayar(purchaseOrderModel.getTanggalBayar());
+            purchaseOrderDB.save(newPurchaseOrderModel);
+            return newPurchaseOrderModel;
+        } catch (NullPointerException nullException) {
+            return null;
         }
     }
 
@@ -281,8 +298,10 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService{
             totalAmount.setExtraParagraphSpace(5f);
             document.add(totalAmount);
 
+            String signName = String.format("%s", purchaseOrderModel.getCreator().getNama());
+            String requestedBy = String.format("%s", "Requested by");
+            String currDate = String.format("%s", dateToStringHelper(purchaseOrderModel.getTanggalOpen()));
 
-            String requestedBy = String.format("%-16s", "Requested by");
             Paragraph requestedByOutput = new Paragraph(requestedBy , mainFont);
             requestedByOutput.setAlignment(Element.ALIGN_RIGHT);
             requestedByOutput.setIndentationRight(55);
@@ -290,8 +309,6 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService{
             requestedByOutput.setExtraParagraphSpace(5f);
             document.add(requestedByOutput);
 
-
-            String signName = String.format("%s", purchaseOrderModel.getCreator().getNama());
             Paragraph signNameOutput = new Paragraph(signName , mainFont);
             signNameOutput.setAlignment(Element.ALIGN_RIGHT);
             signNameOutput.setIndentationRight(55);
@@ -299,7 +316,6 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService{
             signNameOutput.setExtraParagraphSpace(5f);
             document.add(signNameOutput);
 
-            String currDate = String.format("%-15s", dateToStringHelper(purchaseOrderModel.getTanggalOpen()));
             Paragraph currDateOutput = new Paragraph(currDate , mainFont);
             currDateOutput.setAlignment(Element.ALIGN_RIGHT);
             currDateOutput.setIndentationRight(55);

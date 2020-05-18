@@ -104,11 +104,11 @@
                                 <div class="form-group">
                                     <label class="control-label col-sm-2">Pilih Jenis Outlet</label>
                                     <div class="col-sm-10">
-                                        <select class="form-control" name="jenisOutlet" th:value="*{jenisOutlet.idJenisOutlet}" required="true">
-                                            <option th:text="*{jenisOutlet.namaJenisOutlet}" th:value="*{jenisOutlet.idJenisOutlet}" th:field="*{jenisOutlet.idJenisOutlet}"></option>
-                                            
-                                            <option th:each="jenisOutlet : ${jenisOutlet}" th:value="${jenisOutlet.idJenisOutlet}" th:text="${jenisOutlet.namaJenisOutlet}">
-                                            </option>
+                                        <select class="form-control" name="jenisOutlet" th:field="*{jenisOutlet.idJenisOutlet}"
+                                                required="true">
+                                            <option value="0">-- Pilih outlet --</option>
+                                            <option th:each="jenisOutlet : ${jenisOutlet}" th:value="${{jenisOutlet.idJenisOutlet}}"
+                                                    th:text="${jenisOutlet.namaJenisOutlet}"></option>
                                         </select>
                                     </div>
                                 </div>

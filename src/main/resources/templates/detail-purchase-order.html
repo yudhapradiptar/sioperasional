@@ -122,6 +122,18 @@
                                     <td>
                                         <p>
                                             <b>
+                                                Tanggal Update Purchase Order Terakhir
+                                            </b>
+                                        </p>
+                                    </td>
+                                    <td style="vertical-align: middle;">
+                                        <p th:text="${#dates.format(purchaseOrder.tanggalUpdate, 'dd MMMM, yyyy')}"></p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <p>
+                                            <b>
                                                 Tanggal Purchase Order Dibayar
                                             </b>
                                         </p>
@@ -162,8 +174,8 @@
                                             </b>
                                         </p>
                                     </td>
-                                    <td style="vertical-align: middle;">
-                                        <p th:text="${purchaseOrder.disetujui}"></p>
+                                    <td style="vertical-align: middle;" th:if="${purchaseOrder.disetujui == true}">
+                                            <i class="fas fa-check"  style="font-size:25px;"></i>
                                     </td>
                                 </tr>
                                 <tr>
@@ -181,7 +193,7 @@
                                             <tr>
                                                 <th style="text-align: center">No.</th>
                                                 <th style="text-align: center">Kategori Item</th>
-                                                <th style="text-align: center">Merek Item</th>
+                                                <th style="text-align: center">Jenis Item</th>
                                                 <th style="text-align: center">Jumlah Item</th>
                                                 <th style="text-align: center">Harga Satuan</th>
                                             </tr>
@@ -238,6 +250,17 @@
                                       th:method="POST">
                                 <button class="btn btn-info text-white">
                                     <span class="text" value="submit">Download PDF</span>
+                                </button>
+                                </form>
+                            </span>
+                                &nbsp
+                                &nbsp
+                                <span>
+                                <form class="form-horizontal"
+                                      th:action="@{/purchase-order/update/{nomorPurchaseOrder}(nomorPurchaseOrder=${purchaseOrder.nomorPurchaseOrder})}"
+                                      th:method="GET">
+                                <button class="btn btn-info text-white">
+                                    <span class="text" value="submit">Update</span>
                                 </button>
                                 </form>
                             </span>
