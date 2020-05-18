@@ -36,7 +36,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService{
 
     private static Logger logger = LogManager.getLogger(PurchaseOrderServiceImpl.class);
 
-    private static final String filePath = System.getProperty("user.home")+"\\Downloads\\";
+    private static final String filePath = System.getProperty("user.home");
 
     private static Image postImage = null;
 
