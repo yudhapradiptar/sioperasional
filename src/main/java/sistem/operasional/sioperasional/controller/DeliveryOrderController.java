@@ -60,16 +60,17 @@ public class DeliveryOrderController {
 
     @RequestMapping("/daftar-delivery-order-set-tanggal")
     public String viewDeliveryOrderBundlingNotSetTanggal(Model model) {
+        model.addAttribute("role", userService.getUserCurrentLoggedIn().getRole().getNamaRole());
         
         List<DeliveryOrderModel> listDeliveryOrderBundlingNotSetTanggalYet = deliveryOrderService.getDeliveryOrderListBySubscribedAndTanggalSubcribeStartNull();
         model.addAttribute("listDeliveryOrder", listDeliveryOrderBundlingNotSetTanggalYet);
 
-        model.addAttribute("role", userService.getUserCurrentLoggedIn().getRole().getNamaRole());
         return "list-delivery-order-set-tanggal";
     }
 
     @RequestMapping(value = "/detail/{nomor}", method = RequestMethod.GET)
     public String viewDeliveryOrderByNomorDeliveryOrder(@PathVariable String nomor, Model model) {
+        model.addAttribute("role", userService.getUserCurrentLoggedIn().getRole().getNamaRole());
 
         DeliveryOrderModel deliveryOrderModel = deliveryOrderService.getDeliveryOrderByNomorDeliveryOrder(nomor);
         List<ItemModel> listItem = deliveryOrderModel.getListItem();
@@ -89,12 +90,13 @@ public class DeliveryOrderController {
         model.addAttribute("deliveryOrder", deliveryOrderModel);
         model.addAttribute("tanggalCreate", tanggalCreateFormatted);
         model.addAttribute("listItem", listItem);
-        model.addAttribute("role", userService.getUserCurrentLoggedIn().getRole().getNamaRole());
         return "detail-delivery-order";
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.GET)
     public String addDeliveryOrderFormPage(Model model) {
+        model.addAttribute("role", userService.getUserCurrentLoggedIn().getRole().getNamaRole());
+        
         DeliveryOrderModel deliveryOrderModel = new DeliveryOrderModel();
 
         List<ItemModel> itemModels = itemService.geItemListByTanggalKeluarNullAndNotRusak();
@@ -111,13 +113,13 @@ public class DeliveryOrderController {
         model.addAttribute("deliveryOrder", deliveryOrderModel);
         model.addAttribute("listItem", itemModels);
 
-        model.addAttribute("role", userService.getUserCurrentLoggedIn().getRole().getNamaRole());
         return "form-add-delivery-order";
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public String addDeliveryOrderSubmit(@ModelAttribute DeliveryOrderModel deliveryOrderModel,
             @ModelAttribute ItemModel itemModel, Model model) {
+        model.addAttribute("role", userService.getUserCurrentLoggedIn().getRole().getNamaRole());
 
         UserModel user = userService.getUserCurrentLoggedIn();
         deliveryOrderModel.setCreator(user);
@@ -139,12 +141,13 @@ public class DeliveryOrderController {
         // model.addAttribute("tanggal", deliveryOrderModel.getTanggalCreate());
         model.addAttribute("namaOutlet", deliveryOrderModel.getOutlet().getNamaOutlet());
         model.addAttribute("listItem", deliveryOrderModel.getListItem());
-        model.addAttribute("role", userService.getUserCurrentLoggedIn().getRole().getNamaRole());
         return "add-delivery-order";
     }
 
     @RequestMapping(value = "/set-tanggal-subscribe/{nomor}", method = RequestMethod.GET)
     public String addSubscribeDateFormPage(@PathVariable String nomor, Model model) {
+        model.addAttribute("role", userService.getUserCurrentLoggedIn().getRole().getNamaRole());
+        
         DeliveryOrderModel deliveryOrderModel = deliveryOrderService.getDeliveryOrderByNomorDeliveryOrder(nomor);
         if (deliveryOrderModel.getSubscribed() == false) {
             model.addAttribute("deliveryOrder", deliveryOrderModel);
@@ -156,13 +159,14 @@ public class DeliveryOrderController {
         model.addAttribute("deliveryOrder", deliveryOrderModel);
         model.addAttribute("listItem", listItem);
 
-        model.addAttribute("role", userService.getUserCurrentLoggedIn().getRole().getNamaRole());
         return "form-add-tanggal-subscribe";
     }
 
     @RequestMapping(value = "/set-tanggal-subscribe/{nomor}", method = RequestMethod.POST)
     public String addSubscribeDate(@PathVariable String nomor, @ModelAttribute DeliveryOrderModel deliveryOrderModel,
             Model model) {
+        model.addAttribute("role", userService.getUserCurrentLoggedIn().getRole().getNamaRole());
+        
         DeliveryOrderModel newDeliveryOrderModel = deliveryOrderService.changeDeliveryOrder(deliveryOrderModel);
         model.addAttribute("deliveryOrder", newDeliveryOrderModel);
 
@@ -173,12 +177,13 @@ public class DeliveryOrderController {
         model.addAttribute("tanggalStartFormatted", tanggalStartFormatted);
         model.addAttribute("tanggalEndFormatted", tanggalEndFormatted);
 
-        model.addAttribute("role", userService.getUserCurrentLoggedIn().getRole().getNamaRole());
         return "add-tanggal-subscribe";
     }
 
     @RequestMapping(value = "/update/{nomor}", method = RequestMethod.GET)
     public String updateFormPage(@PathVariable String nomor, Model model) {
+        model.addAttribute("role", userService.getUserCurrentLoggedIn().getRole().getNamaRole());
+
         DeliveryOrderModel deliveryOrderModel = deliveryOrderService.getDeliveryOrderByNomorDeliveryOrder(nomor);
 
         List<ItemModel> itemModelsNull = itemService.getItemListAvailable(deliveryOrderModel.getNomorDeliveryOrder());
@@ -197,13 +202,13 @@ public class DeliveryOrderController {
         model.addAttribute("itemModelsCurrent", itemModelsCurrent);
         model.addAttribute("listItem", itemModelsNull);
 
-//        model.addAttribute("role", userService.getUserCurrentLoggedIn().getRole().getNamaRole());
         return "form-update-delivery-order";
     }
 
     @RequestMapping(value = "/update/{nomor}", method = RequestMethod.POST)
     public String updateSubmit(@PathVariable String nomor, @ModelAttribute DeliveryOrderModel deliveryOrderModel,
             Model model) {
+        model.addAttribute("role", userService.getUserCurrentLoggedIn().getRole().getNamaRole());
 
         DeliveryOrderModel deliveryOrderNow = deliveryOrderService
                 .getDeliveryOrderByNomorDeliveryOrder(deliveryOrderModel.getNomorDeliveryOrder());
@@ -227,12 +232,13 @@ public class DeliveryOrderController {
 
         model.addAttribute("deliveryOrder", newDeliveryOrderModel);
         model.addAttribute("listItem", listItem);
-        model.addAttribute("role", userService.getUserCurrentLoggedIn().getRole().getNamaRole());
         return "update-delivery-oder";
     }
 
     @RequestMapping(value = "/addwithtxt", method = RequestMethod.GET)
     public String addDeliveryOrderFormPageWithTxt(Model model) {
+        model.addAttribute("role", userService.getUserCurrentLoggedIn().getRole().getNamaRole());
+        
         DeliveryOrderModel deliveryOrderModel = new DeliveryOrderModel();
 
         List<ItemModel> itemModels = itemService.geItemListByTanggalKeluarNullAndNotRusak();
@@ -249,7 +255,6 @@ public class DeliveryOrderController {
         model.addAttribute("deliveryOrder", deliveryOrderModel);
         model.addAttribute("listItem", itemModels);
 
-        model.addAttribute("role", userService.getUserCurrentLoggedIn().getRole().getNamaRole());
         return "form-add-delivery-order-with-txt";
     }
 
@@ -258,6 +263,8 @@ public class DeliveryOrderController {
             @ModelAttribute DeliveryOrderModel deliveryOrderModel, @ModelAttribute ItemModel itemModel, Model model)
             throws IOException, ParseException {
 
+        model.addAttribute("role", userService.getUserCurrentLoggedIn().getRole().getNamaRole());
+        
         Date date;
 
         ByteArrayInputStream stream = new ByteArrayInputStream(file.getBytes());
@@ -305,7 +312,6 @@ public class DeliveryOrderController {
         // model.addAttribute("tokopediaLink", tokopediaLink);
 
 
-        model.addAttribute("role", userService.getUserCurrentLoggedIn().getRole().getNamaRole());
         return "add-delivery-order-with-txt";
     }
 }

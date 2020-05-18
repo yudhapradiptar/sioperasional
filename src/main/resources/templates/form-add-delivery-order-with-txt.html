@@ -86,7 +86,6 @@
 										<div class="control-label col-sm-10">
 											<select class="form-control" name="outlet" th:field="*{outlet.idOutlet}"
 												required="true">
-												<option value="0">-- Pilih outlet --</option>
 												<option th:each="outlet : ${listOutlet}" th:value="${{outlet.idOutlet}}"
 													th:text="${outlet.namaOutlet}"></option>
 											</select>
@@ -111,7 +110,7 @@
 										<a  href="https://pdftotext.com/" target="_blank"><small class="col-sm-12">ubah pdf menjadi txt</small></a>
 										<div class="control-label col-sm-10" classButton="btn btn-primary">
 											<input type="file" name="file" accept=".txt" 
-											style="position:relative;"/>
+											style="position:relative;" required="true"/>
 										</div>
 									</div>
 									
