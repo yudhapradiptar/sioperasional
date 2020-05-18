@@ -143,30 +143,28 @@
                                     <tr th:each="itemPO, iterationStatus : *{listItemPO}">
                                         <td>
                                             <select class="form-control" name="kategori" th:field="*{listItemPO[__${iterationStatus.index}__].kategoriItem}"
-                                                    required="true">
-                                                <option value="0">-- Pilih Kategori Item --</option>
+                                                    readonly>
                                                 <option th:each="kategori : ${listKategoriItem}" th:value="${{kategori.idKategoriItem}}"
                                                         th:text="${kategori.namaKategoriItem}"></option>
                                             </select>
+
                                         </td>
 
                                         <td>
                                             <select class="form-control" name="jenis" th:field="*{listItemPO[__${iterationStatus.index}__].jenisItem}"
-                                                    required="true">
-                                                <option value="0">-- Pilih Jenis Item --</option>
+                                                    readonly>
                                                 <option th:each="jenis : ${listJenisItem}" th:value="${{jenis.idJenisItem}}"
                                                         th:text="${jenis.namaJenisItem}"></option>
-                                            </select>
                                         </td>
 
                                         <td>
                                             <input type="number" min="0" name="jumlah" th:field="*{listItemPO[__${iterationStatus.index}__].jumlahItem}"
-                                                   class="form-control form-control-user" placeholder="Masukkan Jumlah Item">
+                                                   class="form-control form-control-user" placeholder="Masukkan Jumlah Item" readonly>
                                         </td>
 
                                         <td>
                                             <input type="number" min="0" name="harga" th:field="*{listItemPO[__${iterationStatus.index}__].hargaSatuan}"
-                                                   class="form-control form-control-user" placeholder="Masukkan Harga Satuan Item">
+                                                   class="form-control form-control-user" placeholder="Masukkan Harga Satuan Item" readonly>
                                         </td>
                                     </tbody>
                                     </tr>

@@ -59,7 +59,7 @@ public class PurchaseOrderController {
 
     private static Logger logger = LogManager.getLogger(PurchaseOrderController.class);
 
-    private static final String filePath = System.getProperty("user.home")+"\\Downloads\\";
+    private static final String filePath = System.getProperty("user.home")+"/Downloads";
 
     private static final String image = "post.jpg";
 
@@ -285,10 +285,6 @@ public class PurchaseOrderController {
             purchaseOrder.setListItemPO(new ArrayList<ItemPOModel>());
         }
 
-        logger.info("============Length Before: "+ purchaseOrder.getListItemPO().size());
-        purchaseOrder.getListItemPO().add(new ItemPOModel());
-        logger.info("============Length After: "+ purchaseOrder.getListItemPO().size());
-
         List<KategoriItemModel> listKategoriItem = kategoriItemService.getKategoriItemList();
         List<JenisItemModel> listJenis = jenisItemService.getJenisItemList();
         List<ItemPOModel> listItemPO = purchaseOrder.getListItemPO();
@@ -316,14 +312,12 @@ public class PurchaseOrderController {
         {
             String fullPath = filePath+namaFile;
             fileDownload(fullPath,response,namaFile);
-
         }
-
-
     }
 
     private void fileDownload(String fullPath, HttpServletResponse response, String fileName) {
         File file = new File(fullPath);
+        logger.info("======================="+fullPath+"=======================");
         final int BUFFER_SIZE = 4096;
         if(file.exists())
         {

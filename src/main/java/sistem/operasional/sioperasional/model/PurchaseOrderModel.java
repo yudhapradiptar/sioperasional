@@ -54,6 +54,10 @@ public class PurchaseOrderModel implements Serializable {
     private Date tanggalOpen;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @Column(name = "tanggalUpdate", nullable = true)
+    private Date tanggalUpdate;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "tanggalClose", nullable = true)
     private Date tanggalClose;
 
@@ -123,6 +127,14 @@ public class PurchaseOrderModel implements Serializable {
 
     public void setTanggalOpen(Date tanggalOpen) {
         this.tanggalOpen = tanggalOpen;
+    }
+
+    public Date getTanggalUpdate() {
+        return tanggalUpdate;
+    }
+
+    public void setTanggalUpdate(Date tanggalUpdate) {
+        this.tanggalUpdate = tanggalUpdate;
     }
 
     public Date getTanggalClose() {
