@@ -173,9 +173,9 @@ public class DeliveryOrderController {
         model.addAttribute("deliveryOrder", newDeliveryOrderModel);
 
         String tanggalStartFormatted = deliveryOrderModel.getTanggalSubscribeStart().toString();
-        tanggalStartFormatted = tanggalStartFormatted.substring(0, tanggalStartFormatted.length() - 10);
+        tanggalStartFormatted = tanggalStartFormatted.substring(0, tanggalStartFormatted.length() - 14);
         String tanggalEndFormatted = deliveryOrderModel.getTanggalSubscribeEnd().toString();
-        tanggalEndFormatted = tanggalEndFormatted.substring(0, tanggalEndFormatted.length() - 10);
+        tanggalEndFormatted = tanggalEndFormatted.substring(0, tanggalEndFormatted.length() - 14);
         model.addAttribute("tanggalStartFormatted", tanggalStartFormatted);
         model.addAttribute("tanggalEndFormatted", tanggalEndFormatted);
 
