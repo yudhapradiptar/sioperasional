@@ -79,7 +79,7 @@ public class TrainingController {
                 int finishMinuteCompared = Integer.parseInt(trainingCompared.getWaktuSelesai().substring(3,4));
                 Date combinedStartDateCompared = new Date(yearTanggalTrainingCompared, monthTanggalTraining, dateTanggalTraining, startHourCompared, startMinuteCompared);
                 Date combinedFinishDateCompared = new Date(yearTanggalTrainingCompared, monthTanggalTrainingCompared, dateTanggalTrainingCompared, finishHourCompared, finishMinuteCompared);
-                if(combinedStartDate.before(combinedFinishDateCompared) && combinedFinishedDate.after(combinedStartDateCompared)){
+                if(combinedStartDate.before(combinedFinishDateCompared) && combinedFinishedDate.after(combinedStartDateCompared) && (training.getTrainer()==trainingCompared.getTrainer() || training.getOutlet()==trainingCompared.getOutlet())){
                     model.addAttribute("notifTimeOverlap", "Waktu Training Overlap dengan Training yang sudah ada");
                     return "fail-create-training";
                 }
@@ -92,7 +92,6 @@ public class TrainingController {
             training.setCreator(userService.getUserByUsername(currentUser.getUsername()));
             training.setStatusTraining("Menunggu Persetujuan");
             trainingService.createTraining(training);
-
             model.addAttribute("idTraining", training.getIdTraining());
             model.addAttribute("namaTrainer", training.getTrainer().getNama());
             model.addAttribute("namaOutlet", training.getOutlet().getNamaOutlet());
@@ -126,16 +125,9 @@ public class TrainingController {
 
     @RequestMapping(value = "/edit/{idTraining}")
     public String editTrainingForm(@PathVariable String idTraining, @AuthenticationPrincipal UserDetails currentUser, Model model){
+        model.addAttribute("role", userService.getUserByUsername(currentUser.getUsername()).getRole().getNamaRole());
         TrainingModel existingTraining = trainingService.getTrainingByIdTraining(idTraining);
         if(existingTraining!=null){
-//            model.addAttribute("bayar", existingTraining.getBayar());
-//            model.addAttribute("tanggalRequest", existingTraining.getTanggalRequest());
-//            model.addAttribute("tanggalTraining", existingTraining.getTanggalTraining());
-//            model.addAttribute("waktuMulai", existingTraining.getWaktuMulai());
-//            model.addAttribute("waktuSelesai", existingTraining.getWaktuSelesai());
-//            model.addAttribute("trainer", existingTraining.getTrainer().getNama());
-//            model.addAttribute("outlet", existingTraining.getOutlet().getNamaOutlet());
-//            model.addAttribute("keterangan", existingTraining.getKeteranganTraining());
             model.addAttribute("training", existingTraining);
 
             List<UserModel> listTrainer = new ArrayList<>();
@@ -147,7 +139,6 @@ public class TrainingController {
 
             model.addAttribute("listTrainer", listTrainer);
             model.addAttribute("listOutlet", outletService.getOutletList());
-            model.addAttribute("role", userService.getUserByUsername(currentUser.getUsername()).getRole().getNamaRole());
 
             return "form-edit-training";
         }
@@ -156,10 +147,14 @@ public class TrainingController {
 
     @RequestMapping(value = "/edit/{idTraining}", method = RequestMethod.POST)
     public String editTrainingSubmit(@PathVariable String idTraining, @ModelAttribute TrainingModel training, @AuthenticationPrincipal UserDetails currentUser, Model model) {
+        model.addAttribute("role", userService.getUserByUsername(currentUser.getUsername()).getRole().getNamaRole());
         List<TrainingModel> listTraining = trainingService.getAllTraining();
 
         TrainingModel trainingEdited = trainingService.getTrainingByIdTraining(training.getIdTraining());
-
+        if(training.getStatusTraining().equals("Disetujui") || training.getStatusTraining().equals("Selesai") || training.getStatusTraining().equals("Ditolak")){
+            model.addAttribute("idTraining", idTraining);
+            return "fail-edit-training";
+        }
         int yearTanggalTraining = training.getTanggalTraining().getYear();
         int monthTanggalTraining = training.getTanggalTraining().getMonth();
         int dateTanggalTraining = training.getTanggalTraining().getDate();
@@ -183,8 +178,9 @@ public class TrainingController {
                 int finishMinuteCompared = Integer.parseInt(trainingCompared.getWaktuSelesai().substring(3,4));
                 Date combinedStartDateCompared = new Date(yearTanggalTrainingCompared, monthTanggalTraining, dateTanggalTraining, startHourCompared, startMinuteCompared);
                 Date combinedFinishDateCompared = new Date(yearTanggalTrainingCompared, monthTanggalTrainingCompared, dateTanggalTrainingCompared, finishHourCompared, finishMinuteCompared);
-                if(combinedStartDate.before(combinedFinishDateCompared) && combinedFinishedDate.after(combinedStartDateCompared)){
+                if(combinedStartDate.before(combinedFinishDateCompared) && combinedFinishedDate.after(combinedStartDateCompared) && (training.getTrainer()==trainingCompared.getTrainer() || training.getOutlet()==trainingCompared.getOutlet())){
                     model.addAttribute("notifTimeOverlap", "Waktu Training Overlap dengan Training yang sudah ada");
+                    model.addAttribute("idTraining", idTraining);
                     return "fail-edit-training";
                 }
 
@@ -199,7 +195,6 @@ public class TrainingController {
         model.addAttribute("idTraining", newTraining.getIdTraining());
         model.addAttribute("namaTrainer", newTraining.getTrainer().getNama());
         model.addAttribute("namaOutlet", newTraining.getOutlet().getNamaOutlet());
-        model.addAttribute("role", userService.getUserByUsername(currentUser.getUsername()).getRole().getNamaRole());
         return "success-edit-training";
     }
 
@@ -212,7 +207,6 @@ public class TrainingController {
         if(viewedTraining != null){
             if(roleCurrentUser.equals("Operation Staff")){
                 for(TrainingModel training : user.getListTrainingTrained()){
-                    System.out.println(training.getTrainer().getUsername());
                     if(training.getIdTraining().equals(viewedTraining.getIdTraining())){
                         model.addAttribute("training", viewedTraining);
                         model.addAttribute("idTraining", viewedTraining.getIdTraining());
@@ -249,7 +243,13 @@ public class TrainingController {
         Date now = new Date();
         if(viewedTraining != null){
             model.addAttribute("training", viewedTraining);
-            if(viewedTraining.getStatusTraining().equals("Disetujui") && !now.before(viewedTraining.getTanggalTraining()) && viewedTraining.getTrainer()==userService.getUserByUsername(currentUser.getUsername())){
+            int yearTanggalTraining = viewedTraining.getTanggalTraining().getYear();
+            int monthTanggalTraining = viewedTraining.getTanggalTraining().getMonth();
+            int dateTanggalTraining = viewedTraining.getTanggalTraining().getDate();
+            int finishHour = Integer.parseInt(viewedTraining.getWaktuSelesai().substring(0, 2));
+            int finishMinute = Integer.parseInt(viewedTraining.getWaktuSelesai().substring(3, 4));
+            Date combinedFinishedDate = new Date(yearTanggalTraining, monthTanggalTraining, dateTanggalTraining, finishHour, finishMinute);
+            if(viewedTraining.getStatusTraining().equals("Disetujui") && !now.before(combinedFinishedDate) && viewedTraining.getTrainer()==userService.getUserByUsername(currentUser.getUsername())){
                 viewedTraining.setStatusTraining("Selesai");
                 model.addAttribute("tanggalTrainingString", trainingService.tanggalFormat(viewedTraining.getTanggalTraining()));
                 model.addAttribute("training", viewedTraining);
@@ -261,19 +261,6 @@ public class TrainingController {
         return "error/403";
     }
 
-//     @RequestMapping(value = "/{idTraining}", method = RequestMethod.GET)
-//     public String DetailTraining(@PathVariable("idTraining") String idTraining, Model model){
-
-//         TrainingModel training = trainingService.getTrainingDetail(idTraining);
-
-//         System.out.println("Training Detail");
-//         System.out.println(training.getBayar());
-//         System.out.println("End");
-
-//         model.addAttribute("training", training);
-
-//         return "training-detail";
-//     }
 
     @RequestMapping(value = "/{idTraining}/{statusTraining}", method = RequestMethod.POST)
     public String updateTrainingSubmit(@PathVariable String idTraining, @PathVariable String statusTraining, @ModelAttribute TrainingModel trainingModel, Model model) {
@@ -306,12 +293,16 @@ public class TrainingController {
         } 
         if (roleCurrentUser.equals("Operation Staff")){
             daftarTraining = trainingService.getListTrainingByTrainer(userService.getUserByUsername(currentUser.getUsername()));
+            for(TrainingModel training : daftarTraining){
+                if(training.getStatusTraining().equals("Ditolak")){
+                    daftarTraining.remove(training);
+                }
+            }
         } else {
             daftarTraining = trainingService.getAllTraining();
         }
         model.addAttribute("trainingList", daftarTraining);
         model.addAttribute("role", userService.getUserByUsername(currentUser.getUsername()).getRole().getNamaRole());
-        System.out.println(daftarTraining.size());
         return "view-all-schedule";
     }
 

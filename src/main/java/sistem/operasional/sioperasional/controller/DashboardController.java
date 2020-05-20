@@ -135,10 +135,9 @@ public class DashboardController {
             int countTrainingBulanIni = 0;
             LocalDate date;
             for(TrainingModel training : trainingService.getAllTraining()){
-                if(training.getTanggalTraining().getMonth()+1==now.minusMonths(i).getMonthValue() && training.getTanggalTraining().toInstant().atZone(ZoneId.systemDefault()).toLocalDate().getYear()==now.minusMonths(i).getYear()){
-                    System.out.println(training.getTanggalTraining().getMonth()+1);
-                    System.out.println(now.minusMonths(i).getMonthValue());
-                    System.out.println(now.minusMonths(i).getYear());
+                if(training.getTanggalTraining().getMonth()+1==now.minusMonths(i).getMonthValue() &&
+                        training.getTanggalTraining().toInstant().atZone(ZoneId.systemDefault()).toLocalDate().getYear()==now.minusMonths(i).getYear() &&
+                        !(training.getStatusTraining().equals("Ditolak"))){
                     countTrainingBulanIni++;
                 }
             }
