@@ -121,6 +121,8 @@ public class PurchaseOrderController {
                 if (item.getPurchaseOrder().getNomorPurchaseOrder().equalsIgnoreCase(purchaseOrder1.getNomorPurchaseOrder()))
                     itemPODB.delete(item);
             }
+            purchaseOrder1.setTanggalUpdate(new Date());
+            purchaseOrderService.savePurchaseOrder(purchaseOrder1);
             logger.info("-IN-");
         }
         for (ItemPOModel itemPO : purchaseOrder.getListItemPO()) {
@@ -195,26 +197,8 @@ public class PurchaseOrderController {
             }
         }
         purchaseOrder.setDisetujui(true);
-        purchaseOrderDB.save(purchaseOrder);
+        purchaseOrderService.savePurchaseOrder(purchaseOrder);
 
-        return "redirect:/purchase-order/";
-    }
-
-    @RequestMapping(value = "/close/{nomorPurchaseOrder}", method = RequestMethod.POST)
-    public String closePurchaseOrder(@PathVariable("nomorPurchaseOrder") String nomorPurchaseOrder,
-                                       @ModelAttribute PurchaseOrderModel purchaseOrderModel){
-        PurchaseOrderModel purchaseOrder = new PurchaseOrderModel();
-        List<PurchaseOrderModel> purchaseOrderModelList = purchaseOrderService.getAll();
-        for (PurchaseOrderModel po:purchaseOrderModelList) {
-            if(po.getNomorPurchaseOrder().equalsIgnoreCase(nomorPurchaseOrder)){
-                purchaseOrder = po;
-            }
-        }
-
-        logger.info("Before:" + purchaseOrder.getStatusPO());
-        purchaseOrder.setStatusPO("Closed");
-        purchaseOrderDB.save(purchaseOrder);
-        logger.info("After:" + purchaseOrder.getStatusPO());
         return "redirect:/purchase-order/";
     }
 

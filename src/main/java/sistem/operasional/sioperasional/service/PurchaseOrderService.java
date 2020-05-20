@@ -20,5 +20,7 @@ public interface PurchaseOrderService {
 
     PurchaseOrderModel changePurchaseOrder(PurchaseOrderModel purchaseOrderModel);
 
+    void savePurchaseOrder(PurchaseOrderModel purchaseOrderModel);
+
 }
 
