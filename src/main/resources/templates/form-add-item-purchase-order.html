@@ -92,13 +92,13 @@
                                 </td>
 
                                 <td>
-                                    <input type="number" min="0" name="jumlah" th:field="*{listItemPO[__${iterationStatus.index}__].jumlahItem}"
-                                       class="form-control form-control-user" placeholder="Masukkan Jumlah Item">
+                                    <input type="number" min="1" name="jumlah" th:field="*{listItemPO[__${iterationStatus.index}__].jumlahItem}"
+                                       class="form-control form-control-user" placeholder="Masukkan Jumlah Item" required="true">
                                 </td>
 
                                 <td>
                                     <input type="number" min="0" name="harga" th:field="*{listItemPO[__${iterationStatus.index}__].hargaSatuan}"
-                                           class="form-control form-control-user" placeholder="Masukkan Harga Satuan Item">
+                                           class="form-control form-control-user" placeholder="Masukkan Harga Satuan Item" required="true">
                                 </td>
                             </tbody>
                             </tr>
