@@ -24,7 +24,7 @@ public class PurchaseOrderPdfContent extends AbstractPdf {
                 HttpServletResponse response) throws DocumentException {
 
         PurchaseOrderModel purchaseOrderModel = (PurchaseOrderModel) model.get("po");
-        String namaFile = purchaseOrderModel.getNomorPurchaseOrder();
+        String namaFile = "PurchaseOrder_"+purchaseOrderModel.getNomorPurchaseOrder();
         response.setHeader("Content-Disposition", "attachment; filename=\""+namaFile+"\"");
         try {
             PdfPTable tableHeader = new PdfPTable(2);
@@ -197,8 +197,8 @@ public class PurchaseOrderPdfContent extends AbstractPdf {
                 tableDetailItems.addCell(itemTable);
 
                 int totalHarga = hargaUnit*jumlah;
-                totalAmmount += totalHarga;
                 int totalHargaTaxed = totalHarga+(totalHarga/10);
+                totalAmmount += totalHargaTaxed;
                 String totalHargaTaxedFormated = String.format("%,d", totalHargaTaxed);
                 itemTable = new PdfPCell(new Paragraph(totalHargaTaxedFormated, mainFont));
                 itemTable.setHorizontalAlignment(Element.ALIGN_RIGHT);
@@ -210,7 +210,7 @@ public class PurchaseOrderPdfContent extends AbstractPdf {
             document.add(tableDetailItems);
 
             String totalAmmountFormated = String.format("%,d", totalAmmount);
-            String totalAmountFormatedString = String.format("TOTAL%25s", totalAmmountFormated);
+            String totalAmountFormatedString = String.format("TOTAL (RP)%25s", totalAmmountFormated);
             Paragraph totalAmount = new Paragraph(totalAmountFormatedString , mainFontBoldUnderline);
             totalAmount.setAlignment(Element.ALIGN_RIGHT);
             totalAmount.setIndentationRight(55);
