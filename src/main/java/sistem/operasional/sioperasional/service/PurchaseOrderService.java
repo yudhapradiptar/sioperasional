@@ -14,13 +14,13 @@ public interface PurchaseOrderService {
 
     Optional<PurchaseOrderModel> getPurchaseOrderByNomorPurchaseOrder(String nomorPurchaseOrder);
 
-    PurchaseOrderModel addPurchaseOrder(PurchaseOrderModel purchaseOrderModel);
-
     List<PurchaseOrderModel> getPurchaseOrderListByNotDisetujui();
 
     PurchaseOrderModel changePurchaseOrder(PurchaseOrderModel purchaseOrderModel);
 
     void savePurchaseOrder(PurchaseOrderModel purchaseOrderModel);
+
+    void deletePurchaseOrder(PurchaseOrderModel purchaseOrderModel);
 
 }
 

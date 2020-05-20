@@ -167,7 +167,7 @@ public class PurchaseOrderController {
             }
         }
 
-        purchaseOrderService.addPurchaseOrder(purchaseOrderModel);
+        purchaseOrderService.savePurchaseOrder(purchaseOrderModel);
 
         ItemPOModel itemPOModel = new ItemPOModel();
         PurchaseOrderModel purchaseOrderModel1 = purchaseOrderService.getPurchaseOrderByNomorPurchaseOrder(nomorPurchaseOrder).get();
@@ -186,20 +186,27 @@ public class PurchaseOrderController {
         return "form-add-item-purchase-order";
     }
 
+    @RequestMapping(value = "/approve/{nomorPurchaseOrder}/confirmation", method = RequestMethod.GET)
+    public String confirmationAcceptPurchaseOrder(@AuthenticationPrincipal UserDetails currentUser,
+                                                  @PathVariable String nomorPurchaseOrder , Model model){
+        PurchaseOrderModel poAccepted = purchaseOrderService.getPurchaseOrderByNomorPurchaseOrder(nomorPurchaseOrder).get();
+        model.addAttribute("purchaseOrder", poAccepted);
+        model.addAttribute("role", userService.getUserByUsername(currentUser.getUsername()).getRole().getNamaRole());
+        return "confirmation-accept-purchase-order";
+    }
+
     @RequestMapping(value = "/approve/{nomorPurchaseOrder}", method = RequestMethod.POST)
-    public String approvePurchaseOrder(@PathVariable("nomorPurchaseOrder") String nomorPurchaseOrder,
-                                       @ModelAttribute PurchaseOrderModel purchaseOrderModel){
-        PurchaseOrderModel purchaseOrder = new PurchaseOrderModel();
-        List<PurchaseOrderModel> purchaseOrderModelList = purchaseOrderService.getAll();
-        for (PurchaseOrderModel po:purchaseOrderModelList) {
-            if(po.getNomorPurchaseOrder().equalsIgnoreCase(nomorPurchaseOrder)){
-                purchaseOrder = po;
-            }
-        }
+    public String acceptPurchaseOrder(@AuthenticationPrincipal UserDetails currentUser,
+                                      @PathVariable("nomorPurchaseOrder") String nomorPurchaseOrder,
+                                       @ModelAttribute PurchaseOrderModel purchaseOrderModel, Model model){
+        PurchaseOrderModel purchaseOrder = purchaseOrderService.getPurchaseOrderByNomorPurchaseOrder(nomorPurchaseOrder).get();
         purchaseOrder.setDisetujui(true);
         purchaseOrderService.savePurchaseOrder(purchaseOrder);
 
-        return "redirect:/purchase-order/";
+        model.addAttribute("purchaseOrder", purchaseOrder);
+        model.addAttribute("role", userService.getUserByUsername(currentUser.getUsername()).getRole().getNamaRole());
+
+        return "success-accept-purchase-order";
     }
 
     @RequestMapping(value = "/detail/{nomorPurchaseOrder}", method = RequestMethod.GET)
@@ -240,6 +247,7 @@ public class PurchaseOrderController {
         return "form-update-purchase-order";
     }
 
+
     @RequestMapping(value = "/update/{nomorPurchaseOrder}", method = RequestMethod.POST)
     public String updateFormSubmit(@PathVariable String nomorPurchaseOrder,  @ModelAttribute PurchaseOrderModel purchaseOrder, Model model) {
 
@@ -278,5 +286,29 @@ public class PurchaseOrderController {
         Map<String, Object> model = new HashMap<>();
         model.put("po", purchaseOrderService.getPurchaseOrderByNomorPurchaseOrder(nomorPurchaseOrder).get());
         return new ModelAndView(new PurchaseOrderPdfContent(), model);
+    }
+
+    @RequestMapping(value = "/delete/{nomorPurchaseOrder}/confirmation", method = RequestMethod.GET)
+    public String confirmationDeletePurchaseOrder(@AuthenticationPrincipal UserDetails currentUser,
+                                                  @PathVariable String nomorPurchaseOrder , Model model){
+        PurchaseOrderModel poDeleted = purchaseOrderService.getPurchaseOrderByNomorPurchaseOrder(nomorPurchaseOrder).get();
+        model.addAttribute("purchaseOrder", poDeleted);
+        model.addAttribute("role", userService.getUserByUsername(currentUser.getUsername()).getRole().getNamaRole());
+        return "confirmation-delete-purchase-order";
+    }
+
+    @RequestMapping(value = "/delete/{nomorPurchaseOrder}/confirm", method = RequestMethod.GET)
+    public String deletePurchaseOrderSubmit(@AuthenticationPrincipal UserDetails currentUser,
+                                            @PathVariable String nomorPurchaseOrder, Model model){
+        PurchaseOrderModel poDeleted = purchaseOrderService.getPurchaseOrderByNomorPurchaseOrder(nomorPurchaseOrder).get();
+        model.addAttribute("purchaseOrder", poDeleted);
+
+        String nomorPo = poDeleted.getNomorPurchaseOrder();
+        purchaseOrderService.deletePurchaseOrder(poDeleted);
+
+        model.addAttribute("nomorPo", nomorPo);
+        model.addAttribute("role", userService.getUserByUsername(currentUser.getUsername()).getRole().getNamaRole());
+
+        return "success-delete-purchase-order";
     }
 }

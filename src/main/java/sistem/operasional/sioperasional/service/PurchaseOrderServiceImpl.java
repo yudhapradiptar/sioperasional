@@ -60,6 +60,11 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService{
     }
 
     @Override
+    public void deletePurchaseOrder(PurchaseOrderModel purchaseOrderModel) {
+        purchaseOrderDB.delete(purchaseOrderModel);
+    }
+
+    @Override
     public List<PurchaseOrderModel> getAll() {
         return purchaseOrderDB.findAll();
     }
@@ -67,11 +72,6 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService{
     @Override
     public Optional<PurchaseOrderModel> getPurchaseOrderByNomorPurchaseOrder(String nomorPurchaseOrder){
         return purchaseOrderDB.findById(nomorPurchaseOrder);
-    }
-
-    @Override
-    public PurchaseOrderModel addPurchaseOrder(PurchaseOrderModel purchaseOrderModel) {
-        return purchaseOrderDB.save(purchaseOrderModel);
     }
 
     @Override

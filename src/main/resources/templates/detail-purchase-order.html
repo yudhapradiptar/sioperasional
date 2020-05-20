@@ -223,8 +223,8 @@
                                 &nbsp
                             <span th:if="${purchaseOrder.disetujui == false && role == 'Operation Manager'}">
                                 <form class="form-horizontal"
-                                      th:action="@{/purchase-order/approve/{nomorPurchaseOrder}(nomorPurchaseOrder=${purchaseOrder.nomorPurchaseOrder})}" th:object="${purchaseOrder}"
-                                      th:method="POST">
+                                      th:action="@{/purchase-order/approve/{nomorPurchaseOrder}/confirmation(nomorPurchaseOrder=${purchaseOrder.nomorPurchaseOrder})}" th:object="${purchaseOrder}"
+                                      th:method="GET">
                                 <button class="btn btn-success text-white">
                                         <span class="text" type="submit">Accept PO</span>
                                 </button>
@@ -244,7 +244,7 @@
                             </span>
                                 &nbsp
                                 &nbsp
-                                <span>
+                            <span>
                                 <form class="form-horizontal"
                                       th:action="@{/purchase-order/download/{nomorPurchaseOrder}(nomorPurchaseOrder=${purchaseOrder.nomorPurchaseOrder})}"
                                       th:method="POST">
@@ -255,12 +255,23 @@
                             </span>
                                 &nbsp
                                 &nbsp
-                                <span>
+                                <span th:if="${purchaseOrder.statusPO == 'Open'}">
                                 <form class="form-horizontal"
                                       th:action="@{/purchase-order/update/{nomorPurchaseOrder}(nomorPurchaseOrder=${purchaseOrder.nomorPurchaseOrder})}"
                                       th:method="GET">
                                 <button class="btn btn-info text-white">
                                     <span class="text" value="submit">Update</span>
+                                </button>
+                                </form>
+                            </span>
+                                &nbsp
+                                &nbsp
+                                <span th:if="${purchaseOrder.disetujui == false}">
+                                <form class="form-horizontal"
+                                      th:action="@{/purchase-order/delete/{nomorPurchaseOrder}/confirmation(nomorPurchaseOrder=${purchaseOrder.nomorPurchaseOrder})}"
+                                      th:method="GET">
+                                <button class="btn btn-danger text-white">
+                                    <span class="text" value="submit">Delete</span>
                                 </button>
                                 </form>
                             </span>
