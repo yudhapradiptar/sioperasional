@@ -234,7 +234,7 @@
                             &nbsp
                             <span th:if="${purchaseOrder.disetujui == true && purchaseOrder.statusPO == 'Open'}">
                                 <form class="form-horizontal"
-                                      th:action="@{/hardware-fulfillment/item/{nomorPO}(nomorPO=${purchaseOrder.nomorPurchaseOrder})/close}"
+                                      th:action="@{/hardware-fulfillment/item/{nomorPurchaseOrder}/close(nomorPurchaseOrder=${purchaseOrder.nomorPurchaseOrder})}"
                                       th:object="${item}"
                                       method="GET">
                                     <button class="btn btn-danger text-white">

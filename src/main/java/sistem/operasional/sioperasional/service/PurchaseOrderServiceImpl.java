@@ -55,6 +55,11 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService{
     PurchaseOrderDB purchaseOrderDB;
 
     @Override
+    public void savePurchaseOrder(PurchaseOrderModel purchaseOrderModel) {
+        purchaseOrderDB.save(purchaseOrderModel);
+    }
+
+    @Override
     public List<PurchaseOrderModel> getAll() {
         return purchaseOrderDB.findAll();
     }
