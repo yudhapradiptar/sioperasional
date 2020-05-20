@@ -157,7 +157,7 @@
                                             <th scope="col">Bundling</th>
                                             <th scope="col"></th>
                                             <th scope="col"></th>
-                                            <th scope="col"></th>
+                                            <th scope="col" th:if="${role == 'Operation Manager'}"></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -185,17 +185,19 @@
                                                    role="button">Ubah
                                                 </a>
                                             </td>
-                                            <div th:if="${deliveryOrder.subscribed == false}">
-                                                <td>
-                                                </td>
-                                            </div>
-                                            <div th:if="${deliveryOrder.subscribed == true}">
-                                                <td>
-                                                    <a class="btn btn-success" id=""
-                                                    th:href="@{/delivery-order/set-tanggal-subscribe/} + ${deliveryOrder.nomorDeliveryOrder}"
-                                                    role="button">Tanggal Subscribe
-                                                    </a>
-                                                </td>
+                                            <div th:if="${role == 'Operation Manager'}">
+                                                <div th:if="${deliveryOrder.subscribed == false}">
+                                                    <td>
+                                                    </td>
+                                                </div>
+                                                <div th:if="${deliveryOrder.subscribed == true}">
+                                                    <td>
+                                                        <a class="btn btn-success" id=""
+                                                        th:href="@{/delivery-order/set-tanggal-subscribe/} + ${deliveryOrder.nomorDeliveryOrder}"
+                                                        role="button">Tanggal Subscribe
+                                                        </a>
+                                                    </td>
+                                                </div>
                                             </div>
 
                                         </tr>
