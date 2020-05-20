@@ -12,13 +12,12 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import sistem.operasional.sioperasional.model.*;
+import sistem.operasional.sioperasional.pdfGenerator.PurchaseOrderPdfContent;
 import sistem.operasional.sioperasional.repository.ItemPODB;
 import sistem.operasional.sioperasional.repository.PurchaseOrderDB;
 import sistem.operasional.sioperasional.service.*;
 
 import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.*;
 
 @Controller
@@ -56,11 +55,6 @@ public class PurchaseOrderController {
     private ServletContext context;
 
     private static Logger logger = LogManager.getLogger(PurchaseOrderController.class);
-
-    private static final String filePath = System.getProperty("user.home"+"/");
-
-    private static final String image = "post.jpg";
-
 
     @RequestMapping("")
     public String getAll(@AuthenticationPrincipal UserDetails currentUser, Model model) {
@@ -297,59 +291,9 @@ public class PurchaseOrderController {
     }
 
     @RequestMapping(value="/download/{nomorPurchaseOrder}", method= RequestMethod.POST)
-    public ModelAndView createPdf(HttpServletRequest request, HttpServletResponse response,
-                                  @PathVariable("nomorPurchaseOrder") String nomorPurchaseOrder)
-    {
-
+    public ModelAndView createPdf(@PathVariable("nomorPurchaseOrder") String nomorPurchaseOrder) {
         Map<String, Object> model = new HashMap<>();
         model.put("po", purchaseOrderService.getPurchaseOrderByNomorPurchaseOrder(nomorPurchaseOrder).get());
-        return new ModelAndView(new PurchaseOrderPdfGenerator(), model);
-//        PurchaseOrderModel purchaseOrderModel =
-//                purchaseOrderService.getPurchaseOrderByNomorPurchaseOrder(nomorPurchaseOrder).get();
-//        logger.info("MASUK KEK DOWNLOAD METHOD");
-//        boolean isFlag= purchaseOrderService.createPdf(purchaseOrderModel,context,request,response);
-//        logger.info("CREATE PDF METHOD UDH SELESAI, HASIL BOOLEANNYA: "+ isFlag);
-//        String namaFile = nomorPurchaseOrder+".pdf";
-//        if(isFlag)
-//        {
-//            logger.info("MASUK KE IF DI METHOD CREATE PDF");
-//            String fullPath = filePath+namaFile;
-//            fileDownload(fullPath,response,namaFile);
-//        }
-    }
-
-    private void fileDownload(String fullPath, HttpServletResponse response, String fileName) {
-//        File file = new File(fullPath);
-//        logger.info("======================="+fullPath+"=======================");
-//        final int BUFFER_SIZE = 4096;
-//        if(file.exists())
-//        {
-//            try
-//            {
-//                logger.info("============= START DOWNLOAD FILE =============");
-//                FileInputStream fis= new FileInputStream(file);
-//                String mimeType= context.getMimeType(fullPath);
-//                response.setContentType(mimeType);
-//                response.setHeader("Content-Disposition", "attachment; filename=\""+fileName+"\"");
-//
-//                OutputStream os= response.getOutputStream();
-//                byte[] buffer= new byte[BUFFER_SIZE];
-//                int bytesRead = -1;
-//                while((bytesRead=fis.read(buffer))!=-1)
-//                {
-//                    os.write(buffer, 0, bytesRead);
-//                }
-//
-//                fis.close();
-//                os.close();
-//                file.delete();
-//            }
-//            catch(Exception ex)
-//            {
-//                logger.info("ERROR DI FILE DOWNLOAD");
-//                logger.info(ex.getMessage());
-//                ex.printStackTrace();
-//            }
-//        }
+        return new ModelAndView(new PurchaseOrderPdfContent(), model);
     }
 }
