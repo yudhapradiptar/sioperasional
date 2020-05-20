@@ -77,13 +77,14 @@ public class ItemServiceImpl implements ItemService{
 
     @Override
     public List<ItemModel> getItemListAvailable(String nomorDeliveryOrder) {
-        List<ItemModel> listItemAvailable = new ArrayList<>();
-        for(ItemModel itemModel : getItemList()){
-            if(itemModel.getDeliveryOrder()==null && itemModel.isRusak() == false || itemModel.getDeliveryOrder().getNomorDeliveryOrder() == nomorDeliveryOrder){
-                listItemAvailable.add(itemModel);
-            }
-        }
-        return listItemAvailable;
+        // List<ItemModel> listItemAvailable = new ArrayList<>();
+        // for(ItemModel itemModel : getItemList()){
+        //     if(itemModel.getDeliveryOrder()==null && itemModel.isRusak() == false || itemModel.getDeliveryOrder().getNomorDeliveryOrder() == nomorDeliveryOrder){
+        //         listItemAvailable.add(itemModel);
+        //     }
+        // }
+        // return listItemAvailable;
+        return itemDB.findItemAvailableForUpdate(nomorDeliveryOrder);
     }
 
     @Override
