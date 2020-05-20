@@ -90,6 +90,7 @@ public class UserController {
                 return "redirect:/logout";
             }
             UserModel newNewUserData = userService.changeUserPassword(newUserData, "newpassword123");
+            userService.tempUserStatus(newNewUserData, "tidak aktif");
             return "redirect:/account/edit/" + username + "/reset-password/form";
         } else{
             model.addAttribute("userbaru", newUserData);
@@ -107,11 +108,17 @@ public class UserController {
     }
 
     @RequestMapping(value = "/edit/{username}/reset-password", method = RequestMethod.POST)
-    private String resetPasswordSubmit(@PathVariable String username, @ModelAttribute UserModel user, Model model){
+    private String resetPasswordSubmit(@PathVariable String username, @ModelAttribute("passwordConfirm") String pass, @ModelAttribute UserModel user, Model model){
         model.addAttribute("role", userService.getUserCurrentLoggedIn().getRole().getNamaRole());
         model.addAttribute("userbaru", userService.getUserByUsername(username));
 
+        if (!user.getPassword().equals(pass)) {
+            String message = "password tidak sama dengan konfirmasi!";
+            model.addAttribute("message", message);
+            return "failed-reset-user";
+        }
         UserModel newUserPassword = userService.changeUserPasswordReset(user);
+        userService.tempUserStatus(newUserPassword, "aktif");
 
         return "success-change-user";
     }
@@ -127,7 +134,16 @@ public class UserController {
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     private String addUserSubmit(@Valid  @ModelAttribute UserModel user, @ModelAttribute("passwordConfirm") String pass,
                                  @RequestParam(value = "password") String password, Model model) {
-
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String role = "";
+        for(GrantedAuthority each : auth.getAuthorities()){
+            role = each.getAuthority();
+        }
+        if(role.substring(0,4).equals("ROLE")){
+            model.addAttribute("role", role.substring(5));
+        } else {
+            model.addAttribute("role", userService.getUserCurrentLoggedIn().getRole().getNamaRole());
+        }
 
         if (!userService.verifUser(user)) {
             String message = "Sudah ada username dengan username: " + user.getUsername() + ". Mohon gunakan username lain!";
@@ -154,18 +170,6 @@ public class UserController {
 
         userService.addUser(user);
         model.addAttribute("userbaru", user);
-
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String role = "";
-        for(GrantedAuthority each : auth.getAuthorities()){
-            role = each.getAuthority();
-        }
-        System.out.println(role);
-        if(role.substring(0,4).equals("ROLE")){
-            model.addAttribute("role", role.substring(5));
-        } else {
-            model.addAttribute("role", userService.getUserCurrentLoggedIn().getRole().getNamaRole());
-        }
 
         return "success-add-user";
     }

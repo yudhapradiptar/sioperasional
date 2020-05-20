@@ -145,4 +145,12 @@ public class UserServiceImpl implements UserService {
             return null;
         }
     }
+
+    @Override
+    public UserModel tempUserStatus(UserModel user, String status){
+        UserModel targetUser = userDB.findByUsername(user.getUsername());
+        targetUser.setStatus(status);
+        userDB.save(targetUser);
+        return targetUser;
+    }
 }

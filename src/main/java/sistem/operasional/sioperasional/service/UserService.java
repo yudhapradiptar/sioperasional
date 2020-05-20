@@ -23,5 +23,6 @@ public interface UserService {
   UserModel changeUser(UserModel user);
   UserModel changeUserPassword(UserModel user, String password);
   UserModel changeUserPasswordReset(UserModel user);
+  UserModel tempUserStatus(UserModel userModel, String status);
 
 }
