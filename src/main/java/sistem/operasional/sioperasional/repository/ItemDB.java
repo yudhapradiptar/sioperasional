@@ -15,8 +15,8 @@ public interface ItemDB extends JpaRepository<ItemModel, Long> {
 	List<ItemModel> findItemModelByKategoriItem(KategoriItemModel kategoriItemModel);
 	List<ItemModel> findItemModelByJenisItem(JenisItemModel jenisItemModel);
 
-	@Query(value = "SELECT * FROM item WHERE nomor_delivery_order IS NULL and is_rusak = 0 or nomor_delivery_order = ?1", nativeQuery = true)
-	List<ItemModel> findItemAvailableForUpdate(String nomorDeliveryOrder);
+	// @Query(value = "SELECT * FROM item WHERE nomor_delivery_order IS NULL and is_rusak = 0 or nomor_delivery_order = ?1", nativeQuery = true)
+	// List<ItemModel> findItemAvailableForUpdate(String nomorDeliveryOrder);
 
 //	@Query(value = "SELECT * FROM item WHERE tanggal_keluar IS NULL and is_rusak = ?1", nativeQuery = true)
 //	List<ItemModel> findItemByTanggalKeluarAndNotRusak(int i);

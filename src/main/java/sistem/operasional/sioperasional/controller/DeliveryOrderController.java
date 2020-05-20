@@ -191,6 +191,10 @@ public class DeliveryOrderController {
         List<ItemModel> itemModelsNull = itemService.getItemListAvailable(deliveryOrderModel.getNomorDeliveryOrder());
         List<ItemModel> itemModelsCurrent = deliveryOrderModel.getListItem();
 
+        List<ItemModel> listItem = new ArrayList<>();
+        listItem.addAll(itemModelsNull);
+        listItem.addAll(itemModelsCurrent);
+
         ArrayList<ItemModel> listItemModels = new ArrayList<ItemModel>();
         listItemModels.add(new ItemModel());
         deliveryOrderModel.setListItem(listItemModels);
@@ -202,7 +206,7 @@ public class DeliveryOrderController {
         model.addAttribute("listOutlet", outletModels);
         model.addAttribute("deliveryOrder", deliveryOrderModel);
         model.addAttribute("itemModelsCurrent", itemModelsCurrent);
-        model.addAttribute("listItem", itemModelsNull);
+        model.addAttribute("listItem", listItem);
 
         return "form-update-delivery-order";
     }
