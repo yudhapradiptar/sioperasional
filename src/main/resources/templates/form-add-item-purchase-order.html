@@ -76,7 +76,7 @@
                                <td>
                                 <select class="form-control" name="kategori" th:field="*{listItemPO[__${iterationStatus.index}__].kategoriItem}"
                                         required="true">
-                                    <option value="0">-- Pilih Kategori Item --</option>
+                                    <option value="">-- Pilih Kategori Item --</option>
                                     <option th:each="kategori : ${listKategoriItem}" th:value="${{kategori.idKategoriItem}}"
                                             th:text="${kategori.namaKategoriItem}"></option>
                                 </select>
@@ -85,7 +85,7 @@
                                 <td>
                                 <select class="form-control" name="jenis" th:field="*{listItemPO[__${iterationStatus.index}__].jenisItem}"
                                                 required="true">
-                                    <option value="0">-- Pilih Jenis Item --</option>
+                                    <option value="">-- Pilih Jenis Item --</option>
                                     <option th:each="jenis : ${listJenisItem}" th:value="${{jenis.idJenisItem}}"
                                             th:text="${jenis.namaJenisItem}"></option>
                                 </select>

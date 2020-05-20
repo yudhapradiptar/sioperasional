@@ -90,7 +90,7 @@
                                     <div class="control-label col-sm-10">
                                         <select class="form-control" name="vendor" th:field="*{vendor.idVendor}"
                                                 required="true">
-                                            <option value="0">-- Pilih vendor --</option>
+                                            <option value="">-- Pilih Vendor --</option>
                                             <option th:each="vendor : ${listVendor}" th:value="${{vendor.idVendor}}"
                                                     th:text="${vendor.namaVendor}"></option>
                                         </select>
