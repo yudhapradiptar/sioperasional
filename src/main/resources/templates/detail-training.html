@@ -82,7 +82,7 @@
                         </div>
                         <div>
                             <div th:if="${role == 'Operation Lead'}">
-                                <a type="button" class="btn btn-primary" th:href="@{/training/edit/} + ${training.idTraining}">Edit</a>
+                                <a th:if="${training.statusTraining == 'Menunggu Persetujuan'}" type="button" class="btn btn-primary" th:href="@{/training/edit/} + ${training.idTraining}">Edit</a>
                                 <a type="button" class="btn btn-danger" th:href="@{/training/delete/} + ${training.idTraining} + @{/confirmation}">Hapus</a>
                             </div>
                             <div th:if="${role == 'Operation Staff' && training.statusTraining == 'Disetujui'}">
