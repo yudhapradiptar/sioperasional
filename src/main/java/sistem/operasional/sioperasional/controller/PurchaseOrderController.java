@@ -108,7 +108,6 @@ public class PurchaseOrderController {
                            @PathVariable("nomorPurchaseOrder") String nomorPO,
                            @ModelAttribute PurchaseOrderModel purchaseOrder,
                            Model model) {
-        logger.info("=========================MAU MASUK LOOP 1");
         HashMap<String, ItemPOModel> itemPOMap = new HashMap<>();
         PurchaseOrderModel purchaseOrder1 = new PurchaseOrderModel();
         for (PurchaseOrderModel po : purchaseOrderService.getAll()) {
@@ -116,23 +115,20 @@ public class PurchaseOrderController {
                 purchaseOrder1 = po;
             }
         }
-        logger.info("=========================MASUK SETELAH LOOP 1");
-        if(itemPOService.getAllItemPO() != null) {
+        if(!itemPOService.getAllItemPO().isEmpty()) {
             List<ItemPOModel> oldItemPOModel = itemPOService.getAllItemPO();
             for (ItemPOModel item : oldItemPOModel) {
                 if (item.getPurchaseOrder().getNomorPurchaseOrder().equalsIgnoreCase(purchaseOrder1.getNomorPurchaseOrder()))
                     itemPODB.delete(item);
             }
+            logger.info("-IN-");
         }
-        logger.info("=========================MASUK SETELAH IF ");
         for (ItemPOModel itemPO : purchaseOrder.getListItemPO()) {
             itemPO.setPurchaseOrder(purchaseOrder1);
             String kategoriItem = itemPO.getKategoriItem().getNamaKategoriItem();
             itemPOMap.put(kategoriItem, itemPO);
-//            temp = itemPO;
             itemPOService.addItemPO(itemPO);
         }
-        logger.info("=========================MASUK SETELAH LOOP 2");
         String namaVendor = purchaseOrder1.getVendor().getNamaVendor();
         List<ItemPOModel> listItemPO = purchaseOrder1.getListItemPO();
 
