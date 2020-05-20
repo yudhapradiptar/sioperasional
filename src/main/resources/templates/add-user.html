@@ -61,16 +61,16 @@
                                 <div class="card-body">
                                     <form th:action="@{/account/add}" method="POST" modelAttribute="addUserForm" th:object="${userform}" >
                                         <label>User Name</label>
-                                        <input type="text" name="username" class="form-control" required>
+                                        <input type="text" name="username" class="form-control" maxlength="15" required>
                                         <label>Nama</label>
-                                        <input type="text" name="nama" class="form-control" required>
+                                        <input type="text" name="nama" class="form-control" maxlength="20" required>
                                         <label>Role</label>
                                         <select name="role" class="form-control" required>
                                             <option selected value="" disabled>-- Pilih Role --</option>
                                             <option th:each="roleAvailable : ${listRole} " th:value="${roleAvailable.idRole}" th:text="${roleAvailable.namaRole}"></option>
                                         </select>
                                         <label>Kode</label>
-                                        <input type="text" name="kode" class="form-control" required>
+                                        <input type="text" name="kode" class="form-control" maxlength="20" required>
                                         <label>Status</label>
                                         <select name="status" class="form-control" required>
                                             <option selected value="" disabled>-- Pilih Status --</option>
