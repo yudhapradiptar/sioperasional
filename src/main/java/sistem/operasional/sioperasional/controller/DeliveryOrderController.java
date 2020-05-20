@@ -81,13 +81,13 @@ public class DeliveryOrderController {
         List<ItemModel> listItem = deliveryOrderModel.getListItem();
 
         String tanggalCreateFormatted = deliveryOrderModel.getTanggalCreate().toString();
-        tanggalCreateFormatted = tanggalCreateFormatted.substring(0, tanggalCreateFormatted.length() - 10);
+        tanggalCreateFormatted = tanggalCreateFormatted.substring(0, tanggalCreateFormatted.length() - 14);
 
         if (deliveryOrderModel.getTanggalSubscribeEnd() != null) {
             String tanggalStartFormatted = deliveryOrderModel.getTanggalSubscribeStart().toString();
-            tanggalStartFormatted = tanggalStartFormatted.substring(0, tanggalStartFormatted.length() - 10);
+            tanggalStartFormatted = tanggalStartFormatted.substring(0, tanggalStartFormatted.length() - 14);
             String tanggalEndFormatted = deliveryOrderModel.getTanggalSubscribeEnd().toString();
-            tanggalEndFormatted = tanggalEndFormatted.substring(0, tanggalEndFormatted.length() - 10);
+            tanggalEndFormatted = tanggalEndFormatted.substring(0, tanggalEndFormatted.length() - 14);
             model.addAttribute("tanggalStartFormatted", tanggalStartFormatted);
             model.addAttribute("tanggalEndFormatted", tanggalEndFormatted);
         }
