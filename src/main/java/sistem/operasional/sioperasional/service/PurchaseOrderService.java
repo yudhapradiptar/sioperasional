@@ -16,9 +16,6 @@ public interface PurchaseOrderService {
 
     PurchaseOrderModel addPurchaseOrder(PurchaseOrderModel purchaseOrderModel);
 
-//    boolean createPdf(PurchaseOrderModel purchaseOrderModel, ServletContext context,
-//                             HttpServletRequest request, HttpServletResponse response);
-
     List<PurchaseOrderModel> getPurchaseOrderListByNotDisetujui();
 
     PurchaseOrderModel changePurchaseOrder(PurchaseOrderModel purchaseOrderModel);

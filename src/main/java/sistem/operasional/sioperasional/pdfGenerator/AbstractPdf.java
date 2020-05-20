@@ -1,4 +1,4 @@
-package sistem.operasional.sioperasional.service;
+package sistem.operasional.sioperasional.pdfGenerator;
 
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
@@ -28,18 +28,15 @@ public abstract class AbstractPdf extends AbstractView {
     protected void renderMergedOutputModel(Map<String, Object> model, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ByteArrayOutputStream baos = createTemporaryOutputStream();
 
-        // Apply preferences and build metadata.
         Document document = new Document(PageSize.A4,15,15,45,30);
         PdfWriter writer = PdfWriter.getInstance(document, baos);
         prepareWriter(model, writer, request);
 
-        // Build PDF document.
         document.open();
         createPdf(model, document, writer, request, response);
         document.close();
 
-        // Flush to HTTP response.
-        response.setHeader("Content-Disposition", "attachment");    // make browser to ask for download/display
+        response.setHeader("Content-Disposition", "attachment");    /**make browser to ask for download/display**/
         writeToResponse(response, baos);
     }
 

@@ -1,4 +1,4 @@
-package sistem.operasional.sioperasional.service;
+package sistem.operasional.sioperasional.pdfGenerator;
 
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfPCell;
@@ -7,7 +7,6 @@ import com.itextpdf.text.pdf.PdfWriter;
 import sistem.operasional.sioperasional.model.ItemPOModel;
 import sistem.operasional.sioperasional.model.PurchaseOrderModel;
 
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayOutputStream;
@@ -17,40 +16,30 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-public class PurchaseOrderPdfGenerator extends AbstractPdf {
-
+public class PurchaseOrderPdfContent extends AbstractPdf {
 
     @Override
     protected void createPdf(Map<String, Object> model, Document document,
                 PdfWriter writer, HttpServletRequest request,
                 HttpServletResponse response) throws DocumentException {
 
-
         PurchaseOrderModel purchaseOrderModel = (PurchaseOrderModel) model.get("po");
         String namaFile = purchaseOrderModel.getNomorPurchaseOrder();
         response.setHeader("Content-Disposition", "attachment; filename=\""+namaFile+"\"");
-        try
-        {
-
-            PdfPTable tableUpper = new PdfPTable(2);
-            tableUpper.setWidthPercentage(80);
-            tableUpper.setSpacingBefore(10);
-            tableUpper.setSpacingAfter(10);
+        try {
+            PdfPTable tableHeader = new PdfPTable(2);
+            tableHeader.setWidthPercentage(80);
+            tableHeader.setSpacingBefore(10);
+            tableHeader.setSpacingAfter(15);
 
             float[] columnWidthsUpper = {2f,2f};
-            tableUpper.setWidths(columnWidthsUpper);
-            ByteArrayOutputStream baos = new ByteArrayOutputStream(4096);
-//            PdfWriter writer = PdfWriter.getInstance(document,
-//                    new FileOutputStream(purchaseOrderModel.getNomorPurchaseOrder()+".pdf"));
-//            PdfWriter writer = PdfWriter.getInstance(document, baos);
+            tableHeader.setWidths(columnWidthsUpper);
 
             Font mainFont = FontFactory.getFont("Arial",10, BaseColor.BLACK);
             Font mainFontSizeNine = FontFactory.getFont("Arial",9, BaseColor.BLACK);
             Font mainFontBold = FontFactory.getFont("Arial",10, 1,  BaseColor.BLACK);
             Font mainFontBoldUnderline = FontFactory.getFont("Arial",10, 5,  BaseColor.BLACK);
-
-            Font tableHeader = FontFactory.getFont("Arial", 10, 1, BaseColor.BLACK);
-            Font tableBody = FontFactory.getFont("Arial", 9,BaseColor.BLACK);
+            Font mainTableHeaderFont = FontFactory.getFont("Arial", 10, 1, BaseColor.BLACK);
 
             Image postImage = Image.getInstance("classpath:/static/img/postPdf.jpg");
             PdfPCell image = new PdfPCell(postImage);
@@ -60,7 +49,7 @@ public class PurchaseOrderPdfGenerator extends AbstractPdf {
             image.setVerticalAlignment(Element.ALIGN_LEFT);
             image.setExtraParagraphSpace(5f);
             image.setBorder(Rectangle.NO_BORDER);
-            tableUpper.addCell(image);
+            tableHeader.addCell(image);
 
             String alamat = "Menara Prima Lt 6, Kawasan, Jl. Mega Kuningan Barat Jl. DR. Ide Anak Agung Gde Agung No.2, RT.5/RW.2, Kuningan, East Kuningan, Setiabudi, South Jakarta City, Jakarta 12950";
             PdfPCell address = new PdfPCell(new Paragraph(alamat, mainFontSizeNine));
@@ -70,9 +59,8 @@ public class PurchaseOrderPdfGenerator extends AbstractPdf {
             address.setVerticalAlignment(Element.ALIGN_RIGHT);
             address.setExtraParagraphSpace(5f);
             address.setBorder(Rectangle.NO_BORDER);
-            tableUpper.addCell(address);
-
-            document.add(tableUpper);
+            tableHeader.addCell(address);
+            document.add(tableHeader);
 
             Paragraph purchaseOrderHeader = new Paragraph("PURCHASE ORDER", mainFontBold);
             purchaseOrderHeader.setAlignment(Element.ALIGN_LEFT);
@@ -114,15 +102,14 @@ public class PurchaseOrderPdfGenerator extends AbstractPdf {
             infoVendor.setSpacingAfter(20);
             document.add(infoVendor);
 
-            PdfPTable table = new PdfPTable(5);
-            table.setWidthPercentage(80);
-            table.setSpacingBefore(10);
-            table.setSpacingAfter(0);
-
             float[] columnWidths = {1f,1f,1f,1f,1f};
-            table.setWidths(columnWidths);
+            PdfPTable tableDetailItems = new PdfPTable(5);
+            tableDetailItems.setWidthPercentage(80);
+            tableDetailItems.setSpacingBefore(10);
+            tableDetailItems.setSpacingAfter(0);
+            tableDetailItems.setWidths(columnWidths);
 
-            PdfPCell qtyHeader = new PdfPCell(new Paragraph("QTY",tableHeader));
+            PdfPCell qtyHeader = new PdfPCell(new Paragraph("QTY",mainTableHeaderFont));
             qtyHeader.setBorderColor(BaseColor.BLACK);
             qtyHeader.setPaddingLeft(10);
             qtyHeader.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -130,9 +117,9 @@ public class PurchaseOrderPdfGenerator extends AbstractPdf {
             qtyHeader.setExtraParagraphSpace(5f);
             qtyHeader.setBorder(Rectangle.NO_BORDER);
             qtyHeader.setBorder(Rectangle.BOTTOM);
-            table.addCell(qtyHeader);
+            tableDetailItems.addCell(qtyHeader);
 
-            PdfPCell descriptionHeader = new PdfPCell(new Paragraph("DESCRIPTION",tableHeader));
+            PdfPCell descriptionHeader = new PdfPCell(new Paragraph("DESCRIPTION",mainTableHeaderFont));
             descriptionHeader.setBorderColor(BaseColor.BLACK);
             descriptionHeader.setPaddingLeft(10);
             descriptionHeader.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -140,9 +127,9 @@ public class PurchaseOrderPdfGenerator extends AbstractPdf {
             descriptionHeader.setExtraParagraphSpace(5f);
             descriptionHeader.setBorder(Rectangle.NO_BORDER);
             descriptionHeader.setBorder(Rectangle.BOTTOM);
-            table.addCell(descriptionHeader);
+            tableDetailItems.addCell(descriptionHeader);
 
-            PdfPCell unitPriceHeader = new PdfPCell(new Paragraph("UNIT PRICE (RP)",tableHeader));
+            PdfPCell unitPriceHeader = new PdfPCell(new Paragraph("UNIT PRICE (RP)",mainTableHeaderFont));
             unitPriceHeader.setBorderColor(BaseColor.BLACK);
             unitPriceHeader.setPaddingLeft(10);
             unitPriceHeader.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -150,9 +137,9 @@ public class PurchaseOrderPdfGenerator extends AbstractPdf {
             unitPriceHeader.setExtraParagraphSpace(5f);
             unitPriceHeader.setBorder(Rectangle.NO_BORDER);
             unitPriceHeader.setBorder(Rectangle.BOTTOM);
-            table.addCell(unitPriceHeader);
+            tableDetailItems.addCell(unitPriceHeader);
 
-            PdfPCell taxedHeader = new PdfPCell(new Paragraph("TAXED",tableHeader));
+            PdfPCell taxedHeader = new PdfPCell(new Paragraph("TAXED",mainTableHeaderFont));
             taxedHeader.setBorderColor(BaseColor.BLACK);
             taxedHeader.setPaddingLeft(10);
             taxedHeader.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -160,9 +147,9 @@ public class PurchaseOrderPdfGenerator extends AbstractPdf {
             taxedHeader.setExtraParagraphSpace(5f);
             taxedHeader.setBorder(Rectangle.NO_BORDER);
             taxedHeader.setBorder(Rectangle.BOTTOM);
-            table.addCell(taxedHeader);
+            tableDetailItems.addCell(taxedHeader);
 
-            PdfPCell totalAmmountHeader = new PdfPCell(new Paragraph("AMOUNT (RP)",tableHeader));
+            PdfPCell totalAmmountHeader = new PdfPCell(new Paragraph("AMOUNT (RP)",mainTableHeaderFont));
             totalAmmountHeader.setBorderColor(BaseColor.BLACK);
             totalAmmountHeader.setPaddingLeft(10);
             totalAmmountHeader.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -170,12 +157,11 @@ public class PurchaseOrderPdfGenerator extends AbstractPdf {
             totalAmmountHeader.setExtraParagraphSpace(5f);
             totalAmmountHeader.setBorder(Rectangle.NO_BORDER);
             totalAmmountHeader.setBorder(Rectangle.BOTTOM);
-            table.addCell(totalAmmountHeader);
+            tableDetailItems.addCell(totalAmmountHeader);
 
             int totalAmmount = 0;
             List<ItemPOModel> listItemPOModel = purchaseOrderModel.getListItemPO();
             for (ItemPOModel item : listItemPOModel) {
-
                 int jumlah = item.getJumlahItem();
                 PdfPCell itemTable = new PdfPCell(new Paragraph(jumlah+"", mainFont));
                 itemTable.setBorderColor(BaseColor.BLACK);
@@ -186,14 +172,14 @@ public class PurchaseOrderPdfGenerator extends AbstractPdf {
                 itemTable.setExtraParagraphSpace(5f);
                 itemTable.setBorder(Rectangle.NO_BORDER);
                 itemTable.setBorder(Rectangle.BOTTOM);
-                table.addCell(itemTable);
+                tableDetailItems.addCell(itemTable);
 
                 String deskripsi = item.getJenisItem().getNamaJenisItem() + " - " + item.getKategoriItem().getNamaKategoriItem();
                 itemTable = new PdfPCell(new Paragraph((deskripsi).toUpperCase(), mainFont));
                 itemTable.setHorizontalAlignment(Element.ALIGN_LEFT);
                 itemTable.setBorder(Rectangle.NO_BORDER);
                 itemTable.setBorder(Rectangle.BOTTOM);
-                table.addCell(itemTable);
+                tableDetailItems.addCell(itemTable);
 
                 int hargaUnit = item.getHargaSatuan();
                 String hargaUnitFormated = String.format("%,d", hargaUnit);
@@ -201,14 +187,14 @@ public class PurchaseOrderPdfGenerator extends AbstractPdf {
                 itemTable.setHorizontalAlignment(Element.ALIGN_CENTER);
                 itemTable.setBorder(Rectangle.NO_BORDER);
                 itemTable.setBorder(Rectangle.BOTTOM);
-                table.addCell(itemTable);
+                tableDetailItems.addCell(itemTable);
 
                 String pajak = "10%";
                 itemTable = new PdfPCell(new Paragraph(pajak, mainFont));
                 itemTable.setHorizontalAlignment(Element.ALIGN_CENTER);
                 itemTable.setBorder(Rectangle.NO_BORDER);
                 itemTable.setBorder(Rectangle.BOTTOM);
-                table.addCell(itemTable);
+                tableDetailItems.addCell(itemTable);
 
                 int totalHarga = hargaUnit*jumlah;
                 totalAmmount += totalHarga;
@@ -218,10 +204,10 @@ public class PurchaseOrderPdfGenerator extends AbstractPdf {
                 itemTable.setHorizontalAlignment(Element.ALIGN_RIGHT);
                 itemTable.setBorder(Rectangle.NO_BORDER);
                 itemTable.setBorder(Rectangle.BOTTOM);
-                table.addCell(itemTable);
+                tableDetailItems.addCell(itemTable);
 
             }
-            document.add(table);
+            document.add(tableDetailItems);
 
             String totalAmmountFormated = String.format("%,d", totalAmmount);
             String totalAmountFormatedString = String.format("TOTAL%25s", totalAmmountFormated);
@@ -256,11 +242,9 @@ public class PurchaseOrderPdfGenerator extends AbstractPdf {
             currDateOutput.setSpacingAfter(0);
             currDateOutput.setExtraParagraphSpace(5f);
             document.add(currDateOutput);
-
         }
-        catch(Exception ex)
-        {
-            logger.info("==============ERROR DI SERVICE IMPL: " + ex);
+        catch(Exception ex) {
+            logger.info("==============ERROR AT SERVICE IMPLEMENTATION============== : " + ex);
         }
 
         }
