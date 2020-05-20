@@ -255,7 +255,7 @@
                             </span>
                                 &nbsp
                                 &nbsp
-                                <span th:if="${purchaseOrder.statusPO == 'Open'}">
+                                <span th:if="${purchaseOrder.statusPO == 'Open' && purchaseOrder.disetujui == false}">
                                 <form class="form-horizontal"
                                       th:action="@{/purchase-order/update/{nomorPurchaseOrder}(nomorPurchaseOrder=${purchaseOrder.nomorPurchaseOrder})}"
                                       th:method="GET">
