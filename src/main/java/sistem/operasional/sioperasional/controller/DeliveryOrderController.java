@@ -3,10 +3,12 @@ package sistem.operasional.sioperasional.controller;
 import sistem.operasional.sioperasional.model.DeliveryOrderModel;
 import sistem.operasional.sioperasional.model.ItemModel;
 import sistem.operasional.sioperasional.model.OutletModel;
+import sistem.operasional.sioperasional.model.StatusItemModel;
 import sistem.operasional.sioperasional.model.UserModel;
 import sistem.operasional.sioperasional.service.DeliveryOrderService;
 import sistem.operasional.sioperasional.service.ItemService;
 import sistem.operasional.sioperasional.service.OutletService;
+import sistem.operasional.sioperasional.service.StatusItemService;
 import sistem.operasional.sioperasional.service.UserService;
 
 import org.apache.commons.io.IOUtils;
@@ -47,6 +49,9 @@ public class DeliveryOrderController {
 
     @Autowired
     OutletService outletService;
+
+    @Autowired
+    StatusItemService statusItemService;
 
     @RequestMapping("")
     public String viewAllDeliveryOrder(Model model) {
@@ -131,10 +136,12 @@ public class DeliveryOrderController {
             model.addAttribute("nomorDeliveryOrder", deliveryOrderModel.getNomorDeliveryOrder());
             return "delivery-order-already-exist";
         }
-
+        
+        StatusItemModel statusItemModel = statusItemService.getStatusItemByIdStatusItem((long) 2);
         for (ItemModel itemModel2 : deliveryOrderModel.getListItem()) {
             itemModel2.setTanggalKeluar(deliveryOrderModel.getTanggalCreate());
             itemModel2.setDeliveryOrder(deliveryOrderModel);
+            itemModel2.setStatusItem(statusItemModel);
         }
 
         deliveryOrderService.addDeliveryOrder(deliveryOrderModel);
@@ -219,16 +226,20 @@ public class DeliveryOrderController {
         DeliveryOrderModel deliveryOrderNow = deliveryOrderService
                 .getDeliveryOrderByNomorDeliveryOrder(deliveryOrderModel.getNomorDeliveryOrder());
 
+        StatusItemModel statusItemModel_1 = statusItemService.getStatusItemByIdStatusItem((long) 1);
         for(ItemModel itemModel3: deliveryOrderNow.getListItem()) {
             itemModel3.setDeliveryOrder(null);
             itemModel3.setTanggalKeluar(null);
+            itemModel3.setStatusItem(statusItemModel_1);
         }
 
+        StatusItemModel statusItemModel_2 = statusItemService.getStatusItemByIdStatusItem((long) 2);
         for (ItemModel itemModel2 : deliveryOrderModel.getListItem()) {
             if (itemModel2 == null) {
             } else {
                 itemModel2.setDeliveryOrder(deliveryOrderModel);
                 itemModel2.setTanggalKeluar(deliveryOrderModel.getTanggalCreate());
+                itemModel2.setStatusItem(statusItemModel_2);
             }
         }
 
@@ -301,9 +312,11 @@ public class DeliveryOrderController {
         deliveryOrderModel.setTanggalCreate(date);
         deliveryOrderModel.setNomorDeliveryOrder(nomorDeliveryOrder);
 
+        StatusItemModel statusItemModel = statusItemService.getStatusItemByIdStatusItem((long) 2);
         for (ItemModel itemModel2 : deliveryOrderModel.getListItem()) {
             itemModel2.setTanggalKeluar(deliveryOrderModel.getTanggalCreate());
             itemModel2.setDeliveryOrder(deliveryOrderModel);
+            itemModel2.setStatusItem(statusItemModel);
         }
 
         deliveryOrderService.addDeliveryOrder(deliveryOrderModel);
